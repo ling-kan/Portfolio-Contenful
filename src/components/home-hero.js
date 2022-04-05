@@ -3,10 +3,10 @@ import React from 'react'
 import { getSrc } from 'gatsby-plugin-image'
 import { ParallaxBanner } from 'react-scroll-parallax'
 
-const HomeHero = ({ image, title, content }) => {
+const HomeHero = ({ image, name, title, content }) => {
     const backgroundImage = image && getSrc(image);
     return (
-        < ParallaxBanner
+        <ParallaxBanner
             layers={[
                 { image: backgroundImage, speed: -20 },
                 { image: backgroundImage, speed: -10 },
@@ -17,10 +17,11 @@ const HomeHero = ({ image, title, content }) => {
                     expanded: false,
                     children: (
                         <div className="mt-10 absolute inset-0 text-center items-center justify-center">
-                            <h1 className="mb-2 text-6xl md:text-8xl">
-                                {title}
+                            <h1 className="text-2xl md:text-2xl">
+                                {name}
                             </h1>
-                            <h2 classname="">{content}</h2>
+                            <h2 className=" text-4xl md:text-4xl">{title}</h2>
+                            <body>{content}</body>
                         </div>
                     ),
                 },
