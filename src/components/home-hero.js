@@ -11,7 +11,7 @@ const HomeHero = ({ image, name, title, content }) => {
                 { image: backgroundImage, speed: -20 },
                 { image: backgroundImage, speed: -10 },
                 {
-                    translateY: [0, 50],
+                    translateY: [10, 55],
                     scale: [1.15, 1, 'easeOutCubic'],
                     shouldAlwaysCompleteAnimation: true,
                     expanded: false,
