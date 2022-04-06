@@ -16,7 +16,7 @@ const HomeHero = ({ image, name, title, content }) => {
                     shouldAlwaysCompleteAnimation: true,
                     expanded: false,
                     children: (
-                        <div className="mt-10 absolute inset-0 text-center items-center justify-center">
+                        <div className="mt-10 absolute inset-0 text-center items-center justify-center  text-gray-900 dark:text-white">
                             <h1 className="text-2xl md:text-2xl">
                                 {name}
                             </h1>

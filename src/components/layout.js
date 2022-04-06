@@ -7,17 +7,19 @@ import Navigation from './navigation'
 import Footer from './footer'
 import { ParallaxProvider } from 'react-scroll-parallax';
 
+
 class Template extends React.Component {
   render() {
     const { children } = this.props
-
     return (
-      <ParallaxProvider>
-        <Seo />
-        <Navigation />
-        <main>{children}</main>
-        <Footer />
-      </ParallaxProvider>
+      <div className='dark:bg-gray-800'>
+        <ParallaxProvider>
+          <Seo />
+          <Navigation />
+          <main>{children}</main>
+          <Footer />
+        </ParallaxProvider>
+      </div>
     )
   }
 }
