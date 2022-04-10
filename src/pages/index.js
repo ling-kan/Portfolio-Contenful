@@ -33,14 +33,14 @@ class RootIndex extends React.Component {
     return (
       <Layout location={this.props.location}>
         <HomeHero
-          darkMode={this.state.darkMode}
           image={author.heroImage.gatsbyImageData}
           title={author.title}
           name={author.name}
           content={author.shortBio.shortBio}
         />
 
-        <ArticlePreview posts={posts} />
+        <ArticlePreview posts={posts}
+          darkMode={this.state.darkMode} />
       </Layout>
     )
   }

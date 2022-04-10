@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Container = ({ children, as = 'div' }) => {
+const Container = ({ darkMode, children, as = 'div' }) => {
   const Tag = as
 
   return (
@@ -10,6 +10,7 @@ const Container = ({ children, as = 'div' }) => {
         margin: '0 auto',
         padding: 'var(--space-xl) var(--size-gutter)',
       }}
+      className={!darkMode && "bg-white dark:bg-black"}
     >      {children}
     </Tag>
   )

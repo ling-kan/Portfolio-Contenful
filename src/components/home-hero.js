@@ -1,14 +1,18 @@
 
 import React from 'react'
+// import { getSrc } from 'gatsby-plugin-image'
 import Container from './container';
+// import IdeaImage from "../assets/illustration/idea.svg";
+// import { ReactComponent as Idea } from '../assets/illustration/idea.svg';
 import Lottie from 'react-lottie';
 import animation from '../assets/lotties/DashboardReview.lottie.json';
+import darkAnimation from '../assets/lotties/DarkboardReview-dark.lottie.json';
 
-const HomeHero = ({ image, name, title, content }) => {
+const HomeHero = ({ darkMode, image, name, title, content }) => {
     const defaultOptions = {
         loop: true,
         autoplay: true,
-        animationData: animation,
+        animationData: !!darkMode ? animation : darkAnimation,
         rendererSettings: {
             preserveAspectRatio: "xMidYMid slice"
         }
