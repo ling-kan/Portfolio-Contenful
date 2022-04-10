@@ -58,6 +58,15 @@ module.exports = {
           include: /assets/ // See below to configure properly
         }
       }
-    }
+    },
+    {
+      resolve: `gatsby-plugin-sass`,
+      options: {
+        postCssPlugins: [
+          require("tailwindcss"),
+          require("./tailwind.config.js"), // Optional: Load custom Tailwind CSS configuration
+        ],
+      },
+    },
   ],
 };

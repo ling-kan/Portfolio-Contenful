@@ -8,10 +8,9 @@ const Container = ({ children, as = 'div' }) => {
       style={{
         maxWidth: 'var(--size-max-width)',
         margin: '0 auto',
-        padding: 'var(--space-2xl) var(--size-gutter)',
+        padding: 'var(--space-xl) var(--size-gutter)',
       }}
-    >
-      {children}
+    >      {children}
     </Tag>
   )
 }

@@ -8,7 +8,7 @@ import Logo from './logo';
 
 const Footer = () => (
   <Container as="footer">
-    <footer className="p-4 bg-white sm:p-6 dark:bg-gray-800">
+    <footer className="mt-auto p-4 bg-white sm:p-6 dark:bg-blackblack">
       <div className="md:flex md:justify-between">
         <div className="mb-6 md:mb-0">
           <Logo />

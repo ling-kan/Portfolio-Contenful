@@ -1,24 +1,23 @@
 import React from 'react'
 
-import '../styles/variables.css'
-import '../styles/global.css'
+import '../styles/variables.scss'
+import '../styles/global.scss'
+import '../styles/image.scss'
 import Seo from './seo'
 import Navigation from './navigation'
 import Footer from './footer'
-import { ParallaxProvider } from 'react-scroll-parallax';
-
 
 class Template extends React.Component {
   render() {
     const { children } = this.props
+    console.log(this.props.theme);
     return (
-      <div className='dark:bg-gray-800'>
-        <ParallaxProvider>
-          <Seo />
-          <Navigation />
-          <main>{children}</main>
-          <Footer />
-        </ParallaxProvider>
+      <div>
+        <Seo />
+        <Navigation />
+        <main role="main">
+          <div className="pt-20">{children}</div></main>
+        <Footer />
       </div>
     )
   }

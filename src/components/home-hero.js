@@ -1,34 +1,38 @@
 
 import React from 'react'
-import { getSrc } from 'gatsby-plugin-image'
-import { ParallaxBanner } from 'react-scroll-parallax'
+import Container from './container';
+import Lottie from 'react-lottie';
+import animation from '../assets/lotties/DashboardReview.lottie.json';
 
 const HomeHero = ({ image, name, title, content }) => {
-    const backgroundImage = image && getSrc(image);
+    const defaultOptions = {
+        loop: true,
+        autoplay: true,
+        animationData: animation,
+        rendererSettings: {
+            preserveAspectRatio: "xMidYMid slice"
+        }
+    };
     return (
-        <ParallaxBanner
-            layers={[
-                { image: backgroundImage, speed: -20 },
-                { image: backgroundImage, speed: -10 },
-                {
-                    translateY: [10, 55],
-                    scale: [1.15, 1, 'easeOutCubic'],
-                    shouldAlwaysCompleteAnimation: true,
-                    expanded: false,
-                    children: (
-                        <div className="mt-10 absolute inset-0 text-center items-center justify-center  text-gray-900 dark:text-white">
-                            <h1 className="text-2xl md:text-2xl">
-                                {name}
-                            </h1>
-                            <h2 className=" text-4xl md:text-4xl">{title}</h2>
-                            <body>{content}</body>
-                        </div>
-                    ),
-                },
-            ]}
-            className="w-full aspect-[7/2]"
-        >
-        </ParallaxBanner>
+        <Container>
+            <div class="grid grid-cols-2">
+                <div className="text-left items-center justify-center text-gray-900 dark:text-white">
+                    <h1 className="text-2xl md:text-2xl">
+                        {name}
+                    </h1>
+                    <h2 className=" text-4xl md:text-4xl">{title}</h2>
+                    <p>{content}</p>
+                </div>
+                <div className=''>
+                    <Lottie
+                        options={defaultOptions}
+                        height={400}
+                        width={400}
+                    />
+                    {/* <IdeaImage className="idea-image bg-white dark:bg-black" /> */}
+                </div>
+            </div>
+        </Container >
     )
 }
 
