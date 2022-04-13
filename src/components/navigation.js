@@ -5,12 +5,12 @@ import Logo from './logo'
 
 
 const Navigation = () => (
-  <header className="z-20 bg-white fixed top-0 w-full pin-l pin-t dark:bg-black" role="banner">
-    <Container>
-      <nav role="navigation" className="bg-white border-gray-200 rounded dark:bg-black">
+  <header className="z-20 fixed top-0 w-full pin-l pin-t bg-white" role="banner">
+    <Container thinPadding={true}>
+      <nav role="navigation" className="border-gray-200 rounded ">
         <div className="flex flex-wrap justify-between items-center mx-auto">
-          <a href="/" className="flex items-center">
-            <Logo />
+          <a href="/" className="flex items-center text-black">
+            <Logo darkMode={false} />
           </a>
           <button data-collapse-toggle="mobile-menu" type="button" className="inline-flex items-center p-2 ml-3 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="mobile-menu" aria-expanded="false">
             <span className="sr-only">Open main menu</span>
@@ -23,7 +23,10 @@ const Navigation = () => (
                 <Link to="/" href="#responsive-header" activeClassName="active" className="block py-2 pr-4 pl-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white" aria-current="page">Home</Link>
               </li>
               <li>
-                <Link to="/portfolio/" href="#responsive-header" activeClassName="active ml-4" className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Portfolio</Link>
+                <Link to="#portfolio" href="#responsive-header" activeClassName="active ml-4" className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Portfolio</Link>
+              </li>
+              <li>
+                <Link to="#about" href="#responsive-header" activeClassName="active ml-4" className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">About</Link>
               </li>
             </ul>
           </div>

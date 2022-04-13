@@ -10,13 +10,11 @@ import Footer from './footer'
 class Template extends React.Component {
   render() {
     const { children } = this.props
-    console.log(this.props.theme);
     return (
-      <div>
+      <div >
         <Seo />
         <Navigation />
-        <main role="main">
-          <div className="pt-16">{children}</div></main>
+        <main role="main">{children}</main>
         <Footer />
       </div>
     )

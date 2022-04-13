@@ -17,7 +17,7 @@
   font-display: swap;
   font-style: italic;
   font-named-instance: "Italic";
-  src: url("/fonts/Inter-italic.var.woff2?v=3.19") format("woff2");
+  src: url("/fonts/alic.var.woff2?v=3.19") format("woff2");
 }
 
 html {
@@ -102,4 +102,11 @@ tt:after {
 pre,
 code {
   font-family: var(--font-monospace);
+}
+
+.text-border {
+  color: black;
+  -webkit-text-fill-color: white; /* Will override color (regardless of order) */
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: black;
 }

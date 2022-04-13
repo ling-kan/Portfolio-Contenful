@@ -5,7 +5,6 @@ import get from 'lodash/get'
 import Layout from '../components/layout'
 import ArticlePreview from '../components/article-preview'
 import HomeHero from '../components/home-hero'
-import Footer from '../components/footer'
 
 class RootIndex extends React.Component {
   constructor(props) {
@@ -38,9 +37,7 @@ class RootIndex extends React.Component {
           name={author.name}
           content={author.shortBio.shortBio}
         />
-
-        <ArticlePreview posts={posts}
-          darkMode={this.state.darkMode} />
+        <ArticlePreview posts={posts} />
       </Layout>
     )
   }

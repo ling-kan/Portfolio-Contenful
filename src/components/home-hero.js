@@ -8,35 +8,37 @@ import Lottie from 'react-lottie';
 import animation from '../assets/lotties/DashboardReview.lottie.json';
 import darkAnimation from '../assets/lotties/DarkboardReview-dark.lottie.json';
 
-const HomeHero = ({ darkMode, image, name, title, content }) => {
+const HomeHero = ({ image, name, title, content }) => {
     const defaultOptions = {
         loop: true,
         autoplay: true,
-        animationData: !!darkMode ? animation : darkAnimation,
+        animationData: animation,
         rendererSettings: {
             preserveAspectRatio: "xMidYMid slice"
         }
     };
     return (
-        <Container>
-            <div class="grid grid-cols-2">
-                <div className="text-left items-center justify-center text-gray-900 dark:text-white">
-                    <h1 className="text-2xl md:text-2xl">
-                        {name}
-                    </h1>
-                    <h2 className=" text-4xl md:text-4xl">{title}</h2>
-                    <p>{content}</p>
+        <div className="min-h-screen">
+            <Container>
+                <div className="grid grid-cols-3 pt-6">
+                    <div className='col-span-3 md:col-span-3'>
+                        <Lottie
+                            width={300}
+                            options={defaultOptions}
+                        />
+                        {/* <IdeaImage className="idea-image bg-white dark:bg-black" /> */}
+                    </div>
+                    <div className=" col-span-3 md:col-span-3 text-center items-center justify-center ">
+                        <h1 className="text-9xl md:text-9xl text-border uppercase">
+                            {name}
+                        </h1>
+                        <h2 className=" text-4xl md:text-4xl">{title}</h2>
+                        <p>{content}</p>
+                    </div>
+
                 </div>
-                <div className=''>
-                    <Lottie
-                        options={defaultOptions}
-                        height={400}
-                        width={400}
-                    />
-                    {/* <IdeaImage className="idea-image bg-white dark:bg-black" /> */}
-                </div>
-            </div>
-        </Container >
+            </Container >
+        </div>
     )
 }
 
