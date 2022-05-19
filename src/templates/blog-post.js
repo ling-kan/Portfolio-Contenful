@@ -26,17 +26,17 @@ class BlogPostTemplate extends React.Component {
           title={post.title}
           content={post.description?.childMarkdownRemark?.excerpt}
         />
-        <div className="bg-white dark:bg-black text-black dark:text-white">
+        <div className="bg-white dark:bg-dark text-dark dark:text-light">
           <span className={styles.meta}>
             {post.author?.name} &middot;{' '}
-            <time dateTime={post.rawDate}>{post.publishDate}</time> –{' '}
+            <time dateTime={post.rawDate}>{post.endDate}</time> –{' '}
             {post.body?.childMarkdownRemark?.timeToRead} minute read
           </span>
           <div className={styles.article}>
             <div
               className={styles.body}
               dangerouslySetInnerHTML={{
-                __html: post.body?.childMarkdownRemark?.html,
+                __html: post.content?.childMarkdownRemark?.html,
               }}
             />
             <Tags tags={post.tags} />
@@ -81,15 +81,15 @@ export const pageQuery = graphql`
       author {
         name
       }
-      publishDate(formatString: "MMMM Do, YYYY")
-      rawDate: publishDate
+      endDate(formatString: "MMMM YYYY")
+      rawDate: endDate
       heroImage {
         gatsbyImageData(layout: FULL_WIDTH, placeholder: BLURRED, width: 1280)
         resize(height: 630, width: 1200) {
           src
         }
       }
-      body {
+      content {
         childMarkdownRemark {
           html
           timeToRead

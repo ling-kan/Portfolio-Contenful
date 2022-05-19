@@ -114,8 +114,20 @@ code {
 }
 
 .text-border {
-  color: black;
+  color: var(--black);
   -webkit-text-fill-color: white; /* Will override color (regardless of order) */
   -webkit-text-stroke-width: 1px;
-  -webkit-text-stroke-color: black;
+  -webkit-text-stroke-color: var(--black);
+}
+.text-dark {
+  color: var(--black);
+}
+.text-light {
+  color: var(--white);
+}
+.bg-dark {
+  background: var(--black);
+}
+.bg-light {
+  background: var(--white);
 }

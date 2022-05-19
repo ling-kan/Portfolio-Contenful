@@ -25,12 +25,23 @@ export default BlogIndex
 
 export const pageQuery = graphql`
   query BlogIndexQuery {
-    allContentfulBlogPost(sort: { fields: [publishDate], order: DESC }) {
+    allContentfulBlogPost(sort: { fields: [endDate], order: DESC }) {
       nodes {
         title
         slug
-        publishDate(formatString: "MMMM Do, YYYY")
-        tags
+        startDate(formatString: "MMMM YYYY")
+        endDate(formatString: "MMMM YYYY")
+      role
+      summary {
+         childMarkdownRemark {
+            html
+          }
+      }
+      content {
+        childMarkdownRemark {
+            html
+          }
+      }
         heroImage {
           gatsbyImageData(
             layout: FULL_WIDTH
@@ -39,11 +50,7 @@ export const pageQuery = graphql`
             height: 212
           )
         }
-        description {
-          childMarkdownRemark {
-            html
-          }
-        }
+     
       }
     }
   }

@@ -64,7 +64,7 @@
 @media (prefers-color-scheme: dark) {
   .st1,
   .st9 {
-    fill: #fff;
+    fill: var(--black);
   }
   .st2,
   .st4 {
@@ -165,5 +165,48 @@
   }
   .st21 {
     opacity: 0.35;
+  }
+}
+
+.scroll-down,
+.scroll-down:before {
+  position: absolute;
+  left: 50%;
+}
+
+.scroll-down {
+  width: 40px;
+  height: 40px;
+  bottom: 4rem;
+  margin: -20px 0 0 -20px;
+  -webkit-transform: rotate(45deg);
+  border-left: none;
+  border-top: none;
+  border-right: 2px var(--black) solid;
+  border-bottom: 2px var(--black) solid;
+}
+
+.scroll-down:before {
+  content: "";
+  width: 20px;
+  height: 20px;
+  top: 50%;
+  margin: -10px 0 0 -10px;
+  border-left: none;
+  border-top: none;
+  border-right: 1px var(--black) solid;
+  border-bottom: 1px var(--black) solid;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  animation-name: scroll-down;
+}
+
+@keyframes scroll-down {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-10px, -10px);
   }
 }

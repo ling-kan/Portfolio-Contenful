@@ -3,35 +3,38 @@ import Container from './container'
 import GithubIcon from "../assets/github.svg";
 import MailIcon from "../assets/mail.svg";
 import LinkedinIcon from "../assets/linkedin.svg";
+import BuyACoffeeIcon from "../assets/buy-a-coffee.svg";
 import { Link } from 'gatsby'
 import Logo from './logo';
 
-const Footer = () => (
-  <footer className="mt-auto p-4 sm:p-6 bg-white dark:bg-black">
+const Footer = ({ navList, socialList }) => (
+  <div className="bg-dark text-slate-300 flex justify-center" >
     <Container as="footer">
-      <div className="md:flex md:justify-between">
-        <div className="mb-6 md:mb-0">
-          <Logo darkMode={true} />
-        </div>
-        <div className="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3 ">
-          <Link to="#" >
-            <GithubIcon fill='white' className="w-8" />
-          </Link>
-          <Link to="#" >
-            <MailIcon fill='white' className="w-8" />
-          </Link>
-          <Link to="#"  >
-            <LinkedinIcon fill='white' className="w-8" />
-          </Link>
-        </div>
+      <div className="flex justify-center">
+        <Logo darkMode={true} />
       </div>
-      <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
-      <div className="sm:flex sm:items-center sm:justify-between">
-        <span className="text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2022 <Link to="/" className="hover:underline">Ling Kan Portfolio</Link>. All Rights Reserved.
-        </span>
+      <div className="flex justify-center">
+        {navList?.map((value, index) => {
+          return (
+            <Link to={value.url} key={index} href="#responsive-header" activeClassName="active" className="mx-2" aria-current="page">{value.title}</Link>
+          )
+        })}
       </div>
+      <div className="flex justify-center">
+        {socialList?.map((value, index) => {
+          return (
+            <Link to={value.url} key={index} target="_blank">
+              {value.type === 'Buy Me A Coffee' && <BuyACoffeeIcon className="w-8 fill-slate-300" />}
+              {value.type === 'Github' && <GithubIcon className="w-8 fill-slate-300" />}
+              {value.type === 'Email' && <MailIcon className="w-8 fill-slate-300" />}
+              {value.type === 'Linkedin' && <LinkedinIcon className="w-8 fill-slate-300" />}
+            </Link>
+          )
+        })}
+      </div>
+      <span className="text-sm flex justify-center">© 2022 <Link to="/" className="hover:underline">&nbsp;Ling Kan Portfolio</Link>. All Rights Reserved.</span>
     </Container>
-  </footer>
+  </div >
 )
 
 export default Footer

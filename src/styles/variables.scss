@@ -10,8 +10,8 @@
 
   /* palette */
   --white: #fff;
-  --black: #000;
-  --black-fade-5: rgba(0, 0, 0, 0.05);
+  --black: #212123;
+  --black-fade-5: #4c4c4c;
  --background-dark: background-color: rgb(31 41 55 / var(--tw-bg-opacity));
   /* radii */
   --radius-sm: 4px;
@@ -66,6 +66,8 @@
   /* tracking */
   --text-prose-tracking: -0.011em;
 
+  /*navigation*/
+   --nav-height: 80px;
   /* size */
   --size-gutter: var(--space-2xl);
   --size-logo: var(--space-2xl);
