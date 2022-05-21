@@ -10,20 +10,6 @@ import Header from '../components/header';
 import Container from '../components/container';
 
 class RootIndex extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      darkMode: false,
-    };
-  }
-
-  componentDidUpdate() {
-    const systemDarkMode =
-      window.matchMedia &&
-      window.matchMedia("(prefers-color-scheme: dark)").matches;
-    this.setState({ darkMode: systemDarkMode });
-  }
-
   render() {
     const posts = get(this, "props.data.allContentfulBlogPost.nodes");
     const [author] = get(this, "props.data.allContentfulLanding.nodes");
@@ -31,8 +17,7 @@ class RootIndex extends React.Component {
     const navigation = get(this, "props.data.allContentfulNavigation.nodes");
     const socials = get(this, "props.data.allContentfulSocials.nodes");
     return (
-      <Layout location={this.props.location} hideFooter={true} navigation={navigation} socials={socials} >
-
+      <Layout location={this.props.location} navigation={navigation} socials={socials} >
         <HomeHero
           animatedList={author?.animatedList}
           image={author?.heroImage?.gatsbyImageData}
@@ -40,19 +25,18 @@ class RootIndex extends React.Component {
           name={author?.name}
           content={author?.shortBio?.shortBio}
         />
-
         <div className="bg-dark" id="about">
           <Container>
             <Header title="Timeline" dark={true} />
             <Timeline timeline={timeline} />
           </Container>
         </div>
-
-        <Container id="portfolio">
-          <Header title="Portfolio" />
-          <ArticlePreview posts={posts} />
-        </Container >
-
+        <div id="portfolio">
+          <Container >
+            <Header title="Portfolio" />
+            <ArticlePreview posts={posts} />
+          </Container >
+        </div>
       </Layout>
     );
   }
@@ -63,18 +47,18 @@ export default RootIndex;
 export const pageQuery = graphql`
   query HomeQuery {
     allContentfulSocials {
-    nodes {
-      url
-      type
+      nodes {
+        url
+        type
+      }
     }
-  }
-  allContentfulNavigation (sort: { fields: [order], order: ASC }) {
-    nodes {
-      title
-      url
-      order
+    allContentfulNavigation(sort: { fields: [order], order: ASC }) {
+      nodes {
+        title
+        url
+        order
+      }
     }
-  }
     allContentfulBlogPost(sort: { fields: [endDate], order: DESC }) {
       nodes {
         title
@@ -115,13 +99,12 @@ export const pageQuery = graphql`
         }
       }
     }
-allContentfulLanding(
+    allContentfulLanding(
       filter: { contentful_id: { eq: "5gcA2XyhjtzTDF0oz2Mz2" } }
     ) {
       nodes {
         name
         animatedList
-      
       }
     }
   }

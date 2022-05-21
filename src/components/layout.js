@@ -12,12 +12,13 @@ import Footer from './footer'
 
 class Template extends React.Component {
   render() {
-    const { children, socials, navigation } = this.props
+    const { children, socials, navigation, location } = this.props
+    const mainHeaderSpacing = (location?.pathname !== '/' && '80px')
     return (
       <div >
         <Seo />
         <Navigation navList={navigation} socialList={socials} />
-        <main role="main">{children}</main>
+        <main style={{ marginTop: mainHeaderSpacing }} role="main">{children}</main>
         <Footer navList={navigation} socialList={socials} />
       </div>
     )

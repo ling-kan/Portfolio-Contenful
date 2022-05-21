@@ -1,8 +1,5 @@
 import React from 'react'
-import { Link } from 'gatsby'
 import { GatsbyImage } from 'gatsby-plugin-image'
-import Container from './container'
-import Tags from './tags'
 import { VerticalTimeline, VerticalTimelineElement } from 'react-vertical-timeline-component';
 import 'react-vertical-timeline-component/style.min.css';
 

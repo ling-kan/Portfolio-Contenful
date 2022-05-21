@@ -7,12 +7,19 @@ import Layout from '../components/layout'
 import Hero from '../components/hero'
 import Tags from '../components/tags'
 import * as styles from './blog-post.module.css'
+import { navigate } from "gatsby"
+import { isLoggedIn } from "../services/auth"
 
 class BlogPostTemplate extends React.Component {
   render() {
     const post = get(this.props, 'data.contentfulBlogPost')
     const previous = get(this.props, 'data.previous')
     const next = get(this.props, 'data.next')
+
+    if (post?.protectPage && !isLoggedIn()) {
+      navigate("/login")
+      return null
+    }
 
     return (
       <Layout location={this.props.location}>
@@ -77,6 +84,7 @@ export const pageQuery = graphql`
   ) {
     contentfulBlogPost(slug: { eq: $slug }) {
       slug
+      protectPage
       title
       author {
         name
