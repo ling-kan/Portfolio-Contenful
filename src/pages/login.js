@@ -36,11 +36,13 @@ const Login = (props) => {
 
     return (
         <Layout location={props.location} navigation={navigation} socials={socials} >
-            <div className="bg-gray-100">
+            <div className="bg-gray-100 min-h-screen ">
                 <Container>
                     <button className="hover:text-blue-700 flex mb-2" onClick={(e) => { e.preventDefault(); navigate(-2) }}>
                         <ArrowNarrowLeftIcon className="mr-2 my-auto h-5 w-5" />
                         Back</button>
+                </Container>
+                <Container>
                     <Header title="Protected Page" style={{ textAlign: 'center' }} />
                     <div className="w-full max-w-xs mt-4 mx-auto">
                         <form method="post"
@@ -60,7 +62,7 @@ const Login = (props) => {
                                 {loginFailed && <p className="text-red-500 text-xs italic">Incorrect password, please try again</p>}
                             </div>
                             <div className="flex items-center justify-between">
-                                <input type="submit" className="bg-dark hover:bg-gray-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" value="Enter" />
+                                <input type="submit" className="mr-2 bg-dark hover:bg-gray-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" value="Enter" />
                                 {email && <a className="inline-block align-baseline font-bold text-sm text-black hover:text-gray-500" href={email[0]?.url}>
                                     Request Access
                                 </a>}
