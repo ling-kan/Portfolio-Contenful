@@ -38,7 +38,7 @@ const Navigation = ({ navList, socialList }) => {
                   )
                 })}
               </ul>
-              <div className={`md:hidden flex justify-center py-2`}>
+              <div className={`md:hidden flex justify-around py-2`}>
                 {socialList?.map((value, index) => {
                   return (
                     <Link to={value.url} key={index} target="_blank">
