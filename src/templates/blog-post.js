@@ -11,73 +11,76 @@ import { navigate } from "gatsby"
 import { isLoggedIn } from "../services/auth"
 import Container from '../components/container'
 
+const BlogPostTemplate = () => {
+  const post = get(this.props, 'data.contentfulBlogPost')
+  const previous = get(this.props, 'data.previous')
+  const next = get(this.props, 'data.next')
+  const navigation = get(this, "props.data.allContentfulNavigation.nodes");
+  const socials = get(this, "props.data.allContentfulSocials.nodes");
 
-class BlogPostTemplate extends React.Component {
-
-  render() {
-    const post = get(this.props, 'data.contentfulBlogPost')
-    const previous = get(this.props, 'data.previous')
-    const next = get(this.props, 'data.next')
-    const navigation = get(this, "props.data.allContentfulNavigation.nodes");
-    const socials = get(this, "props.data.allContentfulSocials.nodes");
-    console.log(post)
+  function checkLogin() {
     if (post?.protectPage && !isLoggedIn()) {
       navigate("/login")
       return null
     }
-
-    return (
-      <Layout location={this.props.location} navigation={navigation} socials={socials} >
-        <Seo
-          title={post.title}
-          description={post.description.childMarkdownRemark.excerpt}
-          image={`http:${post.heroImage.resize.src}`}
-        />
-        <Hero
-          image={post.heroImage?.gatsbyImageData}
-          title={post.title}
-          content={post.description?.childMarkdownRemark?.excerpt}
-          rawDate={post.rawDate}
-          endDate={post.endDate}
-          timeToRead={post.body?.childMarkdownRemark?.timeToRead}
-        />
-
-        <div className="bg-white dark:bg-dark text-dark dark:text-light">
-          <Container>
-            <div className={styles.article}>
-              <div
-                dangerouslySetInnerHTML={{
-                  __html: post.content?.childMarkdownRemark?.html,
-                }}
-              />
-
-              <Tags tags={post.tags} />
-              {(previous || next) && (
-                <nav>
-                  <ul className={styles.articleNavigation}>
-                    {previous && (
-                      <li>
-                        <Link to={`/portfolio/${previous.slug}`} rel="prev">
-                          ← {previous.title}
-                        </Link>
-                      </li>
-                    )}
-                    {next && (
-                      <li>
-                        <Link to={`/portfolio/${next.slug}`} rel="next">
-                          {next.title} →
-                        </Link>
-                      </li>
-                    )}
-                  </ul>
-                </nav>
-              )}
-            </div>
-          </Container>
-        </div>
-      </Layout>
-    )
   }
+
+  useEffect(() => {
+    checkLogin()
+  }, [])
+
+
+  return (
+    <Layout location={this.props.location} navigation={navigation} socials={socials} >
+      <Seo
+        title={post.title}
+        description={post.description.childMarkdownRemark.excerpt}
+        image={`http:${post.heroImage.resize.src}`}
+      />
+      <Hero
+        image={post.heroImage?.gatsbyImageData}
+        title={post.title}
+        content={post.description?.childMarkdownRemark?.excerpt}
+        rawDate={post.rawDate}
+        endDate={post.endDate}
+        timeToRead={post.body?.childMarkdownRemark?.timeToRead}
+      />
+
+      <div className="bg-white dark:bg-dark text-dark dark:text-light">
+        <Container>
+          <div className={styles.article}>
+            <div
+              dangerouslySetInnerHTML={{
+                __html: post.content?.childMarkdownRemark?.html,
+              }}
+            />
+
+            <Tags tags={post.tags} />
+            {(previous || next) && (
+              <nav>
+                <ul className={styles.articleNavigation}>
+                  {previous && (
+                    <li>
+                      <Link to={`/portfolio/${previous.slug}`} rel="prev">
+                        ← {previous.title}
+                      </Link>
+                    </li>
+                  )}
+                  {next && (
+                    <li>
+                      <Link to={`/portfolio/${next.slug}`} rel="next">
+                        {next.title} →
+                      </Link>
+                    </li>
+                  )}
+                </ul>
+              </nav>
+            )}
+          </div>
+        </Container>
+      </div>
+    </Layout>
+  )
 }
 
 export default BlogPostTemplate

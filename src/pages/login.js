@@ -14,6 +14,10 @@ const Login = (props) => {
     const [form, setForm] = useState('');
     const [loginFailed, setLoginFailed] = useState(false);
 
+    useEffect(() => {
+        checkLogin()
+    }, [])
+
     function handleSubmit(event) {
         event.preventDefault()
         handleLogin(form)

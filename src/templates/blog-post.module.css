@@ -73,7 +73,7 @@
   }
 
   .article {
-    gap: var(--space-xl);
+    gap: var(--space-sm);
   }
 }
 
