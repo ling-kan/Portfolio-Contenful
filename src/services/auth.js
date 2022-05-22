@@ -8,7 +8,7 @@ const setUser = user =>
     window.localStorage.setItem("portfolioAccess", JSON.stringify(user))
 
 export const handleLogin = ({ password }) => {
-    console.log(process.env.PORTFOLIO_ACCESS_PASS)
+    console.log(process.env)
     if (password === process.env.PORTFOLIO_ACCESS_PASS) {
         return setUser({
             name: `guest`,
