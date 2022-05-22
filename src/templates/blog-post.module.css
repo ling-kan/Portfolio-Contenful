@@ -16,11 +16,6 @@
   gap: var(--space-xl);
   letter-spacing: var(--text-prose-tracking);
   line-height: var(--loose);
-  padding: var(--size-gutter) var(--size-gutter) calc(var(--size-gutter) * 2);
-}
-
-.body {
-  max-width: 48rem;
 }
 
 .article a {
@@ -41,7 +36,7 @@
 .article h1,
 .article h2 {
   font-size: var(--text-2xl);
-  margin-top: var(--space-3xl);
+  margin-top: var(--space-2xl);
 }
 
 .article h3,
@@ -70,10 +65,6 @@
   .container {
     max-width: var(--size-max-width);
     margin: 0 auto;
-  }
-
-  .article {
-    gap: var(--space-sm);
   }
 }
 
