@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react';
 import { Link, graphql } from 'gatsby'
 import get from 'lodash/get'
 
@@ -11,12 +11,12 @@ import { navigate } from "gatsby"
 import { isLoggedIn } from "../services/auth"
 import Container from '../components/container'
 
-const BlogPostTemplate = () => {
-  const post = get(this.props, 'data.contentfulBlogPost')
-  const previous = get(this.props, 'data.previous')
-  const next = get(this.props, 'data.next')
-  const navigation = get(this, "props.data.allContentfulNavigation.nodes");
-  const socials = get(this, "props.data.allContentfulSocials.nodes");
+const BlogPostTemplate = (props) => {
+  const post = get(props, 'data.contentfulBlogPost')
+  const previous = get(props, 'data.previous')
+  const next = get(props, 'data.next')
+  const navigation = get(props, "data.allContentfulNavigation.nodes");
+  const socials = get(props, "data.allContentfulSocials.nodes");
 
   function checkLogin() {
     if (post?.protectPage && !isLoggedIn()) {
@@ -31,7 +31,7 @@ const BlogPostTemplate = () => {
 
 
   return (
-    <Layout location={this.props.location} navigation={navigation} socials={socials} >
+    <Layout location={props.location} navigation={navigation} socials={socials} >
       <Seo
         title={post.title}
         description={post.description.childMarkdownRemark.excerpt}

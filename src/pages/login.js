@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { graphql, navigate } from "gatsby"
 import get from "lodash/get";
 import { handleLogin, isLoggedIn } from "../services/auth"
@@ -13,10 +13,6 @@ const Login = (props) => {
     const email = socials?.filter(social => social.type === 'Email');
     const [form, setForm] = useState('');
     const [loginFailed, setLoginFailed] = useState(false);
-
-    useEffect(() => {
-        checkLogin()
-    }, [])
 
     function handleSubmit(event) {
         event.preventDefault()
@@ -33,6 +29,11 @@ const Login = (props) => {
             navigate(-1) || navigate('/')
         }
     }
+
+    useEffect(() => {
+        checkLogin()
+    }, [])
+
     return (
         <Layout location={props.location} navigation={navigation} socials={socials} >
             <div className="bg-gray-100">
