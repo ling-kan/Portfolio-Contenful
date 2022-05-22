@@ -7,7 +7,7 @@ const ArticlePreview = ({ posts }) => {
   if (!posts) return null
   if (!Array.isArray(posts)) return null
   return (
-    <ul className="grid grid-cols-2 gap-4">
+    <ul className="grid grid-cols-2 gap-6">
       {posts.map((post) => {
         return (
           <Link to={`/portfolio/${post.slug}`} key={post.slug} className="flex flex-col items-center bg-white rounded-sm md:grid md:grid-cols-1 md:max-w-lg md:max-h-xl hover:opacity-70">

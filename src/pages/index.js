@@ -8,8 +8,22 @@ import HomeHero from "../components/home-hero";
 import Timeline from "../components/timeline";
 import Header from '../components/header';
 import Container from '../components/container';
+import VerticalLoadMore from "../components/vertical-load-more";
 
 class RootIndex extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      darkMode: false,
+    };
+  }
+
+  componentDidUpdate() {
+    const systemDarkMode =
+      window.matchMedia &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches;
+    this.setState({ darkMode: systemDarkMode });
+  }
   render() {
     const posts = get(this, "props.data.allContentfulBlogPost.nodes");
     const [author] = get(this, "props.data.allContentfulLanding.nodes");
@@ -28,9 +42,10 @@ class RootIndex extends React.Component {
         <div className="bg-dark" id="about">
           <Container>
             <Header title="Timeline" dark={true} />
-            <Timeline timeline={timeline} />
+            <VerticalLoadMore timeline={timeline} />
           </Container>
         </div>
+
         <div id="portfolio">
           <Container >
             <Header title="Portfolio" />
@@ -87,7 +102,9 @@ export const pageQuery = graphql`
         endDate(formatString: "MMMM YYYY")
         company
         bio {
-          bio
+        childMarkdownRemark {
+          html
+        }
         }
         icon {
           gatsbyImageData(

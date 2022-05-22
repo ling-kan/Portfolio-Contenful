@@ -13,7 +13,7 @@ import Footer from './footer'
 class Template extends React.Component {
   render() {
     const { children, socials, navigation, location } = this.props
-    const mainHeaderSpacing = (location?.pathname !== '/' && '80px')
+    const mainHeaderSpacing = (location?.pathname !== '/' && '64px')
     return (
       <div >
         <Seo />

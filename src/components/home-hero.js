@@ -15,7 +15,7 @@ const HomeHero = ({ image, name, content, animatedList }) => {
     return (
         <div className="min-h-screen md:auto items-center flex relative">
             <Container>
-                <div className="grid grid-cols-3 py-6">
+                <div className="grid grid-cols-3 py-20">
                     {/* <div className='col-span-3 md:col-span-35'>
                         <Lottie
                             width={300}

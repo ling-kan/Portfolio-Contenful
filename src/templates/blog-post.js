@@ -9,20 +9,25 @@ import Tags from '../components/tags'
 import * as styles from './blog-post.module.css'
 import { navigate } from "gatsby"
 import { isLoggedIn } from "../services/auth"
+import Container from '../components/container'
+
 
 class BlogPostTemplate extends React.Component {
+
   render() {
     const post = get(this.props, 'data.contentfulBlogPost')
     const previous = get(this.props, 'data.previous')
     const next = get(this.props, 'data.next')
-
+    const navigation = get(this, "props.data.allContentfulNavigation.nodes");
+    const socials = get(this, "props.data.allContentfulSocials.nodes");
+    console.log(post)
     if (post?.protectPage && !isLoggedIn()) {
       navigate("/login")
       return null
     }
 
     return (
-      <Layout location={this.props.location}>
+      <Layout location={this.props.location} navigation={navigation} socials={socials} >
         <Seo
           title={post.title}
           description={post.description.childMarkdownRemark.excerpt}
@@ -32,42 +37,43 @@ class BlogPostTemplate extends React.Component {
           image={post.heroImage?.gatsbyImageData}
           title={post.title}
           content={post.description?.childMarkdownRemark?.excerpt}
+          rawDate={post.rawDate}
+          endDate={post.endDate}
+          timeToRead={post.body?.childMarkdownRemark?.timeToRead}
         />
+
         <div className="bg-white dark:bg-dark text-dark dark:text-light">
-          <span className={styles.meta}>
-            {post.author?.name} &middot;{' '}
-            <time dateTime={post.rawDate}>{post.endDate}</time> –{' '}
-            {post.body?.childMarkdownRemark?.timeToRead} minute read
-          </span>
-          <div className={styles.article}>
-            <div
-              className={styles.body}
-              dangerouslySetInnerHTML={{
-                __html: post.content?.childMarkdownRemark?.html,
-              }}
-            />
-            <Tags tags={post.tags} />
-            {(previous || next) && (
-              <nav>
-                <ul className={styles.articleNavigation}>
-                  {previous && (
-                    <li>
-                      <Link to={`/portfolio/${previous.slug}`} rel="prev">
-                        ← {previous.title}
-                      </Link>
-                    </li>
-                  )}
-                  {next && (
-                    <li>
-                      <Link to={`/portfolio/${next.slug}`} rel="next">
-                        {next.title} →
-                      </Link>
-                    </li>
-                  )}
-                </ul>
-              </nav>
-            )}
-          </div>
+          <Container>
+            <div className={styles.article}>
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: post.content?.childMarkdownRemark?.html,
+                }}
+              />
+
+              <Tags tags={post.tags} />
+              {(previous || next) && (
+                <nav>
+                  <ul className={styles.articleNavigation}>
+                    {previous && (
+                      <li>
+                        <Link to={`/portfolio/${previous.slug}`} rel="prev">
+                          ← {previous.title}
+                        </Link>
+                      </li>
+                    )}
+                    {next && (
+                      <li>
+                        <Link to={`/portfolio/${next.slug}`} rel="next">
+                          {next.title} →
+                        </Link>
+                      </li>
+                    )}
+                  </ul>
+                </nav>
+              )}
+            </div>
+          </Container>
         </div>
       </Layout>
     )
@@ -117,6 +123,19 @@ export const pageQuery = graphql`
     next: contentfulBlogPost(slug: { eq: $nextPostSlug }) {
       slug
       title
+    }
+      allContentfulSocials {
+      nodes {
+        url
+        type
+      }
+    }
+    allContentfulNavigation(sort: { fields: [order], order: ASC }) {
+      nodes {
+        title
+        url
+        order
+      }
     }
   }
 `

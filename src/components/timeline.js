@@ -8,7 +8,7 @@ const Timeline = ({ timeline }) => {
   if (!Array.isArray(timeline)) return null
 
   return (
-    <VerticalTimeline>
+    <VerticalTimeline layout='1-column-left'>
       {timeline.map((event) => {
         return (
           <VerticalTimelineElement
@@ -19,10 +19,9 @@ const Timeline = ({ timeline }) => {
             iconStyle={{ background: '#000', color: '#000' }}
             icon={<GatsbyImage alt={event.title} image={event.icon.gatsbyImageData} />}
           >
-            <h4 className="vertical-timeline-element-subtitle">{event.company}</h4>
-            <p>
-              {event.bio.bio}
-            </p> </VerticalTimelineElement>
+            <h4 className="vertical-timeline-element-subtitle">{event.company} - {event.jobTitle}</h4>
+            <div dangerouslySetInnerHTML={{ __html: event?.bio?.childMarkdownRemark?.html }}></div>
+          </VerticalTimelineElement>
         )
       })}
     </VerticalTimeline>

@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Container = ({ thinPadding, children, as = 'div' }) => {
+const Container = ({ navigation, children, as = 'div' }) => {
   const Tag = as
 
   return (
@@ -9,7 +9,7 @@ const Container = ({ thinPadding, children, as = 'div' }) => {
         width: '100%',
         maxWidth: 'var(--size-max-width)',
         margin: '0 auto',
-        padding: `${thinPadding ? 'var(--space-xl)' : 'var(--space-3xl)'} var(--size-gutter)`,
+        padding: `${navigation ? 'var(--space-lg)' : 'var(--space-2xl)'} var(--size-gutter)`,
       }}
     >
       {children}

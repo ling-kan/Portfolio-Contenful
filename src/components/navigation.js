@@ -12,7 +12,7 @@ const Navigation = ({ navList, socialList }) => {
   const [mobileNav, setMobileNav] = useState(false);
   return (
     <header className="z-20 fixed top-0 w-full pin-l pin-t bg-white" role="banner">
-      <Container thinPadding={true}>
+      <Container navigation={true}>
         <nav role="navigation" className="border-gray-200 rounded ">
           <div className="flex flex-wrap justify-between items-center mx-auto">
             <a href="/" className="flex items-center text-dark">
@@ -25,7 +25,7 @@ const Navigation = ({ navList, socialList }) => {
               <svg className="hidden w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
             </button>
             <div className={`w-full md:block md:w-auto ${mobileNav ? 'block' : 'hidden'}`} id="mobile-menu">
-              <ul className="flex flex-col mt-4 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium">
+              <ul className={`flex flex-col mt-4 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium`}>
                 {navList?.map((value, index) => {
                   return (
                     <li key={index}>
@@ -38,8 +38,20 @@ const Navigation = ({ navList, socialList }) => {
                   )
                 })}
               </ul>
+              <div className={`md:hidden flex justify-center py-2`}>
+                {socialList?.map((value, index) => {
+                  return (
+                    <Link to={value.url} key={index} target="_blank">
+                      {value.type === 'Buy Me A Coffee' && <BuyACoffeeIcon className="w-8 mr-2 fill-dark" />}
+                      {value.type === 'Github' && <GithubIcon className="w-8 mr-2 fill-dark" />}
+                      {value.type === 'Email' && <MailIcon className="w-8 mr-2 fill-dark" />}
+                      {value.type === 'Linkedin' && <LinkedinIcon className="w-8 mr-2 fill-dark" />}
+                    </Link>
+                  )
+                })}
+              </div>
             </div>
-            <div className='flex'>
+            <div className={`md:flex hidden`}>
               {socialList?.map((value, index) => {
                 return (
                   <Link to={value.url} key={index} target="_blank">
