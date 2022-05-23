@@ -22,7 +22,7 @@ const RootIndex = (props) => {
   const timeline = get(props, "data.allContentfulTimeline.nodes");
   const navigation = get(props, "data.allContentfulNavigation.nodes");
   const socials = get(props, "data.allContentfulSocials.nodes");
-  console.log(process.env.NODE_ENV)
+  console.log(process.env.CONTENTFUL_SPACE_ID)
   return (
     <Layout location={props.location} navigation={navigation} socials={socials} >
       <HomeHero
