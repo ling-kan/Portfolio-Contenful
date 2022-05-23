@@ -1,7 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from 'react'
 import { graphql } from "gatsby";
 import get from "lodash/get";
-
 import Layout from "../components/layout";
 import ArticlePreview from "../components/article-preview";
 import HomeHero from "../components/home-hero";
@@ -10,51 +9,44 @@ import Header from '../components/header';
 import Container from '../components/container';
 import VerticalLoadMore from "../components/vertical-load-more";
 
-class RootIndex extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      darkMode: false,
-    };
-  }
-
-  componentDidUpdate() {
+const RootIndex = (props) => {
+  const [darkMode, setDarkMode] = useState(false);
+  useEffect(() => {
     const systemDarkMode =
       window.matchMedia &&
       window.matchMedia("(prefers-color-scheme: dark)").matches;
-    this.setState({ darkMode: systemDarkMode });
-  }
-  render() {
-    const posts = get(this, "props.data.allContentfulBlogPost.nodes");
-    const [author] = get(this, "props.data.allContentfulLanding.nodes");
-    const timeline = get(this, "props.data.allContentfulTimeline.nodes");
-    const navigation = get(this, "props.data.allContentfulNavigation.nodes");
-    const socials = get(this, "props.data.allContentfulSocials.nodes");
-    return (
-      <Layout location={this.props.location} navigation={navigation} socials={socials} >
-        <HomeHero
-          animatedList={author?.animatedList}
-          image={author?.heroImage?.gatsbyImageData}
-          title={author?.title}
-          name={author?.name}
-          content={author?.shortBio?.shortBio}
-        />
-        <div className="bg-dark" id="about">
-          <Container>
-            <Header title="Timeline" dark={true} />
-            <VerticalLoadMore timeline={timeline} />
-          </Container>
-        </div>
+    setDarkMode({ darkMode: systemDarkMode });
 
-        <div id="portfolio">
-          <Container >
-            <Header title="Portfolio" />
-            <ArticlePreview posts={posts} />
-          </Container >
-        </div>
-      </Layout>
-    );
-  }
+  }, []);
+  const posts = get(props, "data.allContentfulBlogPost.nodes");
+  const [author] = get(props, "data.allContentfulLanding.nodes");
+  const timeline = get(props, "data.allContentfulTimeline.nodes");
+  const navigation = get(props, "data.allContentfulNavigation.nodes");
+  const socials = get(props, "data.allContentfulSocials.nodes");
+  return (
+    <Layout location={props.location} navigation={navigation} socials={socials} >
+      <HomeHero
+        animatedList={author?.animatedList}
+        image={author?.heroImage?.gatsbyImageData}
+        title={author?.title}
+        name={author?.name}
+        content={author?.shortBio?.shortBio}
+      />
+      <div className="bg-dark" id="about">
+        <Container>
+          <Header title="Timeline" dark={true} />
+          <VerticalLoadMore timeline={timeline} />
+        </Container>
+      </div>
+
+      <div id="portfolio">
+        <Container >
+          <Header title="Portfolio" />
+          <ArticlePreview posts={posts} />
+        </Container >
+      </div>
+    </Layout>
+  );
 }
 
 export default RootIndex;
