@@ -10,7 +10,6 @@ const VerticalLoadMore = ({ timeline }) => {
     const [elements, setElements] = useState(firstSection);
 
     const loadMore = () => {
-        console.log('loradmore')
         setElements(timeline);
     };
 

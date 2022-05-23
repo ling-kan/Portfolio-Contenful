@@ -16,13 +16,13 @@ const RootIndex = (props) => {
       window.matchMedia &&
       window.matchMedia("(prefers-color-scheme: dark)").matches;
     setDarkMode({ darkMode: systemDarkMode });
-
   }, []);
   const posts = get(props, "data.allContentfulBlogPost.nodes");
   const [author] = get(props, "data.allContentfulLanding.nodes");
   const timeline = get(props, "data.allContentfulTimeline.nodes");
   const navigation = get(props, "data.allContentfulNavigation.nodes");
   const socials = get(props, "data.allContentfulSocials.nodes");
+  console.log(process.env.NODE_ENV)
   return (
     <Layout location={props.location} navigation={navigation} socials={socials} >
       <HomeHero
