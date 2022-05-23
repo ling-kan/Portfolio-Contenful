@@ -1,7 +1,7 @@
 import React from 'react'
 import Container from './container';
 
-const Hero = ({ title, content, rawDate, endDate, timeToRead }) => {
+const BlogHeader = ({ title, content, rawDate, endDate, timeToRead }) => {
   return (
     <div className="grid grid-col-2 text-dark mt-6">
       <Container>
@@ -18,4 +18,4 @@ const Hero = ({ title, content, rawDate, endDate, timeToRead }) => {
   )
 }
 
-export default Hero
+export default BlogHeader

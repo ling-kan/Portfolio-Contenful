@@ -3,7 +3,7 @@ import { graphql } from 'gatsby'
 import get from 'lodash/get'
 import Seo from '../components/seo'
 import Layout from '../components/layout'
-import Hero from '../components/hero'
+import BlogHeader from '../components/blog-header'
 import ArticlePreview from '../components/article-preview'
 
 const BlogIndex = (props) => {
@@ -11,7 +11,7 @@ const BlogIndex = (props) => {
   return (
     <Layout location={props.location}>
       <Seo title="Blog" />
-      <Hero title="Blog" />
+      <BlogHeader title="Blog" />
       <ArticlePreview posts={posts} />
     </Layout>
   )

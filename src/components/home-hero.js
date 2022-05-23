@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react'
 import Container from './container';
 import ReactTextTransition, { presets } from "react-text-transition";

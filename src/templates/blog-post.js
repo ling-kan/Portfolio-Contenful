@@ -4,7 +4,7 @@ import get from 'lodash/get'
 
 import Seo from '../components/seo'
 import Layout from '../components/layout'
-import Hero from '../components/hero'
+import BlogHeader from '../components/blog-header'
 import Tags from '../components/tags'
 import * as styles from './blog-post.module.css'
 import { navigate } from "gatsby"
@@ -37,7 +37,7 @@ const BlogPostTemplate = (props) => {
         description={post.description.childMarkdownRemark.excerpt}
         image={`http:${post.heroImage.resize.src}`}
       />
-      <Hero
+      <BlogHeader
         image={post.heroImage?.gatsbyImageData}
         title={post.title}
         content={post.description?.childMarkdownRemark?.excerpt}
