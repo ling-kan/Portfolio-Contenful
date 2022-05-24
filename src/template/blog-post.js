@@ -31,8 +31,8 @@ const BlogPostTemplate = (props) => {
 
   useEffect(() => {
     checkLogin()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-
 
   return (
     <>
