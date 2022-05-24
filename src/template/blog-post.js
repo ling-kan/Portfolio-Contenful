@@ -54,10 +54,27 @@ const BlogPostTemplate = (props) => {
               endDate={post.endDate}
               timeToRead={post.body?.childMarkdownRemark?.timeToRead}
             />
-
             <div className="bg-white dark:bg-secondary text-secondary dark:text-primary">
               <Container>
                 <div className={styles.article}>
+                  <h2 className={styles.articleTitle}>Summary</h2>
+                  {post.summary && <div
+                    dangerouslySetInnerHTML={{
+                      __html: post.summary?.childMarkdownRemark?.html,
+                    }}
+                  />}
+
+                  <div className="grid grid-cols-2">
+                    <div>
+                      <h2 className={styles.articleTitle}>Role</h2>
+                      {post.role && <p>{post.role}</p>}
+                    </div>
+                    <div>
+                      <h2 className={styles.articleTitle}>Duration</h2>
+                      {post.endDate && <p>{post.startDate} - {post.endDate}</p>}
+                    </div>
+                  </div>
+
                   <div
                     dangerouslySetInnerHTML={{
                       __html: post.content?.childMarkdownRemark?.html,
@@ -109,6 +126,7 @@ export const pageQuery = graphql`
       author {
         name
       }
+      startDate(formatString: "MMMM YYYY")
       endDate(formatString: "MMMM YYYY")
       rawDate: endDate
       heroImage {
@@ -129,6 +147,12 @@ export const pageQuery = graphql`
           excerpt
         }
       }
+      summary {
+        childMarkdownRemark {
+          html
+        }
+      }
+      role
     }
     previous: contentfulBlogPost(slug: { eq: $previousPostSlug }) {
       slug

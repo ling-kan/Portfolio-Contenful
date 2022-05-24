@@ -29,14 +29,16 @@
 }
 
 .article p {
-  margin-bottom: 1.5em;
+  margin-bottom: 1em;
   margin-top: 0;
 }
 
+.articleTitle,
 .article h1,
 .article h2 {
   font-size: var(--text-2xl);
-  margin-top: var(--space-2xl);
+  margin-top: var(--space-xl);
+  text-transform: uppercase;
 }
 
 .article h3,
@@ -74,7 +76,7 @@
 
 @media (min-width: 1024px) {
   .article {
-    gap: var(--space-3xl);
+    gap: var(--space-lg);
     margin: 0 var(--size-gutter) 0 auto;
     padding-left: 0;
     padding-right: 0;
