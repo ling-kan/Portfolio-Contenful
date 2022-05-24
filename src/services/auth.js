@@ -9,7 +9,7 @@ const setUser = user =>
 
 export const handleLogin = ({ password }) => {
     console.log(process.env)
-    if (password === process.env.PORTFOLIO_ACCESS_PASS) {
+    if (password === process.env.GATSBY_PORTFOLIO_ACCESS_PASS) {
         return setUser({
             name: `guest`,
         })
