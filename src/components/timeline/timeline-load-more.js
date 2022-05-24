@@ -6,7 +6,7 @@ import 'react-vertical-timeline-component/style.min.css';
 import './timeline.scss'
 
 const VerticalLoadMore = ({ timeline }) => {
-    const firstSection = timeline.slice(0, 3)
+    const firstSection = timeline.slice(0, 5)
     const [elements, setElements] = useState(firstSection);
 
     const loadMore = () => {
@@ -23,10 +23,13 @@ const VerticalLoadMore = ({ timeline }) => {
         elements.map(event => (
             <VerticalTimelineElement {...event.props}
                 className="vertical-timeline-element--work"
-                date={event?.startDate && `${event.startDate} - ${event.endDate}`}
+                dateClassName="hidden"
                 icon={<GatsbyImage alt={event.title} image={event?.icon?.gatsbyImageData} />}
             >
-                <h4 className="vertical-timeline-element-subtitle">{event.company} - {event.jobTitle}</h4>
+                <div className="flex justify-between uppercase mb-1 text-lg font-semibold">
+                    <div>{event.company}</div> <div>{event?.startDate && `${event.startDate} - ${event.endDate}`}</div>
+                </div>
+                <h3 className="vertical-timeline-element-subtitle italic text-md font-medium">{event.jobTitle}</h3>
                 <div dangerouslySetInnerHTML={{ __html: event?.bio?.childMarkdownRemark?.html }} />
             </VerticalTimelineElement >
         ));
