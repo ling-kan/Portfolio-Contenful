@@ -4,10 +4,9 @@ import get from "lodash/get";
 import Layout from "../components/layout";
 import ArticlePreview from "../components/article-preview";
 import HomeHero from "../components/home-hero";
-import Timeline from "../components/timeline";
 import Header from '../components/header';
 import Container from '../components/container';
-import VerticalLoadMore from "../components/vertical-load-more";
+import VerticalLoadMore from "../components/timeline/timeline-load-more";
 
 const RootIndex = (props) => {
   const posts = get(props, "data.allContentfulBlogPost.nodes");
@@ -23,6 +22,7 @@ const RootIndex = (props) => {
         title={author?.title}
         name={author?.name}
         content={author?.shortBio?.shortBio}
+        socials={socials}
       />
 
       <div id="portfolio" className="bg-secondary">

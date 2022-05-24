@@ -28,12 +28,50 @@
 }
 
 .vertical-timeline::before {
-  background: var(--secondary) !important;
+  background: linear-gradient(
+    white 0%,
+    var(--secondary) 5%,
+    var(--secondary) 95%,
+    white 100%
+  ) !important;
+  background: -webkit-gradient(
+    white 0%,
+    var(--secondary) 5%,
+    var(--secondary) 95%,
+    white 100%
+  );
+  background: -webkit-linear-gradient(
+    white 0%,
+    var(--secondary) 5%,
+    var(--secondary) 95%,
+    white 100%
+  );
+  background: -moz-linear-gradient(
+    white 0%,
+    var(--secondary) 5%,
+    var(--secondary) 95%,
+    white 100%
+  );
+  background: -o-linear-gradient(
+    white 0%,
+    var(--secondary) 5%,
+    var(--secondary) 95%,
+    white 100%
+  );
 }
 
 .vertical-timeline-element--work {
+  // @media only screen and (min-width: 1170px) {
+  //   margin: 2em 0 !important;
+  // }
+
   .vertical-timeline-element-content-arrow {
     border-right: 7px solid var(--secondary);
+  }
+  .vertical-timeline-element-icon {
+    -webkit-box-shadow: 0 0 0 4px var(--secondary),
+      inset 0 2px 0 rgb(0 0 0 / 8%);
+    box-shadow: 0 0 0 4px var(--secondary), inset 0 2px 0 rgb(0 0 0 / 8%);
   }
 
   .vertical-timeline-element-content {

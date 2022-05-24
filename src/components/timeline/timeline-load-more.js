@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { PlusIcon } from '@heroicons/react/solid'
 import { VerticalTimeline, VerticalTimelineElement } from 'react-vertical-timeline-component';
 import { GatsbyImage } from 'gatsby-plugin-image'
-import HTMLEllipsis from 'react-lines-ellipsis/lib/html'
+import 'react-vertical-timeline-component/style.min.css';
+import './timeline.scss'
 
 const VerticalLoadMore = ({ timeline }) => {
     const firstSection = timeline.slice(0, 3)
@@ -23,7 +24,6 @@ const VerticalLoadMore = ({ timeline }) => {
             <VerticalTimelineElement {...event.props}
                 className="vertical-timeline-element--work"
                 date={event?.startDate && `${event.startDate} - ${event.endDate}`}
-
                 icon={<GatsbyImage alt={event.title} image={event?.icon?.gatsbyImageData} />}
             >
                 <h4 className="vertical-timeline-element-subtitle">{event.company} - {event.jobTitle}</h4>

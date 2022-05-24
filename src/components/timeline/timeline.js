@@ -2,7 +2,7 @@ import React from 'react'
 import { GatsbyImage } from 'gatsby-plugin-image'
 import { VerticalTimeline, VerticalTimelineElement } from 'react-vertical-timeline-component';
 import 'react-vertical-timeline-component/style.min.css';
-
+import './timeline.scss'
 const Timeline = ({ timeline }) => {
   if (!timeline) return null
   if (!Array.isArray(timeline)) return null

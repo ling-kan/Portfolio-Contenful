@@ -77,7 +77,7 @@ a.active {
 
 ul li {
   a {
-    color: var(--blue);
+    color: var(--black-fade);
     text-decoration: none;
     padding-bottom: 5px;
   }
@@ -138,7 +138,7 @@ code {
 
 .text-border {
   color: var(--black);
-  -webkit-text-fill-color: white; /* Will override color (regardless of order) */
+  -webkit-text-fill-color: transparent;
   -webkit-text-stroke-width: 1px;
   -webkit-text-stroke-color: var(--black);
 }

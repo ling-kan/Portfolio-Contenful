@@ -1,8 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import Container from './container';
 import ReactTextTransition, { presets } from "react-text-transition";
+import GithubIcon from "../assets/github.svg";
+import MailIcon from "../assets/mail.svg";
+import LinkedinIcon from "../assets/linkedin.svg";
+import BuyACoffeeIcon from "../assets/buy-a-coffee.svg";
+import { Link } from 'gatsby'
 
-const HomeHero = ({ image, name, content, animatedList }) => {
+const HomeHero = ({ name, content, animatedList, socials }) => {
     const [index, setIndex] = useState(0);
     useEffect(() => {
         const intervalId = setInterval(() =>
@@ -11,18 +16,11 @@ const HomeHero = ({ image, name, content, animatedList }) => {
         );
         return () => clearTimeout(intervalId);
     }, []);
+
     return (
         <div className="min-h-screen md:auto items-center flex relative">
             <Container>
-                <div className="grid grid-cols-3 py-20">
-                    {/* <div className='col-span-3 md:col-span-35'>
-                        <Lottie
-                            width={300}
-                            options={defaultOptions}
-                            alt="Ling Kan Portfolio"
-                        />
-                      <IdeaImage className="idea-image bg-white dark:bg-secondary" />
-                </div> */}
+                <div className="grid grid-cols-2 py-20">
                     <div className=" col-span-3 md:col-span-3 text-left items-left justify-left my-auto">
                         <h1 className="text-9xl md:text-9xl text-border uppercase">
                             {name}
@@ -39,6 +37,21 @@ const HomeHero = ({ image, name, content, animatedList }) => {
                         </section>
                         }
                         {content && <p>{content}</p>}
+                        {socials && <ul class="flex space-x-6 my-5">
+                            {socials?.map((value, index) => {
+                                return (
+                                    <li key={index}>
+                                        <Link to={value.url} target="_blank">
+                                            {value.type === 'Buy Me A Coffee' && <BuyACoffeeIcon className="w-10 " />}
+                                            {value.type === 'Github' && <GithubIcon className="w-10 " />}
+                                            {value.type === 'Email' && <MailIcon className="w-10 " />}
+                                            {value.type === 'Linkedin' && <LinkedinIcon className="w-10" />}
+                                        </Link>
+                                    </li>
+                                )
+                            })}
+                        </ul>
+                        }
                     </div>
                     <div className="scroll-down"></div>
                 </div>
