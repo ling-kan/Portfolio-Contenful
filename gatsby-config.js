@@ -2,6 +2,21 @@ require("dotenv").config({
   path: `.env.${process.env.NODE_ENV}`,
 });
 
+function checkEnv(envName) {
+  if (typeof process.env[envName] === 'undefined' || process.env[envName] === '') {
+    throw `Missing required environment variables: ${envName}`
+  }
+}
+
+try {
+  checkEnv('CONTENTFUL_SPACE_ID')
+  checkEnv('CONTENTFUL_ACCESS_TOKEN')
+  checkEnv('PORTFOLIO_ACCESS_PASS')
+} catch (e) {
+  throw new Error(e)
+}
+
+
 const contentfulConfig = {
   spaceId: process.env.CONTENTFUL_SPACE_ID,
   accessToken:
