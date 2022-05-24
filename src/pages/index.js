@@ -25,7 +25,7 @@ const RootIndex = (props) => {
         socials={socials}
       />
 
-      <div id="portfolio" className="bg-secondary">
+      <div id="portfolio" className="bg-secondary pb-10 my-8">
         <Container >
           <Header title="Portfolio" />
           <ArticlePreview posts={posts} />
