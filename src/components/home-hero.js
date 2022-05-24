@@ -21,7 +21,7 @@ const HomeHero = ({ image, name, content, animatedList }) => {
                             options={defaultOptions}
                             alt="Ling Kan Portfolio"
                         />
-                      <IdeaImage className="idea-image bg-white dark:bg-dark" />
+                      <IdeaImage className="idea-image bg-white dark:bg-secondary" />
                 </div> */}
                     <div className=" col-span-3 md:col-span-3 text-left items-left justify-left my-auto">
                         <h1 className="text-9xl md:text-9xl text-border uppercase">

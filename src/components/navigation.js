@@ -15,7 +15,7 @@ const Navigation = ({ navList, socialList }) => {
       <Container navigation={true}>
         <nav role="navigation" className="border-gray-200 rounded ">
           <div className="flex flex-wrap justify-between items-center mx-auto">
-            <a href="/" className="flex items-center text-dark">
+            <a href="/" className="flex items-center text-secondary">
               <Logo />
             </a>
 
@@ -30,39 +30,30 @@ const Navigation = ({ navList, socialList }) => {
                   return (
                     <li key={index}>
                       {index === 0 ?
-                        <Link to={value.url} href="#responsive-header" activeClassName="active" className="block py-2 pr-4 pl-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 " aria-current="page">{value.title}</Link>
+                        <Link to={value.url} href="#responsive-header" activeClassName="active" className="block my-2 mx-1" aria-current="page">{value.title}</Link>
                         :
-                        <Link to={value.url} href="#responsive-header" activeClassName="active ml-4" className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 ">{value.title}</Link>
+                        <Link to={value.url} href="#responsive-header" activeClassName="active ml-4" className="block my-2 mx-1">{value.title}</Link>
                       }
                     </li>
                   )
                 })}
               </ul>
-              <div className={`md:hidden flex justify-around py-2`}>
+              <ul className={`md:hidden flex justify-around py-2`}>
                 {socialList?.map((value, index) => {
                   return (
-                    <Link to={value.url} key={index} target="_blank">
-                      {value.type === 'Buy Me A Coffee' && <BuyACoffeeIcon className="w-8 mr-2 fill-dark hover:fill-blue-700" />}
-                      {value.type === 'Github' && <GithubIcon className="w-8 mr-2 fill-dark hover:fill-blue-700" />}
-                      {value.type === 'Email' && <MailIcon className="w-8 mr-2 fill-dark hover:fill-blue-700" />}
-                      {value.type === 'Linkedin' && <LinkedinIcon className="w-8 mr-2 fill-dark hover:fill-blue-700" />}
-                    </Link>
+                    <li key={index}>
+                      <Link to={value.url} target="_blank">
+                        {value.type === 'Buy Me A Coffee' && <BuyACoffeeIcon className="w-8 mr-2 " />}
+                        {value.type === 'Github' && <GithubIcon className="w-8 mr-2 " />}
+                        {value.type === 'Email' && <MailIcon className="w-8 mr-2 " />}
+                        {value.type === 'Linkedin' && <LinkedinIcon className="w-8 mr-2 " />}
+                      </Link>
+                    </li>
                   )
                 })}
-              </div>
+              </ul>
             </div>
-            <div className={`md:flex hidden`}>
-              {socialList?.map((value, index) => {
-                return (
-                  <Link to={value.url} key={index} target="_blank">
-                    {value.type === 'Buy Me A Coffee' && <BuyACoffeeIcon className="w-8 mr-2 fill-dark hover:fill-blue-700" />}
-                    {value.type === 'Github' && <GithubIcon className="w-8 mr-2 fill-dark hover:fill-blue-700" />}
-                    {value.type === 'Email' && <MailIcon className="w-8 mr-2 fill-dark hover:fill-blue-700" />}
-                    {value.type === 'Linkedin' && <LinkedinIcon className="w-8 mr-2 fill-dark hover:fill-blue-700" />}
-                  </Link>
-                )
-              })}
-            </div>
+
           </div>
         </nav>
       </Container>

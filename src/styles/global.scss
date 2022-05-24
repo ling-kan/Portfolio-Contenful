@@ -68,19 +68,42 @@ a {
   color: currentColor;
   text-decoration: none;
 }
-
 a:hover {
   color: var(--primary);
 }
-
 a.active {
   font-weight: var(--bold);
+}
+
+ul li {
+  a {
+    color: var(--blue);
+    text-decoration: none;
+    padding-bottom: 5px;
+  }
+
+  a:hover {
+    color: var(--blue);
+    box-shadow: inset 0 -2px 0 0 var(--blue);
+  }
+
+  a.active {
+    color: var(--black);
+    font-weight: var(--bold);
+    box-shadow: inset 0 -2px 0 0 var(--black);
+  }
+  svg {
+    fill: var(--black);
+    &:hover {
+      fill: var(--blue);
+    }
+  }
 }
 
 tt,
 code,
 kbd {
-  background: var(--black-fade-5);
+  background: var(--secondary);
   padding-bottom: 0.2em;
   padding-top: 0.2em;
 }
@@ -94,7 +117,7 @@ kbd {
 
 tt,
 code {
-  background-color: var(--black-fade-5);
+  background-color: var(--secondary);
   border-radius: var(--radius-sm);
   font-weight: var(--medium);
   padding: 0.2em 0;
@@ -119,15 +142,15 @@ code {
   -webkit-text-stroke-width: 1px;
   -webkit-text-stroke-color: var(--black);
 }
-.text-dark {
+.text-primary {
   color: var(--black);
 }
-.text-light {
-  color: var(--white);
+.text-secondary {
+  color: var(--black);
 }
-.bg-dark {
-  background: var(--black);
+.bg-primary {
+  background: var(--primary);
 }
-.bg-light {
-  background: var(--white);
+.bg-secondary {
+  background: var(--secondary);
 }

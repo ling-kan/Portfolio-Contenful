@@ -24,18 +24,19 @@ const RootIndex = (props) => {
         name={author?.name}
         content={author?.shortBio?.shortBio}
       />
-      <div className="bg-dark" id="about">
-        <Container>
-          <Header title="Timeline" dark={true} />
-          <VerticalLoadMore timeline={timeline} />
-        </Container>
-      </div>
 
-      <div id="portfolio">
+      <div id="portfolio" className="bg-secondary">
         <Container >
           <Header title="Portfolio" />
           <ArticlePreview posts={posts} />
         </Container >
+      </div>
+
+      <div id="about">
+        <Container>
+          <Header title="Timeline" />
+          <VerticalLoadMore timeline={timeline} />
+        </Container>
       </div>
     </Layout>
   );

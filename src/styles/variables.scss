@@ -9,12 +9,17 @@
   --font-serif: "Times New Roman", Times, serif;
 
   /* palette */
+  --primary: #ededed;
+  --secondary: #f3f3f3;
+  --blue: #3d5d9b;
   --white: #fff;
   --black: #212123;
-  --black-fade-5: #4c4c4c;
- --background-dark: background-color: rgb(31 41 55 / var(--tw-bg-opacity));
-  /* radii */
-  --radius-sm: 4px;
+
+  /* radius */
+  --radius-sm: 0.5rem;
+  --radius-md: 1rem;
+  --radius-lg: 2rem;
+  --radius-xl: 3rem;
 
   /* spacing */
   --space-sm: 4px;
@@ -52,10 +57,8 @@
 
   /* tokens */
   /* colors */
-  --primary: #4a90e2;
-  --primary-dark: #7eaadc;
   --background: var(--white);
-  --border: var(--black-fade-5);
+  --border: var(--secondary);
 
   /* text */
   /* color */
@@ -68,7 +71,7 @@
   --text-prose-tracking: -0.011em;
 
   /*navigation*/
-   --nav-height: 80px;
+  --nav-height: 80px;
   /* size */
   --size-gutter: var(--space-2xl);
   --size-logo: var(--space-2xl);
