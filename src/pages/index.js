@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { graphql } from "gatsby";
 import get from "lodash/get";
 import Layout from "../components/layout";
@@ -10,13 +10,6 @@ import Container from '../components/container';
 import VerticalLoadMore from "../components/vertical-load-more";
 
 const RootIndex = (props) => {
-  const [darkMode, setDarkMode] = useState(false);
-  useEffect(() => {
-    const systemDarkMode =
-      window.matchMedia &&
-      window.matchMedia("(prefers-color-scheme: dark)").matches;
-    setDarkMode({ darkMode: systemDarkMode });
-  }, []);
   const posts = get(props, "data.allContentfulBlogPost.nodes");
   const [author] = get(props, "data.allContentfulLanding.nodes");
   const timeline = get(props, "data.allContentfulTimeline.nodes");
