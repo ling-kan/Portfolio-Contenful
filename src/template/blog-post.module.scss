@@ -52,13 +52,17 @@
 .article li {
   margin-bottom: 0.5em;
 }
+.article img {
+  max-width: calc(100% - 3rem);
+  margin: auto;
+}
 
 .articleNavigation {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   list-style: none;
-  padding: 0;
+  padding: 2rem 0;
 }
 
 @media (min-width: 768px) {

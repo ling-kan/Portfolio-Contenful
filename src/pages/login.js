@@ -62,7 +62,7 @@ const Login = (props) => {
                                 {loginFailed && <p className="text-red-500 text-xs italic">Incorrect password, please try again</p>}
                             </div>
                             <div className="flex items-center justify-between">
-                                <input type="submit" className="mr-2 bg-dark hover:bg-gray-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" value="Enter" />
+                                <input type="submit" className="mr-2 bg-secondary hover:bg-gray-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" value="Enter" />
                                 {email && <a className="inline-block align-baseline font-bold text-sm text-black hover:text-gray-500" href={email[0]?.url}>
                                     Request Access
                                 </a>}

@@ -6,7 +6,7 @@ import Seo from '../components/seo'
 import Layout from '../components/layout'
 import BlogHeader from '../components/blog-header'
 import Tags from '../components/tags'
-import * as styles from './blog-post.module.css'
+import * as styles from './blog-post.module.scss'
 import { navigate } from "gatsby"
 import { isLoggedIn } from "../services/auth"
 import Container from '../components/container'
@@ -55,7 +55,7 @@ const BlogPostTemplate = (props) => {
               timeToRead={post.body?.childMarkdownRemark?.timeToRead}
             />
 
-            <div className="bg-white dark:bg-dark text-dark dark:text-light">
+            <div className="bg-white dark:bg-secondary text-secondary dark:text-primary">
               <Container>
                 <div className={styles.article}>
                   <div

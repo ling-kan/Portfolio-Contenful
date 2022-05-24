@@ -8,33 +8,47 @@ import { Link } from 'gatsby'
 import Logo from './logo';
 
 const Footer = ({ navList, socialList }) => (
-  <div className="bg-dark text-gray-300 flex justify-center pt-10" >
+  <div className="bg-secondary flex justify-center pt-10" >
     <Container as="footer">
-      <div className="flex justify-center mb-2">
-        <Logo darkMode={true} />
+      <div class="md:flex md:justify-between">
+        <div class="mb-6 md:mb-0">
+          <div className="flex justify-center mb-2">
+            <Logo />
+          </div>
+        </div>
+        <ul className={`flex flex-col md:flex-row md:space-x-8 md:text-sm md:font-medium text-center`}>
+          {navList?.map((value, index) => {
+            return (
+              <li key={index} className="my-2 md:my-0">
+                <Link to={value.url} href="#responsive-header" activeClassName="active" className="mx-2" aria-current="page">{value.title}</Link>
+              </li>
+            )
+          })}
+        </ul>
       </div>
-      <div className="flex justify-center mb-2">
-        {socialList?.map((value, index) => {
-          return (
-            <Link to={value.url} key={index} target="_blank">
-              {value.type === 'Buy Me A Coffee' && <BuyACoffeeIcon className="w-8 fill-gray-300 hover:fill-blue-700" />}
-              {value.type === 'Github' && <GithubIcon className="w-8 fill-gray-300 hover:fill-blue-700" />}
-              {value.type === 'Email' && <MailIcon className="w-8 fill-gray-300 hover:fill-blue-700" />}
-              {value.type === 'Linkedin' && <LinkedinIcon className="w-8 fill-gray-300 hover:fill-blue-700" />}
-            </Link>
-          )
-        })}
-      </div>
-      <div className="flex justify-center mb-2">
-        {navList?.map((value, index) => {
-          return (
-            <Link to={value.url} key={index} href="#responsive-header" activeClassName="active" className="mx-2" aria-current="page">{value.title}</Link>
-          )
-        })}
+      <hr class="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
+      <div class="sm:flex sm:items-center sm:justify-between sm:fekx sm:flex-row-reverse">
+        <span className="text-sm flex justify-center">© 2022&nbsp;<Link to="/" className="hover:underline">Ling Kan Portfolio</Link>. All Rights Reserved.</span>
+        <ul class="flex space-x-6 justify-center">
+          {socialList?.map((value, index) => {
+            return (
+              <li key={index} className="my-4 md:my-0">
+                <Link to={value.url} target="_blank">
+                  {value.type === 'Buy Me A Coffee' && <BuyACoffeeIcon className="w-8 " />}
+                  {value.type === 'Github' && <GithubIcon className="w-8 " />}
+                  {value.type === 'Email' && <MailIcon className="w-8 " />}
+                  {value.type === 'Linkedin' && <LinkedinIcon className="w-8 " />}
+                </Link>
+              </li>
+            )
+          })}
+        </ul>
       </div>
 
-      <span className="text-xs flex justify-center mt-10">© 2022&nbsp;<Link to="/" className="hover:underline">Ling Kan Portfolio</Link>. All Rights Reserved.</span>
-    </Container>
+
+
+
+    </Container >
   </div >
 )
 
