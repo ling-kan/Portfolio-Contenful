@@ -42,10 +42,10 @@ const Navigation = ({ navList, socialList }) => {
                 {socialList?.map((value, index) => {
                   return (
                     <Link to={value.url} key={index} target="_blank">
-                      {value.type === 'Buy Me A Coffee' && <BuyACoffeeIcon className="w-8 mr-2 fill-dark" />}
-                      {value.type === 'Github' && <GithubIcon className="w-8 mr-2 fill-dark" />}
-                      {value.type === 'Email' && <MailIcon className="w-8 mr-2 fill-dark" />}
-                      {value.type === 'Linkedin' && <LinkedinIcon className="w-8 mr-2 fill-dark" />}
+                      {value.type === 'Buy Me A Coffee' && <BuyACoffeeIcon className="w-8 mr-2 fill-dark hover:fill-blue-700" />}
+                      {value.type === 'Github' && <GithubIcon className="w-8 mr-2 fill-dark hover:fill-blue-700" />}
+                      {value.type === 'Email' && <MailIcon className="w-8 mr-2 fill-dark hover:fill-blue-700" />}
+                      {value.type === 'Linkedin' && <LinkedinIcon className="w-8 mr-2 fill-dark hover:fill-blue-700" />}
                     </Link>
                   )
                 })}
@@ -55,10 +55,10 @@ const Navigation = ({ navList, socialList }) => {
               {socialList?.map((value, index) => {
                 return (
                   <Link to={value.url} key={index} target="_blank">
-                    {value.type === 'Buy Me A Coffee' && <BuyACoffeeIcon className="w-8 mr-2 fill-dark" />}
-                    {value.type === 'Github' && <GithubIcon className="w-8 mr-2 fill-dark" />}
-                    {value.type === 'Email' && <MailIcon className="w-8 mr-2 fill-dark" />}
-                    {value.type === 'Linkedin' && <LinkedinIcon className="w-8 mr-2 fill-dark" />}
+                    {value.type === 'Buy Me A Coffee' && <BuyACoffeeIcon className="w-8 mr-2 fill-dark hover:fill-blue-700" />}
+                    {value.type === 'Github' && <GithubIcon className="w-8 mr-2 fill-dark hover:fill-blue-700" />}
+                    {value.type === 'Email' && <MailIcon className="w-8 mr-2 fill-dark hover:fill-blue-700" />}
+                    {value.type === 'Linkedin' && <LinkedinIcon className="w-8 mr-2 fill-dark hover:fill-blue-700" />}
                   </Link>
                 )
               })}
