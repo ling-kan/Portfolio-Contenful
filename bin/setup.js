@@ -14,10 +14,10 @@ console.log(`
   You can find all the needed information in your Contentful space under:
 
   ${chalk.yellow(
-    `app.contentful.com ${chalk.red("->")} Space Settings ${chalk.red(
-      "->"
-    )} API keys`
-  )}
+  `app.contentful.com ${chalk.red("->")} Space Settings ${chalk.red(
+    "->"
+  )} API keys`
+)}
 
   The ${chalk.green("Content Management API Token")}
     will be used to import and write data to your space.
@@ -35,7 +35,7 @@ const questions = [
   {
     name: "spaceId",
     message: "Your Space ID",
-    when: !argv.spaceId && !process.env.CONTENTFUL_SPACE_ID,
+    when: !argv.spaceId && !process.env.GATSBY_CONTENTFUL_SPACE_ID,
     validate: (input) =>
       /^[a-z0-9]{12}$/.test(input) ||
       "Space ID must be 12 lowercase characters",
@@ -49,9 +49,9 @@ const questions = [
     name: "accessToken",
     when:
       !argv.accessToken &&
-      !process.env.CONTENTFUL_ACCESS_TOKEN &&
+      !process.env.GATSBY_CONTENTFUL_ACCESS_TOKEN &&
       !argv.deliveryToken &&
-      !process.env.CONTENTFUL_DELIVERY_TOKEN,
+      !process.env.GATSBY_CONTENTFUL_DELIVERY_TOKEN,
     message: "Your Content Delivery API access token",
   },
 ];
@@ -60,23 +60,23 @@ inquirer
   .prompt(questions)
   .then(({ spaceId, managementToken, accessToken }) => {
     const {
-      CONTENTFUL_SPACE_ID,
-      CONTENTFUL_ACCESS_TOKEN,
-      CONTENTFUL_DELIVERY_TOKEN,
+      GATSBY_CONTENTFUL_SPACE_ID,
+      GATSBY_CONTENTFUL_ACCESS_TOKEN,
+      GATSBY_CONTENTFUL_DELIVERY_TOKEN,
     } = process.env;
 
     // env vars are given precedence followed by args provided to the setup
     // followed by input given to prompts displayed by the setup script
-    spaceId = CONTENTFUL_SPACE_ID || argv.spaceId || spaceId;
+    spaceId = GATSBY_CONTENTFUL_SPACE_ID || argv.spaceId || spaceId;
     managementToken = argv.managementToken || managementToken;
     // Some scripts that set up this repo use `deliveryToken` and
-    // `CONTENTFUL_DELIVERY_TOKEN`, instead of `accessToken` and
-    // `CONTENTFUL_ACCESS_TOKEN`. Until all scripts are updated to
-    // use `accessToken` and `CONTENTFUL_ACCESS_TOKEN` both variations
+    // `GATSBY_CONTENTFUL_DELIVERY_TOKEN`, instead of `accessToken` and
+    // `GATSBY_CONTENTFUL_ACCESS_TOKEN`. Until all scripts are updated to
+    // use `accessToken` and `GATSBY_CONTENTFUL_ACCESS_TOKEN` both variations
     // will work.
     accessToken =
-      CONTENTFUL_ACCESS_TOKEN ||
-      CONTENTFUL_DELIVERY_TOKEN ||
+      GATSBY_CONTENTFUL_ACCESS_TOKEN ||
+      GATSBY_CONTENTFUL_DELIVERY_TOKEN ||
       argv.accessToken ||
       argv.deliveryToken ||
       accessToken;
@@ -91,8 +91,8 @@ inquirer
         `# All environment variables will be sourced`,
         `# and made available to gatsby-config.js, gatsby-node.js, etc.`,
         `# Do NOT commit this file to source control`,
-        `CONTENTFUL_SPACE_ID='${spaceId}'`,
-        `CONTENTFUL_ACCESS_TOKEN='${accessToken}'`,
+        `GATSBY_CONTENTFUL_SPACE_ID='${spaceId}'`,
+        `GATSBY_CONTENTFUL_ACCESS_TOKEN='${accessToken}'`,
       ].join("\n") + "\n";
 
     configFiles.forEach((file) => {

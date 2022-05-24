@@ -18,10 +18,10 @@ try {
 
 
 const contentfulConfig = {
-  spaceId: process.env.CONTENTFUL_SPACE_ID,
+  spaceId: process.env.GATSBY_CONTENTFUL_SPACE_ID,
   accessToken:
-    process.env.CONTENTFUL_ACCESS_TOKEN ||
-    process.env.CONTENTFUL_DELIVERY_TOKEN,
+    process.env.GATSBY_CONTENTFUL_ACCESS_TOKEN ||
+    process.env.GATSBY_CONTENTFUL_DELIVERY_TOKEN,
 };
 
 // If you want to use the preview API please define
