@@ -16,6 +16,7 @@
   gap: var(--space-xl);
   letter-spacing: var(--text-prose-tracking);
   line-height: var(--loose);
+  border-top: 2px solid var(--secondary);
 }
 
 .article a {
@@ -37,7 +38,7 @@
 .article h1,
 .article h2 {
   font-size: var(--text-2xl);
-  margin-top: var(--space-xl);
+  margin-top: var(--space-2xl);
   text-transform: uppercase;
 }
 
@@ -77,7 +78,7 @@
 @media (min-width: 1024px) {
   .article {
     gap: var(--space-lg);
-    margin: 0 var(--size-gutter) 0 auto;
+    margin: auto;
     padding-left: 0;
     padding-right: 0;
     width: calc(85% - var(--size-gutter));
