@@ -176,7 +176,7 @@
 .scroll-down {
   width: 30px;
   height: 30px;
-  bottom: 3rem;
+  bottom: 6rem;
   margin: -20px 0 0 -20px;
   -webkit-transform: rotate(45deg);
   border-left: none;
@@ -201,47 +201,39 @@
 //   animation-name: scroll-down;
 // }
 
-@keyframes scroll-down {
-  0% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-    transform: translate(-10px, -10px);
-  }
+// @keyframes scroll-down {
+//   0% {
+//     opacity: 1;
+//   }
+//   100% {
+//     opacity: 0;
+//     transform: translate(-10px, -10px);
+//   }
+// }
+
+.loading {
+  position: relative;
+  width: 100%;
+  margin: 1rem auto;
+  height: 0.5rem;
+  overflow: hidden;
+  border-radius: 25px;
+  background: #ededf2;
 }
 
-// .vertical-timeline {
-//   width: 95%;
-//   max-width: 1170px;
-//   margin: 0 auto;
-//   position: relative;
-//   padding: 2em 0;
-// }
-// .vertical-timeline::after {
-//   content: "";
-//   display: table;
-//   clear: both;
-// }
-// .vertical-timeline::before {
-//   content: "";
-//   position: absolute;
-//   top: 0;
-//   left: 18px;
-//   height: 100%;
-//   width: 4px;
-//   background: var(--line-color);
-// }
-// .vertical-timeline.vertical-timeline--one-column-right::before {
-//   right: 18px;
-//   left: unset;
-// }
-// @media only screen and (min-width: 1170px) {
-//   .vertical-timeline.vertical-timeline--two-columns {
-//     width: 90%;
-//   }
-//   .vertical-timeline.vertical-timeline--two-columns:before {
-//     left: 0%;
-//     margin-left: -2px;
-//   }
-// }
+.loading-bar {
+  --w: 80px; /* the width of coloration */
+
+  position: absolute;
+  left: calc(-1 * var(--w));
+  right: 0;
+  height: 0.5rem;
+  background: linear-gradient(rgb(0, 0, 0) 0 0) 0 / var(--w) 100% no-repeat;
+  animation: loading-bar 2s linear infinite;
+}
+
+@keyframes loading-bar {
+  to {
+    transform: translateX(100%);
+  }
+}

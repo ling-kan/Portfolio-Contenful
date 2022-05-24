@@ -5,7 +5,6 @@ import '../styles/global.scss'
 import '../styles/image.scss'
 import '../styles/timeline.scss'
 
-
 import Seo from './seo'
 import Navigation from './navigation'
 import Footer from './footer'
