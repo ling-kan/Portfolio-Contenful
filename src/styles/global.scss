@@ -52,6 +52,8 @@ body {
 img {
   display: block;
   width: 100%;
+  max-height: 80vh;
+  object-fit: scale-down;
 }
 
 h1,
@@ -153,4 +155,7 @@ code {
 }
 .bg-secondary {
   background: var(--secondary);
+}
+.grid-cols-4 {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
 }

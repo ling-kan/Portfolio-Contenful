@@ -1,3 +1,10 @@
+$xs-mq: 480px;
+$sm-mq: 640px;
+$md-mq: 768px;
+$lg-mq: 1024px;
+$xl-mq: 1280px;
+$xxl-mq: 1536px;
+
 :root {
   /* primitives */
   /* font-family */
@@ -79,13 +86,13 @@
   --size-max-width: 1000px;
 }
 
-@media (min-width: 480px) {
+@media (min-width: $xs-mq) {
   :root {
     --size-gutter: var(--space-3xl);
   }
 }
 
-@media (min-width: 768px) {
+@media (min-width: $md-mq) {
   :root {
     --text-lead: var(--text-2xl);
     --text-title: var(--text-4xl);

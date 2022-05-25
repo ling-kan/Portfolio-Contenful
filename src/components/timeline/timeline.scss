@@ -1,3 +1,4 @@
+@import "/src/styles/variables.scss";
 .timeline-image {
   height: 61.8vh;
   max-height: 560px;
@@ -63,10 +64,6 @@
 }
 
 .vertical-timeline-element--work {
-  // @media only screen and (min-width: 1170px) {
-  //   margin: 2em 0 !important;
-  // }
-
   .vertical-timeline-element-content-arrow {
     border-right: 7px solid var(--secondary);
   }
@@ -81,6 +78,10 @@
     box-shadow: none !important;
     padding: 2rem !important;
     font-weight: initial;
+    @media (max-width: $md-mq) {
+      padding: 1.5rem !important;
+      font-size: 0.9rem;
+    }
     p {
       font-weight: initial;
     }
@@ -92,6 +93,9 @@
       margin: inherit;
       padding: inherit;
       margin-left: 2rem;
+      @media (max-width: $md-mq) {
+        margin-left: 1.5rem;
+      }
     }
   }
 

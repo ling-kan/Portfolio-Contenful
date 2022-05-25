@@ -1,3 +1,4 @@
+@import "/src/styles/variables.scss";
 .meta {
   font-family: var(--font-serif);
   font-size: var(--text-lg);
@@ -68,14 +69,14 @@
   padding: 2rem 0;
 }
 
-@media (min-width: 768px) {
+@media (min-width: $md-mq) {
   .container {
     max-width: var(--size-max-width);
     margin: 0 auto;
   }
 }
 
-@media (min-width: 1024px) {
+@media (min-width: $lg-mq) {
   .article {
     gap: var(--space-lg);
     margin: auto;

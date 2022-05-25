@@ -26,10 +26,10 @@ const VerticalLoadMore = ({ timeline }) => {
                 dateClassName="hidden"
                 icon={<GatsbyImage alt={event.title} image={event?.icon?.gatsbyImageData} />}
             >
-                <div className="flex justify-between uppercase mb-1 text-lg font-semibold">
-                    <div>{event.company}</div> <div>{event?.startDate && `${event.startDate} - ${event.endDate}`}</div>
+                <div className="flex flex-col-reverse justify-between uppercase mb-1 text-lg font-semibold md:flex-row">
+                    <div>{event.company}</div> <div className='md:text-base text-sm pb-4 md:pb-0'>{event?.startDate && `${event.startDate} - ${event.endDate}`}</div>
                 </div>
-                <h3 className="vertical-timeline-element-subtitle italic text-md font-medium">{event.jobTitle}</h3>
+                <h3 className="vertical-timeline-element-subtitle italic text-md font-medium pb-2 md:pb-0">{event.jobTitle}</h3>
                 <div dangerouslySetInnerHTML={{ __html: event?.bio?.childMarkdownRemark?.html }} />
             </VerticalTimelineElement >
         ));
