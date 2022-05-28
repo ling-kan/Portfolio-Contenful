@@ -15,7 +15,7 @@ const Navigation = ({ navList, socialList }) => {
       <Container navigation={true}>
         <nav role="navigation" className="border-gray-200 rounded ">
           <div className="flex flex-wrap justify-between items-center mx-auto">
-            <a href="/" className="flex items-center text-secondary">
+            <a href="/" className="flex items-center text-black">
               <Logo />
             </a>
 

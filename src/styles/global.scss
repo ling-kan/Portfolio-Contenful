@@ -144,15 +144,24 @@ code {
   -webkit-text-stroke-width: 1px;
   -webkit-text-stroke-color: var(--black);
 }
-.text-primary {
+.text-black {
   color: var(--black);
 }
+.text-black-fade {
+  color: var(--black-fade);
+}
+.text-primary {
+  color: var(--primary);
+}
 .text-secondary {
-  color: var(--black);
+  color: var(--secondary);
 }
 .bg-primary {
   background: var(--primary);
 }
 .bg-secondary {
   background: var(--secondary);
+}
+.text-blue-hover {
+  background: var(--blue);
 }

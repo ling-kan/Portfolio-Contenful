@@ -1,7 +1,34 @@
 import React from 'react'
 import { Link } from 'gatsby'
 import { GatsbyImage } from 'gatsby-plugin-image'
-import Tags from './tags'
+// import Tags from './tags'
+import styled from "styled-components"
+import { ArrowNarrowRightIcon } from '@heroicons/react/solid'
+
+const ArticlePreviewWrapper = styled(Link)`
+ background: var(--white);
+  transition: 0.4s ease-out;
+  .details {
+    background: var(--white);
+    background: linear-gradient(
+      360deg,
+      var(--white) 0%,
+      var(--white) 85%,
+      rgba(202, 0, 255, 0) 100%
+    );
+  }
+  .article-image {
+    padding-bottom: 3.5rem;
+  }
+  &:hover {
+    .gatsby-image-wrapper {
+      opacity: 0.5;
+    }
+    .read-more {
+      display: block;
+    }
+  }
+`;
 
 const ArticlePreview = ({ posts }) => {
   if (!posts) return null
@@ -10,24 +37,32 @@ const ArticlePreview = ({ posts }) => {
     <ul className="grid grid-cols-1 md:grid-cols-2 gap-6">
       {posts.map((post) => {
         return (
-          <Link to={`/portfolio/${post.slug}`} key={post.slug} className="flex flex-col items-center bg-white rounded-md md:grid grid-rows-3 grid-cols-1 md:max-w-lg md:max-h-xl hover:opacity-70">
-            <GatsbyImage alt={post.title} className="row-span-2 object-cover w-full h-auto rounded-t-md md:h-full md:w-full md:max-w-100 rounded-b-none " image={post.heroImage.gatsbyImageData} />
-            <div className="flex flex-col justify-between p-4 leading-normal md:col-span-2 mr-auto">
-              <h5 className="mb-2 text-2xl font-bold tracking-tight text-secondary">{post.title}</h5>
-              <div className="mb-2 font-normal text-secondary" dangerouslySetInnerHTML={{
-                __html: post.description.childMarkdownRemark.html,
-              }} />
-              <div className="flex items-center">
-                <div className="text-sm">
-                  <p className="text-secondary mb-2 italic">{post.endDate}</p>
-                  <Tags tags={post.tags} />
+
+          <ArticlePreviewWrapper to={`/portfolio/${post.slug}`} key={post.slug} className='article items-center bg-white rounded-md   md:max-w-lg md:max-h-xl'>
+            <div className='relative'>
+              <div className='article-image'>
+                <GatsbyImage alt={post.title} className="z-0 image object-cover w-full h-auto rounded-md md:h-full md:w-full md:max-w-100" image={post.heroImage.gatsbyImageData} />
+              </div>
+              <div className="z-10 details absolute transition ease-in-out  left-0 bottom-0 w-full p-4 pt-8 leading-normal  ">
+                <div className="flex justify-between">
+                  <p className="mb-auto mt-0 text-black-fade text-sm uppercase">{post.endDate}</p>
+                  {/* <Tags tags={post.tags} /> */}
                 </div>
+                <h5 className="text-xl font-bold tracking-tight text-black">{post.title}</h5>
+                <div className='read-more hidden'>
+                  <div className="description font-normal text-black text-sm" dangerouslySetInnerHTML={{
+                    __html: post.description.childMarkdownRemark.html,
+                  }} />
+                  <Link to={`/portfolio/${post.slug}`} className="text-sm mt-2 text-black-fade hover:text-blue-hover flex">Read more <ArrowNarrowRightIcon className="ml-1 my-auto h-3 w-3" /></Link>
+                </div>
+
               </div>
             </div>
-          </Link>
+          </ArticlePreviewWrapper>
+
         )
       })}
-    </ul>
+    </ul >
   )
 }
 
