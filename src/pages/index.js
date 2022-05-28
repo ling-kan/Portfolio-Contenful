@@ -7,6 +7,7 @@ import HomeHero from "../components/home-hero";
 import Header from '../components/header';
 import Container from '../components/container';
 import VerticalLoadMore from "../components/timeline/timeline-load-more";
+import { motion } from "framer-motion";
 
 const RootIndex = (props) => {
   const posts = get(props, "data.allContentfulBlogPost.nodes");
@@ -16,14 +17,19 @@ const RootIndex = (props) => {
   const socials = get(props, "data.allContentfulSocials.nodes");
   return (
     <Layout location={props.location} navigation={navigation} socials={socials} >
-      <HomeHero
-        animatedList={author?.animatedList}
-        image={author?.heroImage?.gatsbyImageData}
-        title={author?.title}
-        name={author?.name}
-        content={author?.shortBio?.shortBio}
-        socials={socials}
-      />
+      <motion.div
+        initial="offscreen"
+        whileInView="onscreen"
+        viewport={{ once: true, amount: 0.8 }}
+      >
+        <HomeHero
+          animatedList={author?.animatedList}
+          image={author?.heroImage?.gatsbyImageData}
+          title={author?.title}
+          name={author?.name}
+          content={author?.shortBio?.shortBio}
+          socials={socials}
+        />    </motion.div>
 
       <div id="portfolio" className="bg-secondary pb-10 my-8">
         <Container >
@@ -38,7 +44,7 @@ const RootIndex = (props) => {
           <VerticalLoadMore timeline={timeline} />
         </Container>
       </div>
-    </Layout>
+    </Layout >
   );
 }
 

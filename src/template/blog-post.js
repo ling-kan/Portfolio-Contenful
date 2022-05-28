@@ -11,6 +11,7 @@ import { navigate } from "gatsby"
 import { isLoggedIn } from "../services/auth"
 import Container from '../components/container'
 import Loader from '../components/loader'
+// import TableOfContents from '../components/table-contents';
 
 const BlogPostTemplate = (props) => {
   const post = get(props, 'data.contentfulBlogPost')
@@ -54,7 +55,8 @@ const BlogPostTemplate = (props) => {
               endDate={post.endDate}
               timeToRead={post.body?.childMarkdownRemark?.timeToRead}
             />
-            <div className="bg-white dark:bg-secondary text-black dark:text-black">
+            <div className="bg-white dark:bg-secondary text-black dark:text-black relative">
+              {/* <TableOfContents list={post.content?.childMarkdownRemark?.tableOfContents} /> */}
               <Container>
                 <div className={styles.article}>
                   <h2 className={styles.articleTitle}>Summary</h2>
@@ -64,7 +66,7 @@ const BlogPostTemplate = (props) => {
                     }}
                   />}
 
-                  <div className="grid grid-cols-2">
+                  <div className="grid grid-cols-2 gap-2">
                     <div>
                       <h2 className={styles.articleTitle}>Role</h2>
                       {post.role && <p>{post.role}</p>}
@@ -138,6 +140,7 @@ export const pageQuery = graphql`
       content {
         childMarkdownRemark {
           html
+          tableOfContents(heading: "")
           timeToRead
         }
       }

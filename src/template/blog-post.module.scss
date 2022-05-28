@@ -15,10 +15,11 @@
 .article {
   display: grid;
   font-size: var(--text-prose);
-  gap: var(--space-xl);
+  gap: var(--space-md);
   letter-spacing: var(--text-prose-tracking);
   line-height: var(--loose);
   border-top: 2px solid var(--secondary);
+  padding: 1em 0;
 }
 
 .article a {
@@ -32,8 +33,8 @@
 }
 
 .article p {
-  margin-bottom: 1em;
   margin-top: 0;
+  margin-bottom: 1em;
 }
 
 .articleTitle,
@@ -41,6 +42,7 @@
 .article h2 {
   font-size: var(--text-2xl);
   margin-top: var(--space-2xl);
+  margin-bottom: 0.5em;
   text-transform: uppercase;
 }
 
@@ -51,15 +53,19 @@
   font-size: var(--text-prose);
   font-weight: var(--semibold);
   margin-bottom: 0.5em;
-  margin-top: 2em;
+  margin-top: var(--space-xl);
 }
 
 .article li {
-  margin-bottom: 0.5em;
+  margin-bottom: 1em;
 }
 .article img {
   max-width: calc(100% - 3rem);
   margin: auto;
+}
+.article iframe {
+  max-width: calc(100vw - (var(--size-gutter) * 2));
+  margin: 1em 0;
 }
 
 .articleNavigation {

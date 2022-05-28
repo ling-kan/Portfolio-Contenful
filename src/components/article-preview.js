@@ -4,6 +4,7 @@ import { GatsbyImage } from 'gatsby-plugin-image'
 // import Tags from './tags'
 import styled from "styled-components"
 import { ArrowNarrowRightIcon } from '@heroicons/react/solid'
+import { motion } from "framer-motion";
 
 const ArticlePreviewWrapper = styled(Link)`
  background: var(--white);
@@ -38,28 +39,33 @@ const ArticlePreview = ({ posts }) => {
       {posts.map((post) => {
         return (
 
-          <ArticlePreviewWrapper to={`/portfolio/${post.slug}`} key={post.slug} className='article items-center bg-white rounded-md   md:max-w-lg md:max-h-xl'>
-            <div className='relative'>
-              <div className='article-image'>
-                <GatsbyImage alt={post.title} className="z-0 image object-cover w-full h-auto rounded-md md:h-full md:w-full md:max-w-100" image={post.heroImage.gatsbyImageData} />
-              </div>
-              <div className="z-10 details absolute transition ease-in-out  left-0 bottom-0 w-full p-4 pt-8 leading-normal  ">
-                <div className="flex justify-between">
-                  <p className="mb-auto mt-0 text-black-fade text-sm uppercase">{post.endDate}</p>
-                  {/* <Tags tags={post.tags} /> */}
+          <motion.div
+            initial="offscreen"
+            whileInView="onscreen"
+            viewport={{ once: true, amount: 0.8 }}
+          >
+            <ArticlePreviewWrapper to={`/portfolio/${post.slug}`} key={post.slug} className='article items-center bg-white rounded-md   md:max-w-lg md:max-h-xl'>
+              <div className='relative'>
+                <div className='article-image'>
+                  <GatsbyImage alt={post.title} className="z-0 image object-cover w-full h-auto rounded-md md:h-full md:w-full md:max-w-100" image={post.heroImage.gatsbyImageData} />
                 </div>
-                <h5 className="text-xl font-bold tracking-tight text-black">{post.title}</h5>
-                <div className='read-more hidden'>
-                  <div className="description font-normal text-black text-sm" dangerouslySetInnerHTML={{
-                    __html: post.description.childMarkdownRemark.html,
-                  }} />
-                  <Link to={`/portfolio/${post.slug}`} className="text-sm mt-2 text-black-fade hover:text-blue-hover flex">Read more <ArrowNarrowRightIcon className="ml-1 my-auto h-3 w-3" /></Link>
+                <div className="z-10 details absolute transition ease-in-out  left-0 bottom-0 w-full p-4 pt-8 leading-normal  ">
+                  <div className="flex justify-between">
+                    <p className="mb-auto mt-0 text-black-fade text-sm uppercase">{post.endDate}</p>
+                    {/* <Tags tags={post.tags} /> */}
+                  </div>
+                  <h5 className="text-xl font-bold tracking-tight text-black">{post.title}</h5>
+                  <div className='read-more hidden'>
+                    <div className="description font-normal text-black text-sm" dangerouslySetInnerHTML={{
+                      __html: post.description.childMarkdownRemark.html,
+                    }} />
+                    <Link to={`/portfolio/${post.slug}`} className="text-sm mt-2 text-black-fade hover:text-blue-hover flex">Read more <ArrowNarrowRightIcon className="ml-1 my-auto h-3 w-3" /></Link>
+                  </div>
+
                 </div>
-
               </div>
-            </div>
-          </ArticlePreviewWrapper>
-
+            </ArticlePreviewWrapper>
+          </motion.div>
         )
       })}
     </ul >
