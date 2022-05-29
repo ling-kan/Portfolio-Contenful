@@ -31,16 +31,16 @@ const RootIndex = (props) => {
           socials={socials}
         />    </motion.div>
 
-      <div id="portfolio" className="bg-secondary pb-10 my-8">
+      <div id="Work" className="bg-secondary pb-10 my-8">
         <Container >
-          <Header title="Portfolio" />
+          <Header title="Work" />
           <ArticlePreview posts={posts} />
         </Container >
       </div>
 
       <div id="about">
         <Container>
-          <Header title="Timeline" />
+          <Header title="About" />
           <VerticalLoadMore timeline={timeline} />
         </Container>
       </div>
