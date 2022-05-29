@@ -16,7 +16,7 @@ const RootIndex = (props) => {
   const navigation = get(props, "data.allContentfulNavigation.nodes");
   const socials = get(props, "data.allContentfulSocials.nodes");
   return (
-    <Layout location={props.location} navigation={navigation} socials={socials} >
+    <Layout location={props.location} navigation={navigation} socials={socials} headerSpacing="0">
       <motion.div
         initial="offscreen"
         whileInView="onscreen"

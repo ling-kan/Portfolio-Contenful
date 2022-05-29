@@ -1,28 +1,31 @@
 import React from 'react';
-import { graphql, navigate } from "gatsby"
+import { graphql } from "gatsby"
 import get from "lodash/get";
 import Layout from "../components/layout";
 import Container from '../components/container';
-import Header from '../components/header';
-import { ArrowNarrowLeftIcon } from '@heroicons/react/solid'
+import { Link } from 'gatsby'
+import Illustration from "../assets/illustration/vision.svg";
 
 const PageNotFound = (props) => {
   const navigation = get(props, "data.allContentfulNavigation.nodes");
   const socials = get(props, "data.allContentfulSocials.nodes");
 
   return (
-    <Layout location={props.location} navigation={navigation} socials={socials} >
-      <div className="min-h-screen ">
-        <Container>
-          <button className="hover:text-blue-hover flex mb-2" onClick={(e) => { e.preventDefault(); navigate(-2) }}>
-            <ArrowNarrowLeftIcon className="mr-2 my-auto h-5 w-5" />
-            Back</button>
-        </Container>
-        <Container>
-          <Header title="404 Page" style={{ textAlign: 'center' }} />
-          <p>Oops, we couldn't find this page!</p>
-        </Container>
-      </div>
+    <Layout location={props.location} navigation={navigation} socials={socials} headerSpacing="0" >
+      <Container className="min-h-screen flex m-auto">
+        <div className='flex'>
+          <div className='m-auto mr-0 w-6/12 md:w-12/12 '>
+            <h1 style={{ fontSize: "12rem" }} className="text-9xl text-border uppercase text-center">
+              404
+            </h1>
+            <p className='text-3xl text-center font-semibold'>Oops, we couldn't find this page</p>
+            <Link to="/" className="my-6 block text-center mx-auto text-black hover:text-blue-hover hover:blue-border-hover py-2 px-10 w-6/12 border-2 border-solid border-black rounded-full">Home</Link>
+          </div>
+          <Illustration className="w-5/12 h-full md:w-12/12" />
+
+        </div>
+      </Container>
+
     </Layout>
   )
 }

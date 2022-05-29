@@ -43,7 +43,7 @@ const Login = (props) => {
                         Back</button>
                 </Container>
                 <Container>
-                    <Header title="Protected Page" style={{ textAlign: 'center' }} />
+                    <Header title="Protected Page" className="text-center" />
                     <div className="w-full max-w-xs mt-4 mx-auto">
                         <form method="post"
                             onSubmit={event => {

@@ -4,15 +4,14 @@ import Navigation from './navigation'
 import Footer from './footer'
 import { motion, useReducedMotion } from "framer-motion"
 
-const Template = ({ children, socials, navigation, location }) => {
+const Template = ({ children, socials, navigation, headerSpacing = "64px" }) => {
   const prefersReducedMotion = useReducedMotion();
-  const mainHeaderSpacing = (location?.pathname !== '/' && '64px');
   return (
     <div >
       <Seo />
       <Navigation navList={navigation} socialList={socials} />
       {prefersReducedMotion ?
-        <main style={{ marginTop: mainHeaderSpacing }} role="main">{children}</main>
+        <main style={{ marginTop: headerSpacing }} role="main">{children}</main>
         :
         <motion.main
           layout
@@ -35,7 +34,7 @@ const Template = ({ children, socials, navigation, location }) => {
             duration: 0.1
           }}
         >
-          <main style={{ marginTop: mainHeaderSpacing }} role="main">{children}</main>
+          <div style={{ marginTop: headerSpacing }} role="main">{children}</div>
         </motion.main>
       }
       <Footer navList={navigation} socialList={socials} />
