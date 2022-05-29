@@ -29,8 +29,8 @@ const RootIndex = (props) => {
           name={author?.name}
           content={author?.shortBio?.shortBio}
           socials={socials}
-        />    </motion.div>
-
+        />
+      </motion.div>
       <div id="Work" className="bg-secondary pb-10 my-8">
         <Container >
           <Header title="Work" />
