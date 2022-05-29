@@ -31,7 +31,7 @@ const RootIndex = (props) => {
           socials={socials}
         />
       </motion.div>
-      <div id="Work" className="bg-secondary pb-10 my-8">
+      <div id="work" className="bg-secondary pb-10 my-8">
         <Container >
           <Header title="Work" />
           <ArticlePreview posts={posts} />

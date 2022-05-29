@@ -15,15 +15,25 @@ export const shouldUpdateScroll = ({
 }) => {
     // transition duration from `layout.js` * 1000 to get time in ms
     const TRANSITION_DELAY = 0.1 * 1000 * 2
-
+    if (location.hash) {
+        const element = document.querySelector(location.hash);
+        if (element) {
+            element.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start',
+                inline: 'nearest',
+            });
+        }
+    }
     if (location.action === "PUSH") {
         window.setTimeout(() => window.scrollTo(0, 0), TRANSITION_DELAY)
     }
 
     else {
-        const savedPosition = getSavedScrollPosition(location) || [0, 0]
-
-        window.setTimeout(() => window.scrollTo(...savedPosition), TRANSITION_DELAY)
+        if (location.pathname !== "/") {
+            const savedPosition = getSavedScrollPosition(location) || [0, 0]
+            window.setTimeout(() => window.scrollTo(...savedPosition), TRANSITION_DELAY)
+        }
     }
 
     return false
