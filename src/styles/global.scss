@@ -162,9 +162,13 @@ code {
 .bg-secondary {
   background: var(--secondary);
 }
-.text-blue-hover {
-  background: var(--blue);
-}
-.blue-border-hover {
+.btn-blue-hover:hover {
+  background: transparent;
   border-color: var(--blue);
+  background: var(--secondary);
+}
+.not-found-text {
+  @media (min-width: 768px) {
+    font-size: 12rem;
+  }
 }

@@ -11,17 +11,17 @@ const PageNotFound = (props) => {
   const socials = get(props, "data.allContentfulSocials.nodes");
 
   return (
-    <Layout location={props.location} navigation={navigation} socials={socials} headerSpacing="0" >
-      <Container className="min-h-screen flex m-auto">
-        <div className='flex'>
-          <div className='m-auto mr-0 w-6/12 md:w-12/12 '>
-            <h1 style={{ fontSize: "12rem" }} className="text-9xl text-border uppercase text-center">
+    <Layout location={props.location} navigation={navigation} socials={socials} fullHeaderHeight={true} >
+      <Container className="min-h-screen flex m-auto pt-20 md:pt-6">
+        <div className='block md:flex'>
+          <div className='m-auto mr-0 md:w-6/12 w-full '>
+            <h1 className="not-found-text text-9xl text-border uppercase text-center">
               404
             </h1>
             <p className='text-3xl text-center font-semibold'>Oops, we couldn't find this page</p>
-            <Link to="/" className="my-6 block text-center mx-auto text-black hover:text-blue-hover hover:blue-border-hover py-2 px-10 w-6/12 border-2 border-solid border-black rounded-full">Home</Link>
+            <Link to="/" className="my-6 block text-center mx-auto text-black btn-blue-hover py-2 px-10 w-6/12 border-2 border-solid border-black rounded-full">Home</Link>
           </div>
-          <Illustration className="w-5/12 h-full md:w-12/12" />
+          <Illustration className="md:w-5/12 md:h-full h-fit w-full" />
 
         </div>
       </Container>
