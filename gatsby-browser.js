@@ -16,13 +16,17 @@ export const shouldUpdateScroll = ({
     // transition duration from `layout.js` * 1000 to get time in ms
     const TRANSITION_DELAY = 0.1 * 1000 * 2
     if (location.hash) {
-        const element = document.querySelector(location.hash);
+        // const element = document.querySelector(location.hash);
+        // if (element) {
+        //     element.scrollIntoView({
+        //         behavior: 'smooth',
+        //         block: 'start',
+        //         inline: 'nearest',
+        //     });
+        // }
+        const element = document.querySelector(location.hash).offsetTop - 75;
         if (element) {
-            element.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start',
-                inline: 'nearest',
-            });
+            window.scrollTo({ top: element, behavior: "smooth" });
         }
     }
     if (location.action === "PUSH") {
@@ -35,6 +39,5 @@ export const shouldUpdateScroll = ({
             window.setTimeout(() => window.scrollTo(...savedPosition), TRANSITION_DELAY)
         }
     }
-
     return false
 }
