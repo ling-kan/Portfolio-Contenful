@@ -5,14 +5,20 @@ import Seo from '../components/seo'
 import Layout from '../components/layout'
 import BlogHeader from '../components/blog-header'
 import ArticlePreview from '../components/article-preview'
+import Container from '../components/container'
 
 const BlogIndex = (props) => {
-  const posts = get(this, 'props.data.allContentfulBlogPost.nodes')
+  const posts = get(props, "data.allContentfulBlogPost.nodes");
+  const navigation = get(props, "data.allContentfulNavigation.nodes");
+  const socials = get(props, "data.allContentfulSocials.nodes");
+
   return (
-    <Layout location={props.location}>
-      <Seo title="Blog" />
-      <BlogHeader title="Blog" />
-      <ArticlePreview posts={posts} />
+    <Layout location={props.location} navigation={navigation} socials={socials}>
+      <Seo title="Portfolio" />
+      <BlogHeader title="Portfolio" />
+      <Container>
+        <ArticlePreview posts={posts} />
+      </Container>
     </Layout>
   )
 }
@@ -34,29 +40,21 @@ export const pageQuery = graphql`
       }
     }
     allContentfulBlogPost(sort: { fields: [endDate], order: DESC }) {
-      nodes {
+       nodes {
         title
         slug
-        startDate(formatString: "MMMM YYYY")
         endDate(formatString: "MMMM YYYY")
-        role
-        summary {
-          childMarkdownRemark {
-            html
-          }
-        }
-        content {
-          childMarkdownRemark {
-            html
-          }
-        }
+        tags
         heroImage {
           gatsbyImageData(
             layout: FULL_WIDTH
             placeholder: BLURRED
-            width: 424
-            height: 212
           )
+        }
+        description {
+          childMarkdownRemark {
+            html
+          }
         }
       }
     }
