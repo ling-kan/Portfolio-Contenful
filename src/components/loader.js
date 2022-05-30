@@ -11,7 +11,7 @@ const Loader = () => {
         }
     };
     return (
-        <div className='w-screen h-screen flex p-20'>
+        <div className='w-screen min-h-screen flex p-20'>
             <div className="m-auto h-fit">
                 <div className='max-w-xs max-h-xs'>
                     <div className='p-5'>
