@@ -6,10 +6,11 @@ import MailIcon from "../assets/mail.svg";
 import LinkedinIcon from "../assets/linkedin.svg";
 import BuyACoffeeIcon from "../assets/buy-a-coffee.svg";
 import { Link } from 'gatsby'
+import { useReducedMotion } from "framer-motion"
 
 const HomeHero = ({ name, content, animatedList, socials }) => {
     const [index, setIndex] = useState(0);
-
+    const prefersReducedMotion = useReducedMotion();
     useEffect(() => {
         const intervalId = setInterval(() =>
             setIndex(index => index + 1),
@@ -25,15 +26,17 @@ const HomeHero = ({ name, content, animatedList, socials }) => {
                         <h1 className="text-9xl md:text-9xl text-border uppercase">
                             {name}
                         </h1>
-                        {animatedList && <section className="inline">
-                            <ReactTextTransition
-                                text={animatedList[index % animatedList.length]}
-                                springConfig={presets.slow}
-                                className="big text-5xl uppercase font-bold"
-                                delay={700}
-                                noOverflow
-                                direction="down"
-                            />
+                        {animatedList && <section className="inline big text-5xl uppercase font-bold">
+                            {prefersReducedMotion ?
+                                <p className="whitespace-pre-line">{animatedList.join(', \n')} </p>
+                                :
+                                <ReactTextTransition
+                                    text={animatedList[index % animatedList.length]}
+                                    springConfig={presets.slow}
+                                    delay={700}
+                                    noOverflow
+                                    direction="down"
+                                />}
                         </section>
                         }
                         {content && <p>{content}</p>}
