@@ -36,13 +36,13 @@ const ArticlePreview = ({ posts }) => {
   if (!Array.isArray(posts)) return null
   return (
     <ul className="grid grid-cols-1 md:grid-cols-2 gap-6">
-      {posts.map((post) => {
+      {posts.map((post, index) => {
         return (
-
           <motion.div
             initial="offscreen"
             whileInView="onscreen"
             viewport={{ once: true, amount: 0.8 }}
+            key={index}
           >
             <ArticlePreviewWrapper to={`/portfolio/${post.slug}`} key={post.slug} className='article items-center bg-white rounded-md   md:max-w-lg md:max-h-xl'>
               <div className='relative'>

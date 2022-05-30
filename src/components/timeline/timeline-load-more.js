@@ -20,8 +20,9 @@ const VerticalLoadMore = ({ timeline }) => {
     };
 
     const getTimelineElements = () =>
-        elements.map(event => (
+        elements.map((event, index) => (
             <VerticalTimelineElement {...event.props}
+                key={index}
                 className="vertical-timeline-element--work"
                 dateClassName="hidden"
                 icon={<GatsbyImage alt={event.title} image={event?.icon?.gatsbyImageData} />}
