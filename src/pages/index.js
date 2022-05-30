@@ -26,8 +26,6 @@ const RootIndex = (props) => {
       element && window.scrollTo({ top: element, behavior: "smooth" });
     }
   }
-  const nextEle = document.getElementById('home')?.nextElementSibling;
-  console.log(nextEle)
   return (
     <Layout location={props.location} navigation={navigation} socials={socials} fullHeaderHeight={true}>
       <motion.div
