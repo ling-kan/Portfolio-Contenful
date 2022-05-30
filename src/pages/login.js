@@ -56,7 +56,7 @@ const Login = (props) => {
                                     Password
                                     <input onChange={event => setForm({
                                         [event.target.name]: event.target.value,
-                                    })} className={`${loginFailed ? 'border-red' : 'border-grey-light'} shadow appearance-none border rounded w-full mt-2 py-2 px-3 text-black mb-3 leading-tight focus:outline-none focus:shadow-outline`} id="password" type="password"
+                                    })} className={`${loginFailed ? 'border-red' : 'border-grey-light'} bg-transparent shadow appearance-none border rounded w-full mt-2 py-2 px-3 text-black mb-3 leading-tight focus:outline-none focus:shadow-outline`} id="password" type="password"
                                         name="password" placeholder="********" />
                                 </label>
                                 {loginFailed && <p className="text-red text-xs italic">Incorrect password, please try again</p>}

@@ -141,8 +141,9 @@ code {
 .text-border {
   color: var(--black);
   -webkit-text-fill-color: transparent;
-  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-width: 0.2rem;
   -webkit-text-stroke-color: var(--black);
+  font-weight: 700;
 }
 .text-black {
   color: var(--black);
@@ -159,8 +160,8 @@ code {
 .bg-primary {
   background: var(--primary);
 }
-.bg-primary {
-  background: var(--primary);
+.bg-transparent {
+  background: transparent;
 }
 .btn-blue-hover:hover {
   background: transparent;

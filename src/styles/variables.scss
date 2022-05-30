@@ -101,3 +101,15 @@ $xxl-mq: 1536px;
     --text-prose: var(--text-lg);
   }
 }
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --primary: #1f1f1f;
+    --secondary: #49669f;
+    --white: #161617;
+    --black: #cbccd1;
+    --grey: #bebebe;
+    --grey-light: #74747450;
+    --red: #772626;
+  }
+}

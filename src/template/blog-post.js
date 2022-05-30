@@ -55,7 +55,7 @@ const BlogPostTemplate = (props) => {
               endDate={post.endDate}
               timeToRead={post.body?.childMarkdownRemark?.timeToRead}
             />
-            <div className="bg-white dark:bg-black text-black dark:text-white relative">
+            <div className="bg-white text-black relative">
               {/* <TableOfContents list={post.content?.childMarkdownRemark?.tableOfContents} /> */}
               <Container>
                 <div className={styles.article}>

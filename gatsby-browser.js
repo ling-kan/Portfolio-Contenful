@@ -22,7 +22,7 @@ export const shouldUpdateScroll = ({
             window.scrollTo({ top: element, behavior: "smooth" });
         }
     }
-    if (locatin.action === "PUSH") {
+    if (location.action === "PUSH") {
         window.setTimeout(() => window.scrollTo(0, 0), TRANSITION_DELAY)
     }
 
