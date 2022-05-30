@@ -16,12 +16,13 @@ $xxl-mq: 1536px;
   --font-serif: "Times New Roman", Times, serif;
 
   /* palette */
-  --primary: #ededed;
-  --secondary: #f3f3f3;
-  --blue: #3d5d9b;
-  --white: #fff;
+  --primary: #f3f3f3;
+  --secondary: #3d5d9b;
+  --white: #fdfdfd;
   --black: #212123;
-  --black-fade: #838383;
+  --grey: #949494;
+  --grey-light: #94949450;
+  --red: #df6262;
 
   /* radius */
   --radius-sm: 0.5rem;
@@ -66,7 +67,7 @@ $xxl-mq: 1536px;
   /* tokens */
   /* colors */
   --background: var(--white);
-  --border: var(--secondary);
+  --border: var(--primary);
 
   /* text */
   /* color */

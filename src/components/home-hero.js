@@ -9,6 +9,7 @@ import { Link } from 'gatsby'
 
 const HomeHero = ({ name, content, animatedList, socials }) => {
     const [index, setIndex] = useState(0);
+
     useEffect(() => {
         const intervalId = setInterval(() =>
             setIndex(index => index + 1),
@@ -16,9 +17,8 @@ const HomeHero = ({ name, content, animatedList, socials }) => {
         );
         return () => clearTimeout(intervalId);
     }, []);
-
     return (
-        <div className="min-h-screen md:auto items-center flex relative">
+        <div id="home" className="min-h-screen md:auto items-center flex relative">
             <Container>
                 <div className="grid grid-cols-2 py-20 gap-2">
                     <div className=" col-span-3 md:col-span-3 text-left items-left justify-left my-auto">
@@ -37,7 +37,7 @@ const HomeHero = ({ name, content, animatedList, socials }) => {
                         </section>
                         }
                         {content && <p>{content}</p>}
-                        {socials && <ul class="flex space-x-6 my-5">
+                        {socials && <ul className="flex space-x-6 my-5">
                             {socials?.map((value, index) => {
                                 return (
                                     <li key={index}>
@@ -53,7 +53,7 @@ const HomeHero = ({ name, content, animatedList, socials }) => {
                         </ul>
                         }
                     </div>
-                    <div className="scroll-down"></div>
+                    <div className="scroll-down" />
                 </div>
             </Container >
         </div >

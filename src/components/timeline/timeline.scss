@@ -1,4 +1,5 @@
 @import "/src/styles/variables.scss";
+
 .timeline-image {
   height: 61.8vh;
   max-height: 560px;
@@ -33,48 +34,47 @@
 .vertical-timeline::before {
   background: linear-gradient(
     white 0%,
-    var(--secondary) 5%,
-    var(--secondary) 95%,
+    var(--primary) 5%,
+    var(--primary) 95%,
     white 100%
   ) !important;
   background: -webkit-gradient(
     white 0%,
-    var(--secondary) 5%,
-    var(--secondary) 95%,
+    var(--primary) 5%,
+    var(--primary) 95%,
     white 100%
   );
   background: -webkit-linear-gradient(
     white 0%,
-    var(--secondary) 5%,
-    var(--secondary) 95%,
+    var(--primary) 5%,
+    var(--primary) 95%,
     white 100%
   );
   background: -moz-linear-gradient(
     white 0%,
-    var(--secondary) 5%,
-    var(--secondary) 95%,
+    var(--primary) 5%,
+    var(--primary) 95%,
     white 100%
   );
   background: -o-linear-gradient(
     white 0%,
-    var(--secondary) 5%,
-    var(--secondary) 95%,
+    var(--primary) 5%,
+    var(--primary) 95%,
     white 100%
   );
 }
 
 .vertical-timeline-element--work {
   .vertical-timeline-element-content-arrow {
-    border-right: 7px solid var(--secondary);
+    border-right: 7px solid var(--primary);
   }
   .vertical-timeline-element-icon {
-    -webkit-box-shadow: 0 0 0 4px var(--secondary),
-      inset 0 2px 0 rgb(0 0 0 / 8%);
-    box-shadow: 0 0 0 4px var(--secondary), inset 0 2px 0 rgb(0 0 0 / 8%);
+    -webkit-box-shadow: 0 0 0 4px var(--primary), inset 0 2px 0 rgb(0 0 0 / 8%);
+    box-shadow: 0 0 0 4px var(--primary), inset 0 2px 0 rgb(0 0 0 / 8%);
   }
 
   .vertical-timeline-element-content {
-    background: var(--secondary);
+    background: var(--primary);
     box-shadow: none !important;
     padding: 2rem !important;
     font-weight: initial;
@@ -133,13 +133,13 @@
   &:hover {
     .vertical-timeline-element-content,
     .vertical-timeline-element-icon--button {
-      background: var(--secondary);
-      border: 2px solid var(--blue) !important;
-      color: var(--blue) !important;
+      background: var(--primary);
+      border: 2px solid var(--secondary) !important;
+      color: var(--secondary) !important;
     }
 
     // .vertical-timeline-element-content-arrow {
-    //   border-right-color: var(--blue) !important;
+    //   border-right-color: var(--secondary) !important;
     // }
   }
 }

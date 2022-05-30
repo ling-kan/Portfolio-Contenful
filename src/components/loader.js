@@ -22,8 +22,8 @@ const Loader = () => {
                         />
                     </div>
                     <div className="relative">
-                        <div class="loading">
-                            <div class="loading-bar"></div>
+                        <div className="loading">
+                            <div className="loading-bar"></div>
                         </div>
                     </div>
                 </div>

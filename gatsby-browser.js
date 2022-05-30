@@ -24,7 +24,7 @@ export const shouldUpdateScroll = ({
         //         inline: 'nearest',
         //     });
         // }
-        const element = document.querySelector(location.hash).offsetTop - 75;
+        const element = location.pathname === "/" ? document.querySelector(location.hash).offsetTop - 75 : document.querySelector(location.hash);
         if (element) {
             window.scrollTo({ top: element, behavior: "smooth" });
         }

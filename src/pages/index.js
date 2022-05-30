@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { graphql } from "gatsby";
 import get from "lodash/get";
 import Layout from "../components/layout";
@@ -15,6 +15,19 @@ const RootIndex = (props) => {
   const timeline = get(props, "data.allContentfulTimeline.nodes");
   const navigation = get(props, "data.allContentfulNavigation.nodes");
   const socials = get(props, "data.allContentfulSocials.nodes");
+  useEffect(() => {
+    setTimeout(scroll(), 1000);
+
+  });
+
+  function scroll() {
+    if (props.location.hash) {
+      const element = document.querySelector(props.location.hash).offsetTop - 75;
+      element && window.scrollTo({ top: element, behavior: "smooth" });
+    }
+  }
+  const nextEle = document.getElementById('home')?.nextElementSibling;
+  console.log(nextEle)
   return (
     <Layout location={props.location} navigation={navigation} socials={socials} fullHeaderHeight={true}>
       <motion.div
@@ -31,7 +44,7 @@ const RootIndex = (props) => {
           socials={socials}
         />
       </motion.div>
-      <div id="work" className="bg-secondary pb-10 my-8">
+      <div id="work" className="bg-primary pb-10 my-8">
         <Container >
           <Header title="Work" />
           <ArticlePreview posts={posts} />
