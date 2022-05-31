@@ -22,8 +22,8 @@ const HomeHero = ({ name, content, animatedList, socials }) => {
         <div id="home" className="h-screen md:auto items-center flex relative" >
             <Container>
                 <div className="grid grid-cols-2 py-20 gap-2">
-                    <div className=" col-span-3 md:col-span-3 text-left items-left justify-left my-auto">
-                        <h1 className="text-9xl md:text-9xl text-border uppercase">
+                    <div className=" grid col-span-3 md:col-span-3 text-center items-center justify-center my-auto">
+                        <h1 className="text-9xl md:text-9xl uppercase">
                             {name}
                         </h1>
                         {animatedList && <section className="inline big text-5xl uppercase font-bold">
@@ -35,6 +35,7 @@ const HomeHero = ({ name, content, animatedList, socials }) => {
                                     springConfig={presets.slow}
                                     delay={700}
                                     noOverflow
+                                    inline={false}
                                     direction="down"
                                 />}
                         </section>
