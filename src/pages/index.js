@@ -8,6 +8,7 @@ import Header from '../components/header';
 import Container from '../components/container';
 import VerticalLoadMore from "../components/timeline/timeline-load-more";
 import { motion } from "framer-motion";
+import SectionDivider from '../components/section-divider';
 
 const RootIndex = (props) => {
   const posts = get(props, "data.allContentfulBlogPost.nodes");
@@ -42,16 +43,16 @@ const RootIndex = (props) => {
           socials={socials}
         />
       </motion.div>
-      <div id="work" className="bg-primary pb-10 my-8">
+      <div id="work" className="pb-10 my-8">
         <Container >
-          <Header title="Work" />
+          <SectionDivider title="Work" />
           <ArticlePreview posts={posts} />
         </Container >
       </div>
 
       <div id="about">
         <Container>
-          <Header title="About" />
+          <SectionDivider title="About" />
           <VerticalLoadMore timeline={timeline} />
         </Container>
       </div>

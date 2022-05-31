@@ -9,24 +9,11 @@ import { motion } from "framer-motion";
 const ArticlePreviewWrapper = styled(Link)`
  background: var(--white);
   transition: 0.4s ease-out;
-  .details {
-    background: var(--white);
-    background: linear-gradient(
-      360deg,
-      var(--white) 0%,
-      var(--white) 85%,
-      rgba(202, 0, 255, 0) 100%
-    );
-  }
-  .article-image {
-    padding-bottom: 3.5rem;
-  }
+
+
   &:hover {
     .gatsby-image-wrapper {
       opacity: 0.5;
-    }
-    .read-more {
-      display: block;
     }
   }
 `;
@@ -35,7 +22,7 @@ const ArticlePreview = ({ posts }) => {
   if (!posts) return null
   if (!Array.isArray(posts)) return null
   return (
-    <ul className="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3  gap-6">
       {posts.map((post, index) => {
         return (
           <motion.div
@@ -49,17 +36,17 @@ const ArticlePreview = ({ posts }) => {
                 <div className='article-image'>
                   <GatsbyImage alt={post.title} className="z-0 image object-cover w-full h-auto rounded-md md:h-full md:w-full md:max-w-100" image={post.heroImage.gatsbyImageData} />
                 </div>
-                <div className="z-10 details absolute transition ease-in-out  left-0 bottom-0 w-full p-4 pt-8 leading-normal  ">
+                <div className="z-10 details transition ease-in-out  left-0 bottom-0 w-full p-4 leading-normal  ">
                   <div className="flex justify-between">
-                    <p className="mb-auto mt-0 text-black-fade text-sm uppercase">{post.endDate}</p>
+                    <span className="mb-auto mt-0 text-black-fade text-sm uppercase">{post.endDate}</span>
                     {/* <Tags tags={post.tags} /> */}
                   </div>
-                  <h5 className="text-xl font-bold tracking-tight text-black">{post.title}</h5>
-                  <div className='read-more hidden'>
-                    <div className="description font-normal text-black text-sm" dangerouslySetInnerHTML={{
+                  <h5 className="text-xl tracking-tight text-black mt-4 mb-1">{post.title}</h5>
+                  <div className='read-more'>
+                    <div className="description font-normal text-black text-md" dangerouslySetInnerHTML={{
                       __html: post.description.childMarkdownRemark.html,
                     }} />
-                    <Link to={`/portfolio/${post.slug}`} className="text-sm mt-2 text-black-fade hover:text-secondary flex">Read more <ArrowNarrowRightIcon className="ml-1 my-auto h-3 w-3" /></Link>
+                    <Link to={`/portfolio/${post.slug}`} className="text-sm mt-4 text-black-fade hover:text-secondary flex">Read <ArrowNarrowRightIcon className="ml-1 my-auto h-3 w-3" /></Link>
                   </div>
 
                 </div>
