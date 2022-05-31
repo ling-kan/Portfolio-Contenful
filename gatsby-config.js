@@ -4,7 +4,8 @@ require("dotenv").config({
 
 function checkEnv(envName) {
   if (typeof process.env[envName] === 'undefined' || process.env[envName] === '') {
-    throw `Missing required environment variables: ${envName}`
+    throw `Missing required environment variables: ${envName} - ${process.env.GATSBY_CONTENTFUL_SPACE_ID
+    }`
   }
 }
 
