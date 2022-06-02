@@ -84,5 +84,20 @@ module.exports = {
         ],
       },
     },
+    {
+      resolve: `gatsby-plugin-manifest`,
+      options: {
+        name: `Ling Kan Portfolio`,
+        short_name: `Ling`,
+        description: `Portfolio showcasing Ling Kan's work.`,
+        start_url: `/`,
+        icon: `src/assets/icon.jpg`,
+        background_color: `#f7f0eb`,
+        theme_color: `#a2466c`,
+        display: `standalone`,
+      },
+    },
+    `gatsby-plugin-offline`,
+
   ],
 };

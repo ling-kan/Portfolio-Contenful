@@ -33,12 +33,12 @@ const Footer = ({ navList, socialList }) => (
           {socialList?.map((value, index) => {
             return (
               <li key={index} className="my-4 sm:my-0 ">
-                <Link to={value.url} target="_blank">
+                <a href={value.url} target="_blank">
                   {value.type === 'Buy Me A Coffee' && <BuyACoffeeIcon className="w-8 fill-grey" />}
                   {value.type === 'Github' && <GithubIcon className="w-8 fill-grey" />}
                   {value.type === 'Email' && <MailIcon className="w-8 fill-grey" />}
                   {value.type === 'Linkedin' && <LinkedinIcon className="w-8 fill-grey" />}
-                </Link>
+                </a>
               </li>
             )
           })}
