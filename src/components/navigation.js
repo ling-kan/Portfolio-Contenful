@@ -42,7 +42,7 @@ const Navigation = ({ navList, socialList }) => {
                 {socialList?.map((value, index) => {
                   return (
                     <li key={index}>
-                      <a href={value.url} target="_blank">
+                      <a href={value.url} target="_blank" rel="noreferrer">
                         {value.type === 'Buy Me A Coffee' && <BuyACoffeeIcon className="w-8 mr-2 " />}
                         {value.type === 'Github' && <GithubIcon className="w-8 mr-2 " />}
                         {value.type === 'Email' && <MailIcon className="w-8 mr-2 " />}

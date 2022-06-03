@@ -19,8 +19,7 @@ try {
 
 const contentfulConfig = {
   spaceId: process.env.GATSBY_CONTENTFUL_SPACE_ID,
-  accessToken:
-    process.env.GATSBY_CONTENTFUL_ACCESS_TOKEN ||
+  accessToken: process.env.GATSBY_CONTENTFUL_ACCESS_TOKEN ||
     process.env.GATSBY_CONTENTFUL_DELIVERY_TOKEN,
 };
 
@@ -41,7 +40,10 @@ if (process.env.CONTENTFUL_HOST) {
   contentfulConfig.accessToken = process.env.CONTENTFUL_PREVIEW_ACCESS_TOKEN;
 }
 
-const { spaceId, accessToken } = contentfulConfig;
+const {
+  spaceId,
+  accessToken
+} = contentfulConfig;
 
 if (!spaceId || !accessToken) {
   throw new Error(
@@ -91,9 +93,20 @@ module.exports = {
         short_name: `Ling`,
         description: `Portfolio showcasing Ling Kan's work.`,
         start_url: `/`,
-        icon: `src/assets/icon.jpg`,
-        background_color: `#f7f0eb`,
-        theme_color: `#a2466c`,
+        icon: `src/assets/favicon/favicon.png`,
+        icons: [{
+          "src": "src/assets/favicon/favicon-16x16.png",
+          "sizes": "16x16",
+          "type": "image/png"
+        }, {
+          "src": "src/assets/favicon/favicon-32x32.png",
+          "sizes": "32x32",
+          "type": "image/png"
+        }]
+
+        ,
+        background_color: `var(--primary)`,
+        theme_color: `var(--primary)`,
         display: `standalone`,
       },
     },

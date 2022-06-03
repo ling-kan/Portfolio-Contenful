@@ -38,7 +38,7 @@ const VerticalLoadMore = ({ timeline }) => {
         <div>
             <VerticalTimeline layout='1-column-left'>
                 {getTimelineElements()}
-                {elements.length !== timeline.length && <button className="flex m-auto" onClick={(e) => { e.preventDefault(); loadMore(); }}><VerticalTimelineElement
+                {elements.length !== timeline.length && <button aria-label="Load more" className="flex m-auto" onClick={(e) => { e.preventDefault(); loadMore(); }}><VerticalTimelineElement
                     className='vertical-timeline-element--load-more'
                     iconOnClick={loadMore}
                     iconClassName="vertical-timeline-element-icon--button"
