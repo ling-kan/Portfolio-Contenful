@@ -1,7 +1,7 @@
 {
   "name": "Ling Kan Portfolio",
   "description": "Ling Kan Portfolio",
-  "keywords": ["contentful", "gatsby", "static", "ssg"],
+  "keywords": ["ling", "portfolio", "work", "kan"],
   "repository": "https://github.com/contentful-userland/gatsby-contentful-starter",
   "success_url": "/",
   "buildpacks": [

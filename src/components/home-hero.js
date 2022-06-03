@@ -5,7 +5,6 @@ import GithubIcon from "../assets/github.svg";
 import MailIcon from "../assets/mail.svg";
 import LinkedinIcon from "../assets/linkedin.svg";
 import BuyACoffeeIcon from "../assets/buy-a-coffee.svg";
-import { Link } from 'gatsby'
 import { useReducedMotion } from "framer-motion"
 
 const HomeHero = ({ name, content, animatedList, socials }) => {
@@ -44,12 +43,12 @@ const HomeHero = ({ name, content, animatedList, socials }) => {
                             {socials?.map((value, index) => {
                                 return (
                                     <li key={index}>
-                                        <Link to={value.url} target="_blank">
+                                        <a href={value.url} target="_blank" rel="noreferrer">
                                             {value.type === 'Buy Me A Coffee' && <BuyACoffeeIcon className="w-10 " />}
                                             {value.type === 'Github' && <GithubIcon className="w-10 " />}
                                             {value.type === 'Email' && <MailIcon className="w-10 " />}
                                             {value.type === 'Linkedin' && <LinkedinIcon className="w-10" />}
-                                        </Link>
+                                        </a>
                                     </li>
                                 )
                             })}
