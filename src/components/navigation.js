@@ -3,10 +3,10 @@ import React, { useState } from 'react'
 import { Link } from 'gatsby'
 import Container from './container'
 import Logo from './logo'
-import GithubIcon from "../assets/github.svg";
-import MailIcon from "../assets/mail.svg";
-import LinkedinIcon from "../assets/linkedin.svg";
-import BuyACoffeeIcon from "../assets/buy-a-coffee.svg";
+import GithubIcon from "../assets/icons/github.svg";
+import MailIcon from "../assets/icons/mail.svg";
+import LinkedinIcon from "../assets/icons/linkedin.svg";
+import BuyACoffeeIcon from "../assets/icons/buy-a-coffee.svg";
 
 const Navigation = ({ navList, socialList }) => {
   const [mobileNav, setMobileNav] = useState(false);

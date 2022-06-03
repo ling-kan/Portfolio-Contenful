@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import Container from './container';
 import ReactTextTransition, { presets } from "react-text-transition";
-import GithubIcon from "../assets/github.svg";
-import MailIcon from "../assets/mail.svg";
-import LinkedinIcon from "../assets/linkedin.svg";
-import BuyACoffeeIcon from "../assets/buy-a-coffee.svg";
+import GithubIcon from "../assets/icons/github.svg";
+import MailIcon from "../assets/icons/mail.svg";
+import LinkedinIcon from "../assets/icons/linkedin.svg";
+import BuyACoffeeIcon from "../assets/icons/buy-a-coffee.svg";
 import { useReducedMotion } from "framer-motion"
 
 const HomeHero = ({ name, content, animatedList, socials }) => {
