@@ -105,8 +105,8 @@ module.exports = {
         }]
 
         ,
-        background_color: `var(--primary)`,
-        theme_color: `var(--primary)`,
+        background_color: `#f3f3f3`,
+        theme_color: `#949494`,
         display: `standalone`,
       },
     },
