@@ -9,8 +9,8 @@ const Header = ({ title, span, className }) => {
       transition={{ type: 'spring', duration: 2 }}
       className="relative"
     >
-      <span className="text-lg text-grey uppercase">{span}</span>
-      <h2 className={`${className} text-6xl text-left pt-0 pb-8 text-black`}>{title}</h2>
+      <span className="text-md md:text-lg text-grey uppercase">{span}</span>
+      <h2 className={`${className} text-4xl md:text-6xl text-left pt-0 pb-8 text-black`}>{title}</h2>
     </motion.div>
   )
 }

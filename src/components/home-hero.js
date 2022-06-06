@@ -48,13 +48,13 @@ const HomeHero = ({ name, content, animatedList, socials }) => {
             < Container >
                 <motion.div
                     style={{
-                        scale: useTransform(scrollY, [0, 300], [1.75, 1]),
+                        scale: useTransform(scrollY, [0, 300], [1, 0.75]),
                     }}
                     className="text-center items-center justify-center my-auto">
-                    <h1 className="text-3xl sm:text-6xl uppercase font-black text-border-small tracking-wide">
+                    <h1 className="text-6xl sm:text-9xl uppercase font-black tracking-wide">
                         {name}
                     </h1>
-                    {animatedList && <section className="big text-xl xs:text-2xl sm:text-4xl uppercase font-black text-border-small relative h-8 md:h-18">
+                    {animatedList && <section className="text-2xl sm:text-5xl font-bold uppercase relative h-8 md:h-20">
                         {prefersReducedMotion ?
                             <p className="whitespace-pre-line">{animatedList.join(', \n')} </p>
                             :

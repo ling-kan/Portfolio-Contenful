@@ -16,7 +16,7 @@ const Footer = ({ navList, socialList }) => (
             <Logo />
           </div>
         </div>
-        <ul className={`flex flex-col sm:flex-row sm:space-x-8 sm:text-sm sm:font-medium text-center`}>
+        <ul className={`sm:flex flex-col sm:flex-row sm:space-x-8 sm:text-sm sm:font-medium text-center`}>
           {navList?.map((value, index) => {
             return (
               <li key={index} className="my-2 sm:my-0">
@@ -28,7 +28,7 @@ const Footer = ({ navList, socialList }) => (
       </div>
       <hr className="my-6 border-grey-light sm:mx-auto lg:my-8" />
       <div className="sm:flex sm:items-center sm:justify-between sm:flex-row-reverse text-grey">
-        <span className="text-sm flex justify-center">© 2022&nbsp;<Link to="/" className="hover:underline">Ling Kan Portfolio</Link>. All Rights Reserved.</span>
+        <span className="text-xs md:text-sm block text-center">© 2022&nbsp;<Link to="/" className="hover:underline">Ling Kan Portfolio.</Link> All Rights Reserved.</span>
         <ul className="flex space-x-6 justify-center">
           {socialList?.map((value, index) => {
             return (
