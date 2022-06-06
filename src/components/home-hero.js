@@ -36,12 +36,12 @@ const HomeHero = ({ name, content, animatedList, socials }) => {
     useEffect(() => {
         setTimeout(() => {
             let next = index + 1;
-            if (next === animatedList?.length) {
+            if (next === animatedList.length) {
                 next = 0;
             }
             setIndex(next);
         }, 4 * 1000);
-    }, [index, setIndex]);
+    }, [animatedList, index, setIndex]);
 
     return (
         <div id="home" className="h-screen items-center flex relative" >

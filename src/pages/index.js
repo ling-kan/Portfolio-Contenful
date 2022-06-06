@@ -55,7 +55,7 @@ const RootIndex = (props) => {
 
       <div id="about">
         <Container>
-          <Header title="About" span="about me" />
+          <Header title="About" span="timeline" />
           <VerticalLoadMore timeline={timeline} />
         </Container>
       </div>
