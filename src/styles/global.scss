@@ -34,7 +34,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-weight: var(--semibold);
+  font-weight: var(--bold);
   line-height: var(--dense);
 }
 
@@ -115,7 +115,14 @@ code {
   -webkit-text-fill-color: transparent;
   -webkit-text-stroke-width: 0.2rem;
   -webkit-text-stroke-color: var(--black);
-  font-weight: 700;
+  font-weight: var(--bold);
+}
+.text-border-small {
+  color: var(--black);
+  -webkit-text-fill-color: var(--black);
+  -webkit-text-stroke-color: var(--black);
+  font-weight: var(--bold);
+  -webkit-text-stroke-width: 0.1rem;
 }
 .text-black {
   color: var(--black);

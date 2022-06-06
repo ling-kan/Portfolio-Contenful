@@ -50,7 +50,7 @@ const ArticlePreview = ({ posts }) => {
                   <GatsbyImage alt={post.title} className="z-0 image object-cover w-full h-auto rounded-md md:h-full md:w-full md:max-w-100" image={post.heroImage.gatsbyImageData} />
                 </div>
                 <div className="z-10 details absolute transition ease-in-out  left-0 bottom-0 w-full p-4 pt-8 leading-normal  ">
-                  <div className="flex justify-between">
+                  <div className="flex justify-between pb-2">
                     <p className="mb-auto mt-0 text-black-fade text-sm uppercase">{post.endDate}</p>
                     {/* <Tags tags={post.tags} /> */}
                   </div>
@@ -59,7 +59,7 @@ const ArticlePreview = ({ posts }) => {
                     <div className="description font-normal text-black text-sm" dangerouslySetInnerHTML={{
                       __html: post.description.childMarkdownRemark.html,
                     }} />
-                    <Link to={`/portfolio/${post.slug}`} className="text-sm mt-2 text-black-fade hover:text-secondary flex">Read more <ArrowNarrowRightIcon className="ml-1 my-auto h-3 w-3" /></Link>
+                    <Link to={`/portfolio/${post.slug}`} className="text-sm pt-4 text-black-fade hover:text-secondary flex">Read more <ArrowNarrowRightIcon className="ml-1 my-auto h-3 w-3" /></Link>
                   </div>
 
                 </div>

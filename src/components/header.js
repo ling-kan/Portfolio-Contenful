@@ -1,8 +1,13 @@
 import React from 'react';
 
-const Header = ({ title, dark, className }) => {
+const Header = ({ title, span, className }) => {
   return (
-    <h2 className={`${className} md:text-center text-4xl text-left pt-4 pb-8 ${dark ? 'text-white' : 'text-black'}`}>{title}</h2>
+    <div className="relative">
+      <span className="text-lg text-grey uppercase">{span}</span>
+      <h2 className={`${className} text-6xl text-left pt-0 pb-8 text-black`}>{title}</h2>
+
+    </div>
+
   )
 }
 

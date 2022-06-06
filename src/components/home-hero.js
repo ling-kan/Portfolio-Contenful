@@ -1,45 +1,78 @@
 import React, { useEffect, useState } from 'react'
 import Container from './container';
-import ReactTextTransition, { presets } from "react-text-transition";
 import GithubIcon from "../assets/icons/github.svg";
 import MailIcon from "../assets/icons/mail.svg";
 import LinkedinIcon from "../assets/icons/linkedin.svg";
 import BuyACoffeeIcon from "../assets/icons/buy-a-coffee.svg";
 import { useReducedMotion } from "framer-motion"
+import { AnimatePresence, motion } from "framer-motion";
+
+const variants = {
+    enter: direction => {
+        return {
+            y: -20,
+            opacity: 0
+        };
+    },
+    center: {
+        zIndex: 1,
+        y: 0,
+        opacity: 1
+    },
+    exit: direction => {
+        return {
+            zIndex: 0,
+            opacity: 0
+        };
+    }
+};
+
 
 const HomeHero = ({ name, content, animatedList, socials }) => {
     const [index, setIndex] = useState(0);
     const prefersReducedMotion = useReducedMotion();
+
     useEffect(() => {
-        const intervalId = setInterval(() =>
-            setIndex(index => index + 1),
-            5000
-        );
-        return () => clearTimeout(intervalId);
-    }, []);
+        setTimeout(() => {
+            let next = index + 1;
+            if (next === animatedList?.length) {
+                next = 0;
+            }
+            setIndex(next);
+        }, 4 * 1000);
+    }, [index, setIndex]);
+
     return (
         <div id="home" className="h-screen md:auto items-center flex relative" >
-            <Container>
-                <div className="grid grid-cols-2 py-20 gap-2">
-                    <div className=" col-span-3 md:col-span-3 text-left items-left justify-left my-auto">
-                        <h1 className="text-9xl md:text-9xl uppercase">
+            < Container >
+                <div className=" grid grid-cols-2 py-20 gap-2">
+                    <div className="z-20 col-span-3 md:col-span-3 text-center items-center justify-center my-auto">
+                        <h1 className="text-8xl uppercase font-black text-border-small tracking-wide">
                             {name}
                         </h1>
-                        {animatedList && <section className="inline big text-5xl uppercase font-bold">
+                        {animatedList && <section className="big text-5xl uppercase font-black text-border-small relative h-12">
                             {prefersReducedMotion ?
                                 <p className="whitespace-pre-line">{animatedList.join(', \n')} </p>
                                 :
-                                <ReactTextTransition
-                                    text={animatedList[index % animatedList.length]}
-                                    springConfig={presets.slow}
-                                    delay={700}
-                                    noOverflow
-                                    direction="down"
-                                />}
-                        </section>
-                        }
+                                <AnimatePresence>
+                                    <motion.span
+                                        className='absolute w-full top-0 left-0'
+                                        variants={variants}
+                                        key={index}
+                                        initial="enter"
+                                        animate="center"
+                                        exit="exit"
+                                        transition={{
+                                            y: { type: "spring", stiffness: 300, damping: 200 },
+                                            opacity: { duration: 0.5 }
+                                        }}
+                                    >
+                                        {animatedList[index]}
+                                    </motion.span>
+                                </AnimatePresence>}
+                        </section>}
                         {content && <p>{content}</p>}
-                        {socials && <ul className="flex space-x-6 my-5">
+                        {socials && <ul className="flex space-x-6 my-5 justify-center">
                             {socials?.map((value, index) => {
                                 return (
                                     <li key={index}>
