@@ -12,6 +12,7 @@ try {
   checkEnv('GATSBY_CONTENTFUL_SPACE_ID')
   checkEnv('GATSBY_CONTENTFUL_ACCESS_TOKEN')
   checkEnv('GATSBY_PORTFOLIO_ACCESS_PASS')
+  checkEnv('GATSBY_GOOGLE_ANALYTICS_TRACKING_ID')
 } catch (e) {
   throw new Error(e)
 }
