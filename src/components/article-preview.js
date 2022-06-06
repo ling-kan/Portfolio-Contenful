@@ -7,14 +7,14 @@ import { ArrowNarrowRightIcon } from '@heroicons/react/solid'
 import { motion } from "framer-motion";
 
 const ArticlePreviewWrapper = styled(Link)`
- background: var(--white);
+ background: var(--background);
   transition: 0.4s ease-out;
   .details {
-    background: var(--white);
+    background: var(--background);
     background: linear-gradient(
       360deg,
-      var(--white) 0%,
-      var(--white) 85%,
+      var(--background) 0%,
+      var(--background) 85%,
       rgba(202, 0, 255, 0) 100%
     );
   }
@@ -38,13 +38,13 @@ const ArticlePreview = ({ posts }) => {
     <ul className="grid grid-cols-1 md:grid-cols-2 gap-6">
       {posts.map((post, index) => {
         return (
-          <motion.div
-            initial="offscreen"
-            whileInView="onscreen"
-            viewport={{ once: true, amount: 0.8 }}
-            key={index}
+          <motion.li
+            initial={{ opacity: 0, y: -100 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ type: 'spring', duration: 2 }}
           >
-            <ArticlePreviewWrapper to={`/portfolio/${post.slug}`} key={post.slug} className='article items-center bg-white rounded-md   md:max-w-lg md:max-h-xl'>
+            <ArticlePreviewWrapper to={`/portfolio/${post.slug}`} key={post.slug} className='article items-center rounded-md   md:max-w-lg md:max-h-xl'>
               <div className='relative'>
                 <div className='article-image'>
                   <GatsbyImage alt={post.title} className="z-0 image object-cover w-full h-auto rounded-md md:h-full md:w-full md:max-w-100" image={post.heroImage.gatsbyImageData} />
@@ -65,7 +65,7 @@ const ArticlePreview = ({ posts }) => {
                 </div>
               </div>
             </ArticlePreviewWrapper>
-          </motion.div>
+          </motion.li>
         )
       })}
     </ul >

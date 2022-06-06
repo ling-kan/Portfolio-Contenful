@@ -10,13 +10,14 @@ import BuyACoffeeIcon from "../assets/icons/buy-a-coffee.svg";
 import styled from "styled-components"
 
 const NavigationWrapper = styled.header`
-    background-color:  rgb(255 255 255 / 65%);
+background: linear-gradient( var(--background) 70%, transparent);
+backdrop-filter: blur(1px);
 `;
 
 const Navigation = ({ navList, socialList }) => {
   const [mobileNav, setMobileNav] = useState(false);
   return (
-    <NavigationWrapper className="z-20 fixed backdrop-blur-lg top-0 w-full pin-l pin-t bg-white" role="banner">
+    <NavigationWrapper className="my-auto z-20 fixed top-0 w-full pin-l pin-t" role="banner">
       <Container navigation={true}>
         <nav role="navigation" className="border-gray-200 rounded ">
           <div className="flex flex-wrap justify-between items-center mx-auto">

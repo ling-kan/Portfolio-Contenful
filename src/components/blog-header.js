@@ -1,7 +1,8 @@
 import React from 'react'
 import Container from './container';
+import Tags from './tags';
 
-const BlogHeader = ({ title, content, rawDate, endDate, timeToRead }) => {
+const BlogHeader = ({ title, content, rawDate, endDate, timeToRead, tags }) => {
   return (
     <div className="grid grid-col-2 text-black mt-24 ">
       <Container>
@@ -11,6 +12,8 @@ const BlogHeader = ({ title, content, rawDate, endDate, timeToRead }) => {
           <time dateTime={rawDate}>{endDate}</time>
           {timeToRead && <p> –{' '}
             {timeToRead} minute read</p>}
+          {tags &&
+            <Tags tags={tags} />}
         </p>
       </Container>
     </div>

@@ -91,7 +91,7 @@ kbd {
 
 tt,
 code {
-  background-color: var(--primary);
+  background-color: var(--background);
   border-radius: var(--radius-sm);
   font-weight: var(--medium);
   padding: 0.2em 0;
@@ -154,4 +154,5 @@ code {
 }
 .h-screen {
   max-height: 800px;
+  min-height: 500px;
 }

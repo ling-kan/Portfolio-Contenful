@@ -16,11 +16,12 @@ $xxl-mq: 1536px;
   --font-serif: "Times New Roman", Times, serif;
 
   /* palette */
-  --primary: #f3f3f3;
+  --primary-background: #f3f3f3;
+  --primary: #ffffff;
   --secondary: #3d5d9b;
   --white: #fdfdfd;
   --black: #212123;
-  --grey: #949494;
+  --grey: #7d7d7d;
   --grey-light: #94949450;
   --red: #df6262;
 
@@ -66,7 +67,7 @@ $xxl-mq: 1536px;
 
   /* tokens */
   /* colors */
-  --background: var(--white);
+  --background: var(--primary-background);
   --border: var(--primary);
 
   /* text */
@@ -84,7 +85,7 @@ $xxl-mq: 1536px;
   /* size */
   --size-gutter: var(--space-2xl);
   --size-logo: var(--space-2xl);
-  --size-max-width: 1024px;
+  --size-max-width: 1200px;
 }
 
 @media (min-width: $xs-mq) {
