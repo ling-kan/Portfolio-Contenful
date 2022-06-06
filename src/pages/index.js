@@ -17,7 +17,6 @@ const RootIndex = (props) => {
   const socials = get(props, "data.allContentfulSocials.nodes");
   useEffect(() => {
     setTimeout(scroll(), 1000);
-
   });
 
   function scroll() {

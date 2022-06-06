@@ -13,6 +13,7 @@ try {
   checkEnv('GATSBY_CONTENTFUL_ACCESS_TOKEN')
   checkEnv('GATSBY_PORTFOLIO_ACCESS_PASS')
   checkEnv('GATSBY_GOOGLE_ANALYTICS_TRACKING_ID')
+
 } catch (e) {
   throw new Error(e)
 }
@@ -111,15 +112,15 @@ module.exports = {
         display: `standalone`,
       },
     },
-    {
-      resolve: `gatsby-plugin-google-gtag`,
-      options: {
-        trackingIds: process.env.GATSBY_GOOGLE_ANALYTICS_TRACKING_ID,
-        pluginConfig: {
-          head: true,
-        },
-      },
-    },
+    // {
+    //   resolve: `gatsby-plugin-google-gtag`,
+    //   options: {
+    //     trackingIds: process.env.GATSBY_GOOGLE_ANALYTICS_TRACKING_ID,
+    //     pluginConfig: {
+    //       head: true,
+    //     },
+    //   },
+    // },
     `gatsby-plugin-offline`,
   ],
 };
