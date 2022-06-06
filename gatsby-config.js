@@ -112,15 +112,15 @@ module.exports = {
         display: `standalone`,
       },
     },
-    // {
-    //   resolve: `gatsby-plugin-google-gtag`,
-    //   options: {
-    //     trackingIds: process.env.GATSBY_GOOGLE_ANALYTICS_TRACKING_ID,
-    //     pluginConfig: {
-    //       head: true,
-    //     },
-    //   },
-    // },
+    {
+      resolve: `gatsby-plugin-google-gtag`,
+      options: {
+        trackingIds: process.env.GATSBY_GOOGLE_ANALYTICS_TRACKING_ID,
+        pluginConfig: {
+          head: true,
+        },
+      },
+    },
     `gatsby-plugin-offline`,
   ],
 };
