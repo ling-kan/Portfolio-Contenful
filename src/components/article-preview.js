@@ -4,7 +4,7 @@ import { GatsbyImage } from 'gatsby-plugin-image'
 // import Tags from './tags'
 import styled from "styled-components"
 import { ArrowNarrowRightIcon } from '@heroicons/react/solid'
-import { motion } from "framer-motion";
+import FadeIn from './motion/fade-in'
 
 const ArticlePreviewWrapper = styled(Link)`
  background: var(--background);
@@ -38,13 +38,8 @@ const ArticlePreview = ({ posts }) => {
     <ul className="grid grid-cols-1 md:grid-cols-2 gap-6">
       {posts.map((post, index) => {
         return (
-          <motion.li
-            initial={{ opacity: 0, y: -100 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ type: 'spring', duration: 2 }}
-          >
-            <ArticlePreviewWrapper to={`/portfolio/${post.slug}`} key={post.slug} className='article items-center rounded-md   md:max-w-lg md:max-h-xl'>
+          <FadeIn key={post.slug} >
+            <ArticlePreviewWrapper to={`/portfolio/${post.slug}`} className='article items-center rounded-md   md:max-w-lg md:max-h-xl'>
               <div className='relative'>
                 <div className='article-image'>
                   <GatsbyImage alt={post.title} className="z-0 image object-cover w-full h-auto rounded-md md:h-full md:w-full md:max-w-100" image={post.heroImage.gatsbyImageData} />
@@ -65,7 +60,7 @@ const ArticlePreview = ({ posts }) => {
                 </div>
               </div>
             </ArticlePreviewWrapper>
-          </motion.li>
+          </FadeIn>
         )
       })}
     </ul >

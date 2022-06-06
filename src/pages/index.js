@@ -27,20 +27,14 @@ const RootIndex = (props) => {
   }
   return (
     <Layout location={props.location} navigation={navigation} socials={socials} fullHeaderHeight={true}>
-      <motion.div
-        initial="offscreen"
-        whileInView="onscreen"
-        viewport={{ once: true, amount: 0.8 }}
-      >
-        <HomeHero
-          animatedList={author?.animatedList}
-          image={author?.heroImage?.gatsbyImageData}
-          title={author?.title}
-          name={author?.name}
-          content={author?.shortBio?.shortBio}
-          socials={socials}
-        />
-      </motion.div>
+      <HomeHero
+        animatedList={author?.animatedList}
+        image={author?.heroImage?.gatsbyImageData}
+        title={author?.title}
+        name={author?.name}
+        content={author?.shortBio?.shortBio}
+        socials={socials}
+      />
       <div id="work" className="pb-10 my-8">
         <Container className=" grid grid-cols-1 md:grid-cols-3 gap-4 md:grid-cols-1§e">
           <div className="col-span-1">

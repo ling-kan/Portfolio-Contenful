@@ -2,7 +2,8 @@ import React from 'react'
 import Seo from './seo'
 import Navigation from './navigation'
 import Footer from './footer'
-import { motion, useReducedMotion } from "framer-motion"
+import { useReducedMotion } from "framer-motion"
+import HeaderList from './motion/header-list'
 
 const Template = ({ children, socials, navigation, fullHeaderHeight = false }) => {
   const prefersReducedMotion = useReducedMotion();
@@ -14,29 +15,9 @@ const Template = ({ children, socials, navigation, fullHeaderHeight = false }) =
       {prefersReducedMotion ?
         <main className={headerSpacing} role="main">{children}</main>
         :
-        <motion.main
-          layout
-          initial={{
-            opacity: 0,
-            y: -150
-          }}
-          animate={{
-            opacity: 1,
-            y: 0
-          }}
-          exit={{
-            opacity: 0,
-            y: 150
-          }}
-          transition={{
-            type: "spring",
-            mass: 0.5,
-            stiffness: 100,
-            duration: 0.1
-          }}
-        >
+        <HeaderList>
           <div className={headerSpacing} role="main">{children}</div>
-        </motion.main>
+        </HeaderList>
       }
       <Footer navList={navigation} socialList={socials} />
     </div>
