@@ -7,11 +7,17 @@ import GithubIcon from "../assets/icons/github.svg";
 import MailIcon from "../assets/icons/mail.svg";
 import LinkedinIcon from "../assets/icons/linkedin.svg";
 import BuyACoffeeIcon from "../assets/icons/buy-a-coffee.svg";
+import styled from "styled-components"
+
+const NavigationWrapper = styled.header`
+background: linear-gradient( var(--background) 70%, transparent);
+backdrop-filter: blur(1px);
+`;
 
 const Navigation = ({ navList, socialList }) => {
   const [mobileNav, setMobileNav] = useState(false);
   return (
-    <header className="z-20 fixed top-0 w-full pin-l pin-t bg-white" role="banner">
+    <NavigationWrapper className="my-auto z-20 fixed top-0 w-full pin-l pin-t" role="banner">
       <Container navigation={true}>
         <nav role="navigation" className="border-gray-200 rounded ">
           <div className="flex flex-wrap justify-between items-center mx-auto">
@@ -57,7 +63,7 @@ const Navigation = ({ navList, socialList }) => {
           </div>
         </nav>
       </Container>
-    </header>
+    </NavigationWrapper>
   )
 }
 

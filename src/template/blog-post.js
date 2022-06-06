@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Link, graphql } from 'gatsby'
 import get from 'lodash/get'
-
 import Seo from '../components/seo'
 import Layout from '../components/layout'
 import BlogHeader from '../components/blog-header'
-import Tags from '../components/tags'
 import * as styles from './blog-post.module.scss'
 import { navigate } from "gatsby"
 import { isLoggedIn } from "../services/auth"
@@ -54,8 +52,12 @@ const BlogPostTemplate = (props) => {
               rawDate={post.rawDate}
               endDate={post.endDate}
               timeToRead={post.body?.childMarkdownRemark?.timeToRead}
+              tags={post.tags}
             />
-            <div className="bg-white text-black relative">
+
+
+
+            <div className="text-black relative">
               {/* <TableOfContents list={post.content?.childMarkdownRemark?.tableOfContents} /> */}
               <Container>
                 <div className={styles.article}>
@@ -83,7 +85,6 @@ const BlogPostTemplate = (props) => {
                     }}
                   />
 
-                  <Tags tags={post.tags} />
                   {(previous || next) && (
                     <nav>
                       <ul className={styles.articleNavigation}>

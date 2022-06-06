@@ -42,16 +42,20 @@ const RootIndex = (props) => {
           socials={socials}
         />
       </motion.div>
-      <div id="work" className="bg-primary pb-10 my-8">
-        <Container >
-          <Header title="Work" />
-          <ArticlePreview posts={posts} />
+      <div id="work" className="pb-10 my-8">
+        <Container className=" grid grid-cols-1 md:grid-cols-3 gap-4 md:grid-cols-1§e">
+          <div className="col-span-1">
+            <Header title="Work" span="recent" />
+          </div>
+          <div className="col-span-2">
+            <ArticlePreview posts={posts} />
+          </div>
         </Container >
       </div>
 
       <div id="about">
         <Container>
-          <Header title="About" />
+          <Header title="About" span="timeline" />
           <VerticalLoadMore timeline={timeline} />
         </Container>
       </div>

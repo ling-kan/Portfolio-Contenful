@@ -8,7 +8,7 @@ import { Link } from 'gatsby'
 import Logo from './logo';
 
 const Footer = ({ navList, socialList }) => (
-  <div className="bg-primary flex justify-center pt-10" >
+  <div className="flex justify-center pt-10" >
     <Container as="footer">
       <div className="sm:flex sm:justify-between">
         <div className="mb-6 sm:mb-0">

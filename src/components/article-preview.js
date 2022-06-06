@@ -7,14 +7,14 @@ import { ArrowNarrowRightIcon } from '@heroicons/react/solid'
 import { motion } from "framer-motion";
 
 const ArticlePreviewWrapper = styled(Link)`
- background: var(--white);
+ background: var(--background);
   transition: 0.4s ease-out;
   .details {
-    background: var(--white);
+    background: var(--background);
     background: linear-gradient(
       360deg,
-      var(--white) 0%,
-      var(--white) 85%,
+      var(--background) 0%,
+      var(--background) 85%,
       rgba(202, 0, 255, 0) 100%
     );
   }
@@ -38,20 +38,20 @@ const ArticlePreview = ({ posts }) => {
     <ul className="grid grid-cols-1 md:grid-cols-2 gap-6">
       {posts.map((post, index) => {
         return (
-          <motion.div
-            initial="offscreen"
-            whileInView="onscreen"
-            viewport={{ once: true, amount: 0.8 }}
-            key={index}
+          <motion.li
+            initial={{ opacity: 0, y: -100 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ type: 'spring', duration: 2 }}
           >
-            <ArticlePreviewWrapper to={`/portfolio/${post.slug}`} key={post.slug} className='article items-center bg-white rounded-md   md:max-w-lg md:max-h-xl'>
+            <ArticlePreviewWrapper to={`/portfolio/${post.slug}`} key={post.slug} className='article items-center rounded-md   md:max-w-lg md:max-h-xl'>
               <div className='relative'>
                 <div className='article-image'>
                   <GatsbyImage alt={post.title} className="z-0 image object-cover w-full h-auto rounded-md md:h-full md:w-full md:max-w-100" image={post.heroImage.gatsbyImageData} />
                 </div>
                 <div className="z-10 details absolute transition ease-in-out  left-0 bottom-0 w-full p-4 pt-8 leading-normal  ">
-                  <div className="flex justify-between">
-                    <p className="mb-auto mt-0 text-black-fade text-sm uppercase">{post.endDate}</p>
+                  <div className="flex justify-between pb-2">
+                    <p className="mb-auto mt-0 text-grey text-sm uppercase">{post.endDate}</p>
                     {/* <Tags tags={post.tags} /> */}
                   </div>
                   <h5 className="text-xl font-bold tracking-tight text-black">{post.title}</h5>
@@ -59,13 +59,13 @@ const ArticlePreview = ({ posts }) => {
                     <div className="description font-normal text-black text-sm" dangerouslySetInnerHTML={{
                       __html: post.description.childMarkdownRemark.html,
                     }} />
-                    <Link to={`/portfolio/${post.slug}`} className="text-sm mt-2 text-black-fade hover:text-secondary flex">Read more <ArrowNarrowRightIcon className="ml-1 my-auto h-3 w-3" /></Link>
+                    <Link to={`/portfolio/${post.slug}`} className="text-sm pt-4 text-grey hover:text-secondary inline-flex">Read more <ArrowNarrowRightIcon className="ml-1 my-auto h-3 w-3" /></Link>
                   </div>
 
                 </div>
               </div>
             </ArticlePreviewWrapper>
-          </motion.div>
+          </motion.li>
         )
       })}
     </ul >
