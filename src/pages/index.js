@@ -7,7 +7,6 @@ import HomeHero from "../components/home-hero";
 import Header from '../components/header';
 import Container from '../components/container';
 import VerticalLoadMore from "../components/timeline/timeline-load-more";
-import { motion } from "framer-motion";
 
 const RootIndex = (props) => {
   const posts = get(props, "data.allContentfulBlogPost.nodes");
