@@ -4,9 +4,8 @@ import get from "lodash/get";
 import Layout from "../components/layout";
 import ArticlePreview from "../components/article-preview";
 import HomeHero from "../components/home-hero";
-import Header from '../components/header';
-import Container from '../components/container';
 import VerticalLoadMore from "../components/timeline/timeline-load-more";
+import TitleContainer from '../components/title-container';
 
 const RootIndex = (props) => {
   const posts = get(props, "data.allContentfulBlogPost.nodes");
@@ -31,26 +30,19 @@ const RootIndex = (props) => {
         image={author?.heroImage?.gatsbyImageData}
         title={author?.title}
         name={author?.name}
-        content={author?.shortBio?.shortBio}
         socials={socials}
       />
-      <div id="work" className="pb-10 my-8">
-        <Container className=" grid grid-cols-1 md:grid-cols-3 gap-4 md:grid-cols-1§e">
-          <div className="col-span-1">
-            <Header title="Work" span="recent" />
-          </div>
-          <div className="col-span-2">
-            <ArticlePreview posts={posts} />
-          </div>
-        </Container >
-      </div>
+      <TitleContainer title="Bio" subtitle="recent" id="bio">
+        <p>{author?.shortBio?.shortBio}</p>
+      </TitleContainer>
 
-      <div id="about">
-        <Container>
-          <Header title="About" span="timeline" />
-          <VerticalLoadMore timeline={timeline} />
-        </Container>
-      </div>
+      <TitleContainer title="career" subtitle="work" id="work">
+        <ArticlePreview posts={posts} />
+      </TitleContainer>
+
+      <TitleContainer title="About" subtitle="timelinw" id="about">
+        <VerticalLoadMore timeline={timeline} />
+      </TitleContainer>
     </Layout >
   );
 }

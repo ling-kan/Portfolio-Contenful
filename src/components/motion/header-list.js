@@ -7,7 +7,7 @@ const HeaderList = ({ children }) => {
       layout
       initial={{
         opacity: 0,
-        y: -150
+        y: -100
       }}
       animate={{
         opacity: 1,
@@ -15,12 +15,12 @@ const HeaderList = ({ children }) => {
       }}
       exit={{
         opacity: 0,
-        y: 150
+        y: 100
       }}
       transition={{
         type: "spring",
         mass: 0.5,
-        stiffness: 100,
+        stiffness: 50,
         duration: 0.1
       }}
     >

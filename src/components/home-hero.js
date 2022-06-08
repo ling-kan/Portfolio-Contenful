@@ -7,6 +7,18 @@ import BuyACoffeeIcon from "../assets/icons/buy-a-coffee.svg";
 import { useReducedMotion } from "framer-motion"
 import { AnimatePresence, motion, useTransform, useViewportScroll } from "framer-motion";
 import FadeIn from './motion/fade-in';
+import styled from "styled-components"
+const BackgroundText = styled.span`
+    font-size: 50vw;
+    position: absolute;
+    z-index: -10;
+    top: 0vh;
+    transform: rotate(-20deg);
+    left: -10vw;
+    opacity: 0.5;
+    color: white;
+    font-weight: var(--bold)
+`;
 
 const variants = {
     enter: direction => {
@@ -29,7 +41,7 @@ const variants = {
 };
 
 
-const HomeHero = ({ name, content, animatedList, socials }) => {
+const HomeHero = ({ name, animatedList, socials }) => {
     const [index, setIndex] = useState(0);
     const prefersReducedMotion = useReducedMotion();
     const { scrollY } = useViewportScroll();
@@ -47,16 +59,18 @@ const HomeHero = ({ name, content, animatedList, socials }) => {
     return (
         <FadeIn>
             <div id="home" className="h-screen items-center flex relative" >
-                < Container >
+                <Container>
+                    <BackgroundText>Hello</BackgroundText>
                     <motion.div
                         style={{
                             scale: useTransform(scrollY, [0, 300], [1, 0.75]),
                         }}
                         className="text-center items-center justify-center my-auto">
-                        <h1 className="text-6xl sm:text-9xl uppercase font-black tracking-wide">
+
+                        <h1 className="text-6xl sm:text-9xl uppercase tracking-wide">
                             {name}
                         </h1>
-                        {animatedList && <section className="text-2xl sm:text-5xl font-bold uppercase relative h-8 md:h-20">
+                        {animatedList && <section className="text-2xl sm:text-5xl uppercase relative font-semibold h-8 md:h-20">
                             {prefersReducedMotion ?
                                 <p className="whitespace-pre-line">{animatedList.join(', \n')} </p>
                                 :
@@ -65,19 +79,27 @@ const HomeHero = ({ name, content, animatedList, socials }) => {
                                         className='absolute w-full top-0 left-0'
                                         variants={variants}
                                         key={index}
-                                        initial="enter"
-                                        animate="center"
-                                        exit="exit"
+                                        initial={{
+                                            opacity: 0,
+                                            y: -10
+                                        }}
+                                        animate={{
+                                            opacity: 1,
+                                            y: 0
+                                        }}
+                                        exit={{
+                                            opacity: 0,
+                                            y: 10
+                                        }}
                                         transition={{
                                             y: { type: "spring", stiffness: 300, damping: 200 },
-                                            opacity: { duration: 0.5 }
+                                            opacity: { duration: 0.7 }
                                         }}
                                     >
                                         {animatedList[index]}
                                     </motion.span>
                                 </AnimatePresence>}
                         </section>}
-                        {content && <p>{content}</p>}
                         {socials && <ul className="flex justify-center space-x-6 my-5">
                             {socials?.map((value, index) => {
                                 return (
@@ -95,7 +117,7 @@ const HomeHero = ({ name, content, animatedList, socials }) => {
                         }
                     </motion.div>
                     <div className="scroll-down" />
-                </Container >
+                </Container>
             </div >
         </FadeIn>
     )

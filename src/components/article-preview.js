@@ -49,9 +49,9 @@ const ArticlePreview = ({ posts }) => {
                     <p className="mb-auto mt-0 text-grey text-sm uppercase">{post.endDate}</p>
                     {/* <Tags tags={post.tags} /> */}
                   </div>
-                  <h5 className="text-xl font-bold tracking-tight text-black">{post.title}</h5>
+                  <h5 className="text-xl tracking-tight text-black">{post.title}</h5>
                   <div className='read-more hidden'>
-                    <div className="description font-normal text-black text-sm" dangerouslySetInnerHTML={{
+                    <div className="description text-black text-sm" dangerouslySetInnerHTML={{
                       __html: post.description.childMarkdownRemark.html,
                     }} />
                     <Link to={`/portfolio/${post.slug}`} className="text-sm pt-4 text-grey hover:text-secondary inline-flex">Read more <ArrowNarrowRightIcon className="ml-1 my-auto h-3 w-3" /></Link>
