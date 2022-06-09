@@ -11,20 +11,19 @@ const RootIndex = (props) => {
   const posts = get(props, "data.allContentfulBlogPost.nodes");
   const [author] = get(props, "data.allContentfulLanding.nodes");
   const timeline = get(props, "data.allContentfulTimeline.nodes");
-  const navigation = get(props, "data.allContentfulNavigation.nodes");
   const socials = get(props, "data.allContentfulSocials.nodes");
   useEffect(() => {
     setTimeout(scroll(), 1000);
   });
-
   function scroll() {
     if (props.location.hash) {
-      const element = document.querySelector(props.location.hash).offsetTop - 75;
+      const element = document?.querySelector(props.location.hash)?.offsetTop - 75;
+
       element && window.scrollTo({ top: element, behavior: "smooth" });
     }
   }
   return (
-    <Layout location={props.location} navigation={navigation} socials={socials} fullHeaderHeight={true}>
+    <Layout location={props.location} fullHeaderHeight={true}>
       <HomeHero
         animatedList={author?.animatedList}
         image={author?.heroImage?.gatsbyImageData}
@@ -32,15 +31,18 @@ const RootIndex = (props) => {
         name={author?.name}
         socials={socials}
       />
-      <TitleContainer title="Bio" subtitle="recent" id="bio">
-        <p>{author?.shortBio?.shortBio}</p>
-      </TitleContainer>
-
-      <TitleContainer title="career" subtitle="work" id="work">
+      {author?.bio?.childMarkdownRemark.html && <TitleContainer title="About me" subtitle="Bio" id="about">
+        <div
+          dangerouslySetInnerHTML={{
+            __html: author?.bio?.childMarkdownRemark.html,
+          }}
+        />
+      </TitleContainer>}
+      <TitleContainer title="Portfolio" subtitle="work" id="work">
         <ArticlePreview posts={posts} />
       </TitleContainer>
 
-      <TitleContainer title="About" subtitle="timelinw" id="about">
+      <TitleContainer title="Resume" subtitle="timeline" id="resume">
         <VerticalLoadMore timeline={timeline} />
       </TitleContainer>
     </Layout >
@@ -110,6 +112,11 @@ export const pageQuery = graphql`
       nodes {
         name
         animatedList
+        bio {
+        childMarkdownRemark {
+          html
+        }
+      }
       }
     }
   }
