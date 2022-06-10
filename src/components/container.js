@@ -1,9 +1,10 @@
 import React from 'react'
 
-const Container = ({ className, navigation, children, as = 'div' }) => {
+const Container = ({ id, className, navigation, children, as = 'div' }) => {
   const Tag = as
   return (
     <Tag
+      id={id}
       style={{
         width: '100%',
         maxWidth: 'var(--size-max-width)',
@@ -11,7 +12,7 @@ const Container = ({ className, navigation, children, as = 'div' }) => {
         paddingRight: 'var(--size-gutter)',
         height: `${navigation && ' var(--nav-height)'}`
       }}
-      className={`my-0 mx-auto ${navigation ? 'py-4' : 'py-6'} ${className}`}
+      className={`my-0 mx-auto ${navigation ? 'py-4' : 'py-14'} ${className}`}
     >
 
       {children}

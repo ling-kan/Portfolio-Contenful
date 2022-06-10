@@ -9,11 +9,8 @@ import Container from '../components/container'
 
 const BlogIndex = (props) => {
   const posts = get(props, "data.allContentfulBlogPost.nodes");
-  const navigation = get(props, "data.allContentfulNavigation.nodes");
-  const socials = get(props, "data.allContentfulSocials.nodes");
-
   return (
-    <Layout location={props.location} navigation={navigation} socials={socials}>
+    <Layout location={props.location}>
       <Seo title="Portfolio" />
       <BlogHeader title="Portfolio" />
       <Container>
@@ -26,19 +23,6 @@ export default BlogIndex
 
 export const pageQuery = graphql`
   query BlogIndexQuery {
-    allContentfulSocials {
-      nodes {
-        url
-        type
-      }
-    }
-    allContentfulNavigation(sort: { fields: [order], order: ASC }) {
-      nodes {
-        title
-        url
-        order
-      }
-    }
     allContentfulBlogPost(sort: { fields: [endDate], order: DESC }) {
        nodes {
         title

@@ -1,13 +1,10 @@
 import React from 'react'
 import Container from './container'
-import GithubIcon from "../assets/icons/github.svg";
-import MailIcon from "../assets/icons/mail.svg";
-import LinkedinIcon from "../assets/icons/linkedin.svg";
-import BuyACoffeeIcon from "../assets/icons/buy-a-coffee.svg";
 import { Link } from 'gatsby'
 import Logo from './logo';
+import Socials from './socials';
 
-const Footer = ({ navList, socialList }) => (
+const Footer = ({ navList }) => (
   <div className="flex justify-center pt-10" >
     <Container as="footer">
       <div className="sm:flex sm:justify-between">
@@ -29,25 +26,8 @@ const Footer = ({ navList, socialList }) => (
       <hr className="my-6 border-grey-light sm:mx-auto lg:my-8" />
       <div className="sm:flex sm:items-center sm:justify-between sm:flex-row-reverse text-grey">
         <span className="text-xs md:text-sm block text-center">© 2022&nbsp;<Link to="/" className="hover:underline">Ling Kan Portfolio.</Link> All Rights Reserved.</span>
-        <ul className="flex space-x-6 justify-center">
-          {socialList?.map((value, index) => {
-            return (
-              <li key={index} className="my-4 sm:my-0 ">
-                <a href={value.url} target="_blank" rel="noreferrer">
-                  {value.type === 'Buy Me A Coffee' && <BuyACoffeeIcon alt="Buy Me A Coffee'" className="w-8 fill-grey" />}
-                  {value.type === 'Github' && <GithubIcon alt="Github" className="w-8 fill-grey" />}
-                  {value.type === 'Email' && <MailIcon alt="Email" className="w-8 fill-grey" />}
-                  {value.type === 'Linkedin' && <LinkedinIcon alt="Linkedin" className="w-8 fill-grey" />}
-                </a>
-              </li>
-            )
-          })}
-        </ul>
+        <Socials width="w-8" />
       </div>
-
-
-
-
     </Container >
   </div >
 )

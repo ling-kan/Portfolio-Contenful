@@ -8,7 +8,6 @@ import Header from '../components/header';
 import { ArrowNarrowLeftIcon } from '@heroicons/react/solid'
 
 const Login = (props) => {
-    const navigation = get(props, "data.allContentfulNavigation.nodes");
     const socials = get(props, "data.allContentfulSocials.nodes");
     const email = socials?.filter(social => social.type === 'Email');
     const [form, setForm] = useState('');
@@ -35,7 +34,7 @@ const Login = (props) => {
     }, [])
 
     return (
-        <Layout location={props.location} navigation={navigation} socials={socials} >
+        <Layout location={props.location} socials={socials} >
             <div className="min-h-screen ">
                 <Container>
                     <button className="text-black hover:text-secondary flex m-2" onClick={(e) => { e.preventDefault(); navigate(-2) }}>
@@ -85,13 +84,6 @@ export const pageQuery = graphql`
       nodes {
         url
         type
-      }
-    }
-    allContentfulNavigation(sort: { fields: [order], order: ASC }) {
-      nodes {
-        title
-        url
-        order
       }
     }
   }

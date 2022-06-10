@@ -7,7 +7,7 @@ const FadeIn = ({ children }) => {
     <> {prefersReducedMotion ?
       <div>{children} </div> :
       <motion.div
-        initial={{ opacity: 0, y: 100 }}
+        initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ type: 'spring', duration: 3, staggerChildren: 0.5, stiffness: 20 }}

@@ -1,22 +1,20 @@
 import React, { useEffect, useState } from 'react'
 import Container from './container';
-import GithubIcon from "../assets/icons/github.svg";
-import MailIcon from "../assets/icons/mail.svg";
-import LinkedinIcon from "../assets/icons/linkedin.svg";
-import BuyACoffeeIcon from "../assets/icons/buy-a-coffee.svg";
 import { useReducedMotion } from "framer-motion"
 import { AnimatePresence, motion, useTransform, useViewportScroll } from "framer-motion";
 import FadeIn from './motion/fade-in';
 import styled from "styled-components"
+import Socials from './socials';
+
 const BackgroundText = styled.span`
-    font-size: 50vw;
+    font-size: 45vw;
     position: absolute;
     z-index: -10;
-    top: 0vh;
-    transform: rotate(-20deg);
-    left: -10vw;
-    opacity: 0.5;
-    color: white;
+    top: -70px;
+    transform: rotate(-15deg);
+    left: 0;
+    opacity: 0.2;
+    color: var(--grey-light);
     font-weight: var(--bold)
 `;
 
@@ -67,10 +65,10 @@ const HomeHero = ({ name, animatedList, socials }) => {
                         }}
                         className="text-center items-center justify-center my-auto">
 
-                        <h1 className="text-6xl sm:text-9xl uppercase tracking-wide">
+                        <h1 className="text-7xl md:text-9xl uppercase tracking-wide">
                             {name}
                         </h1>
-                        {animatedList && <section className="text-2xl sm:text-5xl uppercase relative font-semibold h-8 md:h-20">
+                        {animatedList && <section className="text-2xl sm:text-5xl uppercase relative font-semibold h-16 md:h-20">
                             {prefersReducedMotion ?
                                 <p className="whitespace-pre-line">{animatedList.join(', \n')} </p>
                                 :
@@ -100,21 +98,7 @@ const HomeHero = ({ name, animatedList, socials }) => {
                                     </motion.span>
                                 </AnimatePresence>}
                         </section>}
-                        {socials && <ul className="flex justify-center space-x-6 my-5">
-                            {socials?.map((value, index) => {
-                                return (
-                                    <li key={index}>
-                                        <a href={value.url} target="_blank" rel="noreferrer">
-                                            {value.type === 'Buy Me A Coffee' && <BuyACoffeeIcon className="w-8 " />}
-                                            {value.type === 'Github' && <GithubIcon className="w-8 " />}
-                                            {value.type === 'Email' && <MailIcon className="w-8" />}
-                                            {value.type === 'Linkedin' && <LinkedinIcon className="w-8" />}
-                                        </a>
-                                    </li>
-                                )
-                            })}
-                        </ul>
-                        }
+                        <Socials width="w-10" />
                     </motion.div>
                     <div className="scroll-down" />
                 </Container>
