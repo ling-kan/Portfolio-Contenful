@@ -37,13 +37,13 @@ const Login = (props) => {
         <Layout location={props.location} socials={socials} >
             <div className="min-h-screen ">
                 <Container>
-                    <button className="text-black hover:text-secondary flex m-2" onClick={(e) => { e.preventDefault(); navigate(-2) }}>
+                    <button className="text-black dark:text-white hover:text-secondary flex m-2" onClick={(e) => { e.preventDefault(); navigate(-2) }}>
                         <ArrowNarrowLeftIcon className="mr-2 my-auto h-5 w-5" />
                         Back</button>
                 </Container>
                 <Container>
                     <Header title="Protected Page" className="text-center" />
-                    <div className="w-full max-w-xs mt-4 mx-auto">
+                    <div className="w-full max-w-xs mt-20 mx-auto">
                         <form method="post"
                             onSubmit={event => {
                                 handleSubmit(event)
