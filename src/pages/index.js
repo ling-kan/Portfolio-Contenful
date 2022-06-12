@@ -11,14 +11,15 @@ const RootIndex = (props) => {
   const posts = get(props, "data.allContentfulBlogPost.nodes");
   const [author] = get(props, "data.allContentfulLanding.nodes");
   const timeline = get(props, "data.allContentfulTimeline.nodes");
+  const education = get(props, "data.allContentfulEducation.nodes");
   const socials = get(props, "data.allContentfulSocials.nodes");
+
   useEffect(() => {
     setTimeout(scroll(), 1000);
   });
   function scroll() {
     if (props.location.hash) {
       const element = document?.querySelector(props.location.hash)?.offsetTop - 75;
-
       element && window.scrollTo({ top: element, behavior: "smooth" });
     }
   }
@@ -31,19 +32,22 @@ const RootIndex = (props) => {
         name={author?.name}
         socials={socials}
       />
-      {author?.bio?.childMarkdownRemark.html && <TitleContainer title="About me" subtitle="Bio" id="about">
+      {author?.bio?.childMarkdownRemark.html && <TitleContainer title="About me" id="about">
         <div
           dangerouslySetInnerHTML={{
             __html: author?.bio?.childMarkdownRemark.html,
           }}
         />
       </TitleContainer>}
-      <TitleContainer title="Portfolio" subtitle="work" id="work">
-        <ArticlePreview posts={posts} />
-      </TitleContainer>
-
-      <TitleContainer title="Resume" subtitle="timeline" id="resume">
+      <div id="resume" />
+      <TitleContainer title="Experience" id="experience">
         <VerticalLoadMore timeline={timeline} />
+      </TitleContainer>
+      <TitleContainer title="Education" id="education">
+        <VerticalLoadMore timeline={education} />
+      </TitleContainer>
+      <TitleContainer title="Portfolio" id="portfolio">
+        <ArticlePreview posts={posts} />
       </TitleContainer>
     </Layout >
   );
@@ -86,6 +90,27 @@ export const pageQuery = graphql`
       }
     }
     allContentfulTimeline(sort: { fields: [endDate], order: DESC }) {
+      nodes {
+        jobTitle
+        startDate(formatString: "MMMM YYYY")
+        endDate(formatString: "MMMM YYYY")
+        company
+        bio {
+        childMarkdownRemark {
+          html
+        }
+        }
+        icon {
+          gatsbyImageData(
+            layout: FULL_WIDTH
+            placeholder: BLURRED
+            width: 40
+            height: 20
+          )
+        }
+      }
+    }
+      allContentfulEducation(sort: { fields: [endDate], order: DESC }) {
       nodes {
         jobTitle
         startDate(formatString: "MMMM YYYY")

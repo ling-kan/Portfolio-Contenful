@@ -4,18 +4,19 @@ import Header from './header'
 import FadeIn from './motion/fade-in'
 
 const TitleContainer = ({ title, subtitle, children, id }) => {
-
   return (
-    <FadeIn>
-      <Container className=" grid grid-cols-1 lg:grid-cols-3 gap-8" id={id}>
-        <div className="col-span-1">
+    <Container className=" grid grid-cols-1 lg:grid-cols-3 gap-8" id={id}>
+      <div className="col-span-1">
+        <FadeIn>
           <Header title={title} subtitle={subtitle} />
-        </div>
-        <div className="col-span-2">
+        </FadeIn >
+      </div>
+      <div className="col-span-2">
+        <FadeIn>
           {children}
-        </div>
-      </Container>
-    </FadeIn >
+        </FadeIn >
+      </div>
+    </Container>
   )
 }
 

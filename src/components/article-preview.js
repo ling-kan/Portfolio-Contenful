@@ -10,16 +10,16 @@ const ArticlePreviewWrapper = styled(Link)`
  background: var(--background);
   transition: 0.4s ease-out;
   .details {
-    background: var(--background);
+    background: var(--primary);
     background: linear-gradient(
       360deg,
-      var(--background) 0%,
-      var(--background) 85%,
+      var(--primary) 0%,
+      var(--primary) 85%,
       rgba(202, 0, 255, 0) 100%
     );
   }
   .article-image {
-    padding-bottom: 3.5rem;
+    padding-bottom: 5rem;
   }
   &:hover {
     .gatsby-image-wrapper {
@@ -36,11 +36,11 @@ const ArticlePreview = ({ posts }) => {
   if (!Array.isArray(posts)) return null
   return (
     <ul className="grid grid-cols-1 md:grid-cols-2 gap-6">
-      {posts.map((post, index) => {
+      {posts.map((post) => {
         return (
           <FadeIn key={post.slug} >
-            <ArticlePreviewWrapper to={`/portfolio/${post.slug}`} className='article items-center rounded-md   md:max-w-lg md:max-h-xl'>
-              <div className='relative'>
+            <ArticlePreviewWrapper to={`/portfolio/${post.slug}`} className='article items-center md:max-w-lg md:max-h-xl'>
+              <div className='relative bg-primary rounded-md'>
                 <div className='article-image'>
                   <GatsbyImage alt={post.title} className="z-0 image object-cover w-full h-auto rounded-md md:h-full md:w-full md:max-w-100" image={post.heroImage.gatsbyImageData} />
                 </div>

@@ -7,6 +7,8 @@ const Timeline = ({ timeline }) => {
   if (!timeline) return null
   if (!Array.isArray(timeline)) return null
 
+
+
   return (
     <VerticalTimeline layout='1-column-left'>
       {timeline.map((event) => {
@@ -21,6 +23,7 @@ const Timeline = ({ timeline }) => {
           >
             <h4 className="vertical-timeline-element-subtitle">{event.company} - {event.jobTitle}</h4>
             <div dangerouslySetInnerHTML={{ __html: event?.bio?.childMarkdownRemark?.html }}></div>
+
           </VerticalTimelineElement>
         )
       })}

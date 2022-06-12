@@ -8,10 +8,19 @@ import './timeline.scss'
 const VerticalLoadMore = ({ timeline }) => {
     const firstSection = timeline.slice(0, 5)
     const [elements, setElements] = useState(firstSection);
+    const [selectedArr, setSelectedArr] = useState([]);
 
     const loadMore = () => {
         setElements(timeline);
     };
+
+    const toggleActiveItem = (index) => {
+        if (selectedArr.includes(index)) {
+            setSelectedArr(selectedArr.filter((i) => i !== index))
+        } else {
+            setSelectedArr([...selectedArr, index])
+        }
+    }
 
     const addButton = () => {
         return (
@@ -30,8 +39,9 @@ const VerticalLoadMore = ({ timeline }) => {
                 <div className="flex flex-col-reverse justify-between uppercase mb-1 text-lg font-semibold md:flex-row">
                     <div>{event.company}</div> <div className='md:text-base text-sm pb-4 md:pb-0'>{event?.startDate && `${event.startDate} - ${event.endDate}`}</div>
                 </div>
-                <h3 className="vertical-timeline-element-subtitle italic text-md font-medium pb-2 md:pb-0">{event.jobTitle}</h3>
-                <div dangerouslySetInnerHTML={{ __html: event?.bio?.childMarkdownRemark?.html }} />
+                <h3 className="vertical-timeline-element-subtitle text-md font-medium ">{event.jobTitle}</h3>
+                <button className='read-more italic text-grey text-sm py-2' onClick={() => toggleActiveItem(index)}>Find out more</button>
+                {selectedArr.includes(index) && <div dangerouslySetInnerHTML={{ __html: event?.bio?.childMarkdownRemark?.html }} />}
             </VerticalTimelineElement >
         ));
     return (

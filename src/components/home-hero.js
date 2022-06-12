@@ -7,7 +7,7 @@ import styled from "styled-components"
 import Socials from './socials';
 
 const BackgroundText = styled.span`
-    font-size: 45vw;
+    font-size: 50vw;
     position: absolute;
     z-index: -10;
     top: -70px;
@@ -64,7 +64,6 @@ const HomeHero = ({ name, animatedList, socials }) => {
                             scale: useTransform(scrollY, [0, 300], [1, 0.75]),
                         }}
                         className="text-center items-center justify-center my-auto">
-
                         <h1 className="text-7xl md:text-9xl uppercase tracking-wide">
                             {name}
                         </h1>
