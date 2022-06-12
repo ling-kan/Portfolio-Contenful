@@ -40,7 +40,7 @@ const VerticalLoadMore = ({ timeline }) => {
                     <div>{event.company}</div> <div className='md:text-base text-sm pb-4 md:pb-0'>{event?.startDate && `${event.startDate} - ${event.endDate}`}</div>
                 </div>
                 <h3 className="vertical-timeline-element-subtitle text-md font-medium ">{event.jobTitle}</h3>
-                <button className='read-more italic text-grey text-sm py-2' onClick={() => toggleActiveItem(index)}>Find out more</button>
+                <button className='read-more italic text-grey text-sm py-2' onClick={() => toggleActiveItem(index)}>  {selectedArr.includes(index) ? 'Collapse info' : 'Show more info'}</button>
                 {selectedArr.includes(index) && <div dangerouslySetInnerHTML={{ __html: event?.bio?.childMarkdownRemark?.html }} />}
             </VerticalTimelineElement >
         ));
