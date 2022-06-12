@@ -52,7 +52,7 @@ const Login = (props) => {
                                 <label
                                     htmlFor="password"
                                     for="password"
-                                    className="block text-black text-sm font-bold" >
+                                    className="block text-black dark:text-primary text-sm font-bold" >
                                     Password
                                     <input onChange={event => setForm({
                                         [event.target.name]: event.target.value,
@@ -62,8 +62,8 @@ const Login = (props) => {
                                 {loginFailed && <p className="text-red text-xs italic">Incorrect password, please try again</p>}
                             </div>
                             <div className="flex items-center justify-between">
-                                <input type="submit" className="cursor-pointer mr-2 bg-black hover:bg-secondary text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" value="Enter" />
-                                {email && <a className="inline-block align-baseline font-bold text-sm text-black hover:text-secondary" href={email[0]?.url}>
+                                <input type="submit" className="cursor-pointer mr-2 bg-black dark:bg-primary hover:bg-secondary text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" value="Enter" />
+                                {email && <a className="inline-block align-baseline font-bold text-sm text-black  dark:text-primary hover:text-secondary" href={email[0]?.url}>
                                     Request Access
                                 </a>}
                             </div>
