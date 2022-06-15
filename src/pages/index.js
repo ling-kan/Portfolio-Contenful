@@ -4,8 +4,8 @@ import get from "lodash/get";
 import Layout from "../components/layout";
 import ArticlePreview from "../components/article-preview";
 import HomeHero from "../components/home-hero";
-import VerticalLoadMore from "../components/timeline/timeline-load-more";
 import TitleContainer from '../components/title-container';
+import Resume from '../components/resume';
 
 const RootIndex = (props) => {
   const posts = get(props, "data.allContentfulBlogPost.nodes");
@@ -41,10 +41,10 @@ const RootIndex = (props) => {
       </TitleContainer>}
       <div id="resume" />
       <TitleContainer title="Experience" id="experience">
-        <VerticalLoadMore timeline={timeline} />
+        <Resume timeline={timeline} />
       </TitleContainer>
       <TitleContainer title="Education" id="education">
-        <VerticalLoadMore timeline={education} />
+        <Resume timeline={education} />
       </TitleContainer>
       <TitleContainer title="Portfolio" id="portfolio">
         <ArticlePreview posts={posts} />
