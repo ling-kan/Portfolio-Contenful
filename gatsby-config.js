@@ -113,11 +113,13 @@ module.exports = {
       },
     },
     {
-      resolve: `gatsby-plugin-google-gtag`,
+      resolve: `gatsby-plugin-gdpr-cookies`,
       options: {
-        trackingIds: [process.env.GATSBY_GOOGLE_ANALYTICS_TRACKING_ID],
-        pluginConfig: {
-          head: true,
+        googleAnalytics: {
+          trackingId: [process.env.GATSBY_GOOGLE_ANALYTICS_TRACKING_ID],
+          cookieName: "gdpr-google-analytics",
+          anonymize: true,
+          allowAdFeatures: false,
         },
       },
     },

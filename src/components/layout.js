@@ -5,6 +5,7 @@ import Footer from './footer'
 import { useReducedMotion } from "framer-motion"
 import HeaderList from './motion/header-list'
 import useNavigationData from '../services/useNavigationData'
+import CookieConsent from './cookie'
 
 const Template = ({ children, fullHeaderHeight = false, data }) => {
   const navigation = useNavigationData();
@@ -14,6 +15,7 @@ const Template = ({ children, fullHeaderHeight = false, data }) => {
   return (
     <div >
       <Seo />
+      <CookieConsent />
       <Navigation navList={navigation} />
       {prefersReducedMotion ?
         <main className={headerSpacing} role="main">{children}</main>
