@@ -43,8 +43,9 @@ const Resume = ({ timeline }) => {
                         return (
 
                             <ResumeWrapper >
-                                <GatsbyImage imgClassName="rounded-full" className="absolute rounded-full h-10 w-10 top-0  -left-5 border-solid border-primary border-2" alt={event.title} image={event?.icon?.gatsbyImageData} />
-
+                                <div className="absolute top-0  -left-5" >
+                                    <GatsbyImage imgClassName='rounded-full' className="rounded-full h-10 w-10 border-solid border-primary border-2" alt={event.title} image={event?.icon?.gatsbyImageData} />
+                                </div>
                                 <div className="flex flex-col-reverse justify-between uppercase mb-1 text-lg font-semibold md:flex-row">
                                     <div>{event.company}</div> <div className='md:text-base text-sm pb-4 md:pb-0'>{event?.startDate && `${event.startDate} - ${event.endDate}`}</div>
                                 </div>
