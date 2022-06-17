@@ -10,7 +10,7 @@ const FadeIn = ({ children }) => {
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        transition={{ type: 'spring', duration: 3, staggerChildren: 0.5, stiffness: 20 }}
+        transition={{ type: 'spring', duration: 1, staggerChildren: 0.5 }}
       >
         {children}
       </motion.div >}
