@@ -3,20 +3,7 @@ import Container from './container';
 import { useReducedMotion } from "framer-motion"
 import { AnimatePresence, motion, useTransform, useViewportScroll } from "framer-motion";
 import FadeIn from './motion/fade-in';
-import styled from "styled-components"
 import Socials from './socials';
-
-const BackgroundText = styled.span`
-    font-size: 50vw;
-    position: absolute;
-    z-index: -10;
-    top: -70px;
-    transform: rotate(-15deg);
-    left: 0;
-    opacity: 0.2;
-    color: var(--grey-light);
-    font-weight: var(--bold)
-`;
 
 const variants = {
     enter: direction => {
@@ -58,7 +45,6 @@ const HomeHero = ({ name, animatedList, socials }) => {
         <FadeIn>
             <div id="home" className="h-screen items-center flex relative" >
                 <Container>
-                    <BackgroundText>Hello</BackgroundText>
                     <motion.div
                         style={{
                             scale: useTransform(scrollY, [0, 300], [1, 0.75]),
