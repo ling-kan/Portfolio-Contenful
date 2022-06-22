@@ -40,10 +40,10 @@ const RootIndex = (props) => {
         />
       </TitleContainer>}
       <div id="resume" />
-      <TitleContainer title="Experience" id="experience">
+      <TitleContainer title="Resume" subtitle="Work Experience" id="experience">
         <Resume timeline={timeline} />
       </TitleContainer>
-      <TitleContainer title="Education" id="education">
+      <TitleContainer subtitle="Education" id="education" className="pt-0">
         <Resume timeline={education} />
       </TitleContainer>
       <TitleContainer title="Portfolio" id="portfolio">
