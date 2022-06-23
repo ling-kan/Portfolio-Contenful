@@ -29,7 +29,7 @@ export const shouldUpdateScroll = ({
 
     else {
         if (location.pathname !== "/") {
-            const savedPosition = getSavedScrollPosition(location) || [0, 0]
+            const savedPosition = getSavedScrollPosition(location) || [-20, 0]
             window.setTimeout(() => window.scrollTo(...savedPosition), TRANSITION_DELAY)
         }
     }

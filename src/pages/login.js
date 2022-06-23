@@ -35,7 +35,7 @@ const Login = (props) => {
 
     return (
         <Layout location={props.location} socials={socials} >
-            <div className="min-h-screen ">
+            <div className="min-h-screen-90 ">
                 <Container>
                     <button className="text-black dark:text-white hover:text-secondary flex m-2" onClick={(e) => { e.preventDefault(); navigate(-2) }}>
                         <ArrowNarrowLeftIcon className="mr-2 my-auto h-5 w-5" />
