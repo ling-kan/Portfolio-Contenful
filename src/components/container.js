@@ -12,7 +12,7 @@ const Container = ({ id, className, navigation, children, as = 'div' }) => {
         paddingRight: 'var(--size-gutter)',
         height: `${navigation && ' var(--nav-height)'}`
       }}
-      className={`my-0 mx-auto ${navigation ? 'py-4' : 'py-14'} ${className}`}
+      className={`my-0 mx-auto py-4 ${className}`}
     >
 
       {children}
