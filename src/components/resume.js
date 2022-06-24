@@ -56,7 +56,11 @@ const Resume = ({ timeline }) => {
 
                         <ResumeWrapper >
                             <div className="absolute top-0  -left-5" >
-                                <GatsbyImage imgClassName='rounded-full' className="rounded-full h-10 w-10 border-solid border-primary border-2" alt={event.title} image={event?.icon?.gatsbyImageData} />
+                                {event?.icon?.gatsbyImageData ?
+                                    <GatsbyImage imgClassName='rounded-full' className="rounded-full h-10 w-10 border-solid border-primary border-2 bg-primary" alt={event.title} image={event?.icon?.gatsbyImageData} /> :
+
+                                    <div className="rounded-full h-10 w-10 border-solid border-primary border-2 bg-primary" />
+                                }
                             </div>
                             <FadeIn>
                                 <div className="flex flex-col-reverse justify-between uppercase mb-1 text-lg font-semibold md:flex-row">
