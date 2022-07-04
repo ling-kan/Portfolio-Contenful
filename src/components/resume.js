@@ -64,7 +64,7 @@ const Resume = ({ timeline }) => {
                             </div>
                             <FadeIn>
                                 <div className="flex flex-col-reverse justify-between uppercase mb-1 text-lg font-semibold md:flex-row">
-                                    <div>{event.company}</div> <div className='md:text-base text-sm pb-4 md:pb-0'>{event?.startDate && `${event.startDate} - ${event.endDate}`}</div>
+                                    <div>{event.company}</div> <div className='md:text-base text-sm pb-4 md:pb-0'>{event?.startDate && `${event.startDate} - ${event.currentRole ? "CURRENT" : event.endDate}`}</div>
                                 </div>
                                 <h3 className="vertical-timeline-element-subtitle text-md font-medium ">{event.jobTitle}</h3>
 

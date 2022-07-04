@@ -94,6 +94,7 @@ export const pageQuery = graphql`
         jobTitle
         startDate(formatString: "MMMM YYYY")
         endDate(formatString: "MMMM YYYY")
+        currentRole
         company
         bio {
         childMarkdownRemark {
