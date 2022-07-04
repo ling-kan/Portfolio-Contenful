@@ -85,7 +85,7 @@ const HomeHero = ({ name, animatedList, socials }) => {
                         </section>}
                         <Socials width="w-10" />
                     </motion.div>
-                    <div className="scroll-down" />
+                    <div className="scroll-down opacity-30" />
                 </Container>
             </div >
         </FadeIn>
