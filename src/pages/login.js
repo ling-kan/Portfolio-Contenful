@@ -25,7 +25,7 @@ const Login = (props) => {
 
     function checkLogin() {
         if (isLoggedIn()) {
-            navigate(-1) || navigate('/')
+            navigate(-1, { replace: true })
         }
     }
 
