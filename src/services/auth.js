@@ -16,6 +16,8 @@ export const handleLogin = ({ password }) => {
     return false
 }
 export const isLoggedIn = () => {
+
     const user = getUser()
+    console.log(user)
     return !!user.name
 }
