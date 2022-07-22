@@ -1,7 +1,6 @@
 import React from 'react'
 import { Link } from 'gatsby'
 import { GatsbyImage } from 'gatsby-plugin-image'
-// import Tags from './tags'
 import styled from "styled-components"
 import { ArrowNarrowRightIcon } from '@heroicons/react/solid'
 import FadeIn from './motion/fade-in'
@@ -47,7 +46,6 @@ const ArticlePreview = ({ posts }) => {
                 <div className="z-10 details absolute transition ease-in-out  left-0 bottom-0 w-full p-4 pt-8 leading-normal  ">
                   <div className="flex justify-between pb-2">
                     <p className="mb-auto mt-0 text-grey text-sm uppercase">{post.endDate}</p>
-                    {/* <Tags tags={post.tags} /> */}
                   </div>
                   <h5 className="text-xl tracking-tight text-black">{post.title}</h5>
                   <div className='read-more hidden'>
