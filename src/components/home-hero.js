@@ -43,7 +43,7 @@ const HomeHero = ({ name, animatedList, socials }) => {
 
     return (
         <FadeIn>
-            <div id="home" className="h-screen items-center flex relative" >
+            <div id="home" className="h-screen -z-50 items-center flex relative" >
                 <Container>
                     <motion.div
                         style={{
