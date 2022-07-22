@@ -14,7 +14,7 @@ backdrop-filter: blur(1px);
 const Navigation = ({ navList }) => {
   const [mobileNav, setMobileNav] = useState(false);
   return (
-    <NavigationWrapper className="my-auto z-20 fixed top-0 w-full pin-l pin-t" role="banner">
+    <NavigationWrapper className="my-auto z-20 top-0 w-full pin-l pin-t" role="banner">
       <Container as="nav" navigation={true}>
         <div className="md:bg-primary-background bg-transparent rounded px-4 py-2 md:px-0 flex flex-wrap justify-between items-center mx-auto">
           <a href="/" className="flex items-center text-black">
