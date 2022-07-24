@@ -43,7 +43,7 @@ const ArticlePreview = ({ posts }) => {
                 <div className='article-image'>
                   <GatsbyImage alt={post.title} className="z-0 image object-cover w-full h-auto rounded-md md:h-full md:w-full md:max-w-100" image={post.heroImage.gatsbyImageData} />
                 </div>
-                <div className="z-10 details absolute transition ease-in-out  left-0 bottom-0 w-full p-4 pt-8 leading-normal  ">
+                <div className="z-5 details absolute transition ease-in-out  left-0 bottom-0 w-full p-4 pt-8 leading-normal  ">
                   <div className="flex justify-between pb-2">
                     <p className="mb-auto mt-0 text-grey text-sm uppercase">{post.endDate}</p>
                   </div>

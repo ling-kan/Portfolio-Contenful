@@ -32,9 +32,9 @@ const Navigation = ({ navList }) => {
                 return (
                   <li key={index}>
                     {index === 0 ?
-                      <Link to={value.url} href="#responsive-header" activeClassName="active" className="block my-2 mx-1" aria-current="page">{value.title}</Link>
+                      <Link to={value.url} href="#responsive-header" className="block my-2 mx-1" aria-current="page">{value.title}</Link>
                       :
-                      <Link to={value.url} href="#responsive-header" activeClassName="active ml-4" className="block my-2 mx-1">{value.title}</Link>
+                      <Link to={value.url} href="#responsive-header" className="block my-2 mx-1">{value.title}</Link>
                     }
                   </li>
                 )
