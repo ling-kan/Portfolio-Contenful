@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Container = ({ id, className, navigation, children, as = 'div' }) => {
+const Container = ({ id, className, pageId, children, as = 'div' }) => {
   const Tag = as
   return (
     <Tag
@@ -10,9 +10,9 @@ const Container = ({ id, className, navigation, children, as = 'div' }) => {
         maxWidth: 'var(--size-max-width)',
         paddingLeft: 'var(--size-gutter)',
         paddingRight: 'var(--size-gutter)',
-        height: `${navigation && ' var(--nav-height)'}`
+        height: `${pageId === "navigation" && ' var(--nav-height)'}`
       }}
-      className={`my-0 mx-auto py-4 ${className}`}
+      className={`${className} ${pageId === "home" ? 'py-16' : 'py-4'} my-0 mx-auto`}
     >
 
       {children}
