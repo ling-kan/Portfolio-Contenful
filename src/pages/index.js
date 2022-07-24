@@ -26,6 +26,7 @@ const RootIndex = (props) => {
   return (
     <Layout location={props.location} fullHeaderHeight={true}>
       <HomeHero
+        id="bio"
         animatedList={author?.animatedList}
         image={author?.heroImage?.gatsbyImageData}
         title={author?.title}
