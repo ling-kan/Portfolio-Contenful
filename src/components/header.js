@@ -5,7 +5,7 @@ const Header = ({ title, subtitle, className }) => {
     <FadeIn>
       <div className='pt-0 lg:pb-8'>
         {title && <h2 className={`${className} text-4xl md:text-5xl text-left text-black dark:text-white`}>{title}</h2>}
-        {subtitle && <h3 className={`${title && 'mt-8'} text-3xl text-grey uppercase font-medium`}>{subtitle}</h3>}
+        {subtitle && <h3 className={`${title && 'mt-8'} text-3xl text-grey font-medium`}>{subtitle}</h3>}
       </div>
     </FadeIn>
   )
