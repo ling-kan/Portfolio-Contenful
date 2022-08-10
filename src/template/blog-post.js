@@ -68,7 +68,7 @@ const BlogPostTemplate = (props) => {
                     }}
                   />}
 
-                  <div className="grid grid-cols-2 gap-2">
+                  {post.role && post.endDate && <div className="grid grid-cols-2 gap-2">
                     <div>
                       <h2 className={styles.articleTitle}>Role</h2>
                       {post.role && <p>{post.role}</p>}
@@ -78,6 +78,7 @@ const BlogPostTemplate = (props) => {
                       {post.endDate && <p>{post.startDate} - {post.endDate}</p>}
                     </div>
                   </div>
+                  }
 
                   <div
                     dangerouslySetInnerHTML={{
