@@ -47,8 +47,8 @@ const CookieConsent = () => {
     return (
         <>
             {!bannerHidden && (
-                <div className="fixed w-screen bottom-0 z-50">
-                    <div className="max-w-sm m-3 p-3 py-4 bg-primary rounded-md">
+                <div className="fixed max-w-sm w-screen bottom-0 z-50">
+                    <div className="m-3 p-3 py-4 bg-primary rounded-md">
                         <div className="flex items-center justify-between flex-wrap">
                             <div className="w-0 flex-1 flex items-center">
                                 <span className="flex p-2 rounded-lg">
