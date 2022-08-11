@@ -8,7 +8,7 @@ const PageNotFound = (props) => {
   return (
     <Layout location={props.location} fullHeaderHeight={true} >
       <Container className="min-h-screen flex m-auto pt-20 md:pt-6">
-        <div className='block md:flex'>
+        <div className='block md:flex m-auto'>
           <div className='m-auto mr-0 md:w-6/12 w-full '>
             <h1 className="not-found-text text-9xl text-border uppercase text-center">
               404
