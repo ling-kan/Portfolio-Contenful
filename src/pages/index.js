@@ -77,6 +77,7 @@ export const pageQuery = graphql`
         slug
         endDate(formatString: "MMMM YYYY")
         tags
+        hiddenPage
         heroImage {
           gatsbyImageData(
             layout: FULL_WIDTH

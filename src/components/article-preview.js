@@ -33,9 +33,10 @@ const ArticlePreviewWrapper = styled(Link)`
 const ArticlePreview = ({ posts }) => {
   if (!posts) return null
   if (!Array.isArray(posts)) return null
+
   return (
     <ul className="grid grid-cols-1 md:grid-cols-2 gap-6">
-      {posts.map((post) => {
+      {posts.filter(post => !post.hiddenPage).map((post) => {
         return (
           <FadeIn key={post.slug} >
             <ArticlePreviewWrapper to={`/portfolio/${post.slug}`} className='article items-center md:max-w-lg md:max-h-xl'>
