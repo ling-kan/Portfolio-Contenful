@@ -4,6 +4,7 @@ import { useReducedMotion } from "framer-motion"
 import { AnimatePresence, motion, useTransform, useViewportScroll } from "framer-motion";
 import FadeIn from './motion/fade-in';
 import Socials from './socials';
+import { Link } from 'gatsby';
 
 const variants = {
     enter: direction => {
@@ -85,7 +86,7 @@ const HomeHero = ({ name, animatedList, socials }) => {
                         </section>}
                         <Socials width="w-10" />
                     </motion.div>
-                    <div className="scroll-down opacity-30" />
+                    <Link to="#firstSection" className="scroll-down opacity-30" />
                 </Container>
             </div >
         </FadeIn>

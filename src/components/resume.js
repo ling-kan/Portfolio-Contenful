@@ -54,7 +54,7 @@ const Resume = ({ timeline }) => {
                 {elements.map((event, index) => {
                     return (
 
-                        <ResumeWrapper >
+                        <ResumeWrapper key={index}>
                             <div className="absolute top-0  -left-5" >
                                 {event?.icon?.gatsbyImageData ?
                                     <GatsbyImage imgClassName='rounded-full' className="rounded-full h-10 w-10 border-solid border-primary border-2 bg-primary" alt={event.title} image={event?.icon?.gatsbyImageData} /> :
@@ -83,7 +83,7 @@ const Resume = ({ timeline }) => {
             </motion.ul >
             {
                 elements.length !== timeline.length &&
-                <button class="m-auto flex py-2 px-4 rounded-full items-center border-primary border-solid border-2" onClick={(e) => { e.preventDefault(); loadMore(); }}>
+                <button className="m-auto flex py-2 px-4 rounded-full items-center border-primary border-solid border-2" onClick={(e) => { e.preventDefault(); loadMore(); }}>
                     <PlusIcon className=" h-4 w-4 mr-4" />
                     <span>Load more</span>
                 </button>

@@ -117,9 +117,14 @@ module.exports = {
       options: {
         googleAnalytics: {
           trackingId: [process.env.GATSBY_GOOGLE_ANALYTICS_TRACKING_ID],
-          cookieName: "gdpr-google-analytics",
+          cookieName: "gatsby-gdpr-google-analytics",
           anonymize: true,
           allowAdFeatures: false,
+        },
+        googleTagManager: {
+          trackingId: [process.env.GATSBY_GOOGLE_TAG_MANAGER_ID],
+          cookieName: 'gatsby-gdpr-google-tagmanager',
+          defaultDataLayer: { platform: "gatsby" }
         },
       },
     },
