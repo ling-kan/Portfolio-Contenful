@@ -123,7 +123,7 @@ module.exports = {
         },
         googleTagManager: {
           trackingId: [process.env.GATSBY_GOOGLE_TAG_MANAGER_ID],
-          cookieName: 'gdpr-google-tagmanager',
+          cookieName: "gdpr-google-analytics",
         },
       },
     },
