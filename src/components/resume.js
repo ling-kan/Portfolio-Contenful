@@ -83,7 +83,7 @@ const Resume = ({ timeline }) => {
             </motion.ul >
             {
                 elements.length !== timeline.length &&
-                <button class="m-auto flex py-2 px-4 rounded-full items-center border-primary border-solid border-2" onClick={(e) => { e.preventDefault(); loadMore(); }}>
+                <button className="m-auto flex py-2 px-4 rounded-full items-center border-primary border-solid border-2" onClick={(e) => { e.preventDefault(); loadMore(); }}>
                     <PlusIcon className=" h-4 w-4 mr-4" />
                     <span>Load more</span>
                 </button>
