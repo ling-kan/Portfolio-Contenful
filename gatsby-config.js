@@ -112,17 +112,6 @@ module.exports = {
         display: `standalone`,
       },
     },
-    {
-      resolve: `gatsby-plugin-gdpr-cookies`,
-      options: {
-        googleAnalytics: {
-          trackingId: [process.env.GATSBY_GOOGLE_ANALYTICS_TRACKING_ID],
-          cookieName: "gatsby-gdpr-google-analytics",
-          anonymize: true,
-          allowAdFeatures: false,
-        },
-      },
-    },
     `gatsby-plugin-offline`,
   ],
 };
