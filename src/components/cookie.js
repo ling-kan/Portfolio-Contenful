@@ -40,7 +40,8 @@ const CookieConsent = () => {
     );
 
     const EnableAnalytics = () => {
-        document.cookie = 'gdpr-google-analytics=true';
+        document.cookie = 'gatsby-gdpr-google-analytics=true';
+        document.cookie = 'gatsby-gdpr-google-tagmanager=true';
         setBannerHidden(true);
     };
 
