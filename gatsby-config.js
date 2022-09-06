@@ -121,10 +121,10 @@ module.exports = {
           anonymize: true,
           allowAdFeatures: false,
         },
-        googleTagManager: {
-          trackingId: [process.env.GATSBY_GOOGLE_TAG_MANAGER_ID],
-          cookieName: "gdpr-google-analytics",
-        },
+        // googleTagManager: {
+        //   trackingId: [process.env.GATSBY_GOOGLE_TAG_MANAGER_ID],
+        //   cookieName: "gdpr-google-analytics",
+        // },
       },
     },
     `gatsby-plugin-offline`,
