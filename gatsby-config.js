@@ -121,10 +121,6 @@ module.exports = {
           anonymize: true,
           allowAdFeatures: false,
         },
-        googleTagManager: {
-          trackingId: [process.env.GATSBY_GOOGLE_TAG_MANAGER_ID],
-          cookieName: 'gatsby-gdpr-google-tagmanager',
-        },
       },
     },
     `gatsby-plugin-offline`,
