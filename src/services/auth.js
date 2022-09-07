@@ -1,5 +1,4 @@
 export const isBrowser = () => typeof window !== "undefined"
-isBrowser() && window.location.replace(res.data)
 
 export const getUser = () =>
     isBrowser() && window.localStorage.getItem("portfolioAccess")

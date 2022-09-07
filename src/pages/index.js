@@ -25,8 +25,8 @@ const RootIndex = (props) => {
   }
   return (
     <Layout location={props.location} fullHeaderHeight={true}>
+      <div id="bio" />
       <HomeHero
-        id="bio"
         animatedList={author?.animatedList}
         image={author?.heroImage?.gatsbyImageData}
         title={author?.title}
@@ -34,6 +34,7 @@ const RootIndex = (props) => {
         socials={socials}
         alt={author?.title + 'Hero'}
       />
+      <div id="firstSection" />
       {author?.bio?.childMarkdownRemark.html && <TitleContainer title="About me" id="about">
         <div
           dangerouslySetInnerHTML={{

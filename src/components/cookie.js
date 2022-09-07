@@ -6,7 +6,7 @@ import { isBrowser } from '../services/auth';
 function getValue(key, defaultValue) {
     return isBrowser() && window.localStorage.getItem(key)
         ? JSON.parse(window.localStorage.getItem(key))
-        : defaultValue; GATSBY_CONTENTFUL_SPACE_ID
+        : defaultValue;
 }
 
 function setValue(key, value) {
@@ -27,8 +27,7 @@ function useStickyState(defaultValue, key) {
 
 const CookieConsent = () => {
     const location = useLocation();
-    console.log(location)
-    if (isBrowser() && window.location.replace(res.data)) {
+    if (isBrowser()) {
         location && initializeAndTrack(location);
     }
 
