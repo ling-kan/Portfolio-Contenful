@@ -1,10 +1,12 @@
 # Portfolio using Contenful CMS
 
+
 ## 🚩 Table of Contents
 
 1. [Technologies](#technologies)
 2. [Features](#features)
 3. [Crucial Commands](#crucial-commands)
+
 
 ## Technologies
 
@@ -12,6 +14,7 @@
 - [Contentful](https://www.contentful.com)
 - [React.js](https://reactjs.org/)
 - [Netlify](https://www.netlify.com/).
+
 
 ## Features
 
@@ -29,9 +32,10 @@ Run the project locally with live reload in development mode.
 
 Run a production build into `./public`. The result is ready to be put on any static hosting you prefer.
 
-`npm run serve`
+ `npm run serve`
 
 Spin up a production-ready server with your blog. Don't forget to build your page beforehand.
+
 
 ### Set up of the needed content model and create a configuration file
 
@@ -51,5 +55,9 @@ Gatsby integrates easily with Netlify and can be deployed from the command line 
 
 And now your new site is live. Feel free to make this project your own by installing your favorite Gatsby plugins, changing things up with a different Gatsby theme or giving your blog a new landing page. Happy building!
 
-.env.development file
-`GATSBY_CONTENTFUL_SPACE_ID=xxx GATSBY_CONTENTFUL_ACCESS_TOKEN=xxx GATSBY_CONTENTFUL_DELIVERY_TOKEN=xxx GATSBY_PORTFOLIO_ACCESS_PASS=xxx ENABLE_GATSBY_REFRESH_ENDPOINT=true GATSBY_GOOGLE_ANALYTICS_TRACKING_ID=xxx GATSBY_GOOGLE_TAG_MANAGER_ID=xxx`
+.env.development file 
+`GATSBY_CONTENTFUL_SPACE_ID=xxx
+GATSBY_CONTENTFUL_ACCESS_TOKEN=xxx
+GATSBY_CONTENTFUL_DELIVERY_TOKEN=xxx
+GATSBY_PORTFOLIO_ACCESS_PASS=xxx
+ENABLE_GATSBY_REFRESH_ENDPOINT=true`

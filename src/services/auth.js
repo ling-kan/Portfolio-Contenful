@@ -1,5 +1,4 @@
 export const isBrowser = () => typeof window !== "undefined"
-
 export const getUser = () =>
     isBrowser() && window.localStorage.getItem("portfolioAccess")
         ? JSON.parse(window.localStorage.getItem("portfolioAccess"))
@@ -17,6 +16,8 @@ export const handleLogin = ({ password }) => {
     return false
 }
 export const isLoggedIn = () => {
+
     const user = getUser()
+    console.log(user)
     return !!user.name
 }
