@@ -32,6 +32,7 @@ const RootIndex = (props) => {
         title={author?.title}
         name={author?.name}
         socials={socials}
+        alt={author?.title + 'Hero'}
       />
       {author?.bio?.childMarkdownRemark.html && <TitleContainer title="About me" id="about">
         <div

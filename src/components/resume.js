@@ -54,7 +54,7 @@ const Resume = ({ timeline }) => {
                 {elements.map((event, index) => {
                     return (
 
-                        <ResumeWrapper >
+                        <ResumeWrapper key={index}>
                             <div className="absolute top-0  -left-5" >
                                 {event?.icon?.gatsbyImageData ?
                                     <GatsbyImage imgClassName='rounded-full' className="rounded-full h-10 w-10 border-solid border-primary border-2 bg-primary" alt={event.title} image={event?.icon?.gatsbyImageData} /> :
