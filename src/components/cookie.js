@@ -1,15 +1,12 @@
 import React, { useEffect } from 'react'
 import { useLocation } from '@reach/router';
 import { initializeAndTrack } from 'gatsby-plugin-gdpr-cookies';
-
-function isBrowser() {
-    return typeof window !== 'undefined';
-}
+import { isBrowser } from '../services/auth';
 
 function getValue(key, defaultValue) {
     return isBrowser() && window.localStorage.getItem(key)
         ? JSON.parse(window.localStorage.getItem(key))
-        : defaultValue;
+        : defaultValue; GATSBY_CONTENTFUL_SPACE_ID
 }
 
 function setValue(key, value) {
@@ -30,8 +27,9 @@ function useStickyState(defaultValue, key) {
 
 const CookieConsent = () => {
     const location = useLocation();
-    if (location) {
-        initializeAndTrack(location);
+    console.log(location)
+    if (isBrowser() && window.location.replace(res.data)) {
+        location && initializeAndTrack(location);
     }
 
     const [bannerHidden, setBannerHidden] = useStickyState(
