@@ -28,7 +28,7 @@ function useStickyState(defaultValue, key) {
 const CookieConsent = () => {
     const location = useLocation();
     if (isBrowser()) {
-        location && initializeAndTrack(location);
+        location && initializeAndTrack(location) || null;
     }
 
     const [bannerHidden, setBannerHidden] = useStickyState(

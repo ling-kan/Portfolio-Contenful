@@ -52,6 +52,4 @@ Gatsby integrates easily with Netlify and can be deployed from the command line 
 And now your new site is live. Feel free to make this project your own by installing your favorite Gatsby plugins, changing things up with a different Gatsby theme or giving your blog a new landing page. Happy building!
 
 .env.development file
-`GATSBY_CONTENTFUL_SPACE_ID=xxx GATSBY_CONTENTFUL_ACCESS_TOKEN=xxx GATSBY_CONTENTFUL_DELIVERY_TOKEN=xxx GATSBY_PORTFOLIO_ACCESS_PASS=xxx ENABLE_GATSBY_REFRESH_ENDPOINT=true`
-GATSBY_GOOGLE_ANALYTICS_TRACKING_ID=xxx
-GATSBY_GOOGLE_TAG_MANAGER_ID=xxx
+`GATSBY_CONTENTFUL_SPACE_ID=xxx GATSBY_CONTENTFUL_ACCESS_TOKEN=xxx GATSBY_CONTENTFUL_DELIVERY_TOKEN=xxx GATSBY_PORTFOLIO_ACCESS_PASS=xxx ENABLE_GATSBY_REFRESH_ENDPOINT=true GATSBY_GOOGLE_ANALYTICS_TRACKING_ID=xxx GATSBY_GOOGLE_TAG_MANAGER_ID=xxx`
