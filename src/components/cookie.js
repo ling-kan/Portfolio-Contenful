@@ -30,7 +30,7 @@ function useStickyState(defaultValue, key) {
 
 const CookieConsent = () => {
     const location = useLocation();
-    if (isBrowser()) {
+    if (location) {
         initializeAndTrack(location);
     }
 
