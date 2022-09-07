@@ -12,7 +12,7 @@
     "@heroicons/react": "^1.0.6",
     "babel-plugin-styled-components": "^2.0.7",
     "framer-motion": "^6.3.4",
-    "gatsby": "^4.0.0",
+    "gatsby": "^4.22.0",
     "gatsby-plugin-gdpr-cookies": "^2.0.9",
     "gatsby-plugin-google-gtag": "^4.15.0",
     "gatsby-plugin-image": "^2.0.0",
