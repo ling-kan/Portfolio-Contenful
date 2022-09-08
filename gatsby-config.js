@@ -18,6 +18,10 @@ try {
   throw new Error(e)
 }
 
+console.log('process.env.GATSBY_GOOGLE_ANALYTICS_TRACKING_ID : ', process.env.GATSBY_GOOGLE_ANALYTICS_TRACKING_ID);
+console.log('process.env.GATSBY_GOOGLE_TAG_MANAGER_ID : ', process.env.GATSBY_GOOGLE_TAG_MANAGER_ID);
+
+
 
 const contentfulConfig = {
   spaceId: process.env.GATSBY_CONTENTFUL_SPACE_ID,
@@ -116,13 +120,13 @@ module.exports = {
       resolve: `gatsby-plugin-gdpr-cookies`,
       options: {
         googleAnalytics: {
-          trackingId: [process.env.GATSBY_GOOGLE_ANALYTICS_TRACKING_ID],
+          trackingId: process.env.GATSBY_GOOGLE_ANALYTICS_TRACKING_ID,
           cookieName: "gdpr-google-analytics",
           anonymize: true,
           allowAdFeatures: false,
         },
         googleTagManager: {
-          trackingId: [process.env.GATSBY_GOOGLE_TAG_MANAGER_ID],
+          trackingId: process.env.GATSBY_GOOGLE_TAG_MANAGER_ID,
           cookieName: 'gdpr-google-analytics',
         },
       },
