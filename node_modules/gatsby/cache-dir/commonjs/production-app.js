@@ -30,27 +30,16 @@ var _stripPrefix = _interopRequireDefault(require("./strip-prefix"));
 
 var _matchPaths = _interopRequireDefault(require("$virtual/match-paths.json"));
 
-/* global HAS_REACT_18 */
+var _reactDomUtils = require("./react-dom-utils");
+
 // Generated during bootstrap
 const loader = new _loader.ProdLoader(_asyncRequires.default, _matchPaths.default, window.pageData);
 (0, _loader.setLoader)(loader);
 loader.setApiRunner(_apiRunnerBrowser.apiRunner);
-let reactHydrate;
-let reactRender;
-
-if (HAS_REACT_18) {
-  const reactDomClient = require(`react-dom/client`);
-
-  reactRender = (Component, el) => reactDomClient.createRoot(el).render(Component);
-
-  reactHydrate = (Component, el) => reactDomClient.hydrateRoot(el, Component);
-} else {
-  const reactDomClient = require(`react-dom`);
-
-  reactRender = reactDomClient.render;
-  reactHydrate = reactDomClient.hydrate;
-}
-
+const {
+  render,
+  hydrate
+} = (0, _reactDomUtils.reactDOMUtils)();
 window.asyncRequires = _asyncRequires.default;
 window.___emitter = _emitter.default;
 window.___loader = _loader.publicLoader;
@@ -236,10 +225,10 @@ const reloadStorageKey = `gatsby-reload-compilation-hash-match`;
     const focusEl = document.getElementById(`gatsby-focus-wrapper`); // Client only pages have any empty body so we just do a normal
     // render to avoid React complaining about hydration mis-matches.
 
-    let defaultRenderer = reactRender;
+    let defaultRenderer = render;
 
     if (focusEl && focusEl.children.length) {
-      defaultRenderer = reactHydrate;
+      defaultRenderer = hydrate;
     }
 
     const renderer = (0, _apiRunnerBrowser.apiRunner)(`replaceHydrateFunction`, undefined, defaultRenderer)[0];
