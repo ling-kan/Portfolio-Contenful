@@ -17,7 +17,7 @@ const Footer = ({ navList }) => (
           {navList?.map((value, index) => {
             return (
               <li key={index} className="my-2 sm:my-0">
-                <Link to={value.url} href="#responsive-header" activeClassName="active" className="mx-2" aria-current="page">{value.title}</Link>
+                <Link to={value.url} activeClassName="active" className="mx-2" aria-current="page">{value.title}</Link>
               </li>
             )
           })}

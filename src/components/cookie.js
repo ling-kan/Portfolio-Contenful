@@ -7,13 +7,13 @@ function isBrowser() {
 }
 
 function getValue(key, defaultValue) {
-    return isBrowser() && window.localStorage.getItem(key)
-        ? JSON.parse(window.localStorage.getItem(key))
+    return isBrowser() && window?.localStorage.getItem(key)
+        ? JSON.parse(window?.localStorage.getItem(key))
         : defaultValue;
 }
 
 function setValue(key, value) {
-    window.localStorage.setItem(key, JSON.stringify(value));
+    window?.localStorage.setItem(key, JSON.stringify(value));
 }
 
 function useStickyState(defaultValue, key) {
@@ -52,8 +52,8 @@ const CookieConsent = () => {
                         <div className="flex items-center justify-between flex-wrap">
                             <div className="w-0 flex-1 flex items-center">
                                 <span className="flex p-2 rounded-lg">
-                                    <svg className="h-6 w-6 dark:text-white text-black" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" />
+                                    <svg className="h-6 w-6 dark:text-white text-black" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" aria-hidden="true">
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" />
                                     </svg>
                                 </span>
                                 <p className="ml-3 text-xs text-black dark:text-white">
@@ -66,8 +66,8 @@ const CookieConsent = () => {
                             <div className="order-2 flex-shrink-0 ">
                                 <button type="button" onClick={() => { setBannerHidden(true) }} className="-mr-1 flex p-2 rounded-md hover:bg-blue focus:outline-none focus:ring-2 focus:ring-white sm:-mr-2">
                                     <span className="sr-only">Dismiss</span>
-                                    <svg className="h-6 w-6 text-black dark:text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                    <svg className="h-6 w-6 text-black dark:text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" aria-hidden="true">
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                                     </svg>
                                 </button>
                             </div>

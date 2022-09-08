@@ -5,7 +5,7 @@ import Footer from './footer'
 import { useReducedMotion } from "framer-motion"
 import HeaderList from './motion/header-list'
 import useNavigationData from '../services/useNavigationData'
-import CookieConsent from './cookie'
+import CookieConsent from './cookie-consent'
 
 const Template = ({ children, fullHeaderHeight = false, data }) => {
   const navigation = useNavigationData();

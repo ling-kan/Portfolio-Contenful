@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { graphql, navigate } from "gatsby"
+import { graphql, navigate, Link } from "gatsby"
 import get from "lodash/get";
 import { handleLogin, isLoggedIn } from "../services/auth"
 import Layout from "../components/layout";
@@ -63,9 +63,9 @@ const Login = (props) => {
                             </div>
                             <div className="flex items-center justify-between">
                                 <input type="submit" className="cursor-pointer mr-2 bg-black dark:bg-primary hover:bg-secondary text-white dark:text-grey font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" value="Enter" />
-                                {email && <a className="inline-block align-baseline font-bold text-sm text-black dark:text-primary hover:text-secondary" href={email[0]?.url}>
+                                {email && <Link to={email[0]?.url} className="inline-block align-baseline font-bold text-sm text-black dark:text-primary hover:text-secondary">
                                     Request Access
-                                </a>}
+                                </Link>}
                             </div>
                         </form>
                     </div>
