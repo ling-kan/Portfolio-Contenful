@@ -25,7 +25,7 @@ const Footer = ({ navList }) => (
       </div>
       <hr className="my-6 border-grey-light sm:mx-auto lg:my-8" />
       <div className="sm:flex sm:items-center sm:justify-between sm:flex-row-reverse text-grey">
-        <span className="text-xs md:text-sm block text-center">© 2022&nbsp;<Link to="/" className="hover:underline">Ling Kan Portfolio.</Link> All Rights Reserved.</span>
+        <span className="text-xs md:text-sm block text-center">© 2024&nbsp;<Link to="/" className="hover:underline">Ling Kan Portfolio.</Link> All Rights Reserved.</span>
         <Socials width="w-8" />
       </div>
     </Container >
