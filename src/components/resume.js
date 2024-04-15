@@ -8,14 +8,17 @@ import FadeIn from './motion/fade-in';
 const ResumeWrapper = styled.li`
   border-left: 4px solid var(--primary);
   display: block;
-  padding: 0.5rem 3rem 2.5rem;
-  margin-left: 1.5rem;
+  padding: 0.5rem 0 2rem 2.5rem;
   position: relative;
   ul {
     list-style: outside;
     margin: 0 1rem;
-    padding: 0 1rem;
+    padding: 0;
   }
+  @media (min-width: var(--xs-mq)) {
+    margin-left: 1.5rem;
+    padding: 0.5rem 3rem 2.5rem;
+  } 
 `;
 
 const Resume = ({ timeline }) => {
@@ -48,7 +51,8 @@ const Resume = ({ timeline }) => {
         <AnimateSharedLayout>
             <motion.ul variants={container}
                 initial="hidden"
-                animate="show">
+                animate="show"
+                className="ml-0 sm:ml-3">                    
                 {elements.map((event, index) => {
                     return (
                         <ResumeWrapper key={index}>

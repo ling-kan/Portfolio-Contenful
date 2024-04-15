@@ -50,7 +50,7 @@ const HomeHero = ({ name, animatedList, socials }) => {
                             scale: useTransform(scrollY, [0, 300], [1, 0.75]),
                         }}
                         className="text-center items-center justify-center my-auto">
-                        <h1 className="text-7xl md:text-9xl uppercase tracking-wide">
+                        <h1 className="text-6xl md:text-9xl uppercase tracking-wide">
                             {name}
                         </h1>
                         {animatedList && <section className="text-2xl sm:text-5xl uppercase relative font-semibold h-16 md:h-20">

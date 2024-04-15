@@ -12,9 +12,9 @@ const Container = ({ id, className, pageId, children, as = 'div' }) => {
         paddingRight: 'var(--size-gutter)',
         height: `${pageId === "navigation" && ' var(--nav-height)'}`
       }}
-      className={`${className} ${pageId === "home" ? 'py-16' : 'py-4'} my-0 mx-auto`}
+      className={`${className} ${pageId === "home" ? 'py-6 md:py-16' : 'py-4'} my-0 mx-auto`}
     >
-
+    
       {children}
     </Tag >
   )

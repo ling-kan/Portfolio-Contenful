@@ -15,7 +15,7 @@ body {
   background: var(--background);
   color: var(--text-color);
   font-family: var(--font-sans);
-  font-size: 16px;
+  font-size: var(--text-md);
   font-weight: var(--normal);
   line-height: var(--default);
   margin: 0;
@@ -157,7 +157,7 @@ code {
   background: var(--primary);
 }
 .not-found-text {
-  @media (min-width: 768px) {
+  @media (min-width: var(--xs-mq)) {
     font-size: 12rem;
   }
 }
@@ -169,13 +169,15 @@ code {
 .min-h-screen-90 {
   min-height: 90vh;
 }
-header ul, ul.flex, footer ul{
+header ul,
+ul.flex,
+footer ul {
   list-style: none;
   margin: 0;
   padding: 0;
 }
 ul {
- list-style: disc;
- margin-left: 1rem;
- padding-left: 1rem;
+  list-style: disc;
+  margin-left: 1rem;
+  padding-left: 1rem;
 }

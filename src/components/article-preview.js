@@ -35,7 +35,7 @@ const ArticlePreview = ({ posts }) => {
   if (!Array.isArray(posts)) return null
 
   return (
-    <ul className="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <ul className="grid grid-cols-1 sm:grid-cols-2 gap-6 pl-0 sm:pl-3 ml-0 sm:ml-3">
       {posts.filter(post => !post.hiddenPage).map((post) => {
         return (
           <FadeIn key={post.slug} >
