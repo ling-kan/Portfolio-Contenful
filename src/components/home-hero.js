@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Container from './container';
 import { useReducedMotion } from "framer-motion"
-import { GatsbyImage } from 'gatsby-plugin-image'
 import { AnimatePresence, motion, useTransform, useViewportScroll } from "framer-motion";
 import FadeIn from './motion/fade-in';
 import Socials from './socials';
@@ -27,7 +26,7 @@ const variants = {
 };
 
 
-const HomeHero = ({ name, animatedList, image }) => {
+const HomeHero = ({ name, animatedList, socials }) => {
     const [index, setIndex] = useState(0);
     const prefersReducedMotion = useReducedMotion();
     const { scrollY } = useViewportScroll();
@@ -51,9 +50,6 @@ const HomeHero = ({ name, animatedList, image }) => {
                             scale: useTransform(scrollY, [0, 300], [1, 0.75]),
                         }}
                         className="text-center items-center justify-center my-auto">
-                        {image?.gatsbyImageData &&
-                            <GatsbyImage imgClassName='rounded-full' className="rounded-full h-20 w-20 border-solid border-primary border-2 bg-primary mx-auto" alt="Profile Image" image={image?.gatsbyImageData} />
-                        }
                         <h1 className="text-6xl md:text-9xl uppercase tracking-wide">
                             {name}
                         </h1>
