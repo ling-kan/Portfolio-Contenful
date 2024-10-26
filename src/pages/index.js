@@ -28,10 +28,9 @@ const RootIndex = (props) => {
       <HomeHero
         id="bio"
         animatedList={author?.animatedList}
-        image={author?.heroImage?.gatsbyImageData}
+        image={author?.image}
         title={author?.title}
         name={author?.name}
-        socials={socials}
       />
       {author?.bio?.childMarkdownRemark.html && <TitleContainer title="About me" id="about">
         <div
@@ -143,8 +142,14 @@ export const pageQuery = graphql`
         bio {
         childMarkdownRemark {
           html
+        } 
+        }     
+        image{ 
+          gatsbyImageData(
+            layout: FULL_WIDTH
+            placeholder: BLURRED
+          )
         }
-      }
       }
     }
   }
