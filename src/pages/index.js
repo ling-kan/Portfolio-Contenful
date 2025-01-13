@@ -12,7 +12,6 @@ const RootIndex = (props) => {
   const [author] = get(props, "data.allContentfulLanding.nodes");
   const timeline = get(props, "data.allContentfulTimeline.nodes");
   const education = get(props, "data.allContentfulEducation.nodes");
-  const socials = get(props, "data.allContentfulSocials.nodes");
 
   useEffect(() => {
     setTimeout(scroll(), 1000);
@@ -31,6 +30,8 @@ const RootIndex = (props) => {
         image={author?.image}
         title={author?.title}
         name={author?.name}
+        tagline={author?.tagline?.childMarkdownRemark.html}
+
       />
       {author?.bio?.childMarkdownRemark.html && <TitleContainer title="About me" id="about">
         <div
@@ -57,12 +58,6 @@ export default RootIndex;
 
 export const pageQuery = graphql`
   query HomeQuery {
-    allContentfulSocials {
-      nodes {
-        url
-        type
-      }
-    }
     allContentfulNavigation(sort: { fields: [order], order: ASC }) {
       nodes {
         title
@@ -139,6 +134,11 @@ export const pageQuery = graphql`
       nodes {
         name
         animatedList
+       tagline {
+        childMarkdownRemark {
+          html
+        }
+      }
         bio {
         childMarkdownRemark {
           html

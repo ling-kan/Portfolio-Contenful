@@ -24,8 +24,9 @@ $xxl-mq: 1536px;
 
   /* palette */
   --primary-background: #f3f3f3;
-  --primary: #ededed;
+  --primary: #e4e4e4;
   --secondary: #3d5d9b;
+  --secondary-background: #d7dbe5;
   --white: #fdfdfd;
   --black: #212123;
   --grey: #7d7d7d;
@@ -134,6 +135,8 @@ $xxl-mq: 1536px;
   :root {
     --primary-background: #1c1c1c;
     --primary: #242424;
+    --secondary-background: #1b1d21;
+    --secondary: #7089ba;
     --white: #ffffff;
     --black: #efefef;
     --grey: #bebebe;

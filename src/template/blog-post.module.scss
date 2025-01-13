@@ -1,5 +1,4 @@
-@import "/src/styles/variables.scss";
-
+@use "/src/styles/variables" as *;
 .meta {
   font-family: var(--font-serif);
   font-size: var(--text-lg);
@@ -97,5 +96,16 @@
 
   .article ul {
     padding-left: 0;
+  }
+}
+.thumbnailImage {
+  max-width: 300px;
+  margin: 0 auto;
+  display: block;
+}
+
+@media (min-width: 768px) {
+  .thumbnailImage {
+    max-width: 50%;
   }
 }
