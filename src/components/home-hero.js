@@ -6,28 +6,7 @@ import { AnimatePresence, motion, useTransform, useViewportScroll } from "framer
 import FadeIn from './motion/fade-in';
 import Socials from './socials';
 
-const variants = {
-    enter: direction => {
-        return {
-            y: -20,
-            opacity: 0
-        };
-    },
-    center: {
-        zIndex: 1,
-        y: 0,
-        opacity: 1
-    },
-    exit: direction => {
-        return {
-            zIndex: 0,
-            opacity: 0
-        };
-    }
-};
-
-
-const HomeHero = ({ name, animatedList, image }) => {
+const HomeHero = ({ name, animatedList, image, tagline }) => {
     const [index, setIndex] = useState(0);
     const prefersReducedMotion = useReducedMotion();
     const { scrollY } = useViewportScroll();
@@ -44,7 +23,7 @@ const HomeHero = ({ name, animatedList, image }) => {
 
     return (
         <FadeIn>
-            <div id="home" className="h-screen z-0 items-center flex relative" >
+            <div id="home" className="h-screen z-0 items-center flex relative pt-16 md:pt-28" >
                 <Container>
                     <motion.div
                         style={{
@@ -64,32 +43,40 @@ const HomeHero = ({ name, animatedList, image }) => {
                                 <AnimatePresence>
                                     <motion.span
                                         className='absolute w-full top-0 left-0'
-                                        variants={variants}
+                                        variants={{
+                                            initial: { opacity: 0, y: -10 },
+                                            animate: { opacity: 1, y: 0 },
+                                            exit: { opacity: 0, y: 10 },
+                                        }}
                                         key={index}
-                                        initial={{
-                                            opacity: 0,
-                                            y: -10
-                                        }}
-                                        animate={{
-                                            opacity: 1,
-                                            y: 0
-                                        }}
-                                        exit={{
-                                            opacity: 0,
-                                            y: 10
-                                        }}
+                                        initial="initial"
+                                        animate="animate"
+                                        exit="exit"
                                         transition={{
                                             y: { type: "spring", stiffness: 300, damping: 200 },
-                                            opacity: { duration: 0.7 }
+                                            opacity: { duration: 0.7 },
                                         }}
                                     >
                                         {animatedList[index]}
                                     </motion.span>
                                 </AnimatePresence>}
-                        </section>}
+                        </section>
+                        }
+                        {tagline && (
+                            <div
+                                className="text-center mb-3 w-full max-w-3xl mx-auto"
+                                dangerouslySetInnerHTML={{
+                                    __html: tagline,
+                                }}
+                            />
+                        )}
                         <Socials width="w-10" />
+                        <div className="scroll-down-space" />
                     </motion.div>
-                    <div className="scroll-down opacity-30" />
+                    <div className="scroll-down-container absolute">
+                        <div className="scroll-down opacity-30" />
+                    </div>
+
                 </Container>
             </div >
         </FadeIn>

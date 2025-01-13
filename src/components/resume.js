@@ -52,7 +52,7 @@ const Resume = ({ timeline }) => {
             <motion.ul variants={container}
                 initial="hidden"
                 animate="show"
-                className="ml-0 sm:ml-3">                    
+                className="ml-0 sm:ml-3">
                 {elements.map((event, index) => {
                     return (
                         <ResumeWrapper key={index}>
@@ -67,7 +67,7 @@ const Resume = ({ timeline }) => {
                                     <div>{event.company}</div> <div className='md:text-base text-sm pb-4 md:pb-0'>{event?.startDate && `${event.startDate} - ${event.currentRole ? "CURRENT" : event.endDate}`}</div>
                                 </div>
                                 <h3 className="vertical-timeline-element-subtitle text-md font-medium ">{event.jobTitle}</h3>
-                                <button className='read-more italic text-grey text-sm py-2' onClick={() => toggleActiveItem(index)}>  {selectedArr.includes(index) ? 'Collapse info' : 'Show more info'}</button>
+                                <button className='link-button italic text-grey text-sm py-2' onClick={() => toggleActiveItem(index)}>  {selectedArr.includes(index) ? 'Collapse info' : 'Show more info'}</button>
                                 <AnimatePresence>
                                     {selectedArr.includes(index) && <motion.div initial={{ opacity: 0 }}
                                         animate={{ opacity: 1 }}
@@ -81,7 +81,7 @@ const Resume = ({ timeline }) => {
             </motion.ul >
             {
                 elements.length !== timeline.length &&
-                <button className="m-auto flex py-2 px-4 rounded-full items-center border-primary border-solid border-2" onClick={(e) => { e.preventDefault(); loadMore(); }}>
+                <button className="border-button m-auto flex py-2 px-4 rounded-full items-center border-solid border-2" onClick={(e) => { e.preventDefault(); loadMore(); }}>
                     <PlusIcon className=" h-4 w-4 mr-4" />
                     <span>Load more</span>
                 </button>

@@ -70,7 +70,6 @@ module.exports = {
     "gatsby-plugin-react-helmet",
     "gatsby-plugin-sharp",
     "gatsby-plugin-image",
-    "gatsby-plugin-nprogress",
     {
       resolve: "gatsby-source-contentful",
       options: contentfulConfig,
@@ -79,7 +78,7 @@ module.exports = {
       resolve: "gatsby-plugin-react-svg",
       options: {
         rule: {
-          include: /assets/ // See below to configure properly
+          include: /assets/
         }
       }
     },
@@ -88,7 +87,7 @@ module.exports = {
       options: {
         postCssPlugins: [
           require("tailwindcss"),
-          require("./tailwind.config.js"), // Optional: Load custom Tailwind CSS configuration
+          require("./tailwind.config.js"),
         ],
       },
     },
@@ -127,7 +126,7 @@ module.exports = {
         },
         googleTagManager: {
           trackingId: process.env.GATSBY_GOOGLE_TAG_MANAGER_ID,
-          cookieName: 'gdpr-google-analytics',
+          cookieName: "gdpr-google-analytics",
         },
       },
     },

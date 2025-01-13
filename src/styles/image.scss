@@ -172,44 +172,39 @@
 .scroll-down:before {
   left: 50%;
 }
+.scroll-down-space {
+  height: 50px;
+}
+.scroll-down-container {
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+}
 
 .scroll-down {
   width: 30px;
   height: 30px;
-  bottom: 4rem;
   margin: -20px 0 0 -20px;
-  -webkit-transform: rotate(45deg);
+  transform: rotate(45deg);
   border-left: none;
   border-top: none;
   border-right: 3px var(--black) solid;
   border-bottom: 3px var(--black) solid;
   position: absolute;
+  animation: scroll-down-animation 1.5s infinite;
 }
 
-// .scroll-down:before {
-//   content: "";
-//   width: 20px;
-//   height: 20px;
-//   top: 50%;
-//   margin: -10px 0 0 -10px;
-//   border-left: none;
-//   border-top: none;
-//   border-right: 1px var(--black) solid;
-//   border-bottom: 1px var(--black) solid;
-//   animation-duration: 2s;
-//   animation-iteration-count: infinite;
-//   animation-name: scroll-down;
-// }
-
-// @keyframes scroll-down {
-//   0% {
-//     opacity: 1;
-//   }
-//   100% {
-//     opacity: 0;
-//     transform: translate(-10px, -10px);
-//   }
-// }
+@keyframes scroll-down-animation {
+  0% {
+    transform: translateY(0) rotate(45deg);
+  }
+  50% {
+    transform: translateY(10px) rotate(45deg);
+  }
+  100% {
+    transform: translateY(0) rotate(45deg);
+  }
+}
 
 .loading {
   position: relative;
@@ -218,17 +213,17 @@
   height: 0.5rem;
   overflow: hidden;
   border-radius: 25px;
-  background: #ededf2;
+  background: var(--primary-background);
+  border: 1px solid var(--grey);
 }
 
 .loading-bar {
-  --w: 80px; /* the width of coloration */
-
+  --w: 80px;
   position: absolute;
   left: calc(-1 * var(--w));
   right: 0;
   height: 0.5rem;
-  background: linear-gradient(rgb(0, 0, 0) 0 0) 0 / var(--w) 100% no-repeat;
+  background: linear-gradient(rgb(0, 0, 0) 0 0) 0 / var(--grey) 100% no-repeat;
   animation: loading-bar 2s linear infinite;
 }
 
