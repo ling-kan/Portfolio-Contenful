@@ -35,7 +35,7 @@ export function skipSSR() {
   }
 }
 
-export function getCodeFrameInformationFromStackTrace(stackTrace) {
+export function getCodeFrameInformation(stackTrace) {
   const stackFrame = stackTrace.find(stackFrame => {
     const fileName = stackFrame.getFileName()
     return fileName && fileName !== `[native code]` // Quirk of Safari error stack frames

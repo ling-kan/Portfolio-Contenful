@@ -6,8 +6,8 @@ import { ArrowNarrowRightIcon } from '@heroicons/react/solid'
 import FadeIn from './motion/fade-in'
 
 const ArticlePreviewWrapper = styled(Link)`
-  background: var(--background);
-  transition: all 0.6s ease-in-out; // Smoother transition
+ background: var(--background);
+  transition: 0.4s ease-out;
   .details {
     background: var(--primary);
     background: linear-gradient(
@@ -16,11 +16,9 @@ const ArticlePreviewWrapper = styled(Link)`
       var(--primary) 85%,
       rgba(202, 0, 255, 0) 100%
     );
-    transition: background 0.6s ease-in-out; // Smoother transition for background
   }
   .article-image {
     padding-bottom: 5rem;
-    transition: opacity 0.6s ease-in-out; // Smoother transition for opacity
   }
   &:hover {
     .gatsby-image-wrapper {
@@ -31,7 +29,6 @@ const ArticlePreviewWrapper = styled(Link)`
     }
   }
 `;
-
 
 const ArticlePreview = ({ posts }) => {
   if (!posts) return null
@@ -56,7 +53,7 @@ const ArticlePreview = ({ posts }) => {
                     <div className="description text-black text-sm" dangerouslySetInnerHTML={{
                       __html: post.description.childMarkdownRemark.html,
                     }} />
-                    <p className="link-button text-sm pt-4 text-grey hover:text-secondary inline-flex">Read more <ArrowNarrowRightIcon className="ml-1 my-auto h-3 w-3" /></p>
+                    <p className="text-sm pt-4 text-grey hover:text-secondary inline-flex">Read more <ArrowNarrowRightIcon className="ml-1 my-auto h-3 w-3" /></p>
                   </div>
 
                 </div>

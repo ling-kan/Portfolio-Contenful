@@ -12,6 +12,4 @@
 //     options: { ... },
 //   },
 // ]
-
 module.exports = [];
-//# sourceMappingURL=api-runner-browser-plugins.js.map

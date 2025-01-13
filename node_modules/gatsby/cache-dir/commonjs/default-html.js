@@ -1,10 +1,14 @@
 "use strict";
 
 var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+
 exports.__esModule = true;
 exports.default = HTML;
+
 var _react = _interopRequireDefault(require("react"));
+
 var _propTypes = _interopRequireDefault(require("prop-types"));
+
 function HTML(props) {
   return /*#__PURE__*/_react.default.createElement("html", props.htmlAttributes, /*#__PURE__*/_react.default.createElement("head", null, /*#__PURE__*/_react.default.createElement("meta", {
     charSet: "utf-8"
@@ -22,6 +26,7 @@ function HTML(props) {
     }
   }), props.postBodyComponents));
 }
+
 HTML.propTypes = {
   htmlAttributes: _propTypes.default.object,
   headComponents: _propTypes.default.array,
@@ -30,4 +35,3 @@ HTML.propTypes = {
   body: _propTypes.default.string,
   postBodyComponents: _propTypes.default.array
 };
-//# sourceMappingURL=default-html.js.map

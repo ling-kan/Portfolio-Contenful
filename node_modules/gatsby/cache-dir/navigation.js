@@ -5,10 +5,8 @@ import { maybeGetBrowserRedirect } from "./redirect-utils.js"
 import { apiRunner } from "./api-runner-browser"
 import emitter from "./emitter"
 import { RouteAnnouncerProps } from "./route-announcer-props"
-import {
-  navigate as reachNavigate,
-  globalHistory,
-} from "@gatsbyjs/reach-router"
+import { navigate as reachNavigate } from "@gatsbyjs/reach-router"
+import { globalHistory } from "@gatsbyjs/reach-router/lib/history"
 import { parsePath } from "gatsby-link"
 
 function maybeRedirect(pathname) {
@@ -45,7 +43,7 @@ const onRouteUpdate = (location, prevLocation) => {
   if (!maybeRedirect(location.pathname)) {
     apiRunner(`onRouteUpdate`, { location, prevLocation })
     if (
-      process.env.GATSBY_QUERY_ON_DEMAND &&
+      process.env.GATSBY_EXPERIMENTAL_QUERY_ON_DEMAND &&
       process.env.GATSBY_QUERY_ON_DEMAND_LOADING_INDICATOR === `true`
     ) {
       emitter.emit(`onRouteUpdate`, { location, prevLocation })
@@ -226,9 +224,9 @@ class RouteUpdates extends React.Component {
     onRouteUpdate(this.props.location, null)
   }
 
-  shouldComponentUpdate(nextProps) {
-    if (compareLocationProps(this.props.location, nextProps.location)) {
-      onPreRouteUpdate(nextProps.location, this.props.location)
+  shouldComponentUpdate(prevProps) {
+    if (compareLocationProps(prevProps.location, this.props.location)) {
+      onPreRouteUpdate(this.props.location, prevProps.location)
       return true
     }
     return false
