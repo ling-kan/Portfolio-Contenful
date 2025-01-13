@@ -9,12 +9,7 @@ import { navigate } from "gatsby"
 import { isLoggedIn } from "../services/auth"
 import Container from '../components/container'
 import Loader from '../components/loader'
-import LazyLoad from 'react-lazyload'
 // import TableOfContents from '../components/table-contents';
-import Zoom from 'react-medium-image-zoom';
-import 'react-medium-image-zoom/dist/styles.css';
-import { GatsbyImage, getImage } from 'gatsby-plugin-image';
-
 
 const BlogPostTemplate = (props) => {
   const post = get(props, 'data.contentfulBlogPost')
@@ -22,7 +17,6 @@ const BlogPostTemplate = (props) => {
   const next = get(props, 'data.next')
   const navigation = get(props, "data.allContentfulNavigation.nodes");
   const socials = get(props, "data.allContentfulSocials.nodes");
-  const images = get(props, 'data.allFile.nodes');
   const [loader, setLoader] = useState(true);
 
   function checkLogin() {
@@ -38,35 +32,6 @@ const BlogPostTemplate = (props) => {
     checkLogin()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-  const renderContentWithZoom = (html) => {
-    const div = document.createElement('div');
-    div.innerHTML = html;
-    const elements = Array.from(div.childNodes);
-    const content = elements.map((node, index) => {
-      if (node.tagName === 'IMG') {
-        const image = images.find(img => node.src.includes(img.relativePath));
-        if (image) {
-          const gatsbyImage = getImage(image.childImageSharp.gatsbyImageData);
-          return (
-            <Zoom key={index}>
-              <GatsbyImage image={gatsbyImage} alt={node.alt} title={node.title} className={styles.thumbnailImage} />
-            </Zoom>
-          );
-        } else {
-          return (
-            <Zoom key={index}>
-              <img src={node.src} alt={node.alt} title={node.title} className={styles.thumbnailImage} />
-            </Zoom>
-          );
-        }
-      } else {
-        return <div key={index} dangerouslySetInnerHTML={{ __html: node.outerHTML }} />;
-      }
-    });
-    return content;
-  };
-  const contentWithZoom = renderContentWithZoom(post.content?.childMarkdownRemark?.html || '');
-
 
   return (
     <>
@@ -112,10 +77,11 @@ const BlogPostTemplate = (props) => {
                   </div>
                   }
 
-                  <LazyLoad height={200} offset={100} once>
-                    <div>{contentWithZoom}</div>
-                  </LazyLoad>
-
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html: post.content?.childMarkdownRemark?.html,
+                    }}
+                  />
 
                   {(previous || next) && (
                     <nav>
@@ -209,14 +175,6 @@ export const pageQuery = graphql`
         title
         url
         order
-      }
-    }
-    allFile(filter: { extension: { regex: "/(jpg|jpeg|png)/" } }) {
-      nodes {
-        relativePath
-        childImageSharp {
-          gatsbyImageData(layout: CONSTRAINED, width: 300)
-        }
       }
     }
   }

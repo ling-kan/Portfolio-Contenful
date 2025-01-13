@@ -6,7 +6,6 @@ exports.Tab = exports.Space = exports.PageUp = exports.PageDown = exports.Home =
 // License: Apache-2.0
 // Copyright IBM Corp. 2016, 2018
 // Entrypoint: packages/react/src/internal/keyboard/keys.js
-
 const Tab = {
   key: `Tab`,
   which: 9,
@@ -20,8 +19,7 @@ const Enter = {
 };
 exports.Enter = Enter;
 const Escape = {
-  key: [`Escape`,
-  // IE11 Escape
+  key: [`Escape`, // IE11 Escape
   `Esc`],
   which: 27,
   keyCode: 27
@@ -81,4 +79,3 @@ const ArrowDown = {
   keyCode: 40
 };
 exports.ArrowDown = ArrowDown;
-//# sourceMappingURL=keys.js.map
