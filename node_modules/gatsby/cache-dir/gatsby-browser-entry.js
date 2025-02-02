@@ -14,7 +14,7 @@ function graphql() {
 export { default as PageRenderer } from "./public-page-renderer"
 export { useScrollRestoration } from "gatsby-react-router-scroll"
 export {
-  Link,
+  default as Link,
   withPrefix,
   withAssetPrefix,
   navigate,
@@ -22,6 +22,11 @@ export {
 } from "gatsby-link"
 
 export { graphql, prefetchPathname }
-export { StaticQuery, StaticQueryContext, useStaticQuery } from "./static-query"
-export { Slice } from "./slice"
+export {
+  StaticQuery,
+  StaticQueryContext,
+  useStaticQuery,
+  StaticQueryServerContext,
+} from "./static-query"
+
 export * from "gatsby-script"

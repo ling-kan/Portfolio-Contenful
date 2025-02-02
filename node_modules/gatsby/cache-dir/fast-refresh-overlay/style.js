@@ -51,7 +51,7 @@ export const Style = () => (
 
         [data-gatsby-overlay="backdrop"] {
           background: var(--backdrop);
-          position: fixed;
+          position: absolute;
           top: 0;
           left: 0;
           right: 0;
