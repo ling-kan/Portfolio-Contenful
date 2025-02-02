@@ -14,7 +14,7 @@ import LazyLoad from 'react-lazyload'
 import Zoom from 'react-medium-image-zoom';
 import 'react-medium-image-zoom/dist/styles.css';
 import { GatsbyImage, getImage } from 'gatsby-plugin-image';
-
+import ErrorBoundary from '../components/error-boundary';
 
 const BlogPostTemplate = (props) => {
   const post = get(props, 'data.contentfulBlogPost')
@@ -39,7 +39,7 @@ const BlogPostTemplate = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   const renderContentWithZoom = (html) => {
-    const div = document.createElement('div');
+    const div = document?.createElement('div');
     div.innerHTML = html;
     const elements = Array.from(div.childNodes);
     const content = elements.map((node, index) => {
@@ -74,73 +74,75 @@ const BlogPostTemplate = (props) => {
         loader ?
           <Loader />
           :
-          <Layout location={props.location} navigation={navigation} socials={socials} >
-            <Seo
-              title={post.title}
-              description={post.description.childMarkdownRemark.excerpt}
-              image={`http:${post.heroImage.resize.src}`}
-            />
-            <BlogHeader
-              image={post.heroImage?.gatsbyImageData}
-              title={post.title}
-              content={post.description?.childMarkdownRemark?.excerpt}
-              rawDate={post.rawDate}
-              endDate={post.endDate}
-              timeToRead={post.body?.childMarkdownRemark?.timeToRead}
-              tags={post.tags}
-            />
-            <div className="text-black relative">
-              {/* <TableOfContents list={post.content?.childMarkdownRemark?.tableOfContents} /> */}
-              <Container>
-                <div className={styles.article}>
-                  <h2 className={styles.articleTitle}>Summary</h2>
-                  {post.summary && <div
-                    dangerouslySetInnerHTML={{
-                      __html: post.summary?.childMarkdownRemark?.html,
-                    }}
-                  />}
+          <ErrorBoundary>
+            <Layout location={props.location} navigation={navigation} socials={socials} >
+              <Seo
+                title={post.title}
+                description={post.description.childMarkdownRemark.excerpt}
+                image={`http:${post.heroImage.resize.src}`}
+              />
+              <BlogHeader
+                image={post.heroImage?.gatsbyImageData}
+                title={post.title}
+                content={post.description?.childMarkdownRemark?.excerpt}
+                rawDate={post.rawDate}
+                endDate={post.endDate}
+                timeToRead={post.body?.childMarkdownRemark?.timeToRead}
+                tags={post.tags}
+              />
+              <div className="text-black relative">
+                {/* <TableOfContents list={post.content?.childMarkdownRemark?.tableOfContents} /> */}
+                <Container>
+                  <div className={styles.article}>
+                    <h2 className={styles.articleTitle}>Summary</h2>
+                    {post.summary && <div
+                      dangerouslySetInnerHTML={{
+                        __html: post.summary?.childMarkdownRemark?.html,
+                      }}
+                    />}
 
-                  {post.role && post.endDate && <div className="grid grid-cols-2 gap-2">
-                    <div>
-                      <h2 className={styles.articleTitle}>Role</h2>
-                      {post.role && <p>{post.role}</p>}
+                    {post.role && post.endDate && <div className="grid grid-cols-2 gap-2">
+                      <div>
+                        <h2 className={styles.articleTitle}>Role</h2>
+                        {post.role && <p>{post.role}</p>}
+                      </div>
+                      <div>
+                        <h2 className={styles.articleTitle}>Duration</h2>
+                        {post.endDate && <p>{post.startDate} - {post.endDate}</p>}
+                      </div>
                     </div>
-                    <div>
-                      <h2 className={styles.articleTitle}>Duration</h2>
-                      {post.endDate && <p>{post.startDate} - {post.endDate}</p>}
-                    </div>
+                    }
+
+                    <LazyLoad height={200} offset={100} once>
+                      <div>{contentWithZoom}</div>
+                    </LazyLoad>
+
+
+                    {(previous || next) && (
+                      <nav>
+                        <ul className={styles.articleNavigation}>
+                          {previous && (
+                            <li>
+                              <Link to={`/portfolio/${previous.slug}`} rel="prev">
+                                ← {previous.title}
+                              </Link>
+                            </li>
+                          )}
+                          {next && (
+                            <li>
+                              <Link to={`/portfolio/${next.slug}`} rel="next">
+                                {next.title} →
+                              </Link>
+                            </li>
+                          )}
+                        </ul>
+                      </nav>
+                    )}
                   </div>
-                  }
-
-                  <LazyLoad height={200} offset={100} once>
-                    <div>{contentWithZoom}</div>
-                  </LazyLoad>
-
-
-                  {(previous || next) && (
-                    <nav>
-                      <ul className={styles.articleNavigation}>
-                        {previous && (
-                          <li>
-                            <Link to={`/portfolio/${previous.slug}`} rel="prev">
-                              ← {previous.title}
-                            </Link>
-                          </li>
-                        )}
-                        {next && (
-                          <li>
-                            <Link to={`/portfolio/${next.slug}`} rel="next">
-                              {next.title} →
-                            </Link>
-                          </li>
-                        )}
-                      </ul>
-                    </nav>
-                  )}
-                </div>
-              </Container>
-            </div>
-          </Layout>
+                </Container>
+              </div>
+            </Layout>
+          </ErrorBoundary>
       }
     </>
   )

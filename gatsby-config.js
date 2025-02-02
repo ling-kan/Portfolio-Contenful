@@ -58,6 +58,9 @@ if (!spaceId || !accessToken) {
 }
 
 module.exports = {
+  flags: {
+    DEV_SSR: true
+  },
   siteMetadata: {
     title: "Ling Kan",
     description: "Ling Kan Portfolio",
@@ -70,25 +73,21 @@ module.exports = {
     "gatsby-plugin-react-helmet",
     "gatsby-plugin-sharp",
     "gatsby-plugin-image",
+    "gatsby-plugin-nprogress",
     {
       resolve: "gatsby-source-contentful",
       options: contentfulConfig,
     },
     {
-      resolve: "gatsby-plugin-react-svg",
-      options: {
-        rule: {
-          include: /assets/
-        }
-      }
-    },
-    {
       resolve: `gatsby-plugin-sass`,
       options: {
         postCssPlugins: [
-          require("tailwindcss"),
-          require("./tailwind.config.js"),
+          require('tailwindcss'),
+          require('./tailwind.config.js'),
         ],
+        sassOptions: {
+          quietDeps: true, // Suppress deprecation warnings for dependencies
+        },
       },
     },
     {
@@ -115,21 +114,22 @@ module.exports = {
         display: `standalone`,
       },
     },
-    {
-      resolve: `gatsby-plugin-gdpr-cookies`,
-      options: {
-        googleAnalytics: {
-          trackingId: process.env.GATSBY_GOOGLE_ANALYTICS_TRACKING_ID,
-          cookieName: "gdpr-google-analytics",
-          anonymize: true,
-          allowAdFeatures: false,
-        },
-        googleTagManager: {
-          trackingId: process.env.GATSBY_GOOGLE_TAG_MANAGER_ID,
-          cookieName: "gdpr-google-analytics",
-        },
-      },
-    },
+    // {
+    //   resolve: `gatsby-plugin-gdpr-cookies`,
+    //   options: {
+    //     googleAnalytics: {
+    //       trackingId: process.env.GATSBY_GOOGLE_ANALYTICS_TRACKING_ID,
+    //       cookieName: "gdpr-google-analytics",
+    //       anonymize: true,
+    //       allowAdFeatures: false,
+    //     },
+    //     googleTagManager: {
+    //       trackingId: process.env.GATSBY_GOOGLE_TAG_MANAGER_ID,
+    //       cookieName: 'gdpr-google-analytics',
+    //     },
+    //   },
+    // },
+
     `gatsby-plugin-offline`,
   ],
 };
