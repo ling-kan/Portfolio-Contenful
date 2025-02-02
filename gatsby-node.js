@@ -1,4 +1,5 @@
 const path = require('path')
+require('./polyfills');
 
 exports.onCreateWebpackConfig = ({ actions }) => {
   actions.setWebpackConfig({
@@ -13,6 +14,22 @@ exports.onCreateWebpackConfig = ({ actions }) => {
   });
 };
 
+exports.onCreateWebpackConfig = ({ stage, actions }) => {
+  actions.setWebpackConfig({
+    resolve: {
+      fallback: {
+        stream: require.resolve('stream-browserify'),
+      },
+    },
+  });
+};
+if (typeof globalThis.fetch === 'undefined') {
+  globalThis.fetch = require('node-fetch');
+}
+
+if (typeof globalThis.ReadableStream === 'undefined') {
+  globalThis.ReadableStream = require('web-streams-polyfill').ReadableStream;
+}
 
 exports.onCreateWebpackConfig = ({ actions }) => {
   actions.setWebpackConfig({

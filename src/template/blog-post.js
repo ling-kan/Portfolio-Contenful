@@ -39,7 +39,7 @@ const BlogPostTemplate = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   const renderContentWithZoom = (html) => {
-    const div = document?.createElement('div');
+    const div = document && document?.createElement('div');
     div.innerHTML = html;
     const elements = Array.from(div.childNodes);
     const content = elements.map((node, index) => {
