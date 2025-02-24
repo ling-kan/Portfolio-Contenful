@@ -53,7 +53,7 @@ const ArticlePreview = ({ posts }) => {
                     <div className="description text-black text-sm" dangerouslySetInnerHTML={{
                       __html: post.description.childMarkdownRemark.html,
                     }} />
-                    <div className="text-sm mt-4 inline-flex text-link text-blue-dark">Read more <ArrowNarrowRightIcon className="ml-1 my-auto h-3 w-3 fill-blue" /></div>
+                    <div className="text-sm mt-4 inline-flex text-link text-blue-dark">Read more <ArrowNarrowRightIcon className="ml-1 my-auto h-3 w-3 fill-blue-dark" /></div>
                   </div>
 
                 </div>

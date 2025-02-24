@@ -12,16 +12,30 @@ const RootIndex = (props) => {
   const [author] = get(props, "data.allContentfulLanding.nodes");
   const timeline = get(props, "data.allContentfulTimeline.nodes");
   const education = get(props, "data.allContentfulEducation.nodes");
-
   useEffect(() => {
-    setTimeout(scroll(), 1000);
-  });
-  function scroll() {
-    if (props.location.hash) {
-      const element = document?.querySelector(props.location.hash)?.offsetTop - 75;
-      element && window.scrollTo({ top: element, behavior: "smooth" });
-    }
-  }
+    const scroll = () => {
+      if (props.location.hash) {
+        const element = document.querySelector(props.location.hash);
+        if (element) {
+          const offset = element.offsetTop - 75;
+          window.scrollTo({ top: offset, behavior: "smooth" });
+        }
+      }
+    };
+
+    setTimeout(scroll, 1000);
+  }, [props.location.hash]);
+
+
+  // useEffect(() => {
+  //   setTimeout(scroll(), 1000);
+  // });
+  // function scroll() {
+  //   if (props.location.hash) {
+  //     const element = document?.querySelector(props.location.hash)?.offsetTop - 75;
+  //     element && window.scrollTo({ top: element, behavior: "smooth" });
+  //   }
+  // }
   return (
     <Layout location={props.location} fullHeaderHeight={true}>
       <HomeHero

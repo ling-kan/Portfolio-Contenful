@@ -48,20 +48,18 @@ a,
 button {
   color: var(--link);
   text-decoration: none;
-
+  svg:not(.no-fill) {
+    fill: var(--link);
+  }
   &:hover {
     color: var(--link-hover);
+    svg:not(.no-fill) {
+      // fill: var(--link-hover);
+    }
   }
 
   &.active {
     font-weight: var(--semibold);
-  }
-
-  svg {
-    fill: var(--grey);
-    &:hover {
-      fill: var(--link-hover);
-    }
   }
 }
 
@@ -97,19 +95,19 @@ button {
     }
   }
 }
-input,
+input[type="submit"],
 button {
   color: var(--link);
   background-color: transparent;
   border: 2px solid var(--link);
   transition: color 0.3s ease, border-color 0.3s ease;
-  svg {
+  svg:not(.no-fill) {
     fill: var(--link);
   }
   &:hover {
     border-color: var(--link-hover);
     color: var(--link-hover);
-    svg {
+    svg:not(.no-fill) {
       fill: var(--link-hover);
     }
   }
@@ -218,4 +216,13 @@ ul {
   list-style: disc;
   margin-left: 1rem;
   padding-left: 1rem;
+}
+svg.fill-grey {
+  fill: var(--grey) !important;
+  &:hover {
+    fill: var(--link-hover) !important;
+  }
+}
+hr {
+  border-color: var(--grey-light);
 }
