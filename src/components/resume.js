@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from "framer-motion";
 import styled from "styled-components"
 import { GatsbyImage } from 'gatsby-plugin-image'
@@ -25,6 +25,11 @@ const Resume = ({ timeline }) => {
     const firstSection = timeline.slice(0, 4)
     const [elements, setElements] = useState(firstSection);
     const [selectedArr, setSelectedArr] = useState([]);
+    const [isClient, setIsClient] = useState(false);
+
+    useEffect(() => {
+        setIsClient(true);
+    }, []);
 
     const loadMore = () => {
         setElements(timeline);
@@ -67,7 +72,10 @@ const Resume = ({ timeline }) => {
                                     <div>{event.company}</div> <div className='md:text-base text-sm mb-4 md:mb-0'>{event?.startDate && `${event.startDate} - ${event.currentRole ? "CURRENT" : event.endDate}`}</div>
                                 </div>
                                 <h3 className="vertical-timeline-element-subtitle text-md font-medium mb-2">{event.jobTitle}</h3>
-                                {event?.description && <p className="text-sm mb-2 text-grey" dangerouslySetInnerHTML={{ __html: event?.description?.childMarkdownRemark?.html }} />}
+                                {isClient && event?.description?.childMarkdownRemark?.html && (
+                                    <p className="text-sm mb-2 text-grey"
+                                        dangerouslySetInnerHTML={{ __html: event.description.childMarkdownRemark.html }} />
+                                )}
                                 <div className="italic text-sm text-link inline text-underline text-blue-dark" onClick={() => toggleActiveItem(index)} onKeyDown={(e) => {
                                     if (e.key === 'Enter' || e.key === ' ') {
                                         toggleActiveItem(index);

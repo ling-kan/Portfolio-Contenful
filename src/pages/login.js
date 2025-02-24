@@ -6,12 +6,14 @@ import Layout from "../components/layout";
 import Container from '../components/container';
 import Header from '../components/header';
 import { ArrowNarrowLeftIcon } from '@heroicons/react/solid'
+import { EyeIcon, EyeOffIcon } from '@heroicons/react/outline'
 
 const Login = (props) => {
     const socials = get(props, "data.allContentfulSocials.nodes");
     const email = socials?.filter(social => social.type === 'Email');
-    const [form, setForm] = useState('');
+    const [form, setForm] = useState({ password: '' });
     const [loginFailed, setLoginFailed] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
 
     function handleSubmit(event) {
         event.preventDefault()
@@ -37,27 +39,38 @@ const Login = (props) => {
         <Layout location={props.location} socials={socials} >
             <div className="min-h-screen-90 ">
                 <Container>
-                    <button className="flex m-2 border-none" onClick={(e) => { e.preventDefault(); navigate(-2) }}>
+                    <button className="flex m-2 border-none text-link" onClick={(e) => { e.preventDefault(); navigate(-2) }}>
                         <ArrowNarrowLeftIcon className="mr-2 my-auto h-5 w-5" />
                         Back</button>
                 </Container>
                 <Container>
                     <Header title="Protected Page" className="text-center" />
                     <div className="w-full max-w-xs mt-20 mx-auto">
-                        <form method="post"
-                            onSubmit={event => {
-                                handleSubmit(event)
-                            }} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+                        <form method="post" onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
                             <div className="mb-6">
-                                <label
-                                    htmlFor="password"
-                                    for="password"
-                                    className="block text-black text-sm font-bold" >
+                                <label htmlFor="password" className="block text-black text-sm font-bold">
                                     Password
-                                    <input onChange={event => setForm({
-                                        [event.target.name]: event.target.value,
-                                    })} className={`${loginFailed ? 'border-red' : 'border-grey-light'} bg-transparent shadow appearance-none border rounded w-full mt-2 py-2 px-3  mb-3 leading-tight focus:outline-none focus:shadow-outline`} id="password" type="password"
-                                        name="password" placeholder="********" />
+                                    <div className="relative flex items-center">
+                                        <input
+                                            onChange={event => {
+                                                const value = event.target.value;
+                                                setForm({ password: value });
+                                                if (!value) setLoginFailed(false); // Remove error message when field is emptied
+                                            }}
+                                            className={`${loginFailed ? 'border-red' : 'border-grey-light'} bg-transparent shadow appearance-none border rounded w-full mt-2 py-2 px-3 mb-3 leading-tight focus:outline-none focus:shadow-outline pr-8`}
+                                            id="password"
+                                            type={showPassword ? "text" : "password"}
+                                            name="password"
+                                            placeholder="********"
+                                        />
+                                        <button
+                                            type="button"
+                                            className="no-fill absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-600 border-none"
+                                            onClick={() => setShowPassword(!showPassword)}
+                                        >
+                                            {showPassword ? <EyeOffIcon className="h-5 w-5 no-fill" /> : <EyeIcon className="h-5 w-5 no-fill" />}
+                                        </button>
+                                    </div>
                                 </label>
                                 {loginFailed && <p className="text-red text-xs italic">Incorrect password, please try again</p>}
                             </div>
@@ -74,7 +87,6 @@ const Login = (props) => {
         </Layout>
     )
 }
-
 
 export default Login;
 
