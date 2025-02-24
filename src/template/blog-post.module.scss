@@ -1,5 +1,4 @@
-@import "/src/styles/variables.scss";
-
+@use "/src/styles/variables" as *;
 .meta {
   font-family: var(--font-serif);
   font-size: var(--text-lg);
@@ -22,13 +21,13 @@
 }
 
 .article a {
-  border-bottom: 1.5px solid currentColor;
+  border-bottom: 1.5px solid var(--link);
   font-weight: var(--medium);
 }
 
 .article a:hover {
-  border-bottom-color: transparent;
-  color: var(--primary);
+  border-bottom-color: var(--link-hover);
+  color: var(--link-hover);
 }
 
 .article p {

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Container from './container';
 import { useReducedMotion } from "framer-motion"
 import { GatsbyImage } from 'gatsby-plugin-image'
-import { AnimatePresence, motion, useTransform, useViewportScroll } from "framer-motion";
+import { AnimatePresence, motion, useTransform, useScroll } from "framer-motion";
 import FadeIn from './motion/fade-in';
 import Socials from './socials';
 
@@ -30,7 +30,7 @@ const variants = {
 const HomeHero = ({ name, animatedList, image }) => {
     const [index, setIndex] = useState(0);
     const prefersReducedMotion = useReducedMotion();
-    const { scrollY } = useViewportScroll();
+    const { scrollY } = useScroll();
 
     useEffect(() => {
         setTimeout(() => {

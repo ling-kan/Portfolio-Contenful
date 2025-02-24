@@ -1,7 +1,7 @@
 import * as React from "react"
 import { Renderer } from "react-dom"
 import { EventEmitter } from "events"
-import { WindowLocation, NavigateFn, NavigateOptions } from "@reach/router"
+import { WindowLocation, NavigateOptions } from "@reach/router" // These come from `@types/reach__router`
 import { Reporter } from "gatsby-cli/lib/reporter/reporter"
 import { Span } from "opentracing"
 export { Reporter }
@@ -17,10 +17,15 @@ import { GraphQLOutputType } from "graphql"
 import { PluginOptionsSchemaJoi, ObjectSchema } from "gatsby-plugin-utils"
 import { IncomingMessage, ServerResponse } from "http"
 
-export type AvailableFeatures = "image-cdn" | "graphql-typegen" | "content-file-path"
+export type AvailableFeatures =
+  | "image-cdn"
+  | "graphql-typegen"
+  | "content-file-path"
+  | "stateful-source-nodes"
+  | "adapters"
 
 export {
-  default as Link,
+  Link,
   GatsbyLinkProps,
   navigate,
   withPrefix,
@@ -28,6 +33,25 @@ export {
 } from "gatsby-link"
 
 export * from "gatsby-script"
+
+export {
+  AdapterInit,
+  IAdapter,
+  IStaticRoute,
+  IFunctionRoute,
+  IRedirectRoute,
+  IFunctionDefinition,
+  RoutesManifest,
+  HeaderRoutes,
+  FunctionsManifest,
+  IAdapterConfig,
+  ImageCdnUrlGeneratorFn,
+  ImageCdnSourceImage,
+  ImageCdnTransformArgs,
+  FileCdnUrlGeneratorFn,
+  FileCdnSourceImage,
+  RemoteFileAllowedUrls,
+} from "./dist/utils/adapter/types"
 
 export const useScrollRestoration: (key: string) => {
   ref: React.MutableRefObject<HTMLElement | undefined>
@@ -93,8 +117,6 @@ export type PageProps<
   uri: string
   /** An extended version of window.document which comes from @react/router */
   location: WindowLocation<LocationState>
-  /** A way to handle programmatically controlling navigation */
-  navigate: NavigateFn
   /** You can't get passed children as this is the root user-land component */
   children: undefined
   /** The URL parameters when the page has a `matchPath` */
@@ -153,12 +175,16 @@ export type PageProps<
 /**
  * A props object passed into the Head function for [Gatsby Head API](https://gatsby.dev/gatsby-head).
  */
-export type HeadProps<DataType = object, PageContextType = object> = {
+export type HeadProps<
+  DataType = object,
+  PageContextType = object,
+  ServerDataType = object
+> = {
   location: {
     /**
      * Returns the Location object's URL's path.
      */
-    pathname: string;
+    pathname: string
   }
   /** The URL parameters when the page has a `matchPath` */
   params: Record<string, string>
@@ -170,14 +196,59 @@ export type HeadProps<DataType = object, PageContextType = object> = {
    * A context object which is passed in during the creation of the page.
    */
   pageContext: PageContextType
+  /**
+   * Data passed into the page via the [getServerData](https://www.gatsbyjs.com/docs/reference/rendering-options/server-side-rendering/) SSR function.
+   */
+  serverData: ServerDataType
 }
 
 /**
  * A shorthand type for combining the props and return type for the [Gatsby Head API](https://gatsby.dev/gatsby-head).
  */
- export type HeadFC<DataType = object, PageContextType = object> = (
+export type HeadFC<DataType = object, PageContextType = object> = (
   props: HeadProps<DataType, PageContextType>
 ) => JSX.Element
+
+type SerializableProps =
+  | ISerializableObject
+  | Array<SerializableProps>
+  | string
+  | number
+  | boolean
+  | null
+  | undefined
+
+interface ISerializableObject {
+  [key: string]: SerializableProps
+}
+
+/**
+ * A props object for [slice placholder](https://gatsbyjs.com/docs/reference/built-in-components/gatsby-slice/)
+ */
+export interface SlicePlaceholderProps {
+  alias: string
+  allowEmpty?: boolean
+  children?: React.ReactNode
+  [key: string]: SerializableProps | React.ReactNode
+}
+
+/**
+ * Component used as a slice placholder, to mark a place in the page where a [slice](https://gatsbyjs.com/docs/reference/built-in-components/gatsby-slice/) should be inserted.
+ */
+export declare function Slice(props: SlicePlaceholderProps): JSX.Element
+
+/**
+ * A props object for [slice component](https://gatsbyjs.com/docs/reference/built-in-components/gatsby-slice/)
+ */
+export type SliceComponentProps<
+  DataType = object,
+  SliceContextType = object,
+  AdditionalSerializableProps extends ISerializableObject = object
+> = {
+  data: DataType
+  sliceContext: SliceContextType
+  children?: React.ReactNode
+} & AdditionalSerializableProps
 
 /**
  * Props object passed into the [getServerData](https://www.gatsbyjs.com/docs/reference/rendering-options/server-side-rendering/) function.
@@ -258,7 +329,27 @@ export const graphql: (query: TemplateStringsArray) => StaticQueryDocument
 
 export interface GraphQLTypegenOptions {
   typesOutputPath?: string
+  documentSearchPaths?: string[]
   generateOnBuild?: boolean
+}
+
+type Proxy = {
+  prefix: string
+  url: string
+}
+
+type Header = {
+  /**
+   * The path to match requests against.
+   */
+  source: string
+  /**
+   * Your custom response headers.
+   */
+  headers: Array<{
+    key: string
+    value: string
+  }>
 }
 
 /**
@@ -275,8 +366,8 @@ export interface GatsbyConfig {
   flags?: Record<string, boolean>
   /** It’s common for sites to be hosted somewhere other than the root of their domain. Say we have a Gatsby site at `example.com/blog/`. In this case, we would need a prefix (`/blog`) added to all paths on the site. */
   pathPrefix?: string
-  /** `never` removes all trailing slashes, `always` adds it, and `ignore` doesn't automatically change anything and it's in user hands to keep things consistent. By default `legacy` is used which is the behavior until v5. With Gatsby v5 "always" will be the default. */
-  trailingSlash?: "always" | "never" | "ignore" | "legacy"
+  /** `never` removes all trailing slashes, `always` adds it, and `ignore` doesn't automatically change anything and it's in user hands to keep things consistent. By default `always` is used. */
+  trailingSlash?: "always" | "never" | "ignore"
   /** In some circumstances you may want to deploy assets (non-HTML resources such as JavaScript, CSS, etc.) to a separate domain. `assetPrefix` allows you to use Gatsby with assets hosted from a separate domain */
   assetPrefix?: string
   /** More easily incorporate content into your pages through automatic TypeScript type generation and better GraphQL IntelliSense. If set to true, the default GraphQLTypegenOptions are used. See https://www.gatsbyjs.com/docs/reference/config-files/gatsby-config/ for all options. */
@@ -290,10 +381,7 @@ export interface GatsbyConfig {
    * Setting the proxy config option will tell the develop server to proxy any unknown requests to your specified server.
    * @see https://www.gatsbyjs.com/docs/api-proxy/
    * */
-  proxy?: {
-    prefix: string
-    url: string
-  }
+  proxy?: Proxy | Proxy[]
   /**
    * A list of trusted URLs that will be proxied for use with the gatsby-script off-main-thread strategy.
    * @see https://gatsby.dev/gatsby-script
@@ -301,6 +389,16 @@ export interface GatsbyConfig {
   partytownProxiedURLs?: Array<string>
   /** Sometimes you need more granular/flexible access to the development server. Gatsby exposes the Express.js development server to your site’s gatsby-config.js where you can add Express middleware as needed. */
   developMiddleware?(app: any): void
+  /**
+   * You can set custom HTTP headers on the response of a given path. This allows you to, e.g. modify the caching behavior or configure access control. You can apply HTTP headers to static routes and redirects.
+   * @see http://www.gatsbyjs.com/docs/how-to/previews-deploys-hosting/headers/
+   */
+  headers?: Array<Header>
+  /**
+   * Adapters are responsible for taking the production output from Gatsby and turning it into something your deployment platform understands. They make it easier to build and deploy Gatsby on any deployment platform.
+   * @see http://www.gatsbyjs.com/docs/how-to/previews-deploys-hosting/adapters/
+   */
+  adapter?: IAdapter
 }
 
 /**
@@ -385,12 +483,34 @@ export interface GatsbyNode<
    * transform nodes created by other plugins should implement this API.
    *
    * See also the documentation for `createNode`
-   * and [`createNodeField`](https://www.gatsbyjs.com/docs/actions/#createNodeField)
+   * and [`createNodeField`](https://www.gatsbyjs.com/docs/reference/config-files/actions/#createNodeField)
+   * @param {object} $0
+   * @param {object} $0.node A node object.
+   * @param {object} $0.actions
+   * @param {function} $0.actions.createNode Create a new node.
+   * @param {function} $0.actions.createNodeField Extend another node. The new node field is placed under the fields key on the extended node object.
    * @example
-   * exports.onCreateNode = ({ node, actions }) => {
-   *   const { createNode, createNodeField } = actions
-   *   // Transform the new node here and create a new node or
-   *   // create a new node field.
+   * exports.onCreateNode = ({ node, getNode, actions }) => {
+   *   const { createNodeField } = actions
+   *
+   *   if (node.internal.type === `MarkdownRemark`) {
+   *     const nodePath = node.fileAbsolutePath
+   *
+   *     if (nodePath.match(/\/blog\//)) {
+   *       const postSlug = createFilePath({
+   *         node,
+   *         getNode,
+   *         basePath: `src/content`,
+   *         trailingSlash: true,
+   *       })
+   *
+   *       createNodeField({
+   *         node,
+   *         name: `slug`,
+   *         value: `/blog/${postSlug}/`,
+   *       })
+   *     }
+   *   }
    * }
    */
   onCreateNode?(
@@ -406,12 +526,9 @@ export interface GatsbyNode<
    *
    * @gatsbyVersion 2.24.80
    * @example
-   * exports.unstable_shouldOnCreateNode = ({node}, pluginOptions) => node.internal.type === 'Image'
+   * exports.shouldOnCreateNode = ({node}, pluginOptions) => node.internal.type === 'Image'
    */
-  unstable_shouldOnCreateNode?(
-    args: { node: TNode },
-    options: PluginOptions
-  ): boolean
+  shouldOnCreateNode?(args: { node: TNode }, options: PluginOptions): boolean
 
   /**
    * Called when a new page is created. This extension API is useful
@@ -988,6 +1105,7 @@ type ReactProps<T extends Element> = React.DetailedHTMLProps<
   T
 >
 export interface RenderBodyArgs {
+  loadPageDataSync: (pathname: string) => { result: Record<string, unknown> }
   pathname: string
   setHeadComponents: (comp: React.ReactNode[]) => void
   setHtmlAttributes: (attr: ReactProps<HTMLHtmlElement>) => void
@@ -1221,7 +1339,15 @@ export interface Actions {
     option?: ActionOptions
   ): void
 
-  /** @see https://www.gatsbyjs.com/docs/actions/#deletePage */
+  /** @see https://www.gatsbyjs.com/docs/reference/config-files/actions/#createSlice */
+  createSlice<TContext = Record<string, unknown>>(
+    this: void,
+    args: SliceInput<TContext>,
+    plugin?: ActionPlugin,
+    option?: ActionOptions
+  ): void
+
+  /** @see https://www.gatsbyjs.com/docs/actions/#deleteNode */
   deleteNode(node: NodeInput, plugin?: ActionPlugin): void
 
   /** @see https://www.gatsbyjs.com/docs/actions/#createNode */
@@ -1380,10 +1506,25 @@ export interface Actions {
 
   printTypeDefinitions(
     this: void,
-    path?: string,
-    include?: { types?: Array<string>; plugins?: Array<string> },
-    exclude?: { types?: Array<string>; plugins?: Array<string> },
-    withFieldTypes?: boolean,
+    options: {
+      path?: string
+      include?: { types?: Array<string>; plugins?: Array<string> }
+      exclude?: { types?: Array<string>; plugins?: Array<string> }
+      withFieldTypes?: boolean
+    },
+    plugin?: ActionPlugin,
+    traceId?: string
+  ): void
+
+  /**
+   * Marks the source plugin that called this function as stateful. Gatsby will not check for stale nodes for any plugin that calls this.
+   */
+  enableStatefulSourceNodes?(this: void, plugin?: ActionPlugin): void
+
+  /** @see https://www.gatsbyjs.com/docs/actions/#addRemoteFileAllowedUrl */
+  addRemoteFileAllowedUrl?(
+    this: void,
+    url: string | Array<string>,
     plugin?: ActionPlugin,
     traceId?: string
   ): void
@@ -1656,6 +1797,13 @@ export interface Page<TContext = Record<string, unknown>> {
   context?: TContext
   ownerNodeId?: string
   defer?: boolean
+  slices?: Record<string, string>
+}
+
+export interface SliceInput<TContext = Record<string, unknown>> {
+  id: string
+  component: string
+  context?: TContext
 }
 
 export interface IPluginRefObject {
@@ -1721,6 +1869,10 @@ export interface GatsbyFunctionRequest<ReqBody = any> extends IncomingMessage {
    * Object of `cookies` from header
    */
   cookies: Record<string, string>
+  /**
+   * Optional field to store the full raw URL by adapters
+   */
+  rawUrl?: string
 }
 
 export interface GatsbyFunctionBodyParserCommonMiddlewareConfig {

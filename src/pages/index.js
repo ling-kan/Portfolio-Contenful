@@ -12,7 +12,6 @@ const RootIndex = (props) => {
   const [author] = get(props, "data.allContentfulLanding.nodes");
   const timeline = get(props, "data.allContentfulTimeline.nodes");
   const education = get(props, "data.allContentfulEducation.nodes");
-  const socials = get(props, "data.allContentfulSocials.nodes");
 
   useEffect(() => {
     setTimeout(scroll(), 1000);
@@ -97,6 +96,11 @@ export const pageQuery = graphql`
         endDate(formatString: "MMMM YYYY")
         currentRole
         company
+        description {
+        childMarkdownRemark {
+          html
+        }
+        }
         bio {
         childMarkdownRemark {
           html

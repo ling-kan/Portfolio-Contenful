@@ -64,6 +64,7 @@ module.exports = {
   },
   pathPrefix: "/gatsby-contentful-starter",
   plugins: [
+    `gatsby-plugin-offline`,
     'gatsby-plugin-postcss',
     "gatsby-transformer-remark",
     "gatsby-transformer-sharp",
@@ -116,21 +117,27 @@ module.exports = {
         display: `standalone`,
       },
     },
-    {
-      resolve: `gatsby-plugin-gdpr-cookies`,
-      options: {
-        googleAnalytics: {
-          trackingId: process.env.GATSBY_GOOGLE_ANALYTICS_TRACKING_ID,
-          cookieName: "gdpr-google-analytics",
-          anonymize: true,
-          allowAdFeatures: false,
-        },
-        googleTagManager: {
-          trackingId: process.env.GATSBY_GOOGLE_TAG_MANAGER_ID,
-          cookieName: 'gdpr-google-analytics',
-        },
-      },
-    },
-    `gatsby-plugin-offline`,
+    // {
+    //   resolve: `gatsby-plugin-gdpr-cookies`,
+    //   options: {
+    //     googleAnalytics: {
+    //       trackingId: process.env.GATSBY_GOOGLE_ANALYTICS_TRACKING_ID,
+    //       cookieName: "gdpr-google-analytics",
+    //       anonymize: true,
+    //       allowAdFeatures: false,
+    //     },
+    //     googleTagManager: {
+    //       trackingId: process.env.GATSBY_GOOGLE_TAG_MANAGER_ID,
+    //       cookieName: 'gdpr-google-analytics',
+    //     },
+    //   },
+    // },
+
   ],
+  flags: {
+    DEV_SSR: true,
+    FAST_DEV: true,
+    PRESERVE_WEBPACK_CACHE: true,
+    PRESERVE_FILE_DOWNLOAD_CACHE: true,
+  },
 };
