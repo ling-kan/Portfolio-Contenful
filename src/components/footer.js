@@ -13,19 +13,21 @@ const Footer = ({ navList }) => (
             <Logo />
           </div>
         </div>
-        <ul className={`sm:flex flex-col sm:flex-row sm:space-x-8 sm:text-sm sm:font-medium text-center`}>
-          {navList?.map((value, index) => {
-            return (
-              <li key={index} className="my-2 sm:my-0">
-                <Link to={value.url} activeClassName="active" className="mx-2" aria-current="page">{value.title}</Link>
-              </li>
-            )
-          })}
-        </ul>
+        <nav>
+          <ul className={`sm:flex flex-col sm:flex-row sm:space-x-8 sm:text-sm sm:font-medium text-center`}>
+            {navList?.map((value, index) => {
+              return (
+                <li key={index} className="my-2 sm:my-0">
+                  <Link to={value.url} activeClassName="active" className="mx-2 text-link text-grey" aria-current="page">{value.title}</Link>
+                </li>
+              )
+            })}
+          </ul>
+        </nav>
       </div>
       <hr className="my-6 border-grey-light sm:mx-auto lg:my-8" />
       <div className="sm:flex sm:items-center sm:justify-between sm:flex-row-reverse text-grey">
-        <span className="text-xs md:text-sm block text-center">© 2024&nbsp;<Link to="/" className="hover:underline">Ling Kan Portfolio.</Link> All Rights Reserved.</span>
+        <span className="text-xs md:text-sm block text-center">© 2025&nbsp;<Link to="/" className="text-grey">Ling Kan Portfolio.</Link> All Rights Reserved.</span>
         <Socials width="w-8" />
       </div>
     </Container >

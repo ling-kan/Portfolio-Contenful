@@ -31,9 +31,9 @@ const Navigation = ({ navList }) => {
                 return (
                   <li key={index}>
                     {index === 0 ?
-                      <Link to={value.url} className="block my-2 mx-1" aria-current="page">{value.title}</Link>
+                      <Link to={value.url} className="block my-2 mx-1  text-grey text-link" aria-current="page">{value.title}</Link>
                       :
-                      <Link to={value.url} className="block my-2 mx-1">{value.title}</Link>
+                      <Link to={value.url} className="block my-2 mx-1  text-grey text-link">{value.title}</Link>
                     }
                   </li>
                 )

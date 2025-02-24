@@ -1,4 +1,6 @@
 const path = require('path')
+// filepath: /Users/ling/Documents/BACKUP 2/Portfolio-Contenful/gatsby-node.js
+
 
 exports.createPages = async ({ graphql, actions, reporter }) => {
   const { createPage } = actions
