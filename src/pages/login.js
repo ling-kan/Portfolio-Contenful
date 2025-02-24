@@ -37,7 +37,7 @@ const Login = (props) => {
         <Layout location={props.location} socials={socials} >
             <div className="min-h-screen-90 ">
                 <Container>
-                    <button className="text-black  flex m-2 border-none" onClick={(e) => { e.preventDefault(); navigate(-2) }}>
+                    <button className="flex m-2 border-none" onClick={(e) => { e.preventDefault(); navigate(-2) }}>
                         <ArrowNarrowLeftIcon className="mr-2 my-auto h-5 w-5" />
                         Back</button>
                 </Container>
@@ -62,8 +62,8 @@ const Login = (props) => {
                                 {loginFailed && <p className="text-red text-xs italic">Incorrect password, please try again</p>}
                             </div>
                             <div className="flex items-center justify-between">
-                                <input type="submit" className="button-fill cursor-pointer mr-2 bg-black font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" value="Enter" />
-                                {email && <Link to={email[0]?.url} className="inline-block align-baseline font-bold text-sm text-link text-black">
+                                <input type="submit" className="button cursor-pointer mr-2 font-semibold py-2 px-4 rounded focus:outline-none focus:shadow-outline" value="Enter" />
+                                {email && <Link to={email[0]?.url} className="inline-block align-baseline font-semibold text-sm text-link">
                                     Request Access
                                 </Link>}
                             </div>

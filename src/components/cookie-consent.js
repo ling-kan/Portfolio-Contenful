@@ -14,10 +14,10 @@ const Cookie = () => {
             declineButtonText={<React.Fragment><svg className=" h-6 w-6 text-black " xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" aria-hidden="true">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
             </svg></React.Fragment>}
-            declineButtonClasses="m-2 absolute top-0 right-0"
+            declineButtonClasses="m-2 absolute top-0 right-0 border-none"
             buttonWrapperClasses="justify-center flex mt-3"
             containerClasses="fixed max-w-sm w-auto bottom-0 z-50 m-3 p-4 pt-5 pr-5 bg-primary rounded-md"
-            buttonClasses="flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-black dark:bg-primary hover:bg-blue"
+            buttonClasses="flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium  "
         >
             <div className="flex items-center justify-between flex-wrap">
                 <div className="w-100 flex items-center">
