@@ -61,7 +61,7 @@ const CookieConsent = () => {
                                 </p>
                             </div>
                             <div className="order-3 mt-4 mx-4 w-full flex justify-center ">
-                                <button onClick={EnableAnalytics} className="flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium">Accept</button>
+                                <button onClick={EnableAnalytics} className="flex items-center justify-center px-4 py-2 button rounded-md shadow-sm text-sm font-medium">Accept</button>
                             </div>
                             <div className="order-2 flex-shrink-0 ">
                                 <button type="button" onClick={() => { setBannerHidden(true) }} className="-mr-1 flex p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-white sm:-mr-2">
