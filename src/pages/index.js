@@ -38,8 +38,8 @@ const RootIndex = (props) => {
   // }
   return (
     <Layout location={props.location} fullHeaderHeight={true}>
+      <div id="bio" />
       <HomeHero
-        id="bio"
         animatedList={author?.animatedList}
         image={author?.image}
         title={author?.title}

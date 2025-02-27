@@ -96,7 +96,8 @@ button {
   }
 }
 input[type="submit"],
-button {
+button,
+.btn {
   color: var(--link);
   background-color: transparent;
   border: 2px solid var(--link);
@@ -172,12 +173,6 @@ code {
   font-weight: var(--bold);
   -webkit-text-stroke-width: 0.1rem;
 }
-// .text-black {
-//   color: var(--black);
-// }
-// .text-primary {
-//   color: var(--primary);
-// }
 .bg-primary-background {
   background: var(--primary-background);
 }
@@ -211,12 +206,11 @@ footer ul {
   list-style: none;
   margin: 0;
   padding: 0;
+  &:before {
+    content: "";
+  }
 }
-ul {
-  list-style: disc;
-  margin-left: 1rem;
-  padding-left: 1rem;
-}
+
 svg.fill-grey {
   fill: var(--grey) !important;
   &:hover {
