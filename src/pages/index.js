@@ -23,7 +23,7 @@ const RootIndex = (props) => {
       }
     };
 
-    setTimeout(scroll, 1000);
+    setTimeout(scroll, 500);
   }, [props.location.hash]);
 
 
