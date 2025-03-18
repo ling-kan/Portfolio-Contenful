@@ -22,7 +22,7 @@ const ResumeWrapper = styled.li`
 `;
 
 const Resume = ({ timeline }) => {
-    const firstSection = timeline.slice(0, 4)
+    const firstSection = timeline.slice(0, 6)
     const [elements, setElements] = useState(firstSection);
     const [selectedArr, setSelectedArr] = useState([]);
     const [isClient, setIsClient] = useState(false);
