@@ -1,47 +1,47 @@
 import React, { useState, useEffect } from 'react';
-import { graphql, navigate, Link } from "gatsby"
+import { graphql, navigate, Link } from "gatsby";
 import get from "lodash/get";
-import { handleLogin, isLoggedIn } from "../services/auth"
+import { handleLogin, isLoggedIn } from "../services/auth";
 import Layout from "../components/layout";
 import Container from '../components/container';
 import Header from '../components/header';
-import { ArrowNarrowLeftIcon } from '@heroicons/react/solid'
-import { EyeIcon, EyeOffIcon } from '@heroicons/react/outline'
+import { ArrowNarrowLeftIcon } from '@heroicons/react/solid';
+import { EyeIcon, EyeOffIcon } from '@heroicons/react/outline';
 
 const Login = (props) => {
     const socials = get(props, "data.allContentfulSocials.nodes");
     const email = socials?.filter(social => social.type === 'Email');
+
     const [form, setForm] = useState({ password: '' });
     const [loginFailed, setLoginFailed] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
 
-    function handleSubmit(event) {
-        event.preventDefault()
-        handleLogin(form)
-        if (checkLogin()) {
-            setLoginFailed(false)
-        } else {
-            setLoginFailed(true)
-        }
-    }
-
-    function checkLogin() {
-        if (isLoggedIn()) {
-            navigate(-1, { replace: true })
-        }
-    }
-
     useEffect(() => {
-        checkLogin()
-    }, [])
+        if (isLoggedIn()) {
+            navigate(-1, { replace: true });
+        }
+    }, []);
+
+    async function handleSubmit(event) {
+        event.preventDefault();
+        setLoginFailed(false);
+
+        const loginSuccess = await handleLogin(form);
+        if (loginSuccess) {
+            navigate(-1, { replace: true });
+        } else {
+            setLoginFailed(true);
+        }
+    }
 
     return (
-        <Layout location={props.location} socials={socials} >
-            <div className="min-h-screen-90 ">
+        <Layout location={props.location} socials={socials}>
+            <div className="min-h-screen-90">
                 <Container>
                     <button className="flex m-2 border-none text-link" onClick={(e) => { e.preventDefault(); navigate(-2) }}>
                         <ArrowNarrowLeftIcon className="mr-2 my-auto h-5 w-5" />
-                        Back</button>
+                        Back
+                    </button>
                 </Container>
                 <Container>
                     <Header title="Protected Page" className="text-center" />
@@ -85,7 +85,7 @@ const Login = (props) => {
                 </Container>
             </div>
         </Layout>
-    )
+    );
 }
 
 export default Login;
