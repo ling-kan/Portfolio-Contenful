@@ -119,6 +119,14 @@ module.exports = {
         display: `standalone`,
       },
     },
+    {
+      resolve: 'gatsby-plugin-google-tagmanager',
+      options: {
+        id: process.env.GATSBY_GOOGLE_TAG_MANAGER_ID,
+        includeInDevelopment: false,
+        defaultDataLayer: { platform: "gatsby" }
+      }
+    }
   ],
   flags: {
     DEV_SSR: true,
@@ -126,4 +134,5 @@ module.exports = {
     PRESERVE_WEBPACK_CACHE: true,
     PRESERVE_FILE_DOWNLOAD_CACHE: true,
   },
+
 };
