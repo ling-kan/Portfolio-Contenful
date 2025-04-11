@@ -86,7 +86,7 @@ const Resume = ({ timeline }) => {
                                 <AnimatePresence>
                                     {selectedArr.includes(index) && <motion.div initial={{ opacity: 0 }}
                                         animate={{ opacity: 1 }}
-                                        exit={{ opacity: 0 }} dangerouslySetInnerHTML={{ __html: event?.bio?.childMarkdownRemark?.html }} className='my-3' />}
+                                        exit={{ opacity: 0 }} dangerouslySetInnerHTML={{ __html: event?.bio?.childMarkdownRemark?.html }} className='my-3 text-sm' />}
 
                                 </AnimatePresence>
                             </FadeIn>
