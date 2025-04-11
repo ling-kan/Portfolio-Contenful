@@ -78,7 +78,7 @@ const CookieConsent = () => {
                                     </svg>
                                 </span>
                                 <p className="ml-3 text-xs text-black">
-                                    This website uses cookies to help it function and to track how you interact with it. For the best experience, please accept analytics cookies.
+                                    This website uses cookies that help the website to function and also to track how you interact with our website. But for us to provide the best user experience, enable the specific cookies from Settings, and click on Accept.
                                 </p>
                             </div>
                             <div className="order-3 mt-4 mx-4 w-full flex justify-center">
