@@ -61,6 +61,7 @@ module.exports = {
   siteMetadata: {
     title: "Ling Kan",
     description: "Ling Kan Portfolio",
+    siteUrl: `https://lingkan.netlify.app`,
   },
   pathPrefix: "/gatsby-contentful-starter",
   plugins: [
@@ -72,6 +73,7 @@ module.exports = {
     "gatsby-plugin-sharp",
     "gatsby-plugin-image",
     "gatsby-plugin-nprogress",
+    "gatsby-plugin-sitemap",
     {
       resolve: "gatsby-source-contentful",
       options: contentfulConfig,
