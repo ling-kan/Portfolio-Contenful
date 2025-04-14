@@ -67,7 +67,7 @@
   },
   "scripts": {
     "dev": "gatsby develop",
-    "build": "gatsby build",
+    "build": "gatby clean && gatsby build",
     "heroku-postbuild": "gatsby build",
     "serve": "gatsby serve",
     "postinstall": "node ./bin/hello.js",
