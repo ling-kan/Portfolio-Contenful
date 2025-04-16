@@ -120,11 +120,14 @@ module.exports = {
       },
     },
     {
-      resolve: 'gatsby-plugin-google-tagmanager',
+      resolve: 'gatsby-plugin-google-gtag',
       options: {
-        id: process.env.GATSBY_GOOGLE_TAG_MANAGER_ID,
-        includeInDevelopment: false,
-        defaultDataLayer: { platform: "gatsby" }
+        trackingIds: [
+          process.env.GATSBY_GOOGLE_TAG_MANAGER_ID,
+        ],
+        pluginConfig: {
+          head: true,
+        },
       }
     }
   ],
