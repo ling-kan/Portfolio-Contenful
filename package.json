@@ -32,6 +32,7 @@
     "gatsby-transformer-remark": "^6.14.0",
     "gatsby-transformer-sharp": "^5.14.0",
     "gh-pages": "^6.3.0",
+    "joi": "^18.0.0",
     "lodash": "^4.17.21",
     "postcss": "^8.5.3",
     "postcss-easy-import": "^4.0.0",
@@ -52,7 +53,7 @@
     "netlify-cli": "^18.0.4"
   },
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=20"
   },
   "homepage": "https://github.com/contentful/starter-gatsby-blog#readme",
   "keywords": [
