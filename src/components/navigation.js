@@ -40,7 +40,7 @@ const Navigation = ({ navList }) => {
               })}
             </ul>
             <div className='sm:hidden flex justify-around py-2'>
-              <Socials width="w-8" />
+              <Socials width="w-8" className="justify-center" />
             </div>
           </div>
         </div>

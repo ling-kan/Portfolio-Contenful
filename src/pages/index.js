@@ -6,6 +6,7 @@ import ArticlePreview from "../components/article-preview";
 import HomeHero from "../components/home-hero";
 import TitleContainer from '../components/title-container';
 import Resume from '../components/resume';
+import Socials from '../components/socials';
 
 const RootIndex = (props) => {
   const posts = get(props, "data.allContentfulBlogPost.nodes");
@@ -44,6 +45,7 @@ const RootIndex = (props) => {
         image={author?.image}
         title={author?.title}
         name={author?.name}
+        tagline={author?.tagline}
       />
       {author?.bio?.childMarkdownRemark.html && <TitleContainer title="About me" id="about">
         <div
@@ -51,16 +53,36 @@ const RootIndex = (props) => {
             __html: author?.bio?.childMarkdownRemark.html,
           }}
         />
+
+      </TitleContainer>}
+      {author?.expertise?.childMarkdownRemark.html && <TitleContainer subtitle="Expertise" id="expertise">
+        <div
+          dangerouslySetInnerHTML={{
+            __html: author?.expertise.childMarkdownRemark.html,
+          }}
+        />
+
+      </TitleContainer>}
+      {author?.keyAchievements?.childMarkdownRemark.html && <TitleContainer subtitle="Key Achievements" id="key-achievements" >
+        <div
+          dangerouslySetInnerHTML={{
+            __html: author?.keyAchievements.childMarkdownRemark.html,
+          }}
+        />
       </TitleContainer>}
       <div id="resume" />
       <TitleContainer title="Resume" subtitle="Work Experience" id="experience">
         <Resume timeline={timeline} />
       </TitleContainer>
-      <TitleContainer subtitle="Education" id="education" className="pt-0">
+      <TitleContainer subtitle="Education" id="education">
         <Resume timeline={education} />
       </TitleContainer>
       <TitleContainer title="Portfolio" id="portfolio">
         <ArticlePreview posts={posts} />
+      </TitleContainer>
+      <TitleContainer title="Let's Talk" id="contact">
+        <p className="text-2xl mb-8">Want to work together? <br /> Let's connect!</p>
+        <Socials width="w-10" className="justify-start" />
       </TitleContainer>
     </Layout >
   );
@@ -157,11 +179,27 @@ export const pageQuery = graphql`
       nodes {
         name
         animatedList
+         tagline {
+        childMarkdownRemark {
+          html
+        } 
+        }
         bio {
         childMarkdownRemark {
           html
         } 
-        }     
+        }
+        keyAchievements {
+          childMarkdownRemark {
+            html
+          }
+        }
+            expertise {
+          childMarkdownRemark {
+            html
+          }
+        }
+
         image{ 
           gatsbyImageData(
             layout: FULL_WIDTH

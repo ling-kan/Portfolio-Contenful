@@ -5,10 +5,10 @@ import LinkedinIcon from "../assets/icons/linkedin.svg";
 import BuyACoffeeIcon from "../assets/icons/buy-a-coffee.svg";
 import useSocialData from '../services/useSocialData';
 
-const Socials = ({ width = 'default-width' }) => {
+const Socials = ({ width = 'default-width', className }) => {
     const socials = useSocialData();
     return (
-        <ul className="flex space-x-6 justify-center">
+        <ul className={`flex space-x-6 ${className ? `${className}` : ''}`}>
             {socials?.map((value, index) => {
                 return (
                     <li key={index} className="my-4 sm:my-0 ">

@@ -28,7 +28,7 @@ const Footer = ({ navList }) => (
       <hr className="my-6 border-grey-light sm:mx-auto lg:my-8" />
       <div className="sm:flex sm:items-center sm:justify-between sm:flex-row-reverse text-grey">
         <span className="text-xs md:text-sm block text-center">© 2025&nbsp;<Link to="/" className="text-grey">Ling Kan Portfolio.</Link> All Rights Reserved.</span>
-        <Socials width="w-8" />
+        <Socials width="w-8" className="justify-center" />
       </div>
     </Container >
   </div >

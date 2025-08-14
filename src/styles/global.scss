@@ -194,22 +194,29 @@ code {
 }
 .h-screen {
   max-height: 800px;
-  min-height: 500px;
+  min-height: 00px;
 }
 
 .min-h-screen-90 {
   min-height: 90vh;
 }
-header ul,
-ul.flex,
-footer ul {
-  list-style: none;
+
+ul:not(header ul):not(ul.flex):not(footer ul):not(#timeline):not(#timeline ul) {
   margin: 0;
-  padding: 0;
-  &:before {
-    content: "";
+  list-style-type: none;
+
+  > li {
+    text-indent: 0px;
+
+    &:before {
+      content: "-";
+      text-indent: 0px;
+      margin-right: 10px;
+    }
   }
 }
+
+
 
 svg.fill-grey {
   fill: var(--grey) !important;

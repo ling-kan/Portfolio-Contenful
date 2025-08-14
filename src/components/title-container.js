@@ -5,7 +5,7 @@ import FadeIn from './motion/fade-in'
 
 const TitleContainer = ({ title, subtitle, children, id, className }) => {
   return (
-    <Container pageId="home" className={`grid grid-cols-1 lg:grid-cols-3 gap-8 ${className}`} id={id}>
+    <Container pageId="home" subtitle={!!subtitle} className={`grid grid-cols-1 lg:grid-cols-3 gap-8 ${className}`} id={id}>
       <div className="col-span-1">
         <FadeIn>
           <Header title={title} subtitle={subtitle} />
