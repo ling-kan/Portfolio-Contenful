@@ -2,5 +2,10 @@
   node_version = "20"
   publish = "public"
   command = "npm run build"
+    NODE_VERSION = "20"
+  NPM_VERSION = "9"
 [[plugins]]
   package = "@netlify/plugin-gatsby"
+[build.environment]
+  NODE_VERSION = "20"
+  NPM_VERSION = "9"
