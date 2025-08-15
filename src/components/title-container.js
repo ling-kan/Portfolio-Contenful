@@ -8,7 +8,7 @@ const TitleContainer = ({ title, subtitle, children, id, className }) => {
     <Container pageId="home" subtitle={!!subtitle} className={`grid grid-cols-1 lg:grid-cols-3 gap-8 ${className}`} id={id}>
       <div className="col-span-1">
         <FadeIn>
-          <Header title={title} subtitle={subtitle} />
+          <Header title={title} subtitle={subtitle} className="text-left" />
         </FadeIn >
       </div>
       <div className="col-span-2">

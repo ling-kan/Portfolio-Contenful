@@ -98,8 +98,7 @@ button {
   }
 }
 input[type="submit"],
-button[type="button"],
-.btn {
+.btn ,.button{
   color: var(--link);
   background-color: transparent;
   border: 2px solid var(--link);
@@ -203,7 +202,7 @@ code {
   min-height: 90vh;
 }
 
-ul:not(header ul):not(ul.flex):not(footer ul):not(#timeline):not(#timeline ul) {
+ul:not(header ul):not(ul.flex):not(footer ul):not(#timeline):not(#timeline ul):not(nav ul) {
   margin: 0;
   list-style-type: none;
 

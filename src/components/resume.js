@@ -10,6 +10,8 @@ const ResumeWrapper = styled.li`
   display: block;
   padding: 0.5rem 0 2rem 2.5rem;
   position: relative;
+  margin-left:1rem;
+
   ul {
     margin: 0;
         padding: 0;
@@ -66,7 +68,7 @@ const Resume = ({ timeline }) => {
             <motion.ul variants={container}
                 initial="hidden"
                 animate="show"
-                className="ml-0 sm:ml-3" id="timeline">
+                className="ml-0 sm:ml-3 mt-0 md:mt-6" id="timeline">
                 {elements.map((event, index) => {
                     return (
                         <ResumeWrapper key={index}>
