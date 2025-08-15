@@ -1,6 +1,7 @@
 import React from 'react'
 import animation from '../assets/lotties/DashboardReview.lottie.json';
-import Lottie from 'react-lottie';
+import Lottie from 'lottie-react';
+
 const Loader = () => {
     const defaultOptions = {
         loop: true,
@@ -18,7 +19,6 @@ const Loader = () => {
                         <Lottie
                             options={defaultOptions}
                             alt="Loader"
-
                         />
                     </div>
                     <div className="relative">

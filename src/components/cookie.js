@@ -87,7 +87,7 @@ const CookieConsent = () => {
                                 </button>
                             </div>
                             <div className="order-2 flex-shrink-0">
-                                <button type="button" onClick={() => setBannerHidden(true)} className="-mr-1 flex p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-white sm:-mr-2">
+                                <button type="button" onClick={() => setBannerHidden(true)} className="-mr-1 flex p-2 rounded-md focus:outline-hidden focus:ring-2 focus:ring-white sm:-mr-2">
                                     <span className="sr-only">Dismiss</span>
                                     <svg className="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" aria-hidden="true">
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "motion/react";
 import styled from "styled-components"
 import { GatsbyImage } from 'gatsby-plugin-image'
-import { PlusIcon } from '@heroicons/react/solid'
+import { PlusIcon } from '@heroicons/react/24/solid'
 import FadeIn from './motion/fade-in';
 
 const ResumeWrapper = styled.li`
@@ -72,8 +72,8 @@ const Resume = ({ timeline }) => {
                         <ResumeWrapper key={index}>
                             <div className="absolute top-0 -left-5" >
                                 {event?.icon?.gatsbyImageData ?
-                                    <GatsbyImage imgClassName='rounded-full' className="rounded-full h-10 w-10 border-solid border-primary border-2 bg-primary" alt={event?.title || "Company logo"} image={event?.icon?.gatsbyImageData} /> :
-                                    <div className="rounded-full h-10 w-10 border-solid border-primary border-2 bg-primary" alt="Company logo" />
+                                    <GatsbyImage imgClassName='rounded-full' className="rounded-full h-10 w-10 border-solid border-grey-light border-1 bg-primary" alt={event?.title || "Company logo"} image={event?.icon?.gatsbyImageData} /> :
+                                    <div className="rounded-full h-10 w-10 border-solid border-grey-light border-1 bg-primary" alt="Company logo" />
                                 }
                             </div>
                             <FadeIn>

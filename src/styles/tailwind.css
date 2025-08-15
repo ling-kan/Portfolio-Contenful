@@ -1,0 +1,11 @@
+@import "tailwindcss";
+/* @tailwind base;
+@tailwind components;
+@tailwind utilities; */
+@import "variables.scss";
+
+@theme static {
+  --color-blue-dark: var(--blue-dark);
+  --color-grey: var(--grey);
+  --color-grey-light: var(--grey);
+}

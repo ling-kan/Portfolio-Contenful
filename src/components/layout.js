@@ -2,7 +2,7 @@ import React from 'react'
 import Seo from './seo'
 import Navigation from './navigation'
 import Footer from './footer'
-import { useReducedMotion } from "framer-motion"
+import { useReducedMotion } from "motion/react"
 import HeaderList from './motion/header-list'
 import useNavigationData from '../services/useNavigationData'
 // import CookieConsent from './cookie-consent'

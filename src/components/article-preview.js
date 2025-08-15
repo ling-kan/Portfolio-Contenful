@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'gatsby'
 import { GatsbyImage } from 'gatsby-plugin-image'
 import styled from "styled-components"
-import { ArrowNarrowRightIcon } from '@heroicons/react/solid'
+import { ArrowRightIcon } from '@heroicons/react/24/solid';
 import FadeIn from './motion/fade-in'
 
 const ArticlePreviewWrapper = styled(Link)`
@@ -53,7 +53,7 @@ const ArticlePreview = ({ posts }) => {
                     <div className="description text-black text-sm" dangerouslySetInnerHTML={{
                       __html: post.description.childMarkdownRemark.html,
                     }} />
-                    <div className="text-sm mt-4 inline-flex text-link text-blue-dark">Read more <ArrowNarrowRightIcon className="ml-1 my-auto h-3 w-3 fill-blue-dark" /></div>
+                    <div className="text-sm mt-4 inline-flex text-link text-blue-dark">Read more <ArrowRightIcon className="ml-1 my-auto h-3 w-3 fill-blue-dark" /></div>
                   </div>
 
                 </div>

@@ -5,8 +5,9 @@ import { handleLogin, isLoggedIn } from "../services/auth";
 import Layout from "../components/layout";
 import Container from '../components/container';
 import Header from '../components/header';
-import { ArrowNarrowLeftIcon } from '@heroicons/react/solid';
-import { EyeIcon, EyeOffIcon } from '@heroicons/react/outline';
+import { ArrowLeftIcon } from '@heroicons/react/24/solid';
+import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
+
 
 const Login = (props) => {
     const socials = get(props, "data.allContentfulSocials.nodes");
@@ -39,7 +40,7 @@ const Login = (props) => {
             <div className="min-h-screen-90">
                 <Container>
                     <button className="flex m-2 border-none text-link" onClick={(e) => { e.preventDefault(); navigate(-2) }}>
-                        <ArrowNarrowLeftIcon className="mr-2 my-auto h-5 w-5" />
+                        <ArrowLeftIcon className="mr-2 my-auto h-5 w-5" />
                         Back
                     </button>
                 </Container>
@@ -57,7 +58,7 @@ const Login = (props) => {
                                                 setForm({ password: value });
                                                 if (!value) setLoginFailed(false); // Remove error message when field is emptied
                                             }}
-                                            className={`${loginFailed ? 'border-red' : 'border-grey-light'} bg-transparent shadow appearance-none border rounded w-full mt-2 py-2 px-3 mb-3 leading-tight focus:outline-none focus:shadow-outline pr-8`}
+                                            className={`${loginFailed ? 'border-red' : 'border-grey-light'} bg-transparent shadow appearance-none border rounded w-full mt-2 py-2 px-3 mb-3 leading-tight focus:outline-hidden focus:shadow-outline pr-8`}
                                             id="password"
                                             type={showPassword ? "text" : "password"}
                                             name="password"
@@ -68,14 +69,14 @@ const Login = (props) => {
                                             className="no-fill absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-600 border-none"
                                             onClick={() => setShowPassword(!showPassword)}
                                         >
-                                            {showPassword ? <EyeOffIcon className="h-5 w-5 no-fill" /> : <EyeIcon className="h-5 w-5 no-fill" />}
+                                            {showPassword ? <EyeSlashIcon className="h-5 w-5 no-fill" /> : <EyeIcon className="h-5 w-5 no-fill" />}
                                         </button>
                                     </div>
                                 </label>
                                 {loginFailed && <p className="text-red text-xs italic">Incorrect password, please try again</p>}
                             </div>
                             <div className="flex items-center justify-between">
-                                <input type="submit" className="button cursor-pointer mr-2 font-semibold py-2 px-4 rounded focus:outline-none focus:shadow-outline" value="Enter" />
+                                <input type="submit" className="button cursor-pointer mr-2 font-semibold py-2 px-4 rounded focus:outline-hidden focus:shadow-outline" value="Enter" />
                                 {email && <Link to={email[0]?.url} className="inline-block align-baseline font-semibold text-sm text-link">
                                     Request Access
                                 </Link>}

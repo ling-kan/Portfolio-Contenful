@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import Container from './container';
-import { useReducedMotion } from "framer-motion"
+import { useReducedMotion } from "motion/react"
 import { GatsbyImage } from 'gatsby-plugin-image'
-import { AnimatePresence, motion, useTransform, useScroll } from "framer-motion";
+import { AnimatePresence, motion, useTransform, useScroll } from "motion/react";
 import FadeIn from './motion/fade-in';
 import Socials from './socials';
 
