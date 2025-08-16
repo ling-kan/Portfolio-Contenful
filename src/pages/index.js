@@ -28,15 +28,6 @@ const RootIndex = (props) => {
   }, [props.location.hash]);
 
 
-  // useEffect(() => {
-  //   setTimeout(scroll(), 1000);
-  // });
-  // function scroll() {
-  //   if (props.location.hash) {
-  //     const element = document?.querySelector(props.location.hash)?.offsetTop - 75;
-  //     element && window.scrollTo({ top: element, behavior: "smooth" });
-  //   }
-  // }
   return (
     <Layout location={props.location} fullHeaderHeight={true}>
       <div id="bio" />

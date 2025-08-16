@@ -5,6 +5,7 @@ import Footer from './footer'
 import { useReducedMotion } from "motion/react"
 import HeaderList from './motion/header-list'
 import useNavigationData from '../services/useNavigationData'
+import ClickSpark from './motion/click-spark'
 // import CookieConsent from './cookie-consent'
 
 const Template = ({ children, fullHeaderHeight = false, data }) => {
@@ -14,17 +15,19 @@ const Template = ({ children, fullHeaderHeight = false, data }) => {
 
   return (
     <div >
-      <Seo />
-      {/* <CookieConsent /> */}
-      <Navigation navList={navigation} />
-      {prefersReducedMotion ?
-        <main className={headerSpacing} role="main">{children}</main>
-        :
-        <HeaderList>
-          <div className={headerSpacing} role="main">{children}</div>
-        </HeaderList>
-      }
-      <Footer navList={navigation} />
+      <ClickSpark>
+        <Seo />
+        {/* <CookieConsent /> */}
+        <Navigation navList={navigation} />
+        {prefersReducedMotion ?
+          <main className={headerSpacing} role="main">{children}</main>
+          :
+          <HeaderList>
+            <div className={headerSpacing} role="main">{children}</div>
+          </HeaderList>
+        }
+        <Footer navList={navigation} />
+      </ClickSpark>
     </div>
   )
 }
