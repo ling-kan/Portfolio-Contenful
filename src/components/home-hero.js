@@ -44,7 +44,7 @@ const HomeHero = ({ name, animatedList, image, tagline }) => {
 
     return (
         <FadeIn>
-            <div id="home" className="h-screen z-0 items-center flex relative" >
+            <div id="home" className="h-screen z-0 items-center flex relative mb-8" >
                 <Container>
                     <motion.div
                         style={{
@@ -57,7 +57,7 @@ const HomeHero = ({ name, animatedList, image, tagline }) => {
                         <h1 className="text-6xl md:text-9xl uppercase tracking-wide">
                             {name}
                         </h1>
-                        {animatedList && <section className="text-2xl sm:text-3xl md:text-5xl uppercase relative font-semibold h-16 xxs:h-10 xs:12 sm:h-12 md:h-20">
+                        {animatedList && <section className="text-2xl sm:text-3xl md:text-3xl lg:text-5xl uppercase relative font-semibold h-16 xxs:h-10 xs:12 sm:h-12 md:h-18 lg:h-20">
                             {prefersReducedMotion ?
                                 <p className="whitespace-pre-line">{animatedList.join(', \n')} </p>
                                 :

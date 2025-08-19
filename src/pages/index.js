@@ -38,29 +38,35 @@ const RootIndex = (props) => {
         name={author?.name}
         tagline={author?.tagline}
       />
-      {author?.bio?.childMarkdownRemark.html && <TitleContainer title="About me" id="about">
+
+      {author?.bio?.childMarkdownRemark.html && <TitleContainer title="About me" id="about" subtitle="Summary">
         <div
+          className='mt-0 md:mt-6'
           dangerouslySetInnerHTML={{
             __html: author?.bio?.childMarkdownRemark.html,
           }}
         />
 
       </TitleContainer>}
-      {author?.expertise?.childMarkdownRemark.html && <TitleContainer subtitle="Expertise" id="expertise">
-        <div
-          dangerouslySetInnerHTML={{
-            __html: author?.expertise.childMarkdownRemark.html,
-          }}
-        />
+      {
+        author?.expertise?.childMarkdownRemark.html && <TitleContainer subtitle="Expertise" id="expertise">
+          <div
+            dangerouslySetInnerHTML={{
+              __html: author?.expertise.childMarkdownRemark.html,
+            }}
+          />
 
-      </TitleContainer>}
-      {author?.keyAchievements?.childMarkdownRemark.html && <TitleContainer subtitle="Key Achievements" id="key-achievements" >
-        <div
-          dangerouslySetInnerHTML={{
-            __html: author?.keyAchievements.childMarkdownRemark.html,
-          }}
-        />
-      </TitleContainer>}
+        </TitleContainer>
+      }
+      {
+        author?.keyAchievements?.childMarkdownRemark.html && <TitleContainer subtitle="Key Achievements" id="key-achievements" >
+          <div
+            dangerouslySetInnerHTML={{
+              __html: author?.keyAchievements.childMarkdownRemark.html,
+            }}
+          />
+        </TitleContainer>
+      }
       <div id="resume" />
       <TitleContainer title="Resume" subtitle="Work Experience" id="experience">
         <Resume timeline={timeline} />
