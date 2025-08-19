@@ -74,7 +74,7 @@ const Resume = ({ timeline }) => {
                         <ResumeWrapper key={index}>
                             <div className="absolute top-0 -left-5" >
                                 {event?.icon?.gatsbyImageData ?
-                                    <GatsbyImage imgClassName='rounded-full' className="rounded-full h-10 w-10 border-solid border-grey-light border-1 bg-primary" alt={event?.title || "Company logo"} image={event?.icon?.gatsbyImageData} /> :
+                                    <GatsbyImage imgClassName='rounded-full' className="rounded-full h-10 w-10 border-0 bg-primary" alt={event?.title || "Company logo"} image={event?.icon?.gatsbyImageData} /> :
                                     <div className="rounded-full h-10 w-10 border-solid border-grey-light border-1 bg-primary" alt="Company logo" />
                                 }
                             </div>
