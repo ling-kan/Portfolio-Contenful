@@ -52,7 +52,7 @@ const HomeHero = ({ name, animatedList, image, tagline }) => {
                         }}
                         className="text-center items-center justify-center my-auto">
                         {image?.gatsbyImageData &&
-                            <GatsbyImage imgClassName='rounded-full' className="rounded-full h-20 w-20 border-solid border-primary border-2 bg-primary mx-auto" alt="Profile Image" image={image?.gatsbyImageData} />
+                            <GatsbyImage imgClassName='rounded-full' className="rounded-full h-20 w-20 border-0 bg-primary mx-auto" alt="Profile Image" image={image?.gatsbyImageData} />
                         }
                         <h1 className="text-6xl md:text-9xl uppercase tracking-wide">
                             {name}
