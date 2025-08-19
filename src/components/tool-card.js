@@ -21,8 +21,8 @@ const ToolCard = ({ cards }) => {
                                 </div>
                                 <div className="details transition ease-in-out left-0 bottom-0 w-full p-4 leading-normal">
                                     <p className="mt-0 text-grey text-sm uppercase pb-2">{card.date || card.createdDate || card.updatedAt}</p>
-                                    <h5 className="text-xl tracking-tight text-black pb-2">{card?.title}</h5>
-                                    <div className="description text-black text-sm" dangerouslySetInnerHTML={{
+                                    <h5 className="text-xl tracking-tight pb-2">{card?.title}</h5>
+                                    <div className="description text-sm" dangerouslySetInnerHTML={{
                                         __html: card?.description.childMarkdownRemark.html,
                                     }} />
                                     <div className="flex justify-start">

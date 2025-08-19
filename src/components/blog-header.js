@@ -4,7 +4,7 @@ import Tags from './tags';
 
 const BlogHeader = ({ title, content, rawDate, endDate, timeToRead, tags }) => {
   return (
-    <div className="grid grid-col-2 text-black mt-24 ">
+    <div className="grid grid-col-2 mt-24 ">
       <Container>
         <h1 className="text-center text-3xl md:text-3xl mb-2 uppercase" >{title}</h1>
         {content && <p className="text-center text-1xl mb-2 italic">{content}</p>}

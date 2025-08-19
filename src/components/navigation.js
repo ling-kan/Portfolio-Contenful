@@ -17,7 +17,7 @@ const Navigation = ({ navList }) => {
     <NavigationWrapper className="my-auto fixed sm:inital z-10 top-0 w-full pin-l pin-t" role="banner">
       <Container as="nav" pageId="navigation">
         <div className={`${mobileNav ? 'bg-primary' : 'bg-primary-background'} sm:bg-transparent rounded-md p-3 flex flex-wrap justify-between items-center mx-auto`}>
-          <div className="flex items-center text-black">
+          <div className="flex items-center">
             <Logo />
           </div>
           <button data-collapse-toggle="mobile-menu" type="button" onClick={() => setMobileNav(!mobileNav)} className="inline-flex items-center p-2 ml-3 text-sm text-grey rounded-lg sm:hidden hover:bg-gray-100 focus:outline-hidden focus:ring-2 focus:ring-gray-200 border-none " aria-controls="mobile-menu" aria-expanded="false">

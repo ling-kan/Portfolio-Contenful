@@ -48,9 +48,9 @@ const ArticlePreview = ({ posts }) => {
                   <div className="flex justify-between pb-2">
                     <p className="mb-auto mt-0 text-grey text-sm uppercase">{post.endDate}</p>
                   </div>
-                  <h5 className="text-xl tracking-tight text-black">{post.title}</h5>
+                  <h5 className="text-xl tracking-tight">{post.title}</h5>
                   <div className='read-more hidden'>
-                    <div className="description text-black text-sm" dangerouslySetInnerHTML={{
+                    <div className="description text-sm" dangerouslySetInnerHTML={{
                       __html: post.description.childMarkdownRemark.html,
                     }} />
                     <div className="text-sm mt-4 inline-flex text-link text-blue-dark">Read more <ArrowRightIcon className="ml-1 my-auto h-3 w-3 fill-blue-dark" /></div>
