@@ -48,16 +48,7 @@ const RootIndex = (props) => {
         />
 
       </TitleContainer>}
-      {
-        author?.expertise?.childMarkdownRemark.html && <TitleContainer subtitle="Expertise" id="expertise">
-          <div
-            dangerouslySetInnerHTML={{
-              __html: author?.expertise.childMarkdownRemark.html,
-            }}
-          />
 
-        </TitleContainer>
-      }
       {
         author?.keyAchievements?.childMarkdownRemark.html && <TitleContainer subtitle="Key Achievements" id="key-achievements" >
           <div
@@ -191,11 +182,7 @@ export const pageQuery = graphql`
             html
           }
         }
-            expertise {
-          childMarkdownRemark {
-            html
-          }
-        }
+        
 
         image{ 
           gatsbyImageData(
