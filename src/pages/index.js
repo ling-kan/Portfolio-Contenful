@@ -7,12 +7,14 @@ import HomeHero from "../components/home-hero";
 import TitleContainer from '../components/title-container';
 import Resume from '../components/resume';
 import Socials from '../components/socials';
+import KeyMetrics from '../components/key-metrics';
 
 const RootIndex = (props) => {
   const posts = get(props, "data.allContentfulBlogPost.nodes");
   const [author] = get(props, "data.allContentfulLanding.nodes");
   const timeline = get(props, "data.allContentfulTimeline.nodes");
   const education = get(props, "data.allContentfulEducation.nodes");
+
   useEffect(() => {
     const scroll = () => {
       if (props.location.hash) {
@@ -46,18 +48,21 @@ const RootIndex = (props) => {
             __html: author?.bio?.childMarkdownRemark.html,
           }}
         />
+      </TitleContainer>
+      }
 
+      {author?.keyMetrics && <TitleContainer title="" id="" subtitle="Key Metrics">
+        <KeyMetrics list={author?.keyMetrics} />
       </TitleContainer>}
 
-      {
-        author?.keyAchievements?.childMarkdownRemark.html && <TitleContainer subtitle="Key Achievements" id="key-achievements" >
-          <div
-            dangerouslySetInnerHTML={{
-              __html: author?.keyAchievements.childMarkdownRemark.html,
-            }}
-          />
-        </TitleContainer>
-      }
+      {author?.keyAchievements?.childMarkdownRemark.html && <TitleContainer subtitle="Key Achievements" id="key-achievements" >
+        <div
+          dangerouslySetInnerHTML={{
+            __html: author?.keyAchievements.childMarkdownRemark.html,
+          }}
+        />
+      </TitleContainer>}
+
       <div id="resume" />
       <TitleContainer title="Resume" subtitle="Work Experience" id="experience">
         <Resume timeline={timeline} />
@@ -140,7 +145,7 @@ export const pageQuery = graphql`
         }
       }
     }
-      allContentfulEducation(sort: { fields: [endDate], order: DESC }) {
+     allContentfulEducation(sort: { fields: [endDate], order: DESC }) {
       nodes {
         jobTitle
         startDate(formatString: "MMMM YYYY")
@@ -167,7 +172,11 @@ export const pageQuery = graphql`
       nodes {
         name
         animatedList
-         tagline {
+        keyMetrics {
+  label
+  value
+}
+        tagline {
         childMarkdownRemark {
           html
         } 
