@@ -16,7 +16,7 @@ const Navigation = ({ navList }) => {
   return (
     <NavigationWrapper className="my-auto fixed sm:inital z-10 top-0 w-full pin-l pin-t" role="banner">
       <Container as="nav" pageId="navigation">
-        <div className={`${mobileNav ? 'bg-primary-background' : 'bg-primary-background'} sm:bg-transparent rounded-md p-3 flex flex-wrap justify-between items-center mx-auto`}>
+        <div className={`${mobileNav ? 'bg-primary' : 'bg-primary-background'} sm:bg-transparent rounded-md p-3 flex flex-wrap justify-between items-center mx-auto`}>
           <div className="flex items-center">
             <Logo />
           </div>
