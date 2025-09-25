@@ -8,6 +8,7 @@ import TitleContainer from '../components/title-container';
 import Resume from '../components/resume';
 import Socials from '../components/socials';
 import KeyMetrics from '../components/key-metrics';
+import SkillsPanel from '../components/skills-panel';
 
 const RootIndex = (props) => {
   const posts = get(props, "data.allContentfulBlogPost.nodes");
@@ -51,16 +52,12 @@ const RootIndex = (props) => {
       </TitleContainer>
       }
 
-      {author?.keyMetrics && <TitleContainer title="" id="" subtitle="Key Metrics">
+      {author.keyMetrics && <TitleContainer title="" id="" subtitle="Key Metrics">
         <KeyMetrics list={author?.keyMetrics} />
       </TitleContainer>}
 
-      {author?.keyAchievements?.childMarkdownRemark.html && <TitleContainer subtitle="Key Achievements" id="key-achievements" >
-        <div
-          dangerouslySetInnerHTML={{
-            __html: author?.keyAchievements.childMarkdownRemark.html,
-          }}
-        />
+      {author.skills && <TitleContainer title="" id="" subtitle="Skills">
+        <SkillsPanel list={author?.skills} />
       </TitleContainer>}
 
       <div id="resume" />
@@ -173,9 +170,16 @@ export const pageQuery = graphql`
         name
         animatedList
         keyMetrics {
-  label
-  value
-}
+          label
+          value
+        }
+        skills {
+          category
+          skills {
+            name
+            description
+          }
+        }
         tagline {
         childMarkdownRemark {
           html

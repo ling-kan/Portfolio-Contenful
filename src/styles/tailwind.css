@@ -8,4 +8,6 @@
   --color-blue-dark: var(--blue-dark);
   --color-grey: var(--grey);
   --color-grey-light: var(--grey);
+  --color-primary: var(--primary);
+  --color-black: var(--black);
 }
