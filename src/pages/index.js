@@ -21,6 +21,7 @@ const RootIndex = (props) => {
       if (props.location.hash) {
         const element = document.querySelector(props.location.hash);
         if (element) {
+
           const offset = element.offsetTop - 75;
           window.scrollTo({ top: offset, behavior: "smooth" });
         }

@@ -1,28 +1,43 @@
 import React from 'react';
-import GithubIcon from "../assets/icons/github.svg";
-import MailIcon from "../assets/icons/mail.svg";
-import LinkedinIcon from "../assets/icons/linkedin.svg";
-import BuyACoffeeIcon from "../assets/icons/buy-a-coffee.svg";
+import GithubSvg from "../assets/icons/github.svg";
+import MailSvg from "../assets/icons/mail.svg";
+import LinkedinSvg from "../assets/icons/linkedin.svg";
+import BuyACoffeeSvg from "../assets/icons/buy-a-coffee.svg";
 import useSocialData from '../services/useSocialData';
 
-const Socials = ({ width = 'default-width', className }) => {
-    const socials = useSocialData();
-    return (
-        <ul className={`flex space-x-6 ${className ? `${className}` : ''}`}>
-            {socials?.map((value, index) => {
-                return (
-                    <li key={index} className="my-4 sm:my-0 ">
-                        <a href={value.url} target="_blank" rel="noreferrer">
-                            {value.type === 'Buy Me A Coffee' && <BuyACoffeeIcon alt="Buy Me A Coffee" className={`${width} fill-grey`} />}
-                            {value.type === 'Github' && <GithubIcon alt="Github" className={`${width} fill-grey`} />}
-                            {value.type === 'Email' && <MailIcon alt="Email" className={`${width} fill-grey`} />}
-                            {value.type === 'Linkedin' && <LinkedinIcon alt="Linkedin" className={`${width} fill-grey`} />}
-                        </a>
-                    </li>
-                )
-            })}
-        </ul>
-    );
-}
+const withIconWrapper = (SvgIcon) => {
+  if (SvgIcon.defaultProps) delete SvgIcon.defaultProps;
+
+  return ({ width = 'w-6', className = 'fill-grey', ...props }) => (
+    <SvgIcon className={`${width} ${className}`} {...props} />
+  );
+};
+
+
+const Icons = {
+  Github: withIconWrapper(GithubSvg),
+  Email: withIconWrapper(MailSvg),
+  Linkedin: withIconWrapper(LinkedinSvg),
+  'Buy Me A Coffee': withIconWrapper(BuyACoffeeSvg),
+};
+
+const Socials = ({ width = 'w-6', className = '' }) => {
+  const socials = useSocialData();
+
+  return (
+    <ul className={`flex space-x-6 ${className}`}>
+      {socials?.map(({ type, url }, index) => {
+        const Icon = Icons[type];
+        return (
+          <li key={index} className="my-4 sm:my-0">
+            <a href={url} target="_blank" rel="noreferrer">
+              {Icon && <Icon width={width} />}
+            </a>
+          </li>
+        );
+      })}
+    </ul>
+  );
+};
 
 export default Socials;
