@@ -47,9 +47,9 @@ const Login = (props) => {
                 <Container>
                     <Header title="Protected Page" className="text-center" />
                     <div className="w-full max-w-xs mt-20 mx-auto">
-                        <form method="post" onSubmit={handleSubmit} className="bg-white dark:bg-transparent dark: border-1 border-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+                        <form method="post" onSubmit={handleSubmit} className="bg-white dark:bg-transparent dark: border-1 border-white shadow-sm rounded px-8 pt-6 pb-8 mb-4">
                             <div className="mb-6">
-                                <label htmlFor="password" className="block text-primary text-sm font-bold">
+                                <label htmlFor="password" className="block text-sm font-bold">
                                     Password
                                     <div className="relative flex items-center">
                                         <input
