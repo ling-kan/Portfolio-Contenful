@@ -214,7 +214,6 @@ ul:not(header ul):not(ul.flex):not(footer ul):not(#timeline):not(#timeline ul):n
 
   > li {
     text-indent: 0px;
-    display: flex;
 
     &:before {
       content: "-";
