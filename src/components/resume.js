@@ -8,7 +8,7 @@ import FadeIn from './motion/fade-in';
 const ResumeWrapper = styled.li`
   border-left: 4px solid var(--primary);
   display: block;
-  padding: 0.5rem 0 2rem 2.5rem;
+  padding: 0rem 0 2rem 2.5rem;
   position: relative;
   margin-left:1rem;
 
@@ -80,9 +80,9 @@ const Resume = ({ timeline }) => {
                             </div>
                             <FadeIn>
                                 <div className="flex flex-col-reverse justify-between uppercase mb-1 text-lg font-semibold md:flex-row">
-                                    <div>{event.company}</div> <div className='md:text-base text-sm mb-4 md:mb-0'>{event?.startDate && `${event.startDate} - ${event.currentRole ? "CURRENT" : event.endDate}`}</div>
+                                    <div>{event.jobTitle}</div> <div className='md:text-base text-sm mb-4 md:mb-0'>{event?.startDate && `${event.startDate} - ${event.currentRole ? "CURRENT" : event.endDate}`}</div>
                                 </div>
-                                <h3 className="vertical-timeline-element-subtitle text-md font-medium mb-2">{event.jobTitle}</h3>
+                                <h3 className="vertical-timeline-element-subtitle text-md font-medium mb-2">{event.company}</h3>
                                 {isClient && event?.description?.childMarkdownRemark?.html && (
                                     <p className="text-sm mb-2 text-grey"
                                         dangerouslySetInnerHTML={{ __html: event.description.childMarkdownRemark.html }} />
