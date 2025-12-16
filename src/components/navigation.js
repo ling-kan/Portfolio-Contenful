@@ -46,7 +46,7 @@ const Navigation = ({ navList }) => {
               <li key={index}>
                 <Link
                   to={item.url}
-                  className="text-gray-700 hover:text-blue-500"
+                  className="text-gray-700 hover:text-blue"
                   aria-current={index === 0 ? "page" : undefined}
                 >
                   {item.title}

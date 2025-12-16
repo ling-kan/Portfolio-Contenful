@@ -63,6 +63,12 @@ button{
     font-weight: var(--semibold);
   }
 }
+.text-blue {
+  color: var(--blue);
+}
+.text-blue-dark {
+  color: var(--blue-dark);
+} 
 
 .text-link {
   position: relative;

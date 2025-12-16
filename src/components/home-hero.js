@@ -67,9 +67,9 @@ const HomeHero = ({ name, animatedList, image, tagline }) => {
                                 image={image?.gatsbyImageData}
                             />
                         }
-                        <h1 className="text-6xl md:text-9xl uppercase tracking-wide">{name}</h1>
+                        <h1 className="text-6xl md:text-9xl uppercase tracking-wide text-blue">{name}</h1>
                         {animatedList &&
-                            <section className="text-2xl sm:text-3xl md:text-3xl lg:text-5xl uppercase relative font-semibold h-16 xxs:h-10 xs:h-12 sm:h-12 md:h-18 lg:h-20">
+                            <section className="text-blue text-2xl sm:text-3xl md:text-3xl lg:text-5xl uppercase relative font-semibold h-16 xxs:h-10 xs:h-12 sm:h-12 md:h-18 lg:h-20">
                                 <span className="absolute w-full top-0 left-0">
                                     {displayText}
                                     <span className="ml-1" style={{
