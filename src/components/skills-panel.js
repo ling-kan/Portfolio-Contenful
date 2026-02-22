@@ -34,7 +34,7 @@ const AccordionSkills = ({ list }) => {
               onClick={() => toggleAccordion(index)}
               className="w-full flex justify-between items-center text-left text-grey font-semibold focus:outline-none"
             >
-              <h3 className="text-black">{section.category}</h3>
+              <h3>{section.category}</h3>
               <p className="mx-3">
                 {openIndexes.includes(index) ? "−" : "+"}
               </p>

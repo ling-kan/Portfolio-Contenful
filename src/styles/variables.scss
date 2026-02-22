@@ -25,7 +25,7 @@ $xxl-mq: 1536px;
   /* palette */
   --primary-background: #F2F1EF;
   --primary: #F2F1EF;
-  --blue: #013435;
+  --blue: #043a3b;
   --blue-dark: #476162;
   --white: #fdfdfd;
   --black: #2c2c2e;
@@ -81,7 +81,7 @@ $xxl-mq: 1536px;
 
   /* text */
   /* color */
-  --text-color: var(--black);
+  --text-color: var(--blue);
   --link: var(--blue-dark);
   --link-hover: var(--blue);
 
@@ -134,16 +134,3 @@ $xxl-mq: 1536px;
   }
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --primary-background: #1c1c1c;
-    --primary: #2a2a2a;
-    --blue: #a0beed;
-    --blue-dark: #bcd0ed;
-    --white: #212123;
-    --black: #fdfdfd;
-    --grey: #aeaeae;
-    --grey-light: #7e7b7b;
-    --red: #b96f6f;
-  }
-}

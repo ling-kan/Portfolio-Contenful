@@ -28,11 +28,11 @@ const Loader = () => {
                             className="custom-class"
                         />
                     </div>
-                    <div className="relative">
+                    {/* <div className="relative">
                         <div className="loading">
                             <div className="loading-bar"></div>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </div>)
