@@ -46,7 +46,7 @@ const ArticlePreview = ({ posts }) => {
                 </div>
                 <div className="z-5 details absolute transition ease-in-out  left-0 bottom-0 w-full p-4 pt-8 leading-normal  ">
                   <div className="flex justify-between pb-2">
-                    <p className="mb-auto mt-0 text-grey text-sm uppercase">{post.endDate}</p>
+                    <p className="mb-auto mt-0  text-sm uppercase">{post.endDate}</p>
                   </div>
                   <h5 className="text-xl tracking-tight">{post.title}</h5>
                   <div className='read-more hidden'>

@@ -55,7 +55,7 @@ const KeyMetrics = ({ list }) => {
           <h2 className="text-3xl font-bold mb-2">
             <AnimatedNumber value={stat.value} start={isInView} />
           </h2>
-          <p className="text-sm text-grey">{stat.label}</p>
+          <p className="text-sm ">{stat.label}</p>
         </motion.div>
       ))}
     </div>

@@ -32,7 +32,7 @@ const AccordionSkills = ({ list }) => {
             {/* Accordion Header */}
             <button
               onClick={() => toggleAccordion(index)}
-              className="w-full flex justify-between items-center text-left text-grey font-semibold focus:outline-none"
+              className="w-full flex justify-between items-center text-left  font-semibold focus:outline-none"
             >
               <h3>{section.category}</h3>
               <p className="mx-3">
@@ -65,7 +65,7 @@ const AccordionSkills = ({ list }) => {
                         variants={skillVariants}
                         initial="hidden"
                         animate="visible"
-                        className="px-4 py-2 bg-blue-100 text-blue-800 rounded-full font-medium hover:bg-blue-200 cursor-pointer"
+                        className="px-4 py-2 bg-blue-dark text-primary rounded-full font-medium hover:bg-blue cursor-pointer"
                         whileHover={{ scale: 1.05 }}
                       >
                         {skill.name}

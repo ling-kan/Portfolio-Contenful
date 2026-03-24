@@ -20,7 +20,7 @@ const ToolCard = ({ cards }) => {
                                     </div>}
                                 </div>
                                 <div className="details transition ease-in-out left-0 bottom-0 w-full p-4 leading-normal">
-                                    <p className="mt-0 text-grey text-sm uppercase pb-2">{card.date || card.createdDate || card.updatedAt}</p>
+                                    <p className="mt-0  text-sm uppercase pb-2">{card.date || card.createdDate || card.updatedAt}</p>
                                     <h5 className="text-xl tracking-tight pb-2">{card?.title}</h5>
                                     <div className="description text-sm" dangerouslySetInnerHTML={{
                                         __html: card?.description.childMarkdownRemark.html,

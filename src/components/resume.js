@@ -84,7 +84,7 @@ const Resume = ({ timeline }) => {
                                 </div>
                                 <h3 className="vertical-timeline-element-subtitle text-md font-medium mb-2">{event.company}</h3>
                                 {isClient && event?.description?.childMarkdownRemark?.html && (
-                                    <p className="text-sm mb-2 text-grey"
+                                    <p className="text-sm mb-2 "
                                         dangerouslySetInnerHTML={{ __html: event.description.childMarkdownRemark.html }} />
                                 )}
                                 <div className="italic text-sm text-link inline text-underline text-blue-dark" onClick={() => toggleActiveItem(index)} onKeyDown={(e) => {

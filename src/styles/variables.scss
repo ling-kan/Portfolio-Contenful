@@ -20,8 +20,7 @@ $xxl-mq: 1536px;
     "Segoe UI Symbol";
   --font-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
     "Courier New", monospace;
-  --font-serif: "Times New Roman", Times, serif;
-
+  --font-serif: "Baskerville", "Times New Roman", serif;
   /* palette */
   --primary-background: #F2F1EF;
   --primary: #F2F1EF;
@@ -81,9 +80,10 @@ $xxl-mq: 1536px;
 
   /* text */
   /* color */
-  --text-color: var(--blue);
-  --link: var(--blue-dark);
-  --link-hover: var(--blue);
+  --text-title: var(--blue);
+  --text-color: var(--black);
+  --link: var(--blue);
+  --link-hover: var(--blue-dark);
 
   /* size */
   --text-lead: var(--text-lg);
@@ -133,4 +133,3 @@ $xxl-mq: 1536px;
     --text-prose: var(--text-lg);
   }
 }
-

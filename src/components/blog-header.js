@@ -8,7 +8,7 @@ const BlogHeader = ({ title, content, rawDate, endDate, timeToRead, tags }) => {
       <Container>
         <h1 className="text-center text-3xl md:text-3xl mb-2 uppercase" >{title}</h1>
         {content && <p className="text-center text-1xl mb-2 italic">{content}</p>}
-        <p className="text-center text-grey italic">
+        <p className="text-center  italic">
           <time dateTime={rawDate}>{endDate}</time>
           {timeToRead && <p> –{' '}
             {timeToRead} minute read</p>}

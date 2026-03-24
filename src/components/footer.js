@@ -18,7 +18,7 @@ const Footer = ({ navList }) => (
             {navList?.map((value, index) => {
               return (
                 <li key={index} className="my-2 sm:my-0">
-                  <Link to={value.url} activeClassName="active" className="mx-2 text-link text-grey" aria-current="page">{value.title}</Link>
+                  <Link to={value.url} activeClassName="active" className="mx-2 text-link " aria-current="page">{value.title}</Link>
                 </li>
               )
             })}
@@ -26,8 +26,8 @@ const Footer = ({ navList }) => (
         </nav>
       </div>
       <hr className="my-6 border-grey-light sm:mx-auto lg:my-8" />
-      <div className="sm:flex sm:items-center sm:justify-between sm:flex-row-reverse text-grey">
-        <span className="text-xs md:text-sm block text-center">© 2025&nbsp;<Link to="/" className="text-grey">Ling Kan Portfolio.</Link> All Rights Reserved.</span>
+      <div className="sm:flex sm:items-center sm:justify-between sm:flex-row-reverse ">
+        <span className="text-xs md:text-sm block text-center">© 2025&nbsp;<Link to="/" className="">Ling Kan Portfolio.</Link> All Rights Reserved.</span>
         <Socials width="w-8" className="justify-center" />
       </div>
     </Container >
