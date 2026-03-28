@@ -58,7 +58,7 @@ const BlogPostTemplate = (props) => {
               {/* <TableOfContents list={post.content?.childMarkdownRemark?.tableOfContents} /> */}
               <Container>
                 <div className={styles.article}>
-                  <h2 className={styles.articleTitle}>Summary</h2>
+                  <h2 className={styles.articleTitle}>Executive Summary </h2>
                   {post.summary && <div
                     dangerouslySetInnerHTML={{
                       __html: post.summary?.childMarkdownRemark?.html,
