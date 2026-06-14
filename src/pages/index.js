@@ -46,6 +46,13 @@ const RootIndex = (props) => {
       {author?.bio?.childMarkdownRemark.html && <TitleContainer title="About me" id="about" subtitle="Summary">
         <div
           className='mt-0 md:mt-6'
+          style={{
+            fontFamily: 'var(--font-serif)',
+            fontSize: '14px',
+            lineHeight: '1.6',
+            color: 'var(--blue)',
+            letterSpacing: '-0.01em',
+          }}
           dangerouslySetInnerHTML={{
             __html: author?.bio?.childMarkdownRemark.html,
           }}
