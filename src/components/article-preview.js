@@ -6,7 +6,7 @@ import { ArrowRightIcon } from '@heroicons/react/24/solid';
 import FadeIn from './motion/fade-in'
 
 const ArticlePreviewWrapper = styled(Link)`
- background: var(--background);
+  background: var(--background);
   transition: 0.4s ease-out;
   .details {
     background: var(--primary);
@@ -18,7 +18,7 @@ const ArticlePreviewWrapper = styled(Link)`
     );
   }
   .article-image {
-    padding-bottom: 5rem;
+    padding-bottom: 4rem;
   }
   &:hover {
     .gatsby-image-wrapper {
@@ -35,7 +35,7 @@ const ArticlePreview = ({ posts }) => {
   if (!Array.isArray(posts)) return null
 
   return (
-    <ul className="grid grid-cols-1 sm:grid-cols-2 gap-6 pl-0 sm:pl-3 ml-0 sm:ml-3">
+    <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4 pl-0 sm:pl-3 ml-0 sm:ml-3">
       {posts.filter(post => !post.hiddenPage).map((post) => {
         return (
           <FadeIn key={post.slug} >
@@ -44,16 +44,16 @@ const ArticlePreview = ({ posts }) => {
                 <div className='article-image'>
                   <GatsbyImage alt={post.title} className="z-0 image object-cover w-full h-auto rounded-md md:h-full md:w-full md:max-w-100" image={post.heroImage.gatsbyImageData} />
                 </div>
-                <div className="z-5 details absolute transition ease-in-out  left-0 bottom-0 w-full p-4 pt-8 leading-normal  ">
+                <div className="z-5 details absolute transition ease-in-out left-0 bottom-0 w-full p-3 md:p-4 pt-6 md:pt-8 leading-tight">
                   <div className="flex justify-between pb-2">
-                    <p className="mb-auto mt-0  text-sm uppercase">{post.endDate}</p>
+                    <p className="mb-auto mt-0 text-xs" style={{ color: 'var(--grey)', letterSpacing: '0.05em', fontFamily: 'var(--font-sans)' }}>{post.endDate}</p>
                   </div>
-                  <h5 className="text-xl tracking-tight">{post.title}</h5>
+                  <h5 className="text-lg md:text-xl tracking-tight mb-2" style={{ fontFamily: 'var(--font-serif)', color: 'var(--blue)', letterSpacing: '-0.01em', fontStyle: 'italic' }}>{post.title}</h5>
                   <div className='read-more hidden'>
-                    <div className="description text-sm" dangerouslySetInnerHTML={{
+                    <div className="description text-xs md:text-sm" style={{ fontFamily: 'var(--font-sans)', lineHeight: '1.5', color: 'var(--blue-dark)' }} dangerouslySetInnerHTML={{
                       __html: post.description.childMarkdownRemark.html,
                     }} />
-                    <div className="text-sm mt-4 inline-flex text-link text-blue-dark">Read more <ArrowRightIcon className="ml-1 my-auto h-3 w-3 fill-blue-dark" /></div>
+                    <div className="text-xs md:text-sm mt-3 inline-flex" style={{ color: 'var(--blue)', textDecoration: 'underline', fontFamily: 'var(--font-sans)' }}>Read more <ArrowRightIcon className="ml-1 my-auto h-3 w-3 fill-blue" /></div>
                   </div>
 
                 </div>
