@@ -1,85 +1,110 @@
-import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import Tippy from "@tippyjs/react";
-import "tippy.js/dist/tippy.css";
+import React from "react";
 
-const AccordionSkills = ({ list }) => {
-  const [openIndexes, setOpenIndexes] = useState([]);
+const SkillsPanel = ({ list }) => {
+  if (!list?.length) return null;
 
-  const toggleAccordion = (index) => {
-    setOpenIndexes((prev) =>
-      prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index]
-    );
-  };
-
-  const skillVariants = {
-    hidden: { opacity: 0, y: 10 },
-    visible: (i) => ({
-      opacity: 1,
-      y: 0,
-      transition: { delay: i * 0.08, duration: 0.5, ease: "easeInOut" },
-    }),
-  };
+  const [feature, ...rest] = list;
+  const formatIndex = (i) => String(i + 1).padStart(2, '0');
 
   return (
-    <section>
-      <div className="space-y-6">
-        {list.map((section, index) => (
-          <div
-            key={index}
-            className="border border-grey-light rounded-lg py-4 px-6"
-          >
-            {/* Accordion Header */}
-            <button
-              onClick={() => toggleAccordion(index)}
-              className="w-full flex justify-between items-center text-left  font-semibold focus:outline-none"
-            >
-              <h3>{section.category}</h3>
-              <p className="mx-3">
-                {openIndexes.includes(index) ? "−" : "+"}
-              </p>
-            </button>
+    <section className="px-6 pt-28 sm:px-12 sm:pt-36">
+      <div className="mx-auto max-w-6xl">
+        <div className="flex items-baseline justify-between border-t border-foreground/20 pt-4">
+          <span className="text-xs font-semibold uppercase tracking-[0.18em] text-foreground">
+            — Craft &amp; Workflow
+          </span>
+        </div>
 
-            {/* Accordion Content */}
-            <AnimatePresence>
-              {openIndexes.includes(index) && (
-                <motion.div
-                  initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: "auto", opacity: 1 }}
-                  exit={{ height: 0, opacity: 0 }}
-                  transition={{ duration: 0.6, ease: "easeInOut" }}
-                  className="mt-4 flex flex-wrap gap-3"
-                >
-                  {section.skills.map((skill, i) => (
-                    <Tippy
-                      key={skill.name}
-                      content={skill.description}
-                      placement="top"
-                      arrow={true}
-                      trigger="mouseenter focus" // 👈 click is fully disabled
-                      interactive={true} // 👈 allows hovering inside tooltip
-                      hideOnClick={false} // 👈 stops tooltip from closing on click
-                    >
-                      <motion.span
-                        custom={i}
-                        variants={skillVariants}
-                        initial="hidden"
-                        animate="visible"
-                        className="px-4 py-2 bg-blue-dark text-primary rounded-full font-medium hover:bg-blue cursor-pointer"
-                        whileHover={{ scale: 1.05 }}
-                      >
-                        {skill.name}
-                      </motion.span>
-                    </Tippy>
-                  ))}
-                </motion.div>
+        <div className="mt-8 grid gap-4 lg:grid-cols-3">
+          <article className="flex flex-col justify-between rounded-3xl bg-primary p-8 text-primary-foreground lg:row-span-2 lg:min-h-[420px]">
+            <span className="text-xs font-medium uppercase tracking-[0.16em] text-primary-foreground/60">
+              {formatIndex(0)} — Discipline
+            </span>
+            <div>
+              <h3 className="font-serif text-3xl font-semibold leading-tight sm:text-4xl">
+                {feature.category}
+              </h3>
+              {feature.skills?.[0]?.description && (
+                <p className="mt-4 max-w-xs text-sm leading-relaxed text-primary-foreground/75">
+                  {feature.skills[0].description}
+                </p>
               )}
-            </AnimatePresence>
+              <ul className="mt-6 flex flex-col gap-2.5">
+                {feature.skills?.map((skill) => (
+                  <li
+                    key={skill.name}
+                    className="flex gap-3 text-sm leading-relaxed text-primary-foreground/85"
+                  >
+                    <span className="text-primary-foreground/50">—</span>
+                    {skill.name}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </article>
+
+          <div className="grid gap-4 sm:grid-cols-2 lg:col-span-2">
+            {rest.map((section, i) => {
+              const dark = i === 1;
+              return (
+                <article
+                  key={section.category}
+                  className={`flex flex-col justify-between rounded-3xl border p-7 ${
+                    dark
+                      ? 'border-transparent bg-accent text-accent-foreground'
+                      : 'border-border bg-card text-card-foreground'
+                  }`}
+                >
+                  <div>
+                    <span
+                      className={`text-xs font-medium uppercase tracking-[0.16em] ${
+                        dark ? 'text-accent-foreground/60' : 'text-muted-foreground'
+                      }`}
+                    >
+                      {formatIndex(i + 1)}
+                    </span>
+                    <h3 className="mt-3 text-xl font-semibold tracking-tight">
+                      {section.category}
+                    </h3>
+                    {section.skills?.[0]?.description && (
+                      <p
+                        className={`mt-2 text-sm leading-relaxed ${
+                          dark ? 'text-accent-foreground/75' : 'text-muted-foreground'
+                        }`}
+                      >
+                        {section.skills[0].description}
+                      </p>
+                    )}
+                  </div>
+                  <ul className="mt-5 flex flex-col gap-2">
+                    {section.skills?.map((skill) => (
+                      <li
+                        key={skill.name}
+                        className={`flex gap-2.5 text-[13px] leading-relaxed ${
+                          dark ? 'text-accent-foreground/85' : 'text-foreground/75'
+                        }`}
+                      >
+                        <span
+                          className={
+                            dark
+                              ? 'text-accent-foreground/50'
+                              : 'text-muted-foreground'
+                          }
+                        >
+                          —
+                        </span>
+                        {skill.name}
+                      </li>
+                    ))}
+                  </ul>
+                </article>
+              );
+            })}
           </div>
-        ))}
+        </div>
       </div>
     </section>
   );
 };
 
-export default AccordionSkills;
+export default SkillsPanel;

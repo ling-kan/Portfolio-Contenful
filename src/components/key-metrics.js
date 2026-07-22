@@ -1,10 +1,9 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { motion, animate, useInView } from "framer-motion";
 
-// Split numeric part + suffix/prefix
 const parseValue = (value) => {
-  const number = parseFloat(value.replace(/[^\d.-]/g, "")); // numeric part
-  const suffix = value.replace(/[\d.,-]/g, ""); // non-numeric part
+  const number = parseFloat(value.replace(/[^\d.-]/g, ""));
+  const suffix = value.replace(/[\d.,-]/g, "");
   return { number, suffix };
 };
 
@@ -13,7 +12,7 @@ const AnimatedNumber = ({ value, start }) => {
   const [displayValue, setDisplayValue] = useState(0);
 
   useEffect(() => {
-    if (!start) return; // only animate when in view
+    if (!start) return;
 
     const controls = animate(0, number, {
       duration: 3,
@@ -40,22 +39,27 @@ const AnimatedNumber = ({ value, start }) => {
 
 const KeyMetrics = ({ list }) => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" }); // trigger when near viewport
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <div ref={ref} className="flex flex-wrap justify-left gap-8">
+    <div
+      ref={ref}
+      className="mt-20 grid grid-cols-2 gap-px overflow-hidden rounded-3xl border border-border bg-border lg:grid-cols-4"
+    >
       {list.map((stat) => (
         <motion.div
           key={stat.label}
-          className="rounded-lg w-35"
+          className="flex flex-col gap-3 bg-background p-6 sm:p-8"
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5, delay: 0.2 }}
         >
-          <h2 className="text-3xl font-bold mb-2">
+          <span className="font-serif text-4xl font-semibold text-foreground sm:text-5xl">
             <AnimatedNumber value={stat.value} start={isInView} />
-          </h2>
-          <p className="text-sm ">{stat.label}</p>
+          </span>
+          <span className="text-xs font-medium uppercase tracking-[0.12em] leading-relaxed text-muted-foreground">
+            {stat.label}
+          </span>
         </motion.div>
       ))}
     </div>

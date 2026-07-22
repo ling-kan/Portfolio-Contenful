@@ -20,8 +20,9 @@ const Seo = ({ title, description = '', lang = 'en', meta = [], image = '' }) =>
     `
   );
 
-  const metaDescription = description || site.siteMetadata.description;
-  const defaultTitle = site.siteMetadata?.title;
+  const siteMetadata = site?.siteMetadata ?? {};
+  const metaDescription = description || siteMetadata.description || '';
+  const defaultTitle = siteMetadata?.title || '';
 
   return (
     <Helmet

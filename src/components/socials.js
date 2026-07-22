@@ -8,7 +8,7 @@ import useSocialData from '../services/useSocialData';
 const withIconWrapper = (SvgIcon) => {
   if (SvgIcon.defaultProps) delete SvgIcon.defaultProps;
 
-  return ({ width = 'w-6', className = 'fill-grey', ...props }) => (
+  return ({ width = 'w-6', className = 'fill-muted-foreground hover:fill-foreground transition-colors', ...props }) => (
     <SvgIcon className={`${width} ${className}`} {...props} />
   );
 };
@@ -25,13 +25,14 @@ const Socials = ({ width = 'w-6', className = '' }) => {
   const socials = useSocialData();
 
   return (
-    <ul className={`flex space-x-6 ${className}`}>
+    <ul className={`flex space-x-6 list-none pl-0 ${className}`}>
       {socials?.map(({ type, url }, index) => {
         const Icon = Icons[type];
         return (
-          <li key={index} className="my-4 sm:my-0">
-            <a href={url} target="_blank" rel="noreferrer">
+          <li key={index} className="my-0 before:content-none pl-0">
+            <a href={url} target="_blank" rel="noreferrer" className="text-muted-foreground hover:text-foreground transition-colors">
               {Icon && <Icon width={width} />}
+              <span className="sr-only">{type}</span>
             </a>
           </li>
         );

@@ -16,7 +16,7 @@ const Cookie = () => {
             </svg></React.Fragment>}
             declineButtonClasses="m-2 absolute top-0 right-0 border-none"
             buttonWrapperClasses="justify-center flex mt-3"
-            containerClasses="fixed max-w-sm w-auto bottom-0 z-50 m-3 p-4 pt-5 pr-5 bg-primary rounded-md"
+            containerClasses="fixed max-w-sm w-auto bottom-0 z-50 m-3 p-4 pt-5 pr-5 bg-primary-background rounded-md"
             buttonClasses="flex items-center justify-center px-4 py-2 border-transparent rounded-md shadow-sm text-sm font-medium  "
         >
             <div className="flex items-center justify-between flex-wrap">

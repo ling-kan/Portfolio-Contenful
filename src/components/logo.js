@@ -1,8 +1,9 @@
-import React from 'react'
+import React from 'react';
 import { Link } from 'gatsby'
+
 const Logo = () =>
-    <Link to="/" className="flex items-center">
-        <span className={`text-blue self-center text-2xl font-semibold whitespace-nowrap uppercase tracking-wide`}>Ling kan</span>
+    <Link to="/" className="font-serif text-lg font-semibold tracking-tight text-foreground">
+        LING KAN
     </Link>
 
 export default Logo

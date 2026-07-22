@@ -1,7 +1,7 @@
 import { graphql, useStaticQuery } from "gatsby";
 
 const useNavigationData = () => {
-    const data = useStaticQuery(graphql`
+  const data = useStaticQuery(graphql`
     query navigationQuery {
     allContentfulNavigation(sort: { fields: [order], order: ASC }) {
       nodes {
@@ -13,7 +13,7 @@ const useNavigationData = () => {
   }
   `);
 
-    return data.allContentfulNavigation.nodes;
+  return data?.allContentfulNavigation?.nodes ?? [];
 };
 
 export default useNavigationData;

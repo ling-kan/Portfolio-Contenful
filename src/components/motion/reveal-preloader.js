@@ -3,13 +3,19 @@ import { motion } from 'framer-motion';
 import Loader from '../loader';
 
 const RevealPreloader = ({ isLoading = true, progress = 0, children }) => {
+  const [isMounted, setIsMounted] = useState(false);
   const [isComplete, setIsComplete] = useState(!isLoading);
 
   useEffect(() => {
+    setIsMounted(true);
     if (!isLoading) {
       setIsComplete(true);
     }
   }, [isLoading]);
+
+  if (!isMounted) {
+    return <>{children}</>;
+  }
 
   const revealVariants = {
     hidden: {
@@ -68,8 +74,8 @@ const RevealPreloader = ({ isLoading = true, progress = 0, children }) => {
           exit="exit"
         >
           <div className="flex flex-col items-center justify-center gap-8 w-full px-6">
-          
-        <Loader/>
+
+            <Loader />
 
             {/* Progress Text */}
             <motion.p

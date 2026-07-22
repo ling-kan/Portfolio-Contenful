@@ -6,16 +6,18 @@ import { useReducedMotion } from "motion/react"
 import HeaderList from './motion/header-list'
 import useNavigationData from '../services/useNavigationData'
 import RevealPreloader from './motion/reveal-preloader'
-// import CookieConsent from './cookie-consent'
 
 const Template = ({ children, fullHeaderHeight = false, data, author }) => {
   const navigation = useNavigationData();
   const prefersReducedMotion = useReducedMotion();
-  const headerSpacing = fullHeaderHeight ? 'mt-0 md:mt-0' : 'mt-20 md:mt-16'
+  const headerSpacing = fullHeaderHeight ? 'mt-0' : 'mt-20 md:mt-16'
   const [isLoading, setIsLoading] = useState(true);
   const [progress, setProgress] = useState(0);
+  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
+    setIsMounted(true);
+
     const duration = 2000
     const start = performance.now()
     let rafId = null
@@ -50,12 +52,10 @@ const Template = ({ children, fullHeaderHeight = false, data, author }) => {
 
   return (
     <RevealPreloader {...preloaderProps}>
-      <div >
-
+      <div className="min-h-screen bg-background">
         <Seo />
-        {/* <CookieConsent /> */}
         <Navigation navList={navigation} />
-        {prefersReducedMotion ?
+        {prefersReducedMotion || !isMounted ?
           <main className={headerSpacing} role="main">{children}</main>
           :
           <HeaderList>

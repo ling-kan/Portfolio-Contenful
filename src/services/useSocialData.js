@@ -13,7 +13,7 @@ const useSocialData = () => {
   }
   `);
 
-  return data.allContentfulSocials.nodes;
+  return data?.allContentfulSocials?.nodes ?? [];
 };
 
 export default useSocialData;

@@ -1,19 +1,24 @@
 import React, { useEffect, useState } from 'react'
-import Container from './container';
-import { useReducedMotion } from "motion/react"
+import { Link } from 'gatsby'
 import { GatsbyImage } from 'gatsby-plugin-image'
-import { motion, useTransform, useScroll } from "motion/react";
-import FadeIn from './motion/fade-in';
-import Socials from './socials';
+import { useReducedMotion } from "motion/react"
+import { ArrowRightIcon } from '@heroicons/react/24/solid'
+import FadeIn from './motion/fade-in'
 
 const HomeHero = ({ name, animatedList, image, tagline }) => {
     const [index, setIndex] = useState(0);
     const [displayText, setDisplayText] = useState("");
     const [isDeleting, setIsDeleting] = useState(false);
+    const [isMounted, setIsMounted] = useState(false);
     const prefersReducedMotion = useReducedMotion();
-    const { scrollY } = useScroll();
 
     useEffect(() => {
+        setIsMounted(true);
+    }, []);
+
+    useEffect(() => {
+        if (!animatedList?.length || !isMounted) return;
+
         if (prefersReducedMotion) {
             setDisplayText(animatedList.join(", "));
             return;
@@ -21,85 +26,92 @@ const HomeHero = ({ name, animatedList, image, tagline }) => {
 
         const currentText = animatedList[index];
 
-        const typingSpeed = 150;   // 150ms per character
-        const deletingSpeed = 50; // 100ms per character
-        const pauseTime = 4000;    // 5000ms pause at full text
+        const typingSpeed = 150;
+        const deletingSpeed = 50;
+        const pauseTime = 4000;
 
         let timeout;
 
         if (!isDeleting && displayText.length < currentText.length) {
-            // Typing
             timeout = setTimeout(() => {
                 setDisplayText(currentText.substring(0, displayText.length + 1));
             }, typingSpeed);
         } else if (!isDeleting && displayText.length === currentText.length) {
-            // Pause before deleting
             timeout = setTimeout(() => setIsDeleting(true), pauseTime);
         } else if (isDeleting && displayText.length > 0) {
-            // Deleting
             timeout = setTimeout(() => {
                 setDisplayText(currentText.substring(0, displayText.length - 1));
             }, deletingSpeed);
         } else if (isDeleting && displayText.length === 0) {
-            // Move to next item
             setIsDeleting(false);
             setIndex((prev) => (prev + 1) % animatedList.length);
         }
 
         return () => clearTimeout(timeout);
-    }, [displayText, isDeleting, index, animatedList, prefersReducedMotion]);
+    }, [displayText, isDeleting, index, animatedList, prefersReducedMotion, isMounted]);
+
+    const nameParts = name?.trim().split(/\s+/) || [];
+    const firstName = nameParts[0]?.toUpperCase() || 'LING';
+    const lastName = nameParts.slice(1).join(' ').toUpperCase() || 'KAN';
 
     return (
         <FadeIn>
-            <div id="home" className="h-screen z-0 items-center flex relative mb-8" style={{ minHeight: '600px' }}>
-                <Container>
-                    <motion.div
-                        style={{
-                            scale: useTransform(scrollY, [0, 300], [1, 0.75]),
-                        }}
-                        className="text-center items-center justify-center my-auto"
-                    >
-                        {image?.gatsbyImageData &&
-                            <GatsbyImage
-                                imgClassName='rounded-full'
-                                className="rounded-full h-20 w-20 border-0 bg-primary mx-auto"
-                                alt="Profile Image"
-                                image={image?.gatsbyImageData}
-                            />
-                        }
-                        <h1 className="text-6xl md:text-9xl uppercase tracking-wide text-blue">{name}</h1>
-                        {animatedList &&
-                            <section className="text-blue text-2xl sm:text-3xl md:text-3xl lg:text-5xl uppercase relative font-semibold h-16 xxs:h-10 xs:h-12 sm:h-12 md:h-18 lg:h-20">
-                                <span className="absolute w-full top-0 left-0">
-                                    {displayText}
-                                    <span className="ml-1" style={{
-                                        display: 'inline-block',
-                                        width: '1ch',
-                                        backgroundColor: 'currentColor',
-                                        animation: 'blink 1s steps(2, start) infinite'
-                                    }} />
-                                </span>
-                                <style>
-                                    {`
-                    @keyframes blink {
-                      0%, 50%, 100% { opacity: 1; }
-                      25%, 75% { opacity: 0; }
-                    }
-                  `}
-                                </style>
-                            </section>
-                        }
-                        {tagline &&
-                            <div className='mb-4 text-md sm:text-xl max-w-xl mx-auto'
-                                dangerouslySetInnerHTML={{
-                                    __html: tagline.childMarkdownRemark.html,
-                                }}
-                            />}
-                        <Socials width="w-10" className="justify-center" />
-                    </motion.div>
-                    <div className="scroll-down opacity-30" />
-                </Container>
-            </div >
+            <section id="top" className="px-6 pt-36 sm:px-12 sm:pt-44 lg:pt-48">
+                <div className="mx-auto max-w-6xl">
+                    <div className="grid gap-10 lg:grid-cols-[1.4fr_1fr] lg:items-end">
+                        <div>
+                            <h1 className="font-serif text-6xl font-semibold leading-[0.92] tracking-tight text-foreground sm:text-7xl lg:text-8xl">
+                                {firstName}
+                                <br />
+                                {lastName}
+                            </h1>
+
+                            <div className="mt-8 max-w-md">
+                                <div className="flex items-center gap-4">
+                                    {animatedList && (
+                                        <span className="text-xs font-semibold uppercase tracking-[0.16em] text-foreground min-h-[1rem]">
+                                            {isMounted ? displayText : ''}
+                                            {!prefersReducedMotion && isMounted && (
+                                                <span
+                                                    className="ml-1 inline-block w-[1ch] bg-current animate-pulse"
+                                                    aria-hidden="true"
+                                                />
+                                            )}
+                                        </span>
+                                    )}
+                                    <span className="h-px flex-1 bg-border" />
+                                    {image?.gatsbyImageData && (
+                                        <GatsbyImage
+                                            imgClassName="rounded-full"
+                                            className="h-10 w-10 shrink-0 rounded-full"
+                                            alt="Profile Image"
+                                            image={image.gatsbyImageData}
+                                        />
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="lg:pb-2">
+                            {tagline && (
+                                <div
+                                    className="max-w-sm text-pretty text-sm leading-relaxed text-foreground/80 sm:text-base"
+                                    dangerouslySetInnerHTML={{
+                                        __html: tagline.childMarkdownRemark.html,
+                                    }}
+                                />
+                            )}
+                            <Link
+                                to="/#contact"
+                                className="mt-7 inline-flex items-center gap-3 rounded-full bg-primary px-6 py-3.5 text-sm font-semibold uppercase tracking-[0.14em] text-primary-foreground transition-opacity hover:opacity-90"
+                            >
+                                Let&apos;s connect
+                                <ArrowRightIcon className="h-4 w-4" />
+                            </Link>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </FadeIn>
     )
 }

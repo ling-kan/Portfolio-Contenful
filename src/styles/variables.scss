@@ -20,10 +20,10 @@ $xxl-mq: 1536px;
     "Segoe UI Symbol";
   --font-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
     "Courier New", monospace;
-  --font-serif: "Baskerville", "Times New Roman", serif;
+  --font-serif: "Fraunces", "Baskerville", "Times New Roman", serif;
   /* palette */
   --primary-background: #F2F1EF;
-  --primary: #F2F1EF;
+  --primary: #043a3b;
   --blue: #043a3b;
   --blue-dark: #476162;
   --white: #fdfdfd;
@@ -31,6 +31,20 @@ $xxl-mq: 1536px;
   --grey: #7d7d7d;
   --grey-light: #94949450;
   --red: #df6262;
+
+  /* semantic tokens (ling-kan-portfolio design system) */
+  --foreground: #043a3b;
+  --background: #F2F1EF;
+  --card: #f7f6f2;
+  --card-foreground: #043a3b;
+  --accent: #043a3b;
+  --accent-foreground: #F2F1EF;
+  --primary-foreground: #F2F1EF;
+  --secondary: #e8e7e0;
+  --secondary-foreground: #043a3b;
+  --muted: #e8e7e0;
+  --muted-foreground: #7d7d7d;
+  --border: #d4d3cb;
 
   /* radius */
   --radius-sm: 0.5rem;
@@ -75,8 +89,7 @@ $xxl-mq: 1536px;
 
   /* tokens */
   /* colors */
-  --background: var(--primary-background);
-  --border: var(--primary);
+  --border: #d4d3cb;
 
   /* text */
   /* color */

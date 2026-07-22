@@ -1,49 +1,31 @@
-import React, { useState, useEffect } from 'react'
-import { motion, AnimatePresence } from "motion/react";
-import styled from "styled-components"
+import React, { useState, useEffect, useRef } from 'react'
+import { motion, AnimatePresence, useScroll, useTransform, useReducedMotion } from "motion/react";
 import { GatsbyImage } from 'gatsby-plugin-image'
 import { PlusIcon } from '@heroicons/react/24/solid'
-import FadeIn from './motion/fade-in';
 
-const ResumeWrapper = styled.li`
-  border-left: 4px solid var(--primary);
-  display: block;
-  padding: 2rem 0 3rem 2.5rem;
-  position: relative;
-  margin-left: 1rem;
-  margin-bottom: 1.5rem;
+const EASE = [0.22, 1, 0.36, 1];
 
-  ul {
-    margin: 0;
-    padding: 0;
-    list-style-type: none;
-
-    > li {
-      text-indent: 0px;
-      &:before {
-        content: "-";
-        text-indent: 0px;
-        margin-right: 10px;
-      }
-    }
-  }
-
-  @media (min-width: var(--xs-mq)) {
-    margin-left: 1.5rem;
-    padding: 2rem 3rem 3rem;
-    margin-bottom: 2rem;
-  }
-`;
-
-const Resume = ({ timeline }) => {
+const Resume = ({ timeline, idPrefix = 'timeline' }) => {
     const firstSection = timeline.slice(0, 6)
     const [elements, setElements] = useState(firstSection);
     const [selectedArr, setSelectedArr] = useState([]);
     const [isClient, setIsClient] = useState(false);
+    const trackRef = useRef(null);
+    const prefersReduced = useReducedMotion();
+
+    const { scrollYProgress } = useScroll({
+        target: trackRef,
+        offset: ['start 70%', 'end 55%'],
+    });
+    const lineScale = useTransform(scrollYProgress, [0, 1], [0, 1]);
 
     useEffect(() => {
         setIsClient(true);
     }, []);
+
+    useEffect(() => {
+        setElements(timeline.slice(0, 6));
+    }, [timeline]);
 
     const loadMore = () => {
         setElements(timeline);
@@ -56,72 +38,138 @@ const Resume = ({ timeline }) => {
             setSelectedArr([...selectedArr, index])
         }
     }
-    const container = {
-        hidden: { opacity: 0 },
-        show: {
-            opacity: 1,
-            transition: {
-                staggerChildren: 0.5
-            }
-        }
-    }
 
     return (
         <>
-            <motion.ul variants={container}
-                initial="hidden"
-                animate="show"
-                className="ml-0 sm:ml-3 mt-0 md:mt-6" id="timeline">
-                {elements.map((event, index) => {
-                    return (
-                        <ResumeWrapper key={index}>
-                            <div className="absolute top-0 -left-5" >
-                                {event?.icon?.gatsbyImageData ?
-                                    <GatsbyImage imgClassName='rounded-full' className="rounded-full h-10 w-10 border-0 bg-primary" alt={event?.title || "Company logo"} image={event?.icon?.gatsbyImageData} /> :
-                                    <div className="rounded-full h-10 w-10 border-solid border-grey-light border-1 bg-primary" alt="Company logo" />
-                                }
-                            </div>
-                            <FadeIn>
-                                <div className="flex flex-col-reverse justify-between mb-3 text-lg md:flex-row" style={{ fontFamily: 'var(--font-serif)', fontStyle: 'italic', color: 'var(--blue)', letterSpacing: '-0.01em' }}>
-                                    <div className="font-medium">{event.jobTitle}</div>
-                                    <div className='md:text-base text-sm mb-3 md:mb-0' style={{ fontFamily: 'var(--font-sans)', fontStyle: 'normal', letterSpacing: '0.05em', fontSize: '12px', color: 'var(--grey)' }}>{event?.startDate && `${event.startDate} - ${event.currentRole ? "CURRENT" : event.endDate}`}</div>
+            <div ref={trackRef} className="relative">
+                <div className="absolute left-[11px] top-3 bottom-3 w-px bg-border" />
+                <motion.div
+                    style={{ scaleY: prefersReduced ? 1 : lineScale }}
+                    className="absolute left-[11px] top-3 bottom-3 w-px origin-top bg-accent"
+                />
+
+                <ol className="flex flex-col" id="timeline">
+                    {elements.map((event, index) => {
+                        const isOpen = selectedArr.includes(index);
+                        const period = event?.startDate && `${event.startDate} - ${event.currentRole ? "Current" : event.endDate}`;
+
+                        return (
+                            <motion.li
+                                key={index}
+                                initial={prefersReduced ? false : { opacity: 0, x: 16 }}
+                                whileInView={{ opacity: 1, x: 0 }}
+                                viewport={{ once: true, margin: '-60px' }}
+                                transition={{ duration: 0.5, delay: index * 0.05, ease: EASE }}
+                                className="relative pl-12"
+                            >
+                                <div className="absolute left-0 top-6 z-10">
+                                    {event?.icon?.gatsbyImageData ? (
+                                        <GatsbyImage
+                                            imgClassName="rounded-full"
+                                            className="h-4 w-4 rounded-full ring-4 ring-card"
+                                            alt={event?.jobTitle || "Company logo"}
+                                            image={event.icon.gatsbyImageData}
+                                        />
+                                    ) : (
+                                        <motion.span
+                                            aria-hidden
+                                            animate={{
+                                                scale: isOpen ? 1.3 : 1,
+                                                backgroundColor: isOpen ? 'var(--accent)' : 'var(--card)',
+                                            }}
+                                            transition={{ duration: 0.3 }}
+                                            className="block h-4 w-4 rounded-full border-2 border-accent ring-4 ring-card"
+                                        />
+                                    )}
                                 </div>
-                                <h3 className="text-md font-medium mb-4" style={{ fontFamily: 'var(--font-serif)', color: 'var(--blue)', fontSize: '16px', letterSpacing: '-0.01em' }}>{event.company}</h3>
-                                {isClient && event?.description?.childMarkdownRemark?.html && (
-                                    <p className="text-sm mb-4" style={{ fontFamily: 'var(--font-sans)', lineHeight: '1.6', color: 'var(--blue-dark)' }}
-                                        dangerouslySetInnerHTML={{ __html: event.description.childMarkdownRemark.html }} />
-                                )}
-                                <div className="text-sm" style={{ cursor: 'pointer', color: 'var(--blue)', textDecoration: 'underline', fontFamily: 'var(--font-sans)' }} onClick={() => toggleActiveItem(index)} onKeyDown={(e) => {
-                                    if (e.key === 'Enter' || e.key === ' ') {
-                                        toggleActiveItem(index);
-                                    }
-                                }}
-                                    role="button"
-                                    tabIndex={0}>
-                                    {selectedArr.includes(index) ? '- Read less' : '+ Read more'}
+
+                                <div className="border-b border-border/70">
+                                    <button
+                                        type="button"
+                                        onClick={() => toggleActiveItem(index)}
+                                        aria-expanded={isOpen}
+                                        aria-controls={`${idPrefix}-panel-${index}`}
+                                        className="group flex w-full items-center gap-4 rounded-lg py-6 text-left outline-none transition-colors focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-4 focus-visible:ring-offset-card"
+                                    >
+                                        <div className="min-w-0 flex-1">
+                                            {period && (
+                                                <span className="text-xs font-medium uppercase tracking-[0.14em] text-muted-foreground">
+                                                    {period}
+                                                </span>
+                                            )}
+                                            <h4 className="mt-1.5 font-serif text-xl font-semibold text-foreground transition-colors group-hover:text-accent sm:text-2xl">
+                                                {event.jobTitle}
+                                            </h4>
+                                            <p className="mt-0.5 font-serif text-base italic text-accent">
+                                                {event.company}
+                                            </p>
+                                        </div>
+
+                                        <motion.span
+                                            aria-hidden
+                                            animate={{
+                                                rotate: isOpen ? 135 : 0,
+                                                backgroundColor: isOpen ? 'var(--accent)' : 'rgba(0,0,0,0)',
+                                                color: isOpen ? 'var(--accent-foreground)' : 'var(--foreground)',
+                                            }}
+                                            transition={{ duration: 0.3, ease: EASE }}
+                                            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-border transition-colors group-hover:border-accent"
+                                        >
+                                            <PlusIcon className="h-5 w-5" />
+                                        </motion.span>
+                                    </button>
+
+                                    <AnimatePresence initial={false}>
+                                        {isOpen && (
+                                            <motion.div
+                                                id={`${idPrefix}-panel-${index}`}
+                                                key="content"
+                                                initial={{ height: 0, opacity: 0 }}
+                                                animate={{ height: 'auto', opacity: 1 }}
+                                                exit={{ height: 0, opacity: 0 }}
+                                                transition={{ duration: 0.4, ease: EASE }}
+                                                className="overflow-hidden"
+                                            >
+                                                <div className="pb-8">
+                                                    {isClient && event?.description?.childMarkdownRemark?.html && (
+                                                        <div
+                                                            className="max-w-xl text-sm leading-relaxed text-foreground/70"
+                                                            dangerouslySetInnerHTML={{
+                                                                __html: event.description.childMarkdownRemark.html,
+                                                            }}
+                                                        />
+                                                    )}
+                                                    {isClient && event?.bio?.childMarkdownRemark?.html && (
+                                                        <div
+                                                            className="mt-5 max-w-xl text-sm leading-relaxed text-foreground/85"
+                                                            dangerouslySetInnerHTML={{
+                                                                __html: event.bio.childMarkdownRemark.html,
+                                                            }}
+                                                        />
+                                                    )}
+                                                </div>
+                                            </motion.div>
+                                        )}
+                                    </AnimatePresence>
                                 </div>
-                                <AnimatePresence>
-                                    {selectedArr.includes(index) && <motion.div initial={{ opacity: 0 }}
-                                        animate={{ opacity: 1 }}
-                                        exit={{ opacity: 0 }} dangerouslySetInnerHTML={{ __html: event?.bio?.childMarkdownRemark?.html }} className='my-4 text-sm' style={{ fontFamily: 'var(--font-sans)', lineHeight: '1.6', color: 'var(--blue-dark)' }} />}
-                                </AnimatePresence>
-                            </FadeIn>
-                        </ResumeWrapper>
-                    )
-                })}
-            </motion.ul >
-            {
-                elements.length !== timeline.length &&
-                <button className="m-auto flex py-3 px-6 rounded-full items-center" style={{ backgroundColor: 'var(--blue)', color: 'var(--white)', fontFamily: 'var(--font-sans)', letterSpacing: '0.05em', fontSize: '12px', fontWeight: '500', border: 'none', cursor: 'pointer' }} onClick={(e) => { e.preventDefault(); loadMore(); }}>
-                    <PlusIcon className="h-4 w-4 mr-3 fill-white" />
+                            </motion.li>
+                        )
+                    })}
+                </ol>
+            </div>
+
+            {elements.length !== timeline.length && (
+                <button
+                    type="button"
+                    className="mt-8 inline-flex items-center gap-3 rounded-full bg-primary px-6 py-3 text-xs font-semibold uppercase tracking-[0.14em] text-primary-foreground transition-opacity hover:opacity-90"
+                    onClick={(e) => { e.preventDefault(); loadMore(); }}
+                >
+                    <PlusIcon className="h-4 w-4" />
                     <span>Load more</span>
                 </button>
-            }
-
-        </ >
-
+            )}
+        </>
     )
 }
 
 export default Resume;
-
