@@ -2,17 +2,15 @@ require("dotenv").config({
   path: `.env.${process.env.NODE_ENV}`,
 });
 
-function checkEnv(envName) {
+function checkRequiredEnv(envName) {
   if (!process.env[envName]) {
     throw new Error(`Missing required environment variable: ${envName}`);
   }
 }
 
 try {
-  checkEnv('GATSBY_CONTENTFUL_SPACE_ID');
-  checkEnv('GATSBY_CONTENTFUL_ACCESS_TOKEN');
-  checkEnv('GATSBY_PORTFOLIO_ACCESS_PASS');
-  checkEnv('GATSBY_GOOGLE_ANALYTICS_TRACKING_ID');
+  checkRequiredEnv('GATSBY_CONTENTFUL_SPACE_ID');
+  checkRequiredEnv('GATSBY_CONTENTFUL_ACCESS_TOKEN');
 } catch (e) {
   throw new Error(e);
 }
@@ -44,7 +42,6 @@ module.exports = {
       github: `your_github_handle`,
     },
   },
-  pathPrefix: "/gatsby-contentful-starter",
   plugins: [
     'gatsby-plugin-postcss',
     "gatsby-transformer-remark",
@@ -83,14 +80,16 @@ module.exports = {
         display: `standalone`,
       },
     },
-    {
-      resolve: 'gatsby-plugin-google-gtag',
-      options: {
-        trackingIds: [process.env.GATSBY_GOOGLE_ANALYTICS_TRACKING_ID],
-        gtagConfig: { anonymize_ip: true, cookie_expires: 365 },
-        pluginConfig: { head: true },
-      }
-    },
+    ...(process.env.GATSBY_GOOGLE_ANALYTICS_TRACKING_ID
+      ? [{
+          resolve: 'gatsby-plugin-google-gtag',
+          options: {
+            trackingIds: [process.env.GATSBY_GOOGLE_ANALYTICS_TRACKING_ID],
+            gtagConfig: { anonymize_ip: true, cookie_expires: 365 },
+            pluginConfig: { head: true },
+          }
+        }]
+      : []),
 
   ],
   flags: {

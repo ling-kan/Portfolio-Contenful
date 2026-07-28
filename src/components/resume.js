@@ -9,7 +9,6 @@ const Resume = ({ timeline, idPrefix = 'timeline' }) => {
     const firstSection = timeline.slice(0, 6)
     const [elements, setElements] = useState(firstSection);
     const [selectedArr, setSelectedArr] = useState([]);
-    const [isClient, setIsClient] = useState(false);
     const trackRef = useRef(null);
     const prefersReduced = useReducedMotion();
 
@@ -18,10 +17,6 @@ const Resume = ({ timeline, idPrefix = 'timeline' }) => {
         offset: ['start 70%', 'end 55%'],
     });
     const lineScale = useTransform(scrollYProgress, [0, 1], [0, 1]);
-
-    useEffect(() => {
-        setIsClient(true);
-    }, []);
 
     useEffect(() => {
         setElements(timeline.slice(0, 6));
@@ -131,7 +126,7 @@ const Resume = ({ timeline, idPrefix = 'timeline' }) => {
                                                 className="overflow-hidden"
                                             >
                                                 <div className="pb-8">
-                                                    {isClient && event?.description?.childMarkdownRemark?.html && (
+                                                    {event?.description?.childMarkdownRemark?.html && (
                                                         <div
                                                             className="max-w-xl text-sm leading-relaxed text-foreground/70"
                                                             dangerouslySetInnerHTML={{
@@ -139,7 +134,7 @@ const Resume = ({ timeline, idPrefix = 'timeline' }) => {
                                                             }}
                                                         />
                                                     )}
-                                                    {isClient && event?.bio?.childMarkdownRemark?.html && (
+                                                    {event?.bio?.childMarkdownRemark?.html && (
                                                         <div
                                                             className="mt-5 max-w-xl text-sm leading-relaxed text-foreground/85"
                                                             dangerouslySetInnerHTML={{
@@ -161,7 +156,7 @@ const Resume = ({ timeline, idPrefix = 'timeline' }) => {
             {elements.length !== timeline.length && (
                 <button
                     type="button"
-                    className="mt-8 inline-flex items-center gap-3 rounded-full bg-primary px-6 py-3 text-xs font-semibold uppercase tracking-[0.14em] text-primary-foreground transition-opacity hover:opacity-90"
+                    className="mt-8 inline-flex items-center gap-3 rounded-full border border-border bg-transparent px-6 py-3 text-xs font-semibold uppercase tracking-[0.14em] text-foreground transition-colors hover:border-foreground hover:text-foreground"
                     onClick={(e) => { e.preventDefault(); loadMore(); }}
                 >
                     <PlusIcon className="h-4 w-4" />

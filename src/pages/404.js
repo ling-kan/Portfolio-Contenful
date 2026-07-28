@@ -14,7 +14,7 @@ const PageNotFound = (props) => {
               404
             </h1>
             <p className='text-3xl text-center font-semibold'>Oops, we couldn't find this page</p>
-            <Link to="/" type="button" className="my-6 block text-center mx-auto py-2 px-10 w-6/12 btn rounded-md ">Home</Link>
+            <Link to="/" type="button" className="my-6 mx-auto block w-6/12 rounded-full border border-border bg-transparent px-10 py-2 text-center text-foreground transition-colors hover:border-foreground hover:text-foreground">Home</Link>
           </div>
           <Illustration className="md:w-5/12 md:h-full h-fit w-full" />
         </div>

@@ -49,9 +49,10 @@ const Navigation = ({ navList }) => {
           <div className="flex items-center gap-2">
             <Link
               to="/#contact"
-              className="hidden rounded-full bg-primary px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.14em] text-primary-foreground transition-opacity hover:opacity-90 sm:inline-flex"
+              className="hidden rounded-full border border-border bg-transparent px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.14em] text-foreground transition-colors hover:border-foreground hover:text-foreground sm:inline-flex"
             >
               Connect
+              <ArrowRightIcon className="h-4 w-4" />
             </Link>
             <button
               type="button"
@@ -71,9 +72,8 @@ const Navigation = ({ navList }) => {
 
       <div
         id="mobile-menu"
-        className={`fixed inset-0 z-50 bg-background transition-opacity duration-300 ${
-          open ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'
-        }`}
+        className={`fixed inset-0 z-50 bg-background transition-opacity duration-300 ${open ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'
+          }`}
         aria-hidden={!open}
       >
         <div className="flex items-center justify-between px-6 pt-8 sm:px-12">
@@ -113,7 +113,7 @@ const Navigation = ({ navList }) => {
             <Link
               to="/#contact"
               onClick={() => setOpen(false)}
-              className="mt-12 inline-flex w-fit items-center gap-3 rounded-full bg-primary px-6 py-3.5 text-sm font-semibold uppercase tracking-[0.14em] text-primary-foreground transition-opacity hover:opacity-90"
+              className="mt-12 inline-flex w-fit items-center gap-3 rounded-full border border-border bg-transparent px-6 py-3.5 text-sm font-semibold uppercase tracking-[0.14em] text-foreground transition-colors hover:border-foreground hover:text-foreground"
             >
               Connect
               <ArrowRightIcon className="h-4 w-4" />

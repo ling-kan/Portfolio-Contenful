@@ -76,7 +76,7 @@ const Login = (props) => {
                                 {loginFailed && <p className="text-red text-xs italic">Incorrect password, please try again</p>}
                             </div>
                             <div className="flex items-center justify-between">
-                                <input type="submit" className="button cursor-pointer mr-2 font-semibold py-2 px-4 rounded focus:outline-hidden focus:shadow-outline" value="Enter" />
+                                <input type="submit" className="button mr-2 cursor-pointer rounded-full border border-border bg-transparent px-5 py-2 font-semibold uppercase tracking-[0.14em] text-foreground transition-colors focus:outline-hidden focus:shadow-outline" value="Enter" />
                                 {email && <Link to={email[0]?.url} className="inline-block align-baseline font-semibold text-sm text-link">
                                     Request Access
                                 </Link>}

@@ -79,9 +79,7 @@ const RootIndex = (props) => {
               <span className="text-xs font-semibold uppercase tracking-[0.18em] text-foreground">
                 — Resume
               </span>
-              <span className="font-serif text-sm italic text-muted-foreground">
-                Experience &amp; Education
-              </span>
+
             </div>
 
             <h2 className="mt-10 font-serif text-5xl font-semibold italic tracking-tight text-foreground sm:text-6xl">
@@ -98,7 +96,7 @@ const RootIndex = (props) => {
                   <Resume timeline={timeline} idPrefix="exp" />
                 </div>
 
-                <div id="education">
+                <div id="education" className="mt-20">
                   <h3 className="mb-8 flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.18em] text-foreground">
                     <span className="h-px w-8 bg-accent" />
                     Education
@@ -127,9 +125,9 @@ const RootIndex = (props) => {
               {emailSocial?.url && (
                 <a
                   href={emailSocial.url}
-                  className="inline-flex items-center gap-3 rounded-full bg-primary px-7 py-4 text-sm font-semibold uppercase tracking-[0.14em] text-primary-foreground transition-opacity hover:opacity-90"
+                  className="inline-flex items-center gap-3 rounded-full border border-border bg-transparent px-7 py-4 text-sm font-semibold uppercase tracking-[0.14em] text-foreground transition-colors hover:border-foreground hover:text-foreground"
                 >
-                  {emailSocial.url.replace('mailto:', '')}
+                  Email now
                   <ArrowRightIcon className="h-4 w-4" />
                 </a>
               )}

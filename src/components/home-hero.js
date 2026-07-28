@@ -7,17 +7,12 @@ import FadeIn from './motion/fade-in'
 
 const HomeHero = ({ name, animatedList, image, tagline }) => {
     const [index, setIndex] = useState(0);
-    const [displayText, setDisplayText] = useState("");
+    const [displayText, setDisplayText] = useState(animatedList?.[0] ?? "");
     const [isDeleting, setIsDeleting] = useState(false);
-    const [isMounted, setIsMounted] = useState(false);
     const prefersReducedMotion = useReducedMotion();
 
     useEffect(() => {
-        setIsMounted(true);
-    }, []);
-
-    useEffect(() => {
-        if (!animatedList?.length || !isMounted) return;
+        if (!animatedList?.length) return;
 
         if (prefersReducedMotion) {
             setDisplayText(animatedList.join(", "));
@@ -48,7 +43,7 @@ const HomeHero = ({ name, animatedList, image, tagline }) => {
         }
 
         return () => clearTimeout(timeout);
-    }, [displayText, isDeleting, index, animatedList, prefersReducedMotion, isMounted]);
+    }, [displayText, isDeleting, index, animatedList, prefersReducedMotion]);
 
     const nameParts = name?.trim().split(/\s+/) || [];
     const firstName = nameParts[0]?.toUpperCase() || 'LING';
@@ -62,7 +57,7 @@ const HomeHero = ({ name, animatedList, image, tagline }) => {
                         <div>
                             <h1 className="font-serif text-6xl font-semibold leading-[0.92] tracking-tight text-foreground sm:text-7xl lg:text-8xl">
                                 {firstName}
-                                <br />
+
                                 {lastName}
                             </h1>
 
@@ -70,8 +65,8 @@ const HomeHero = ({ name, animatedList, image, tagline }) => {
                                 <div className="flex items-center gap-4">
                                     {animatedList && (
                                         <span className="text-xs font-semibold uppercase tracking-[0.16em] text-foreground min-h-[1rem]">
-                                            {isMounted ? displayText : ''}
-                                            {!prefersReducedMotion && isMounted && (
+                                            {displayText}
+                                            {!prefersReducedMotion && (
                                                 <span
                                                     className="ml-1 inline-block w-[1ch] bg-current animate-pulse"
                                                     aria-hidden="true"
@@ -103,7 +98,7 @@ const HomeHero = ({ name, animatedList, image, tagline }) => {
                             )}
                             <Link
                                 to="/#contact"
-                                className="mt-7 inline-flex items-center gap-3 rounded-full bg-primary px-6 py-3.5 text-sm font-semibold uppercase tracking-[0.14em] text-primary-foreground transition-opacity hover:opacity-90"
+                                className="mt-7 inline-flex items-center gap-3 rounded-full border border-border bg-transparent px-6 py-3.5 text-sm font-semibold uppercase tracking-[0.14em] text-foreground transition-colors hover:border-foreground hover:text-foreground"
                             >
                                 Let&apos;s connect
                                 <ArrowRightIcon className="h-4 w-4" />

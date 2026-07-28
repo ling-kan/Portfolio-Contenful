@@ -8,14 +8,8 @@ const RevealPreloader = ({ isLoading = true, progress = 0, children }) => {
 
   useEffect(() => {
     setIsMounted(true);
-    if (!isLoading) {
-      setIsComplete(true);
-    }
+    setIsComplete(!isLoading);
   }, [isLoading]);
-
-  if (!isMounted) {
-    return <>{children}</>;
-  }
 
   const revealVariants = {
     hidden: {
@@ -65,9 +59,9 @@ const RevealPreloader = ({ isLoading = true, progress = 0, children }) => {
 
   return (
     <>
-      {!isComplete && (
+      {isMounted && isLoading && !isComplete && (
         <motion.div
-          className="fixed inset-0 z-[9999] flex items-center justify-center pointer-events-auto"
+          className="fixed inset-0 z-[9999] flex items-center justify-center pointer-events-none"
           variants={containerVariants}
           initial="hidden"
           animate="visible"
@@ -96,8 +90,8 @@ const RevealPreloader = ({ isLoading = true, progress = 0, children }) => {
       {children && (
         <motion.div
           initial={{ opacity: 0 }}
-          animate={{ opacity: isComplete ? 1 : 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.3 }}
         >
           {children}
         </motion.div>

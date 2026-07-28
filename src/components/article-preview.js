@@ -70,7 +70,7 @@ const ArticlePreview = ({ posts }) => {
                     <GatsbyImage
                       alt={post.title}
                       image={post.heroImage.gatsbyImageData}
-                      className={`w-full ${RATIOS[i % RATIOS.length]} object-cover grayscale transition-all duration-700 group-hover:scale-105 group-hover:grayscale-0`}
+                      className={`w-full ${RATIOS[i % RATIOS.length]} object-fit grayscale transition-all duration-700 group-hover:scale-105 group-hover:grayscale-0`}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-primary/70 via-transparent to-transparent opacity-60 transition-opacity duration-500 group-hover:opacity-90" />
 
