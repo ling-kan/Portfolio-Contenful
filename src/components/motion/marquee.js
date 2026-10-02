@@ -1,7 +1,8 @@
 import React from 'react'
 
 /**
- * Infinite horizontal ticker. Content is duplicated so the loop is seamless.
+ * Infinite horizontal ticker. Content is duplicated so the loop is seamless;
+ * the copy is inert so links aren't announced or focused twice.
  */
 const Marquee = ({ children, duration = 40, gap = '3rem', reverse = false, className = '' }) => (
   <div
@@ -9,7 +10,7 @@ const Marquee = ({ children, duration = 40, gap = '3rem', reverse = false, class
     style={{ '--marquee-duration': `${duration}s`, '--marquee-gap': gap }}
   >
     <div className="marquee__track">{children}</div>
-    <div className="marquee__track" aria-hidden="true">{children}</div>
+    <div className="marquee__track" aria-hidden="true" {...{ inert: '' }}>{children}</div>
   </div>
 )
 

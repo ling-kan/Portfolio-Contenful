@@ -4,7 +4,7 @@
   font-size: var(--text-prose);
   letter-spacing: var(--text-prose-tracking);
   line-height: var(--loose);
-  color: rgba(6, 42, 43, 0.82);
+  color: rgba(23,51,43, 0.82);
   max-width: 46rem;
 }
 
@@ -66,9 +66,9 @@
   margin: 2.5em 0;
   padding: 0 0 0 1.5em;
   border-left: 3px solid var(--accent);
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-size: clamp(1.4rem, 2.2vw, 1.9rem);
+  font-family: var(--font-accent);
+  font-weight: 500;
+  font-size: clamp(1.35rem, 2.2vw, 1.85rem);
   line-height: 1.35;
   color: var(--ink);
 }
@@ -99,7 +99,7 @@
   }
 
   th {
-    font-family: var(--font-monospace);
+    font-family: var(--font-sans);
     font-size: 0.75em;
     letter-spacing: 0.12em;
     text-transform: uppercase;

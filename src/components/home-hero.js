@@ -51,9 +51,10 @@ const RoleTicker = ({ roles = [] }) => {
 
 const Letters = ({ word, delay = 0, className = '', ready = true }) => {
   const reduce = useSafeReducedMotion()
-  if (reduce) return <span className={`block ${className}`}>{word}</span>
+  const display = className.includes('inline') ? '' : 'block'
+  if (reduce) return <span className={`${display} ${className}`}>{word}</span>
   return (
-    <span className={`block overflow-hidden pb-[0.06em] ${className}`} aria-hidden="true">
+    <span className={`${display} overflow-hidden pb-[0.08em] ${className}`} aria-hidden="true">
       {Array.from(word).map((char, i) => (
         <motion.span
           key={i}
@@ -69,7 +70,17 @@ const Letters = ({ word, delay = 0, className = '', ready = true }) => {
   )
 }
 
-const HomeHero = ({ name = '', animatedList = [], image, tagline, metric, caseStudyCount = 0, marqueeItems = [] }) => {
+const HomeHero = ({
+  name = '',
+  animatedList = [],
+  image,
+  tagline,
+  marqueeItems = [],
+  primaryCta = 'View selected work',
+  secondaryCta = 'Get in touch',
+  availability,
+  cvUrl,
+}) => {
   const ref = useRef(null)
   const reduce = useSafeReducedMotion()
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] })
@@ -105,98 +116,117 @@ const HomeHero = ({ name = '', animatedList = [], image, tagline, metric, caseSt
       id="home"
       ref={ref}
       onMouseMove={handleMouseMove}
-      className="relative isolate overflow-hidden min-h-[100svh] flex flex-col pt-28 md:pt-32 grain"
+      className="relative isolate overflow-hidden min-h-[100svh] flex flex-col pt-28 md:pt-32"
     >
-      {/* Background imagery: grid, drifting colour fields, floating geometry */}
+      {/* Soft colour washes that drift with the cursor */}
       <div aria-hidden="true" className="absolute inset-0 -z-10">
-        <div className="absolute inset-0 bg-grid opacity-70" />
         <motion.div
           style={{ x: orbX, y: orbY }}
-          className="absolute -top-32 -right-24 w-[38rem] h-[38rem] rounded-full bg-mint/60 blur-[110px]"
+          className="absolute -top-40 -right-32 w-[44rem] h-[44rem] rounded-full bg-mint/35 blur-[140px]"
         />
         <motion.div
           style={{ x: orbXInverse, y: orbYInverse }}
-          className="absolute bottom-0 -left-40 w-[32rem] h-[32rem] rounded-full bg-accent-soft/80 blur-[110px]"
+          className="absolute -bottom-40 -left-40 w-[36rem] h-[36rem] rounded-full bg-accent-soft/40 blur-[140px]"
         />
-        <svg className="absolute top-[18%] left-[46%] w-16 text-ink/20 animate-float-slow hidden md:block" viewBox="0 0 40 40">
-          <path d="M20 0v40M0 20h40" stroke="currentColor" strokeWidth="2" />
-        </svg>
-        <svg className="absolute bottom-[22%] right-[6%] w-24 text-accent/50 animate-spin-slow" viewBox="0 0 100 100">
-          <circle cx="50" cy="50" r="46" fill="none" stroke="currentColor" strokeWidth="1.5" strokeDasharray="4 8" />
-        </svg>
       </div>
 
       <Container className="flex-1 flex items-center">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center w-full">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-14 lg:gap-10 items-center w-full">
           <motion.div style={reduce ? undefined : { y: textY, opacity: fade }} className="lg:col-span-7">
-            <motion.p
-              {...intro}
-              transition={{ duration: 0.8, delay: 0.1, ease: EASE }}
-              className="eyebrow text-ink/70 flex items-center gap-3 mb-6"
-            >
-              <span className="inline-block w-2 h-2 rounded-full bg-accent animate-pulse" />
-              Portfolio — Chapter 00 / Introduction
-            </motion.p>
-
-            <h1 className="display-xl text-ink uppercase" aria-label={name}>
-              <Letters word={first || ''} delay={0.15} ready={ready} />
-              {last && <Letters word={last} delay={0.4} ready={ready} className="text-outline text-ink" />}
+            <h1 className="display-xl text-ink uppercase whitespace-nowrap !tracking-[-0.035em] !text-[clamp(3.25rem,9vw,8.5rem)]" aria-label={name}>
+              <Letters word={first || ''} delay={0.15} ready={ready} className="inline-block align-top" />
+              {last && (
+                <>
+                  {' '}
+                  <Letters
+                    word={last}
+                    delay={0.35}
+                    ready={ready}
+                    className="inline-block align-top"
+                  />
+                </>
+              )}
             </h1>
 
             {roles.length > 0 && (
-              <motion.p
+              <motion.div
                 {...intro}
-                transition={{ duration: 0.8, delay: 0.8, ease: EASE }}
-                className="mt-6 text-2xl md:text-3xl font-display font-medium tracking-tight text-ink"
+                transition={{ duration: 0.8, delay: 0.75, ease: EASE }}
+                className="mt-8 flex items-center gap-4 text-xl md:text-2xl font-sans font-medium tracking-tight text-ink"
               >
-                <span className="editorial block text-ink/60">I am a</span>
-                <span className="text-accent">
+                <span aria-hidden="true" className="h-px w-10 bg-accent/60 shrink-0" />
+                <span className="min-w-0 flex-1">
                   <RoleTicker roles={roles} />
                 </span>
-              </motion.p>
+              </motion.div>
             )}
 
             {tagline?.childMarkdownRemark?.html && (
               <motion.div
                 {...intro}
-                transition={{ duration: 0.8, delay: 1, ease: EASE }}
-                className="rich-text lead mt-6 max-w-xl text-ink/75"
+                transition={{ duration: 0.8, delay: 0.9, ease: EASE }}
+                className="rich-text lead mt-5 max-w-lg text-ink/75"
                 dangerouslySetInnerHTML={{ __html: tagline.childMarkdownRemark.html }}
               />
             )}
 
             <motion.div
               {...intro}
-              transition={{ duration: 0.8, delay: 1.15, ease: EASE }}
-              className="mt-10 flex flex-wrap items-center gap-4"
+              transition={{ duration: 0.8, delay: 1.05, ease: EASE }}
+              className="mt-10 flex flex-wrap items-center gap-3"
             >
               <Magnetic>
                 <a
                   href="#portfolio"
-                  className="group inline-flex items-center gap-3 rounded-full bg-ink !text-paper pl-6 pr-2 py-2 font-medium hover:bg-accent transition-colors duration-300"
+                  className="group inline-flex items-center gap-3 rounded-full bg-ink !text-paper pl-6 pr-1.5 py-1.5 text-sm font-medium hover:bg-ink-soft transition-colors duration-300"
                 >
-                  View selected work
-                  <span className="grid place-items-center w-10 h-10 rounded-full bg-paper/10 group-hover:rotate-[-45deg] transition-transform duration-500">
-                    <ArrowRightIcon className="w-4 h-4 no-fill fill-paper" />
+                  {primaryCta}
+                  <span className="grid place-items-center w-9 h-9 rounded-full bg-paper/10 group-hover:bg-accent transition-colors duration-500">
+                    <ArrowRightIcon className="w-4 h-4 no-fill fill-paper group-hover:-rotate-45 transition-transform duration-500" />
                   </span>
                 </a>
               </Magnetic>
-              <a href="#contact" className="text-link font-medium !text-ink">
-                Let's talk
+              <a
+                href="#contact"
+                className="inline-flex items-center rounded-full border border-ink/15 px-6 py-3 text-sm font-medium !text-ink hover:border-ink/40 hover:bg-white/60 transition-colors duration-300"
+              >
+                {secondaryCta}
               </a>
+              {cvUrl && (
+                <a
+                  href={cvUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center px-2 py-3 text-sm font-medium text-link !text-ink"
+                >
+                  Download CV
+                </a>
+              )}
             </motion.div>
+
+            {availability && (
+              <motion.p
+                {...intro}
+                transition={{ duration: 0.8, delay: 1.2, ease: EASE }}
+                className="mt-6 inline-flex items-center gap-2 text-sm text-ink/75"
+              >
+                <span aria-hidden="true" className="w-2 h-2 rounded-full bg-accent" />
+                {availability}
+              </motion.p>
+            )}
           </motion.div>
 
-          {/* Portrait composition */}
+          {/* Portrait */}
           <motion.div
             style={reduce ? undefined : { y: portraitY }}
-            className="lg:col-span-5 relative mx-auto w-full max-w-[22rem] sm:max-w-sm lg:max-w-none"
+            className="lg:col-span-5 relative mx-auto w-full max-w-[22rem] sm:max-w-sm lg:max-w-[28rem] lg:ml-auto lg:mr-0"
           >
+
             <motion.div
-              initial={reduce ? false : { clipPath: 'inset(100% 0 0 0 round 2rem)' }}
-              animate={play({ clipPath: 'inset(0% 0 0 0 round 2rem)' })}
+              initial={reduce ? false : { clipPath: 'inset(100% 0 0 0 round 1.5rem)' }}
+              animate={play({ clipPath: 'inset(0% 0 0 0 round 1.5rem)' })}
               transition={{ duration: 1.4, delay: 0.3, ease: EASE }}
-              className="relative aspect-[4/5] rounded-[2rem] overflow-hidden bg-gradient-to-br from-ink to-ink-soft shadow-[0_40px_80px_-30px_rgba(6,42,43,0.55)]"
+              className="relative aspect-[4/5] rounded-[1.5rem] overflow-hidden bg-gradient-to-br from-ink to-ink-soft shadow-[0_30px_70px_-35px_rgba(23,51,43,0.45)]"
             >
               {image?.gatsbyImageData ? (
                 <GatsbyImage
@@ -208,64 +238,40 @@ const HomeHero = ({ name = '', animatedList = [], image, tagline, metric, caseSt
               ) : (
                 <div className="absolute inset-0 grid place-items-center display-xl text-paper/10">{first?.[0]}</div>
               )}
-              <div className="absolute inset-0 bg-gradient-to-t from-ink/50 via-transparent to-transparent" />
-              <div className="absolute bottom-5 left-5 right-5 flex items-end justify-between text-paper">
-                <span className="eyebrow">{name}</span>
-                <span className="eyebrow opacity-70">©{new Date().getFullYear()}</span>
+              <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-ink/80 via-ink/30 to-transparent" />
+              <div className="absolute bottom-4 left-5 right-5 flex items-end justify-between text-paper text-[0.75rem] font-medium">
+                <span className="uppercase tracking-wider">{name}</span>
+                <span>©{new Date().getFullYear()}</span>
               </div>
             </motion.div>
 
             <motion.div
-              initial={reduce ? false : { scale: 0, rotate: -90 }}
-              animate={play({ scale: 1, rotate: 0 })}
+              initial={reduce ? false : { scale: 0.85, opacity: 0 }}
+              animate={play({ scale: 1, opacity: 1 })}
               transition={{ duration: 1.2, delay: 1.1, ease: EASE }}
-              className="absolute -left-6 -top-8 sm:-left-12 sm:-top-10 w-28 h-28 sm:w-36 sm:h-36"
+              className="absolute -left-5 bottom-10 sm:-left-10 w-24 h-24 sm:w-28 sm:h-28"
             >
               <a
                 href="#about"
-                aria-label="Scroll to the story"
-                className="group block w-full h-full rounded-full bg-paper !text-ink shadow-xl hover:bg-ink hover:!text-paper transition-colors duration-500"
+                aria-label="Scroll to About"
+                className="group block w-full h-full rounded-full bg-ink !text-paper/80 shadow-[0_20px_40px_-20px_rgba(23,51,43,0.6)] hover:!text-paper transition-colors duration-500"
               >
-                <RotatingBadge text={`${safeName.toUpperCase()} • SCROLL THE STORY • `} className="w-full h-full p-1">
-                  <ArrowDownRightIcon className="w-7 h-7 no-fill fill-accent group-hover:rotate-45 transition-transform duration-500" />
+                <RotatingBadge text={`EXPLORE • ${safeName.toUpperCase()} • `} className="w-full h-full p-1">
+                  <ArrowDownRightIcon className="w-5 h-5 no-fill fill-accent group-hover:rotate-45 transition-transform duration-500" />
                 </RotatingBadge>
               </a>
             </motion.div>
-
-            {metric && (
-              <motion.div
-                initial={reduce ? false : { opacity: 0, x: 40 }}
-                animate={play({ opacity: 1, x: 0 })}
-                transition={{ duration: 1, delay: 1.35, ease: EASE }}
-                className="absolute -right-3 sm:-right-8 top-1/3 glass rounded-2xl px-5 py-4 shadow-lg border border-white/60 animate-float-slow"
-              >
-                <p className="font-display text-3xl font-semibold text-ink leading-none">{metric.value}</p>
-                <p className="text-xs text-ink/70 mt-1 max-w-[9rem]">{metric.label}</p>
-              </motion.div>
-            )}
-
-            {caseStudyCount > 0 && (
-              <motion.div
-                initial={reduce ? false : { opacity: 0, y: 30 }}
-                animate={play({ opacity: 1, y: 0 })}
-                transition={{ duration: 1, delay: 1.5, ease: EASE }}
-                className="absolute -bottom-6 right-6 rounded-2xl bg-accent text-white px-5 py-3 shadow-lg"
-              >
-                <p className="eyebrow !text-[0.65rem] opacity-80">Case studies</p>
-                <p className="font-display text-2xl font-semibold leading-tight">{String(caseStudyCount).padStart(2, '0')}</p>
-              </motion.div>
-            )}
           </motion.div>
         </div>
       </Container>
 
-      {/* Ticker + scroll cue */}
-      <div className="relative mt-16 border-y border-line py-5 bg-paper/50 backdrop-blur-sm">
-        <Marquee duration={45}>
+      {/* Discipline ticker */}
+      <div className="relative mt-20 py-6">
+        <Marquee duration={50} gap="2.5rem">
           {(marqueeItems?.length ? marqueeItems : roles).map((item, i) => (
-            <span key={`${item}-${i}`} className="flex items-center gap-12 font-display text-xl md:text-2xl font-medium text-ink/80 whitespace-nowrap">
+            <span key={`${item}-${i}`} className="flex items-center gap-10 font-sans text-base md:text-lg font-medium text-ink/70 whitespace-nowrap">
               {item}
-              <span className="text-accent">✦</span>
+              <span aria-hidden="true" className="w-1 h-1 rounded-full bg-ink/25" />
             </span>
           ))}
         </Marquee>

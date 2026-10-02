@@ -14,7 +14,7 @@ const ToolCard = ({ cards }) => {
             href={card.link}
             target="_blank"
             rel="noreferrer"
-            className="group flex flex-col h-full rounded-[1.75rem] border border-line bg-white/60 hover:bg-white overflow-hidden !text-ink hover:-translate-y-1.5 hover:shadow-[0_30px_60px_-30px_rgba(6,42,43,0.4)] transition-all duration-500"
+            className="group flex flex-col h-full rounded-[1.5rem] border border-line bg-white/60 hover:bg-white overflow-hidden !text-ink hover:-translate-y-1.5 hover:shadow-[0_30px_60px_-30px_rgba(23,51,43,0.4)] transition-all duration-500"
           >
             <div className="relative aspect-[16/10] bg-sand overflow-hidden">
               {card.image?.gatsbyImageData ? (
@@ -32,11 +32,11 @@ const ToolCard = ({ cards }) => {
               </span>
             </div>
             <div className="flex flex-col flex-1 p-6">
-              <p className="eyebrow !text-[0.65rem] text-ink/50">{card.date || card.createdAt || card.updatedAt}</p>
+              <p className="eyebrow !text-[0.7rem] text-ink/75">{card.date || card.createdAt || card.updatedAt}</p>
               <h3 className="mt-3 font-display text-2xl font-semibold tracking-tight group-hover:text-accent transition-colors">{card?.title}</h3>
               {card?.description?.childMarkdownRemark?.html && (
                 <div
-                  className="rich-text mt-3 text-ink/70 text-base"
+                  className="rich-text mt-3 text-ink/75 text-base"
                   dangerouslySetInnerHTML={{ __html: card.description.childMarkdownRemark.html }}
                 />
               )}

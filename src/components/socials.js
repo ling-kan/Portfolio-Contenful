@@ -21,7 +21,7 @@ const Icons = {
   'Buy Me A Coffee': withIconWrapper(BuyACoffeeSvg),
 };
 
-const Socials = ({ width = 'w-6', className = '', iconClassName = 'fill-grey text-ink/60 hover:text-accent transition-colors' }) => {
+const Socials = ({ width = 'w-6', className = '', iconClassName = 'fill-grey text-ink/75 hover:text-accent transition-colors' }) => {
   const socials = useSocialData();
 
   return (

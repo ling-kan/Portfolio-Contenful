@@ -68,12 +68,15 @@ export const SplitText = ({ text = '', className = '', delay = 0, stagger = 0.06
         className="inline"
       >
         {words.map((word, i) => (
-          <span key={i} className="inline-block overflow-hidden align-bottom pb-[0.08em] -mb-[0.08em]">
+          <span
+            key={i}
+            className={`inline-block overflow-hidden align-bottom pb-[0.1em] -mb-[0.1em]`}
+          >
             <motion.span
               className={`inline-block ${isHighlight(word) ? 'editorial text-accent pr-[0.06em]' : ''}`}
               variants={{
-                hidden: { y: '110%', rotate: 4 },
-                show: { y: '0%', rotate: 0, transition: { duration: 0.9, ease: EASE } },
+                hidden: { y: '110%' },
+                show: { y: '0%', transition: { duration: 0.9, ease: EASE } },
               }}
             >
               {word}

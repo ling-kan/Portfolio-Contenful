@@ -45,7 +45,7 @@ const Navigation = ({ navList }) => {
         <Container as="nav" aria-label="Main">
           <div
             className={`flex items-center justify-between rounded-full pl-5 pr-2 py-2 transition-all duration-500 ${
-              scrolled || mobileNav ? 'glass shadow-[0_10px_40px_-15px_rgba(6,42,43,0.35)] border border-white/60' : 'border border-transparent'
+              scrolled || mobileNav ? 'glass shadow-[0_10px_40px_-15px_rgba(23,51,43,0.35)] border border-white/60' : 'border border-transparent'
             }`}
           >
             <Logo onClick={() => setMobileNav(false)} />
@@ -108,9 +108,8 @@ const Navigation = ({ navList }) => {
             exit={{ clipPath: 'circle(0% at calc(100% - 3rem) 2.5rem)' }}
             transition={{ duration: reduce ? 0 : 0.7, ease: EASE }}
           >
-            <div aria-hidden="true" className="absolute inset-0 bg-grid-dark pointer-events-none" />
             <Container className="relative flex-1 flex flex-col">
-              <p className="eyebrow text-paper/50 mb-6">Menu</p>
+              <p className="eyebrow text-paper/65 mb-6">Menu</p>
               <ul className="p-0 m-0 flex-1">
                 {[...(navList || []), { title: "Let's talk", url: '/#contact' }].map((item, i) => (
                   <motion.li

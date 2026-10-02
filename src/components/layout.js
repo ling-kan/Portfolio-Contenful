@@ -7,14 +7,16 @@ import HeaderList from './motion/header-list'
 import ScrollProgress from './motion/scroll-progress'
 import useNavigationData from '../services/useNavigationData'
 import RevealPreloader from './motion/reveal-preloader'
+import useSiteSettings from '../services/useSiteSettings'
 
 const Template = ({ children, fullHeaderHeight = false, author }) => {
   const navigation = useNavigationData()
   const prefersReducedMotion = useSafeReducedMotion()
+  const { introLabel } = useSiteSettings()
   const headerSpacing = fullHeaderHeight ? '' : 'pt-28 md:pt-32'
 
   return (
-    <RevealPreloader brandName={author?.name ?? 'Ling Kan'}>
+    <RevealPreloader brandName={author?.name ?? 'LING KAN'} label={introLabel}>
       <Seo />
       <a
         href="#main"

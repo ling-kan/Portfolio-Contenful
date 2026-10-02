@@ -37,9 +37,8 @@ const Login = (props) => {
 
     return (
         <Layout location={props.location} socials={socials}>
-            <section className="relative isolate overflow-hidden -mt-28 md:-mt-32 min-h-[100svh] flex items-center pt-32 pb-16 grain">
+            <section className="relative isolate overflow-hidden -mt-28 md:-mt-32 min-h-[100svh] flex items-center pt-32 pb-16">
                 <div aria-hidden="true" className="absolute inset-0 -z-10">
-                    <div className="absolute inset-0 bg-grid opacity-70" />
                     <div className="absolute -top-32 -right-24 w-[34rem] h-[34rem] rounded-full bg-mint/50 blur-[110px]" />
                     <div className="absolute bottom-0 -left-40 w-[28rem] h-[28rem] rounded-full bg-accent-soft/70 blur-[110px]" />
                 </div>
@@ -49,13 +48,13 @@ const Login = (props) => {
                             <ArrowLeftIcon className="h-4 w-4 no-fill fill-ink group-hover:-translate-x-1 transition-transform" />
                             Back
                         </button>
-                        <form method="post" onSubmit={handleSubmit} className="glass rounded-[2rem] border border-white/70 shadow-[0_40px_80px_-40px_rgba(6,42,43,0.45)] p-8 md:p-10">
+                        <form method="post" onSubmit={handleSubmit} className="glass rounded-[1.5rem] border border-white/70 shadow-[0_40px_80px_-40px_rgba(23,51,43,0.45)] p-8 md:p-10">
                             <span className="grid place-items-center w-12 h-12 rounded-full bg-ink mb-6">
                                 <LockClosedIcon className="w-5 h-5 no-fill fill-accent" />
                             </span>
-                            <p className="eyebrow text-ink/60">Private case study</p>
+                            <p className="eyebrow text-ink/75">Private case study</p>
                             <Header title="Protected page" className="mt-3" />
-                            <p className="text-ink/70 mb-8">This work is under NDA. Enter the access password to continue.</p>
+                            <p className="text-ink/75 mb-8">This work is under NDA. Enter the access password to continue.</p>
                             <div className="mb-6">
                                 <label htmlFor="password" className="block text-sm font-semibold text-ink">
                                     Password
@@ -75,7 +74,7 @@ const Login = (props) => {
                                         />
                                         <button
                                             type="button"
-                                            className="no-fill absolute right-4 top-1/2 mt-1 -translate-y-1/2 text-ink/60 border-none"
+                                            className="no-fill absolute right-4 top-1/2 mt-1 -translate-y-1/2 text-ink/75 border-none"
                                             onClick={() => setShowPassword(!showPassword)}
                                             aria-label={showPassword ? 'Hide password' : 'Show password'}
                                         >

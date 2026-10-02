@@ -2,9 +2,10 @@ import React, { useState } from 'react'
 import useSafeReducedMotion from './motion/use-safe-reduced-motion'
 import { motion, AnimatePresence } from 'motion/react'
 import SpaceIllustration from '../assets/illustration/space-discovery.svg'
+import ImageSlot, { hasImage } from './image-slot'
 import { EASE } from './motion/reveal'
 
-const SkillsPanel = ({ list = [] }) => {
+const SkillsPanel = ({ list = [], image }) => {
   const reduce = useSafeReducedMotion()
   const [active, setActive] = useState(0)
   const [focused, setFocused] = useState(null)
@@ -18,8 +19,8 @@ const SkillsPanel = ({ list = [] }) => {
   }
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
-      <div className="lg:col-span-8">
+    <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12">
+      <div className="lg:col-span-6">
         {/* Category tabs */}
         <div role="tablist" aria-label="Skill categories" className="flex flex-wrap gap-2 mb-10">
           {list.map((cat, i) => (
@@ -29,7 +30,7 @@ const SkillsPanel = ({ list = [] }) => {
               aria-selected={active === i}
               onClick={() => selectCategory(i)}
               className={`relative rounded-full px-5 py-2.5 text-sm font-medium transition-colors duration-300 ${
-                active === i ? '!text-paper' : '!text-ink/70 hover:!text-ink bg-ink/5'
+                active === i ? '!text-paper' : '!text-ink/75 hover:!text-ink bg-ink/5'
               }`}
             >
               {active === i && (
@@ -74,9 +75,9 @@ const SkillsPanel = ({ list = [] }) => {
                     onFocus={() => setFocused(skill.name)}
                     onClick={() => setFocused(skill.name)}
                     aria-pressed={isActive}
-                    className={`rounded-2xl border px-5 py-3 text-base md:text-lg font-display font-medium tracking-tight transition-all duration-300 hover:-translate-y-0.5 ${
+                    className={`rounded-2xl border px-5 py-3 text-base md:text-lg font-sans font-medium tracking-tight transition-all duration-300 hover:-translate-y-0.5 ${
                       isActive
-                        ? 'bg-accent border-accent !text-white shadow-[0_12px_30px_-12px_rgba(242,107,58,0.7)]'
+                        ? 'bg-ink border-ink !text-paper shadow-[0_14px_30px_-16px_rgba(23,51,43,0.7)]'
                         : 'bg-paper border-line !text-ink hover:border-ink'
                     }`}
                   >
@@ -90,13 +91,18 @@ const SkillsPanel = ({ list = [] }) => {
       </div>
 
       {/* Detail card */}
-      <aside className="lg:col-span-4">
-        <div className="relative rounded-[1.75rem] bg-ink text-paper p-8 overflow-hidden min-h-[20rem] lg:sticky lg:top-28">
-          <SpaceIllustration
-            aria-hidden="true"
-            className="absolute -right-10 -bottom-6 w-[115%] opacity-[0.12] invert pointer-events-none"
-          />
-          <p className="eyebrow text-paper/50 relative">{section.category}</p>
+      <aside className="lg:col-span-6">
+        <div className="relative rounded-[1.5rem] bg-ink text-paper p-8 md:p-10 overflow-hidden min-h-[22rem] lg:sticky lg:top-28">
+          {!hasImage('craft', image) && (
+            <SpaceIllustration
+              aria-hidden="true"
+              className="absolute -right-10 -bottom-6 w-[115%] opacity-[0.12] invert pointer-events-none"
+            />
+          )}
+          <div className="relative -mx-4 -mt-4 mb-7 aspect-[16/10] rounded-2xl overflow-hidden empty:hidden">
+            <ImageSlot slot="craft" image={image} dark />
+          </div>
+          <p className="eyebrow text-paper/65 relative">{section.category}</p>
           <AnimatePresence mode="wait">
             <motion.div
               key={detail?.name || 'empty'}
@@ -107,10 +113,10 @@ const SkillsPanel = ({ list = [] }) => {
               className="relative mt-8"
             >
               <h3 className="display-md text-paper">{detail?.name}</h3>
-              {detail?.description && <p className="mt-4 text-paper/70 leading-relaxed">{detail.description}</p>}
+              {detail?.description && <p className="mt-4 text-paper/70 text-base md:text-lg leading-relaxed max-w-prose">{detail.description}</p>}
             </motion.div>
           </AnimatePresence>
-          <p className="relative mt-10 eyebrow text-paper/40">
+          <p className="relative mt-10 eyebrow text-paper/65">
             {String(skills.length).padStart(2, '0')} skills · hover or tap to explore
           </p>
         </div>

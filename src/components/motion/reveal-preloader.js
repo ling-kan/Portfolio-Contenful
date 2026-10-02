@@ -22,7 +22,7 @@ const shouldPlay = () => {
   return !window.matchMedia('(prefers-reduced-motion: reduce)').matches
 }
 
-const RevealPreloader = ({ brandName = 'Ling Kan', children, duration = 1.6 }) => {
+const RevealPreloader = ({ brandName = 'LING KAN', label = 'Digital experience & growth', children, duration = 1.6 }) => {
   // The very first render must match the server HTML (which always includes the curtain).
   const [visible, setVisible] = useState(() => (hasHydrated ? shouldPlay() : true))
   const [count, setCount] = useState(0)
@@ -67,10 +67,9 @@ const RevealPreloader = ({ brandName = 'Ling Kan', children, duration = 1.6 }) =
             transition={{ duration: instant ? 0 : 0.9, ease: EASE }}
             aria-hidden="true"
           >
-            <div aria-hidden="true" className="absolute inset-0 bg-grid-dark" />
-            <div className="relative flex justify-between eyebrow text-paper/50">
+            <div className="relative flex justify-between eyebrow text-paper/65">
               <span>Portfolio</span>
-              <span>Loading the story</span>
+              <span>{label}</span>
             </div>
 
             <div className="relative overflow-hidden">

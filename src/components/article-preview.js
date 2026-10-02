@@ -30,7 +30,7 @@ const ProjectCard = ({ post, index }) => {
   return (
     <motion.li
       ref={ref}
-      className={`list-none ${index % 2 === 1 ? 'md:mt-28' : ''}`}
+      className="list-none"
       initial={reduce ? false : { opacity: 0, y: 60 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.2 }}
@@ -41,11 +41,11 @@ const ProjectCard = ({ post, index }) => {
           onMouseMove={onMove}
           onMouseEnter={() => setHover(true)}
           onMouseLeave={() => setHover(false)}
-          initial={reduce ? false : { clipPath: 'inset(12% 12% 12% 12% round 2rem)' }}
-          whileInView={{ clipPath: 'inset(0% 0% 0% 0% round 2rem)' }}
+          initial={reduce ? false : { clipPath: 'inset(12% 12% 12% 12% round 1.5rem)' }}
+          whileInView={{ clipPath: 'inset(0% 0% 0% 0% round 1.5rem)' }}
           viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 1.3, ease: EASE }}
-          className="relative aspect-[4/3] rounded-[2rem] overflow-hidden bg-sand md:cursor-none"
+          className="relative aspect-[4/3] rounded-[1.5rem] overflow-hidden bg-sand md:cursor-none"
         >
           {post.heroImage?.gatsbyImageData ? (
             <motion.div style={reduce ? undefined : { y: imageY }} className="absolute -inset-y-[10%] inset-x-0">
@@ -62,11 +62,11 @@ const ProjectCard = ({ post, index }) => {
           <div className="absolute inset-0 bg-ink/0 group-hover:bg-ink/20 transition-colors duration-500" />
 
           <div className="absolute top-5 left-5 right-5 flex items-center justify-between">
-            <span className="glass rounded-full px-3 py-1.5 eyebrow !text-[0.65rem] text-ink">
+            <span className="glass rounded-full px-3 py-1.5 eyebrow !text-[0.7rem] text-ink">
               {String(index + 1).padStart(2, '0')}
             </span>
             {post.protectPage && (
-              <span className="glass rounded-full px-3 py-1.5 eyebrow !text-[0.65rem] text-ink inline-flex items-center gap-1.5">
+              <span className="glass rounded-full px-3 py-1.5 eyebrow !text-[0.7rem] text-ink inline-flex items-center gap-1.5">
                 <LockClosedIcon className="w-3 h-3 no-fill fill-ink" /> Private
               </span>
             )}
@@ -79,7 +79,7 @@ const ProjectCard = ({ post, index }) => {
               style={{ x: cursorX, y: cursorY }}
               animate={{ scale: hover ? 1 : 0, opacity: hover ? 1 : 0 }}
               transition={{ duration: 0.35, ease: EASE }}
-              className="hidden md:grid absolute top-0 left-0 -ml-12 -mt-12 w-24 h-24 place-items-center rounded-full bg-accent text-white text-sm font-medium pointer-events-none"
+              className="hidden md:grid absolute top-0 left-0 -ml-12 -mt-12 w-24 h-24 place-items-center rounded-full bg-ink/90 backdrop-blur text-paper text-xs font-medium tracking-wide pointer-events-none"
             >
               View case
             </motion.span>
@@ -88,16 +88,21 @@ const ProjectCard = ({ post, index }) => {
 
         <div className="mt-6 flex items-start justify-between gap-6">
           <div className="min-w-0">
-            <p className="eyebrow text-ink/50">
+            <p className="eyebrow text-ink/75">
               {post.endDate}
               {post.tags?.length > 0 && <span className="text-ink/30"> · </span>}
-              {post.tags?.slice(0, 2).join(' · ')}
+              {post.tags?.[0]}
             </p>
-            <h3 className="mt-3 display-md !text-[clamp(1.6rem,2.6vw,2.25rem)] text-ink group-hover:text-accent transition-colors duration-300">
+            <h3 className="mt-3 display-md !text-[clamp(1.3rem,1.8vw,1.6rem)] text-ink group-hover:text-accent transition-colors duration-300">
               {post.title}
             </h3>
+            {post.headlineResult && (
+              <p className="mt-3 inline-flex items-center gap-2 rounded-full bg-accent/10 px-3 py-1 text-sm font-semibold text-accent">
+                {post.headlineResult}
+              </p>
+            )}
             {html && (
-              <div className="rich-text mt-3 text-ink/65 line-clamp-2 max-w-lg" dangerouslySetInnerHTML={{ __html: html }} />
+              <div className="rich-text mt-3 text-ink/75 line-clamp-2 max-w-lg" dangerouslySetInnerHTML={{ __html: html }} />
             )}
           </div>
           <span className="shrink-0 grid place-items-center w-12 h-12 rounded-full border border-ink/20 group-hover:bg-ink group-hover:border-ink transition-all duration-500 group-hover:rotate-45">
@@ -109,16 +114,33 @@ const ProjectCard = ({ post, index }) => {
   )
 }
 
-const ArticlePreview = ({ posts }) => {
+
+const ArticlePreview = ({ posts, limit }) => {
   if (!Array.isArray(posts)) return null
   const visible = posts.filter((post) => !post.hiddenPage)
+  const shown = limit ? visible.slice(0, limit) : visible
 
   return (
-    <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-10 lg:gap-x-16 gap-y-16 p-0 m-0">
-      {visible.map((post, index) => (
-        <ProjectCard key={post.slug} post={post} index={index} />
-      ))}
-    </ul>
+    <>
+      <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 lg:gap-x-8 gap-y-14 p-0 m-0">
+        {shown.map((post, index) => (
+          <ProjectCard key={post.slug} post={post} index={index} />
+        ))}
+      </ul>
+      {shown.length < visible.length && (
+        <div className="mt-16 flex justify-center">
+          <Link
+            to="/portfolio/"
+            className="group inline-flex items-center gap-3 rounded-full border border-ink/15 pl-6 pr-2 py-2 text-sm font-medium !text-ink hover:border-ink/40 hover:bg-white/60 transition-colors duration-300"
+          >
+            See all {visible.length} case studies
+            <span className="grid place-items-center w-8 h-8 rounded-full bg-ink">
+              <ArrowUpRightIcon className="w-3.5 h-3.5 no-fill fill-paper group-hover:rotate-45 transition-transform duration-500" />
+            </span>
+          </Link>
+        </div>
+      )}
+    </>
   )
 }
 

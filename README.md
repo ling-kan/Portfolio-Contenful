@@ -6,6 +6,10 @@
 2. [Features](#features)
 3. [Crucial Commands](#crucial-commands)
 
+> **Managing content:** every piece of copy, imagery and SEO is editable in Contentful.
+> See **[docs/CONTENT-MODEL.md](docs/CONTENT-MODEL.md)** for the content model, the one-off migration script
+> (`node scripts/contentful-model.js`) and build steps. AI image prompts are in [IMAGERY.md](IMAGERY.md).
+
 ## Technologies
 
 - [Gatsby](http://gatsbyjs.com/)

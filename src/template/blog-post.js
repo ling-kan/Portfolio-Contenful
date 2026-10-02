@@ -66,13 +66,13 @@ const BlogPostTemplate = (props) => {
                     </Link>
                     {post.role && (
                       <div className="pt-6 border-t border-line">
-                        <p className="eyebrow !text-[0.65rem] text-ink/50">Role</p>
+                        <p className="eyebrow !text-[0.7rem] text-ink/75">Role</p>
                         <p className="mt-1 font-medium text-ink">{post.role}</p>
                       </div>
                     )}
                     {post.endDate && (
                       <div className="pt-6 border-t border-line">
-                        <p className="eyebrow !text-[0.65rem] text-ink/50">Duration</p>
+                        <p className="eyebrow !text-[0.7rem] text-ink/75">Duration</p>
                         <p className="mt-1 font-medium text-ink">{post.startDate ? `${post.startDate} – ${post.endDate}` : post.endDate}</p>
                       </div>
                     )}
@@ -81,7 +81,7 @@ const BlogPostTemplate = (props) => {
 
                 <div className="lg:col-span-9">
                   {post.summary?.childMarkdownRemark?.html && (
-                    <Reveal className="relative rounded-[1.75rem] bg-ink text-paper p-8 md:p-12 mb-16 overflow-hidden">
+                    <Reveal className="relative rounded-[1.5rem] bg-ink text-paper p-8 md:p-12 mb-16 overflow-hidden">
                       <div aria-hidden="true" className="absolute -top-24 -right-24 w-72 h-72 rounded-full bg-accent/25 blur-3xl" />
                       <p className="relative eyebrow text-accent">Executive summary</p>
                       <div
@@ -108,7 +108,7 @@ const BlogPostTemplate = (props) => {
                     {previous && (
                       <li className="list-none md:border-r border-line">
                         <Link to={`/portfolio/${previous.slug}`} rel="prev" className="group block py-10 md:py-14 md:pr-10 !text-ink">
-                          <span className="eyebrow text-ink/50 inline-flex items-center gap-2">
+                          <span className="eyebrow text-ink/75 inline-flex items-center gap-2">
                             <ArrowLeftIcon className="w-3.5 h-3.5 no-fill fill-accent group-hover:-translate-x-1 transition-transform" /> Previous
                           </span>
                           <span className="block mt-3 display-md !text-[clamp(1.4rem,2.4vw,2rem)] group-hover:text-accent transition-colors">{previous.title}</span>
@@ -118,7 +118,7 @@ const BlogPostTemplate = (props) => {
                     {next && (
                       <li className={`list-none ${previous ? '' : 'md:col-start-2'} border-t md:border-t-0 border-line`}>
                         <Link to={`/portfolio/${next.slug}`} rel="next" className="group block py-10 md:py-14 md:pl-10 text-right !text-ink">
-                          <span className="eyebrow text-ink/50 inline-flex items-center gap-2">
+                          <span className="eyebrow text-ink/75 inline-flex items-center gap-2">
                             Next <ArrowRightIcon className="w-3.5 h-3.5 no-fill fill-accent group-hover:translate-x-1 transition-transform" />
                           </span>
                           <span className="block mt-3 display-md !text-[clamp(1.4rem,2.4vw,2rem)] group-hover:text-accent transition-colors">{next.title}</span>

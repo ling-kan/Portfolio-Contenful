@@ -9,13 +9,16 @@ import Container from '../components/container'
 
 const BlogIndex = (props) => {
   const posts = get(props, "data.allContentfulBlogPost.nodes");
+  const header = get(props, "data.contentfulPageHeader") || {};
   return (
     <Layout location={props.location}>
-      <Seo title="Portfolio" />
+      <Seo title={header.seoTitle || "Portfolio"} description={header.seoDescription || undefined} />
       <BlogHeader
-        eyebrow="Selected work"
-        title="Case studies and stories from the work."
-        content="A closer look at the challenges, the thinking and the outcomes behind each project."
+        eyebrow={header.eyebrow || "Selected work"}
+        slot="portfolioHeader"
+        slotImage={header.headerImage?.gatsbyImageData}
+        title={header.title || "Case studies with measurable outcomes."}
+        content={header.intro || "A closer look at the challenges, the thinking and the outcomes behind each project."}
       />
       <Container className="pt-8 pb-24 md:pb-36">
         <ArticlePreview posts={posts} />
@@ -27,6 +30,14 @@ export default BlogIndex
 
 export const pageQuery = graphql`
   query BlogIndexQuery {
+    contentfulPageHeader(slug: { eq: "portfolio" }) {
+      eyebrow
+      title
+      intro
+      seoTitle
+      seoDescription
+      headerImage { gatsbyImageData(layout: FULL_WIDTH, placeholder: BLURRED) }
+    }
     allContentfulBlogPost(sort: { fields: [endDate], order: DESC }) {
        nodes {
         title
@@ -35,6 +46,7 @@ export const pageQuery = graphql`
         tags
         hiddenPage
         protectPage
+        headlineResult
         heroImage {
           gatsbyImageData(
             layout: FULL_WIDTH

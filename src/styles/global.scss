@@ -1,6 +1,8 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300..800&family=Inter+Tight:wght@400..800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300..800&family=Playfair+Display:ital,wght@0,400..700;1,400..700&display=swap");
 
 html {
+  // Decorative layers must never cause sideways scrolling (clip keeps sticky working)
+  overflow-x: clip;
   scroll-behavior: smooth;
   scroll-padding-top: 6rem;
 }
@@ -45,6 +47,7 @@ h4,
 h5,
 h6 {
   font-family: var(--font-display);
+  font-style: normal;
   font-weight: var(--semibold);
   line-height: var(--dense);
   letter-spacing: -0.02em;
@@ -91,23 +94,26 @@ button {
 
 .display-xl {
   font-family: var(--font-display);
-  font-weight: 700;
-  font-size: clamp(3.5rem, 13vw, 11.5rem);
-  line-height: 0.88;
-  letter-spacing: -0.055em;
+  font-style: normal;
+  font-weight: 600;
+  font-size: clamp(3.75rem, 11vw, 10rem);
+  line-height: 0.92;
+  letter-spacing: -0.06em;
 }
 
 .display-lg {
   font-family: var(--font-display);
-  font-weight: 650;
-  font-size: clamp(2.4rem, 6.4vw, 5.5rem);
-  line-height: 0.98;
+  font-style: normal;
+  font-weight: 550;
+  font-size: clamp(2.25rem, 5.2vw, 4.5rem);
+  line-height: 1.02;
   letter-spacing: -0.045em;
 }
 
 .display-md {
   font-family: var(--font-display);
-  font-weight: 600;
+  font-style: normal;
+  font-weight: 550;
   font-size: clamp(1.8rem, 3.6vw, 3rem);
   line-height: 1.05;
   letter-spacing: -0.035em;
@@ -119,17 +125,20 @@ button {
   letter-spacing: -0.012em;
 }
 
+// Highlighted word inside a title: formal upright serif, for the dual-font title style
 .editorial {
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-weight: 400;
+  font-family: var(--font-accent);
+  font-style: normal;
+  font-weight: 500;
+  font-size: 1.05em;
   letter-spacing: -0.01em;
 }
 
 .eyebrow {
-  font-family: var(--font-monospace);
-  font-size: 0.75rem;
-  letter-spacing: 0.18em;
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
 }
 
@@ -155,16 +164,6 @@ button {
 
 /* ---------- Surfaces & textures ---------- */
 
-.grain::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  opacity: 0.07;
-  mix-blend-mode: multiply;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-}
-
 .bg-grid {
   background-image: linear-gradient(var(--line) 1px, transparent 1px),
     linear-gradient(90deg, var(--line) 1px, transparent 1px);
@@ -179,8 +178,15 @@ button {
   mask-image: radial-gradient(ellipse at center, black 20%, transparent 75%);
 }
 
+// On deep-green surfaces the brass accent switches to a lighter tone so text keeps WCAG AA contrast
+.bg-ink,
+.bg-ink-soft {
+  --accent: var(--accent-on-dark);
+  --color-accent: var(--accent-on-dark);
+}
+
 .glass {
-  background: rgba(244, 242, 238, 0.72);
+  background: rgba(245,240,230, 0.72);
   backdrop-filter: blur(14px) saturate(160%);
   -webkit-backdrop-filter: blur(14px) saturate(160%);
 }
@@ -214,7 +220,8 @@ button {
   animation-direction: reverse;
 }
 
-.marquee:hover .marquee__track {
+.marquee:hover .marquee__track,
+.marquee:focus-within .marquee__track {
   animation-play-state: paused;
 }
 

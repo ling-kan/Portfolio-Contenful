@@ -29,6 +29,7 @@ export const pageQuery = graphql`
         tags
         hiddenPage
         protectPage
+        headlineResult
         heroImage {
           gatsbyImageData(
             layout: FULL_WIDTH
@@ -88,6 +89,21 @@ export const pageQuery = graphql`
             height: 20
           )
         }
+      }
+    }
+    allContentfulSectionHeader {
+      nodes { key eyebrow title highlightWords intro buttonLabel }
+    }
+    allContentfulValuePillar(sort: { order: ASC }) {
+      nodes { title description }
+    }
+    allContentfulTestimonial(sort: { order: ASC }) {
+      nodes {
+        quote
+        name
+        role
+        company
+        photo { gatsbyImageData(width: 96, height: 96, placeholder: BLURRED) }
       }
     }
     allContentfulLanding(

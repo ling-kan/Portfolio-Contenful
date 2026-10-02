@@ -12,7 +12,7 @@ const RotatingBadge = ({ text = 'PORTFOLIO • PORTFOLIO • ', className = '', 
         <defs>
           <path id={`badge-${id}`} d="M100,100 m-78,0 a78,78 0 1,1 156,0 a78,78 0 1,1 -156,0" />
         </defs>
-        <text className="fill-current" style={{ fontFamily: 'var(--font-monospace)', fontSize: 15, letterSpacing: 4 }}>
+        <text className="fill-current" style={{ fontFamily: 'var(--font-sans)', fontSize: 14, fontWeight: 500, letterSpacing: 3.5 }}>
           <textPath href={`#badge-${id}`}>{text}</textPath>
         </text>
       </svg>

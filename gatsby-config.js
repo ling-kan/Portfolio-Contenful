@@ -35,8 +35,8 @@ if (!spaceId || !accessToken) {
 
 module.exports = {
   siteMetadata: {
-    title: "Ling Kan",
-    description: "Ling Kan Portfolio",
+    title: "LING KAN",
+    description: "LING KAN — London-based digital experience leader combining UX, conversion optimisation and front-end development to drive measurable growth.",
     siteUrl: `https://lingkan.netlify.app`,
     author: `@yourhandle`,
     social: {
@@ -69,9 +69,9 @@ module.exports = {
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
-        name: `Ling Kan Portfolio`,
+        name: `LING KAN Portfolio`,
         short_name: `Ling`,
-        description: `Portfolio showcasing Ling Kan's work.`,
+        description: `LING KAN — UX, CRO and front-end development portfolio.`,
         start_url: `/`,
         icon: `src/assets/favicon/favicon.png`,
         icons: [
