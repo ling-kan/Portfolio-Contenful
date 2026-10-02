@@ -1,104 +1,112 @@
 @use "/src/styles/variables" as *;
 
-.meta {
-  font-family: var(--font-serif);
-  font-size: var(--text-lg);
-  font-style: italic;
-  margin: 0 auto 1em;
-  max-width: var(--size-max-width);
-  padding-bottom: var(--size-gutter);
-  padding-left: var(--size-gutter);
-  position: relative;
-  top: -1em;
-}
-
 .article {
   font-size: var(--text-prose);
-  gap: var(--space-md);
   letter-spacing: var(--text-prose-tracking);
   line-height: var(--loose);
-  border-top: 2px solid var(--grey-light);
-  padding: 1em 0;
+  color: rgba(6, 42, 43, 0.82);
+  max-width: 46rem;
 }
 
 .article a {
-  border-bottom: 1.5px solid var(--link);
+  color: var(--ink);
+  border-bottom: 1.5px solid var(--accent);
   font-weight: var(--medium);
+  transition: color 0.2s ease;
 }
 
 .article a:hover {
-  border-bottom-color: var(--link-hover);
-  color: var(--link-hover);
+  color: var(--accent);
 }
 
 .article p {
   margin-top: 0;
-  margin-bottom: 1em;
+  margin-bottom: 1.25em;
+}
+
+.article strong {
+  color: var(--ink);
 }
 
 .articleTitle,
 .article h1,
 .article h2 {
-  font-size: var(--text-2xl);
-  margin-top: var(--space-2xl);
-  margin-bottom: 0.5em;
-  text-transform: uppercase;
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 2.6vw, 2.25rem);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  color: var(--ink);
+  margin-top: 2.5em;
+  margin-bottom: 0.6em;
+}
+
+.article > h2:first-child,
+.article > h1:first-child {
+  margin-top: 0;
 }
 
 .article h3,
 .article h4,
 .article h5,
 .article h6 {
-  font-size: var(--text-prose);
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem, 1.6vw, 1.4rem);
   font-weight: var(--semibold);
+  color: var(--ink);
   margin-bottom: 0.5em;
-  margin-top: var(--space-xl);
+  margin-top: 2em;
 }
 
 .article li {
-  margin-bottom: 1em;
+  margin-bottom: 0.6em;
+}
+
+.article blockquote {
+  margin: 2.5em 0;
+  padding: 0 0 0 1.5em;
+  border-left: 3px solid var(--accent);
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(1.4rem, 2.2vw, 1.9rem);
+  line-height: 1.35;
+  color: var(--ink);
 }
 
 .article img {
-  max-width: calc(100% - 3rem);
-  margin: auto;
+  max-width: 100%;
+  margin: 2.5em auto;
+  border-radius: 1.25rem;
 }
 
 .article iframe {
   max-width: calc(100vw - (var(--size-gutter) * 2));
-  margin: 1em auto;
+  margin: 2em auto;
+  border-radius: 1.25rem;
 }
 
-.articleNavigation {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  list-style: none;
-  padding: 2rem 0;
-  margin-left: 0;
+.article table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 2em 0;
+  font-size: 0.9em;
 
-  @media (min-width: $md-mq) {
-    margin-left: 1rem;
+  th,
+  td {
+    text-align: left;
+    padding: 0.75em 1em;
+    border-bottom: 1px solid var(--line);
+  }
+
+  th {
+    font-family: var(--font-monospace);
+    font-size: 0.75em;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--grey);
   }
 }
 
-@media (min-width: $md-mq) {
-  .container {
-    max-width: var(--size-max-width);
-    margin: 0 auto;
-  }
-}
-
-@media (min-width: $lg-mq) {
-  .article {
-    gap: var(--space-lg);
-    margin: auto;
-    padding-left: 0;
-    padding-right: 0;
-    width: calc(85% - var(--size-gutter));
-  }
-
-  .article ul {
-    padding-left: 0;
-  }
+.article hr {
+  margin: 3em 0;
 }

@@ -1,85 +1,122 @@
-import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import Tippy from "@tippyjs/react";
-import "tippy.js/dist/tippy.css";
+import React, { useState } from 'react'
+import useSafeReducedMotion from './motion/use-safe-reduced-motion'
+import { motion, AnimatePresence } from 'motion/react'
+import SpaceIllustration from '../assets/illustration/space-discovery.svg'
+import { EASE } from './motion/reveal'
 
-const AccordionSkills = ({ list }) => {
-  const [openIndexes, setOpenIndexes] = useState([]);
+const SkillsPanel = ({ list = [] }) => {
+  const reduce = useSafeReducedMotion()
+  const [active, setActive] = useState(0)
+  const [focused, setFocused] = useState(null)
+  const section = list[active] || { skills: [] }
+  const skills = section.skills || []
+  const detail = skills.find((s) => s.name === focused) || skills[0]
 
-  const toggleAccordion = (index) => {
-    setOpenIndexes((prev) =>
-      prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index]
-    );
-  };
-
-  const skillVariants = {
-    hidden: { opacity: 0, y: 10 },
-    visible: (i) => ({
-      opacity: 1,
-      y: 0,
-      transition: { delay: i * 0.08, duration: 0.5, ease: "easeInOut" },
-    }),
-  };
+  const selectCategory = (i) => {
+    setActive(i)
+    setFocused(null)
+  }
 
   return (
-    <section>
-      <div className="space-y-6">
-        {list.map((section, index) => (
-          <div
-            key={index}
-            className="border border-grey-light rounded-lg py-4 px-6"
-          >
-            {/* Accordion Header */}
+    <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
+      <div className="lg:col-span-8">
+        {/* Category tabs */}
+        <div role="tablist" aria-label="Skill categories" className="flex flex-wrap gap-2 mb-10">
+          {list.map((cat, i) => (
             <button
-              onClick={() => toggleAccordion(index)}
-              className="w-full flex justify-between items-center text-left  font-semibold focus:outline-none"
+              key={cat.category}
+              role="tab"
+              aria-selected={active === i}
+              onClick={() => selectCategory(i)}
+              className={`relative rounded-full px-5 py-2.5 text-sm font-medium transition-colors duration-300 ${
+                active === i ? '!text-paper' : '!text-ink/70 hover:!text-ink bg-ink/5'
+              }`}
             >
-              <h3>{section.category}</h3>
-              <p className="mx-3">
-                {openIndexes.includes(index) ? "−" : "+"}
-              </p>
-            </button>
-
-            {/* Accordion Content */}
-            <AnimatePresence>
-              {openIndexes.includes(index) && (
-                <motion.div
-                  initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: "auto", opacity: 1 }}
-                  exit={{ height: 0, opacity: 0 }}
-                  transition={{ duration: 0.6, ease: "easeInOut" }}
-                  className="mt-4 flex flex-wrap gap-3"
-                >
-                  {section.skills.map((skill, i) => (
-                    <Tippy
-                      key={skill.name}
-                      content={skill.description}
-                      placement="top"
-                      arrow={true}
-                      trigger="mouseenter focus" // 👈 click is fully disabled
-                      interactive={true} // 👈 allows hovering inside tooltip
-                      hideOnClick={false} // 👈 stops tooltip from closing on click
-                    >
-                      <motion.span
-                        custom={i}
-                        variants={skillVariants}
-                        initial="hidden"
-                        animate="visible"
-                        className="px-4 py-2 bg-blue-dark text-primary rounded-full font-medium hover:bg-blue cursor-pointer"
-                        whileHover={{ scale: 1.05 }}
-                      >
-                        {skill.name}
-                      </motion.span>
-                    </Tippy>
-                  ))}
-                </motion.div>
+              {active === i && (
+                <motion.span
+                  layoutId="skills-tab"
+                  className="absolute inset-0 rounded-full bg-ink"
+                  transition={{ type: 'spring', stiffness: 380, damping: 32 }}
+                />
               )}
-            </AnimatePresence>
-          </div>
-        ))}
-      </div>
-    </section>
-  );
-};
+              <span className="relative">{cat.category}</span>
+            </button>
+          ))}
+        </div>
 
-export default AccordionSkills;
+        {/* Skill chips */}
+        <AnimatePresence mode="wait">
+          <motion.ul
+            key={section.category}
+            className="flex flex-wrap gap-3"
+            initial="hidden"
+            animate="show"
+            exit="exit"
+            variants={{
+              hidden: {},
+              show: { transition: { staggerChildren: reduce ? 0 : 0.04 } },
+              exit: { opacity: 0, transition: { duration: 0.2 } },
+            }}
+          >
+            {skills.map((skill) => {
+              const isActive = detail?.name === skill.name
+              return (
+                <motion.li
+                  key={skill.name}
+                  variants={{
+                    hidden: { opacity: 0, y: 20, scale: 0.9 },
+                    show: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.5, ease: EASE } },
+                  }}
+                >
+                  <button
+                    type="button"
+                    onMouseEnter={() => setFocused(skill.name)}
+                    onFocus={() => setFocused(skill.name)}
+                    onClick={() => setFocused(skill.name)}
+                    aria-pressed={isActive}
+                    className={`rounded-2xl border px-5 py-3 text-base md:text-lg font-display font-medium tracking-tight transition-all duration-300 hover:-translate-y-0.5 ${
+                      isActive
+                        ? 'bg-accent border-accent !text-white shadow-[0_12px_30px_-12px_rgba(242,107,58,0.7)]'
+                        : 'bg-paper border-line !text-ink hover:border-ink'
+                    }`}
+                  >
+                    {skill.name}
+                  </button>
+                </motion.li>
+              )
+            })}
+          </motion.ul>
+        </AnimatePresence>
+      </div>
+
+      {/* Detail card */}
+      <aside className="lg:col-span-4">
+        <div className="relative rounded-[1.75rem] bg-ink text-paper p-8 overflow-hidden min-h-[20rem] lg:sticky lg:top-28">
+          <SpaceIllustration
+            aria-hidden="true"
+            className="absolute -right-10 -bottom-6 w-[115%] opacity-[0.12] invert pointer-events-none"
+          />
+          <p className="eyebrow text-paper/50 relative">{section.category}</p>
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={detail?.name || 'empty'}
+              initial={reduce ? false : { opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -16 }}
+              transition={{ duration: 0.4, ease: EASE }}
+              className="relative mt-8"
+            >
+              <h3 className="display-md text-paper">{detail?.name}</h3>
+              {detail?.description && <p className="mt-4 text-paper/70 leading-relaxed">{detail.description}</p>}
+            </motion.div>
+          </AnimatePresence>
+          <p className="relative mt-10 eyebrow text-paper/40">
+            {String(skills.length).padStart(2, '0')} skills · hover or tap to explore
+          </p>
+        </div>
+      </aside>
+    </div>
+  )
+}
+
+export default SkillsPanel

@@ -1,14 +1,14 @@
 import React from 'react'
 
-const Tags = ({ tags }) =>
+const Tags = ({ tags, className = '' }) =>
   tags?.length > 0 && (
-    <small className="flex flex-wrap gap-1 justify-center mt-4" >
+    <ul className={`flex flex-wrap gap-2 p-0 m-0 ${className}`}>
       {tags.map((tag) => (
-        <div key={tag} className="bg-primary text-sm rounded-md px-2.5 py-1" >
+        <li key={tag} className="list-none rounded-full border border-line bg-paper/60 px-3 py-1 text-xs font-medium text-ink/80">
           {tag}
-        </div>
+        </li>
       ))}
-    </small>
+    </ul>
   )
 
 export default Tags

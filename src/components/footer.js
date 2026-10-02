@@ -1,37 +1,43 @@
 import React from 'react'
-import Container from './container'
 import { Link } from 'gatsby'
-import Logo from './logo';
-import Socials from './socials';
+import { ArrowUpIcon } from '@heroicons/react/24/solid'
+import Container from './container'
+import Logo from './logo'
+import Socials from './socials'
 
 const Footer = ({ navList }) => (
-  <div className="flex justify-center pt-10" >
-    <Container as="footer">
-      <div className="sm:flex sm:justify-between">
-        <div className="mb-6 sm:mb-0">
-          <div className="flex justify-center mb-2">
-            <Logo />
-          </div>
-        </div>
-        <nav>
-          <ul className={`sm:flex flex-col sm:flex-row sm:space-x-8 sm:text-sm sm:font-medium text-center`}>
-            {navList?.map((value, index) => {
-              return (
-                <li key={index} className="my-2 sm:my-0">
-                  <Link to={value.url} activeClassName="active" className="mx-2 text-link " aria-current="page">{value.title}</Link>
-                </li>
-              )
-            })}
+  <footer className="bg-ink text-paper border-t border-paper/10">
+    <Container className="py-12">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-8">
+        <Logo light />
+        <nav aria-label="Footer">
+          <ul className="flex flex-wrap gap-x-8 gap-y-3 p-0 m-0">
+            {navList?.map((value) => (
+              <li key={value.url} className="list-none">
+                <Link to={value.url} className="text-sm !text-paper/70 hover:!text-accent transition-colors">
+                  {value.title}
+                </Link>
+              </li>
+            ))}
           </ul>
         </nav>
+        <Socials width="w-6" iconClassName="fill-grey text-paper/60 hover:text-accent transition-colors" />
       </div>
-      <hr className="my-6 border-grey-light sm:mx-auto lg:my-8" />
-      <div className="sm:flex sm:items-center sm:justify-between sm:flex-row-reverse ">
-        <span className="text-xs md:text-sm block text-center">© 2025&nbsp;<Link to="/" className="">Ling Kan Portfolio.</Link> All Rights Reserved.</span>
-        <Socials width="w-8" className="justify-center" />
+      <div className="mt-10 pt-6 border-t border-paper/10 flex flex-col-reverse sm:flex-row sm:items-center justify-between gap-4 text-xs text-paper/50">
+        <span>© {new Date().getFullYear()} Ling Kan Portfolio. All rights reserved.</span>
+        <button
+          type="button"
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          className="group inline-flex items-center gap-2 !text-paper/70 hover:!text-paper"
+        >
+          Back to top
+          <span className="grid place-items-center w-8 h-8 rounded-full border border-paper/20 group-hover:bg-accent group-hover:border-accent transition-colors">
+            <ArrowUpIcon className="w-3.5 h-3.5 no-fill fill-paper group-hover:-translate-y-0.5 transition-transform" />
+          </span>
+        </button>
       </div>
-    </Container >
-  </div >
+    </Container>
+  </footer>
 )
 
 export default Footer

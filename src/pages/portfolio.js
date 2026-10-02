@@ -12,8 +12,12 @@ const BlogIndex = (props) => {
   return (
     <Layout location={props.location}>
       <Seo title="Portfolio" />
-      <BlogHeader title="Portfolio" />
-      <Container>
+      <BlogHeader
+        eyebrow="Selected work"
+        title="Case studies and stories from the work."
+        content="A closer look at the challenges, the thinking and the outcomes behind each project."
+      />
+      <Container className="pt-8 pb-24 md:pb-36">
         <ArticlePreview posts={posts} />
       </Container>
     </Layout>
@@ -29,6 +33,8 @@ export const pageQuery = graphql`
         slug
         endDate(formatString: "MMMM YYYY")
         tags
+        hiddenPage
+        protectPage
         heroImage {
           gatsbyImageData(
             layout: FULL_WIDTH

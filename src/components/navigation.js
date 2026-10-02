@@ -1,115 +1,145 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'gatsby';
-import Container from './container';
-import Logo from './logo';
-import styled from "styled-components";
-import Socials from './socials';
-import { motion, AnimatePresence } from 'framer-motion';
-
-const NavigationWrapper = styled.header`
-  backdrop-filter: blur(5px);
-  transition: box-shadow 0.3s ease, background-color 0.3s ease;
-`;
-
-const mobileMenuVariants = {
-  hidden: { opacity: 0, y: -20, height: 0 },
-  visible: { opacity: 1, y: 0, height: 'auto', transition: { duration: 0.3 } },
-  exit: { opacity: 0, y: -20, height: 0, transition: { duration: 0.2 } },
-};
+import React, { useEffect, useState } from 'react'
+import useSafeReducedMotion from './motion/use-safe-reduced-motion'
+import { Link } from 'gatsby'
+import { motion, AnimatePresence, useMotionValueEvent, useScroll } from 'motion/react'
+import Container from './container'
+import Logo from './logo'
+import Socials from './socials'
+import { EASE } from './motion/reveal'
 
 const Navigation = ({ navList }) => {
-  const [mobileNav, setMobileNav] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
+  const reduce = useSafeReducedMotion()
+  const [mobileNav, setMobileNav] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+  const [hidden, setHidden] = useState(false)
+  const { scrollY } = useScroll()
 
-  // Detect scroll
+  useMotionValueEvent(scrollY, 'change', (y) => {
+    const prev = scrollY.getPrevious() ?? 0
+    setScrolled(y > 20)
+    setHidden(y > 240 && y > prev && !mobileNav)
+  })
+
+  // Lock page scroll while the mobile menu is open
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 10);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+    document.body.style.overflow = mobileNav ? 'hidden' : ''
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [mobileNav])
 
-  const headerActive = scrolled || mobileNav;
+  useEffect(() => {
+    const onKey = (e) => e.key === 'Escape' && setMobileNav(false)
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [])
 
   return (
-    <NavigationWrapper
-      className={`fixed top-0 w-full z-50 ${headerActive ? 'bg-primary-background shadow-md' : 'bg-transparent'}`}
-      style={{ boxShadow: headerActive ? '0 2px 6px rgba(0,0,0,0.15)' : 'none' }}
-      role="banner"
-    >
-      <Container as="nav" pageId="navigation">
-        <div className="flex items-center justify-between">
-          <Logo />
-
-          {/* Desktop nav */}
-          <ul className="hidden sm:flex space-x-6 items-center">
-            {navList?.map((item, index) => (
-              <li key={index}>
-                <Link
-                  to={item.url}
-                  className="text-gray-700 hover:text-blue"
-                  aria-current={index === 0 ? "page" : undefined}
-                >
-                  {item.title}
-                </Link>
-              </li>
-            ))}
-          </ul>
-
-          {/* Hamburger */}
-          <button
-            onClick={() => setMobileNav(!mobileNav)}
-            className="sm:hidden flex items-center p-2 rounded-lg text-gray-700 hover:text-blue-500 focus:outline-none focus:ring-2 focus:ring-gray-200 z-50"
-            aria-expanded={mobileNav}
-            aria-controls="mobile-menu"
+    <>
+      <motion.header
+        role="banner"
+        className="fixed top-0 inset-x-0 z-50 pt-3 md:pt-4"
+        animate={{ y: hidden ? '-120%' : '0%' }}
+        transition={{ duration: reduce ? 0 : 0.5, ease: EASE }}
+      >
+        <Container as="nav" aria-label="Main">
+          <div
+            className={`flex items-center justify-between rounded-full pl-5 pr-2 py-2 transition-all duration-500 ${
+              scrolled || mobileNav ? 'glass shadow-[0_10px_40px_-15px_rgba(6,42,43,0.35)] border border-white/60' : 'border border-transparent'
+            }`}
           >
-            <span className="sr-only">Toggle menu</span>
-            {!mobileNav ? (
-              <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-              </svg>
-            ) : (
-              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-                <path d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            )}
-          </button>
-        </div>
+            <Logo onClick={() => setMobileNav(false)} />
 
-        {/* Mobile menu with animation */}
-        <AnimatePresence>
-          {mobileNav && (
-            <motion.div
-              key="mobile-menu"
-              initial="hidden"
-              animate="visible"
-              exit="exit"
-              variants={mobileMenuVariants}
-              className="sm:hidden w-full bg-primary-background shadow-md overflow-hidden absolute left-0"
-            >
-              <ul className="flex flex-col py-3 px-4">
-                {navList?.map((item, index) => (
-                  <li key={index}>
+            <ul className="hidden md:flex items-center gap-1 p-0 m-0">
+              {navList?.map((item) => (
+                <li key={item.url} className="list-none">
+                  <Link
+                    to={item.url}
+                    className="relative px-4 py-2 rounded-full text-sm font-medium !text-ink/75 hover:!text-ink hover:bg-ink/5 transition-colors"
+                    activeClassName="!text-ink bg-ink/5"
+                  >
+                    {item.title}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+
+            <div className="flex items-center gap-2">
+              <a
+                href="/#contact"
+                className="hidden sm:inline-flex items-center gap-2 rounded-full bg-ink !text-paper px-5 py-2.5 text-sm font-medium hover:bg-accent transition-colors duration-300"
+              >
+                <span className="w-1.5 h-1.5 rounded-full bg-accent" />
+                Let's talk
+              </a>
+              <button
+                onClick={() => setMobileNav((v) => !v)}
+                className="md:hidden relative w-11 h-11 rounded-full bg-ink grid place-items-center"
+                aria-expanded={mobileNav}
+                aria-controls="mobile-menu"
+                aria-label={mobileNav ? 'Close menu' : 'Open menu'}
+              >
+                <span className="relative block w-5 h-3">
+                  <motion.span
+                    className="absolute left-0 right-0 h-[2px] bg-paper rounded-full"
+                    animate={mobileNav ? { top: '50%', rotate: 45, y: '-50%' } : { top: '0%', rotate: 0, y: '0%' }}
+                    transition={{ duration: 0.4, ease: EASE }}
+                  />
+                  <motion.span
+                    className="absolute left-0 right-0 h-[2px] bg-paper rounded-full"
+                    animate={mobileNav ? { bottom: '50%', rotate: -45, y: '50%' } : { bottom: '0%', rotate: 0, y: '0%' }}
+                    transition={{ duration: 0.4, ease: EASE }}
+                  />
+                </span>
+              </button>
+            </div>
+          </div>
+        </Container>
+      </motion.header>
+
+      <AnimatePresence>
+        {mobileNav && (
+          <motion.div
+            id="mobile-menu"
+            key="mobile-menu"
+            className="fixed inset-0 z-40 bg-ink text-paper md:hidden flex flex-col pt-28 pb-10 overflow-y-auto"
+            initial={{ clipPath: 'circle(0% at calc(100% - 3rem) 2.5rem)' }}
+            animate={{ clipPath: 'circle(150% at calc(100% - 3rem) 2.5rem)' }}
+            exit={{ clipPath: 'circle(0% at calc(100% - 3rem) 2.5rem)' }}
+            transition={{ duration: reduce ? 0 : 0.7, ease: EASE }}
+          >
+            <div aria-hidden="true" className="absolute inset-0 bg-grid-dark pointer-events-none" />
+            <Container className="relative flex-1 flex flex-col">
+              <p className="eyebrow text-paper/50 mb-6">Menu</p>
+              <ul className="p-0 m-0 flex-1">
+                {[...(navList || []), { title: "Let's talk", url: '/#contact' }].map((item, i) => (
+                  <motion.li
+                    key={item.url}
+                    className="list-none border-b border-paper/10 overflow-hidden"
+                    initial={{ opacity: 0, y: 40 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, delay: 0.15 + i * 0.07, ease: EASE }}
+                  >
                     <Link
                       to={item.url}
-                      className="block py-2 text-gray-700 hover:text-blue-500"
                       onClick={() => setMobileNav(false)}
-                      aria-current={index === 0 ? "page" : undefined}
+                      className="flex items-baseline gap-4 py-4 !text-paper"
                     >
-                      {item.title}
+                      <span className="eyebrow text-accent">{String(i + 1).padStart(2, '0')}</span>
+                      <span className="font-display text-4xl font-semibold tracking-tight">{item.title}</span>
                     </Link>
-                  </li>
+                  </motion.li>
                 ))}
               </ul>
-
-              <div className='flex justify-start px-4 pb-3'>
-                <Socials width="w-8" />
+              <div className="mt-10 text-paper">
+                <Socials width="w-7" className="justify-start" iconClassName="fill-grey !text-paper/70" />
               </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </Container>
-    </NavigationWrapper>
-  );
-};
+            </Container>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
+  )
+}
 
-export default Navigation;
+export default Navigation

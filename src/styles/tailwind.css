@@ -1,13 +1,27 @@
 @import "tailwindcss";
-/* @tailwind base;
-@tailwind components;
-@tailwind utilities; */
-@import "variables.scss";
 
+/* Design tokens exposed as Tailwind utilities (bg-ink, text-accent, font-display, ...) */
 @theme static {
+  --color-blue: var(--blue);
   --color-blue-dark: var(--blue-dark);
   --color-grey: var(--grey);
   --color-grey-light: var(--grey);
   --color-primary: var(--primary);
   --color-black: var(--black);
+  --color-white: var(--white);
+  --color-red: var(--red);
+
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-paper: var(--paper);
+  --color-sand: var(--sand);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-mint: var(--mint);
+  --color-line: var(--line);
+
+  --font-display: "Inter Tight", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-editorial: "Instrument Serif", "Baskerville", "Times New Roman", serif;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }

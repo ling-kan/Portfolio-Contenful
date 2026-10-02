@@ -1,69 +1,37 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
+import useSafeReducedMotion from './motion/use-safe-reduced-motion'
 import Seo from './seo'
 import Navigation from './navigation'
 import Footer from './footer'
-import { useReducedMotion } from "motion/react"
 import HeaderList from './motion/header-list'
+import ScrollProgress from './motion/scroll-progress'
 import useNavigationData from '../services/useNavigationData'
 import RevealPreloader from './motion/reveal-preloader'
-// import CookieConsent from './cookie-consent'
 
-const Template = ({ children, fullHeaderHeight = false, data, author }) => {
-  const navigation = useNavigationData();
-  const prefersReducedMotion = useReducedMotion();
-  const headerSpacing = fullHeaderHeight ? 'mt-0 md:mt-0' : 'mt-20 md:mt-16'
-  const [isLoading, setIsLoading] = useState(true);
-  const [progress, setProgress] = useState(0);
-
-  useEffect(() => {
-    const duration = 2000
-    const start = performance.now()
-    let rafId = null
-
-    const animate = (now) => {
-      const elapsed = now - start
-      const percent = Math.min(100, (elapsed / duration) * 100)
-      setProgress(percent)
-
-      if (percent < 100) {
-        rafId = requestAnimationFrame(animate)
-      } else {
-        setIsLoading(false)
-      }
-    }
-
-    rafId = requestAnimationFrame(animate)
-
-    return () => {
-      if (rafId) cancelAnimationFrame(rafId)
-    }
-  }, []);
-
-  const preloaderProps = {
-    isLoading,
-    progress,
-    brandName: author?.name ?? 'LING KAN',
-    brandImage: author?.image,
-    animatedList: author?.animatedList,
-    tagline: author?.tagline,
-  }
+const Template = ({ children, fullHeaderHeight = false, author }) => {
+  const navigation = useNavigationData()
+  const prefersReducedMotion = useSafeReducedMotion()
+  const headerSpacing = fullHeaderHeight ? '' : 'pt-28 md:pt-32'
 
   return (
-    <RevealPreloader {...preloaderProps}>
-      <div >
-
-        <Seo />
-        {/* <CookieConsent /> */}
-        <Navigation navList={navigation} />
-        {prefersReducedMotion ?
-          <main className={headerSpacing} role="main">{children}</main>
-          :
-          <HeaderList>
-            <div className={headerSpacing} role="main">{children}</div>
-          </HeaderList>
-        }
-        <Footer navList={navigation} />
-      </div>
+    <RevealPreloader brandName={author?.name ?? 'Ling Kan'}>
+      <Seo />
+      <a
+        href="#main"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:bg-ink focus:!text-paper focus:px-4 focus:py-2 focus:rounded-full"
+      >
+        Skip to content
+      </a>
+      <ScrollProgress />
+      <Navigation navList={navigation} />
+      {prefersReducedMotion ? (
+        <main id="main" className={headerSpacing}>{children}</main>
+      ) : (
+        <HeaderList>
+          <div id="main" className={headerSpacing}>{children}</div>
+        </HeaderList>
+      )}
+      <Footer navList={navigation} />
     </RevealPreloader>
   )
 }

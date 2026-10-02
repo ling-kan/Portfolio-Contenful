@@ -1,41 +1,13 @@
 import React from 'react'
-import CircularText from './motion/circular-text';
-// import animation from '../assets/lotties/DashboardReview.lottie.json';
-// import Lottie from 'lottie-react';
+import RotatingBadge from './motion/rotating-badge'
 
-const Loader = () => {
-    // const defaultOptions = {
-    //     loop: true,
-    //     autoplay: true,
-    //     animationData: animation,
-    //     rendererSettings: {
-    //         preserveAspectRatio: "xMidYMid slice"
-    //     }
-    // };
-    return (
-        <div className='w-screen min-h-screen flex p-20'>
-            <div className="m-auto h-fit">
-                <div className='max-w-xs max-h-xs'>
-                    <div className='p-5'>
-                        {/* <Lottie
-                            options={defaultOptions}
-                            alt="Loader"
-                        /> */}
-                        <CircularText
-                            text="LING KAN - PORTFOLIO - "
-                            onHover="speedUp"
-                            spinDuration={20}
-                            className="custom-class"
-                        />
-                    </div>
-                    {/* <div className="relative">
-                        <div className="loading">
-                            <div className="loading-bar"></div>
-                        </div>
-                    </div> */}
-                </div>
-            </div>
-        </div>)
-}
+// Shown while a protected case study checks access
+const Loader = () => (
+  <div className="fixed inset-0 bg-ink text-paper grid place-items-center" role="status" aria-label="Loading">
+    <RotatingBadge text="LING KAN • PORTFOLIO • LOADING • " className="w-44 h-44">
+      <span className="w-3 h-3 rounded-full bg-accent animate-ping" />
+    </RotatingBadge>
+  </div>
+)
 
 export default Loader

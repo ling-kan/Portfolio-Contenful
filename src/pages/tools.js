@@ -12,8 +12,12 @@ const ToolsPage = (props) => {
     return (
         <Layout location={props.location}>
             <Seo title="Tools" />
-            <BlogHeader title="Tools" />
-            <Container>
+            <BlogHeader
+                eyebrow="Toolbox"
+                title="Tools, experiments and resources."
+                content="Things I have built or rely on — shared in case they help you too."
+            />
+            <Container className="pt-8 pb-24 md:pb-36">
                 <ToolCard cards={card} />
             </Container>
         </Layout>

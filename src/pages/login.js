@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { graphql, navigate, Link } from "gatsby";
+import { graphql, navigate } from "gatsby";
 import get from "lodash/get";
 import { handleLogin, isLoggedIn } from "../services/auth";
 import Layout from "../components/layout";
 import Container from '../components/container';
 import Header from '../components/header';
-import { ArrowLeftIcon } from '@heroicons/react/24/solid';
+import { ArrowLeftIcon, LockClosedIcon } from '@heroicons/react/24/solid';
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
 
 
@@ -37,19 +37,27 @@ const Login = (props) => {
 
     return (
         <Layout location={props.location} socials={socials}>
-            <div className="min-h-screen-90">
+            <section className="relative isolate overflow-hidden -mt-28 md:-mt-32 min-h-[100svh] flex items-center pt-32 pb-16 grain">
+                <div aria-hidden="true" className="absolute inset-0 -z-10">
+                    <div className="absolute inset-0 bg-grid opacity-70" />
+                    <div className="absolute -top-32 -right-24 w-[34rem] h-[34rem] rounded-full bg-mint/50 blur-[110px]" />
+                    <div className="absolute bottom-0 -left-40 w-[28rem] h-[28rem] rounded-full bg-accent-soft/70 blur-[110px]" />
+                </div>
                 <Container>
-                    <button className="flex m-2 border-none text-link" onClick={(e) => { e.preventDefault(); navigate(-2) }}>
-                        <ArrowLeftIcon className="mr-2 my-auto h-5 w-5" />
-                        Back
-                    </button>
-                </Container>
-                <Container>
-                    <Header title="Protected Page" className="text-center" />
-                    <div className="w-full max-w-xs mt-20 mx-auto">
-                        <form method="post" onSubmit={handleSubmit} className="bg-white dark:bg-transparent dark: border-1 border-white shadow-sm rounded px-8 pt-6 pb-8 mb-4">
+                    <div className="w-full max-w-md mx-auto">
+                        <button className="group inline-flex items-center gap-2 mb-8 text-sm font-medium !text-ink" onClick={(e) => { e.preventDefault(); navigate(-2) }}>
+                            <ArrowLeftIcon className="h-4 w-4 no-fill fill-ink group-hover:-translate-x-1 transition-transform" />
+                            Back
+                        </button>
+                        <form method="post" onSubmit={handleSubmit} className="glass rounded-[2rem] border border-white/70 shadow-[0_40px_80px_-40px_rgba(6,42,43,0.45)] p-8 md:p-10">
+                            <span className="grid place-items-center w-12 h-12 rounded-full bg-ink mb-6">
+                                <LockClosedIcon className="w-5 h-5 no-fill fill-accent" />
+                            </span>
+                            <p className="eyebrow text-ink/60">Private case study</p>
+                            <Header title="Protected page" className="mt-3" />
+                            <p className="text-ink/70 mb-8">This work is under NDA. Enter the access password to continue.</p>
                             <div className="mb-6">
-                                <label htmlFor="password" className="block text-sm font-bold">
+                                <label htmlFor="password" className="block text-sm font-semibold text-ink">
                                     Password
                                     <div className="relative flex items-center">
                                         <input
@@ -58,33 +66,35 @@ const Login = (props) => {
                                                 setForm({ password: value });
                                                 if (!value) setLoginFailed(false); // Remove error message when field is emptied
                                             }}
-                                            className={`${loginFailed ? 'border-red' : 'border-grey-light'} bg-transparent shadow appearance-none border rounded w-full mt-2 py-2 px-3 mb-3 leading-tight focus:outline-hidden focus:shadow-outline pr-8`}
+                                            className={`${loginFailed ? 'border-red' : 'border-line'} bg-white/80 appearance-none border rounded-full w-full mt-2 py-3 px-5 pr-12 leading-tight focus:outline-none focus:border-ink transition-colors`}
                                             id="password"
                                             type={showPassword ? "text" : "password"}
                                             name="password"
-                                            placeholder="********"
+                                            placeholder="••••••••"
+                                            aria-invalid={loginFailed}
                                         />
                                         <button
                                             type="button"
-                                            className="no-fill absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-600 border-none"
+                                            className="no-fill absolute right-4 top-1/2 mt-1 -translate-y-1/2 text-ink/60 border-none"
                                             onClick={() => setShowPassword(!showPassword)}
+                                            aria-label={showPassword ? 'Hide password' : 'Show password'}
                                         >
                                             {showPassword ? <EyeSlashIcon className="h-5 w-5 no-fill" /> : <EyeIcon className="h-5 w-5 no-fill" />}
                                         </button>
                                     </div>
                                 </label>
-                                {loginFailed && <p className="text-red text-xs italic">Incorrect password, please try again</p>}
+                                {loginFailed && <p className="text-red text-sm mt-2" role="alert">Incorrect password, please try again</p>}
                             </div>
-                            <div className="flex items-center justify-between">
-                                <input type="submit" className="button cursor-pointer mr-2 font-semibold py-2 px-4 rounded focus:outline-hidden focus:shadow-outline" value="Enter" />
-                                {email && <Link to={email[0]?.url} className="inline-block align-baseline font-semibold text-sm text-link">
-                                    Request Access
-                                </Link>}
+                            <div className="flex flex-wrap items-center justify-between gap-4">
+                                <input type="submit" className="cursor-pointer rounded-full !bg-ink !text-paper px-7 py-3 font-medium hover:!bg-accent transition-colors !border-0" value="Enter" />
+                                {email && <a href={email[0]?.url} className="font-medium text-sm text-link">
+                                    Request access
+                                </a>}
                             </div>
                         </form>
                     </div>
                 </Container>
-            </div>
+            </section>
         </Layout>
     );
 }

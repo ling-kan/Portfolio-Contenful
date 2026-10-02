@@ -21,17 +21,17 @@ const Icons = {
   'Buy Me A Coffee': withIconWrapper(BuyACoffeeSvg),
 };
 
-const Socials = ({ width = 'w-6', className = '' }) => {
+const Socials = ({ width = 'w-6', className = '', iconClassName = 'fill-grey text-ink/60 hover:text-accent transition-colors' }) => {
   const socials = useSocialData();
 
   return (
-    <ul className={`flex space-x-6 ${className}`}>
+    <ul className={`flex gap-6 p-0 m-0 ${className}`}>
       {socials?.map(({ type, url }, index) => {
         const Icon = Icons[type];
         return (
-          <li key={index} className="my-4 sm:my-0">
-            <a href={url} target="_blank" rel="noreferrer">
-              {Icon && <Icon width={width} />}
+          <li key={index} className="list-none">
+            <a href={url} target="_blank" rel="noreferrer" aria-label={type} className="block hover:-translate-y-0.5 transition-transform">
+              {Icon && <Icon width={width} className={iconClassName} />}
             </a>
           </li>
         );

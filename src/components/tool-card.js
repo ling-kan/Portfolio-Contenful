@@ -1,41 +1,52 @@
 import React from 'react'
-import { Link } from 'gatsby'
 import { GatsbyImage } from 'gatsby-plugin-image'
+import { ArrowUpRightIcon } from '@heroicons/react/24/solid'
 import Tags from './tags'
-import FadeIn from './motion/fade-in'
+import { Stagger, StaggerItem } from './motion/reveal'
 
 const ToolCard = ({ cards }) => {
-    if (!cards) return null
-    if (!Array.isArray(cards)) return null
-    return (
-        <ul className="grid grid-cols-1 md:grid-cols-3 gap-3">
-            {cards.map((card) => {
-                return (
-                    <FadeIn key={card.id}>
-                        <div className='md:max-w-lg md:max-h-xl bg-white rounded-md'>
-                            <Link to={card.link} target="_blank" className='article items-center'>
-                                <div className='rounded-md'>
-                                    {card.image && <div className='article-image'>
-                                        <GatsbyImage alt={card.title} className="z-0 image object-cover w-full h-auto rounded-md md:h-full md:w-full md:max-w-100" image={card.image.gatsbyImageData} />
-                                    </div>}
-                                </div>
-                                <div className="details transition ease-in-out left-0 bottom-0 w-full p-4 leading-normal">
-                                    <p className="mt-0  text-sm uppercase pb-2">{card.date || card.createdDate || card.updatedAt}</p>
-                                    <h5 className="text-xl tracking-tight pb-2">{card?.title}</h5>
-                                    <div className="description text-sm" dangerouslySetInnerHTML={{
-                                        __html: card?.description.childMarkdownRemark.html,
-                                    }} />
-                                    <div className="flex justify-start">
-                                        <Tags tags={card?.tag} />
-                                    </div>
-                                </div>
-                            </Link>
-                        </div>
-                    </FadeIn>
-                )
-            })}
-        </ul >
-    )
+  if (!Array.isArray(cards)) return null
+  return (
+    <Stagger as="ul" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-0 m-0">
+      {cards.map((card) => (
+        <StaggerItem as="li" key={card.id} className="list-none">
+          <a
+            href={card.link}
+            target="_blank"
+            rel="noreferrer"
+            className="group flex flex-col h-full rounded-[1.75rem] border border-line bg-white/60 hover:bg-white overflow-hidden !text-ink hover:-translate-y-1.5 hover:shadow-[0_30px_60px_-30px_rgba(6,42,43,0.4)] transition-all duration-500"
+          >
+            <div className="relative aspect-[16/10] bg-sand overflow-hidden">
+              {card.image?.gatsbyImageData ? (
+                <GatsbyImage
+                  alt={card.title}
+                  image={card.image.gatsbyImageData}
+                  className="w-full h-full transition-transform duration-[1.2s] ease-out group-hover:scale-105"
+                  imgClassName="object-cover"
+                />
+              ) : (
+                <div className="absolute inset-0 bg-grid" />
+              )}
+              <span className="absolute top-4 right-4 grid place-items-center w-10 h-10 rounded-full glass group-hover:bg-accent transition-colors duration-300">
+                <ArrowUpRightIcon className="w-4 h-4 no-fill fill-ink group-hover:fill-white group-hover:rotate-45 transition-all duration-500" />
+              </span>
+            </div>
+            <div className="flex flex-col flex-1 p-6">
+              <p className="eyebrow !text-[0.65rem] text-ink/50">{card.date || card.createdAt || card.updatedAt}</p>
+              <h3 className="mt-3 font-display text-2xl font-semibold tracking-tight group-hover:text-accent transition-colors">{card?.title}</h3>
+              {card?.description?.childMarkdownRemark?.html && (
+                <div
+                  className="rich-text mt-3 text-ink/70 text-base"
+                  dangerouslySetInnerHTML={{ __html: card.description.childMarkdownRemark.html }}
+                />
+              )}
+              <Tags tags={card?.tag} className="mt-auto pt-6" />
+            </div>
+          </a>
+        </StaggerItem>
+      ))}
+    </Stagger>
+  )
 }
 
 export default ToolCard

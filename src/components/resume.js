@@ -1,122 +1,165 @@
-import React, { useState, useEffect } from 'react'
-import { motion, AnimatePresence } from "motion/react";
-import styled from "styled-components"
+import React, { useRef, useState } from 'react'
+import useSafeReducedMotion from './motion/use-safe-reduced-motion'
+import { motion, AnimatePresence, useScroll, useSpring } from 'motion/react'
 import { GatsbyImage } from 'gatsby-plugin-image'
-import { PlusIcon } from '@heroicons/react/24/solid'
-import FadeIn from './motion/fade-in';
+import { PlusIcon, MinusIcon } from '@heroicons/react/24/solid'
+import { EASE } from './motion/reveal'
 
-const ResumeWrapper = styled.li`
-  border-left: 4px solid var(--primary);
-  display: block;
-  padding: 0rem 0 2rem 2.5rem;
-  position: relative;
-  margin-left:1rem;
+const TimelineItem = ({ event, index, open, onToggle, idPrefix }) => {
+  const reduce = useSafeReducedMotion()
+  const hasBio = !!event?.bio?.childMarkdownRemark?.html
+  const bioId = `${idPrefix}-bio-${index}`
 
-  ul {
-    margin: 0;
-        padding: 0;
-  list-style-type: none;
+  return (
+    <motion.li
+      className="relative grid grid-cols-[2.5rem_1fr] md:grid-cols-[11rem_3rem_1fr] gap-x-4 md:gap-x-6 pb-14 last:pb-0"
+      initial={reduce ? false : { opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.3 }}
+      transition={{ duration: 0.9, ease: EASE }}
+    >
+      {/* Date (desktop) */}
+      <div className="hidden md:block pt-2 text-right">
+        <p className="eyebrow text-ink/50 leading-relaxed">
+          {event.startDate}
+          <br />
+          <span className={event.currentRole ? 'text-accent' : ''}>
+            {event.currentRole ? 'Present' : event.endDate}
+          </span>
+        </p>
+      </div>
 
-  > li {
-    text-indent: 0px;
-    &:before {
-      content: "-";
-      text-indent: 0px;
-      margin-right: 10px;
-    }
-}
-    }
-  @media (min-width: var(--xs-mq)) {
-    margin-left: 1.5rem;
-    padding: 0.5rem 3rem 2.5rem;
-  } 
-`;
+      {/* Node on the spine */}
+      <div className="relative flex justify-center">
+        <div className="relative z-10 w-10 h-10 md:w-12 md:h-12 rounded-full bg-paper border border-line shadow-sm overflow-hidden grid place-items-center">
+          {event?.icon?.gatsbyImageData ? (
+            <GatsbyImage image={event.icon.gatsbyImageData} alt={`${event.company} logo`} className="w-full h-full" imgClassName="object-contain p-1.5" />
+          ) : (
+            <span className="font-display font-semibold text-ink">{event.company?.[0]}</span>
+          )}
+        </div>
+        {event.currentRole && (
+          <span aria-hidden="true" className="absolute top-0 w-10 h-10 md:w-12 md:h-12 rounded-full bg-accent/40 animate-ping" />
+        )}
+      </div>
 
-const Resume = ({ timeline }) => {
-    const firstSection = timeline.slice(0, 6)
-    const [elements, setElements] = useState(firstSection);
-    const [selectedArr, setSelectedArr] = useState([]);
-    const [isClient, setIsClient] = useState(false);
+      {/* Content card */}
+      <div className="group rounded-[1.5rem] border border-line bg-paper/70 hover:bg-white hover:shadow-[0_30px_60px_-30px_rgba(6,42,43,0.35)] hover:-translate-y-1 transition-all duration-500 p-6 md:p-8">
+        <p className="md:hidden eyebrow text-ink/50 mb-3">
+          {event.startDate} — {event.currentRole ? <span className="text-accent">Present</span> : event.endDate}
+        </p>
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div>
+            <h3 className="font-display text-2xl md:text-3xl font-semibold tracking-tight text-ink">{event.jobTitle}</h3>
+            <p className="mt-1 text-ink/60 font-medium">{event.company}</p>
+          </div>
+          {event.currentRole && (
+            <span className="eyebrow !text-[0.65rem] rounded-full bg-accent/10 text-accent px-3 py-1.5">Current role</span>
+          )}
+        </div>
 
-    useEffect(() => {
-        setIsClient(true);
-    }, []);
+        {event?.description?.childMarkdownRemark?.html && (
+          <div
+            className="rich-text mt-4 text-ink/75 leading-relaxed"
+            dangerouslySetInnerHTML={{ __html: event.description.childMarkdownRemark.html }}
+          />
+        )}
 
-    const loadMore = () => {
-        setElements(timeline);
-    };
-
-    const toggleActiveItem = (index) => {
-        if (selectedArr.includes(index)) {
-            setSelectedArr(selectedArr.filter((i) => i !== index))
-        } else {
-            setSelectedArr([...selectedArr, index])
-        }
-    }
-    const container = {
-        hidden: { opacity: 0 },
-        show: {
-            opacity: 1,
-            transition: {
-                staggerChildren: 0.5
-            }
-        }
-    }
-
-    return (
-        <>
-            <motion.ul variants={container}
-                initial="hidden"
-                animate="show"
-                className="ml-0 sm:ml-3 mt-0 md:mt-6" id="timeline">
-                {elements.map((event, index) => {
-                    return (
-                        <ResumeWrapper key={index}>
-                            <div className="absolute top-0 -left-5" >
-                                {event?.icon?.gatsbyImageData ?
-                                    <GatsbyImage imgClassName='rounded-full' className="rounded-full h-10 w-10 border-0 bg-primary" alt={event?.title || "Company logo"} image={event?.icon?.gatsbyImageData} /> :
-                                    <div className="rounded-full h-10 w-10 border-solid border-grey-light border-1 bg-primary" alt="Company logo" />
-                                }
-                            </div>
-                            <FadeIn>
-                                <div className="flex flex-col-reverse justify-between uppercase mb-1 text-lg font-semibold md:flex-row">
-                                    <div>{event.jobTitle}</div> <div className='md:text-base text-sm mb-1 md:mb-0'>{event?.startDate && `${event.startDate} - ${event.currentRole ? "CURRENT" : event.endDate}`}</div>
-                                </div>
-                                <h3 className="vertical-timeline-element-subtitle text-md font-medium mb-2">{event.company}</h3>
-                                {isClient && event?.description?.childMarkdownRemark?.html && (
-                                    <p className="text-sm mb-2 "
-                                        dangerouslySetInnerHTML={{ __html: event.description.childMarkdownRemark.html }} />
-                                )}
-                                <div className="italic text-sm text-link inline text-underline text-blue-dark" onClick={() => toggleActiveItem(index)} onKeyDown={(e) => {
-                                    if (e.key === 'Enter' || e.key === ' ') {
-                                        toggleActiveItem(index);
-                                    }
-                                }}
-                                    role="button"
-                                    tabIndex={0}>  {selectedArr.includes(index) ? '- Read less' : '+ Read more'}</div>
-                                <AnimatePresence>
-                                    {selectedArr.includes(index) && <motion.div initial={{ opacity: 0 }}
-                                        animate={{ opacity: 1 }}
-                                        exit={{ opacity: 0 }} dangerouslySetInnerHTML={{ __html: event?.bio?.childMarkdownRemark?.html }} className='my-3 text-sm' />}
-
-                                </AnimatePresence>
-                            </FadeIn>
-                        </ResumeWrapper>
-                    )
-                })}
-            </motion.ul >
-            {
-                elements.length !== timeline.length &&
-                <button className="m-auto flex py-2 px-4 rounded-md items-center" onClick={(e) => { e.preventDefault(); loadMore(); }}>
-                    <PlusIcon className=" h-4 w-4 mr-4 fill-blue" />
-                    <span>Load more</span>
-                </button>
-            }
-
-        </ >
-
-    )
+        {hasBio && (
+          <>
+            <button
+              type="button"
+              onClick={onToggle}
+              aria-expanded={open}
+              aria-controls={bioId}
+              className="mt-5 inline-flex items-center gap-2 text-sm font-medium !text-ink"
+            >
+              <span className="grid place-items-center w-7 h-7 rounded-full border border-ink/20 group-hover:bg-ink group-hover:border-ink transition-colors duration-300">
+                {open ? (
+                  <MinusIcon className="w-3.5 h-3.5 no-fill fill-ink group-hover:fill-paper" />
+                ) : (
+                  <PlusIcon className="w-3.5 h-3.5 no-fill fill-ink group-hover:fill-paper" />
+                )}
+              </span>
+              {open ? 'Show less' : 'The full story'}
+            </button>
+            <AnimatePresence initial={false}>
+              {open && (
+                <motion.div
+                  id={bioId}
+                  key="bio"
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: 'auto', opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.5, ease: EASE }}
+                  className="overflow-hidden"
+                >
+                  <div
+                    className="rich-text pt-5 mt-5 border-t border-line text-ink/75 text-base leading-relaxed"
+                    dangerouslySetInnerHTML={{ __html: event.bio.childMarkdownRemark.html }}
+                  />
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </>
+        )}
+      </div>
+    </motion.li>
+  )
 }
 
-export default Resume;
+const Resume = ({ timeline = [], initialCount = 6, idPrefix = 'timeline' }) => {
+  const ref = useRef(null)
+  const reduce = useSafeReducedMotion()
+  const [showAll, setShowAll] = useState(false)
+  const [open, setOpen] = useState([])
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start 0.75', 'end 0.6'] })
+  const spine = useSpring(scrollYProgress, { stiffness: 90, damping: 25 })
 
+  const items = showAll ? timeline : timeline.slice(0, initialCount)
+  const toggle = (i) => setOpen((prev) => (prev.includes(i) ? prev.filter((x) => x !== i) : [...prev, i]))
+
+  return (
+    <div>
+      <div ref={ref} className="relative">
+        {/* Spine: faint track + scroll-driven fill */}
+        <div
+          aria-hidden="true"
+          className="absolute top-0 bottom-0 left-5 md:left-[calc(11rem+1.5rem+1.5rem)] w-px -translate-x-1/2 bg-ink/10"
+        />
+        <motion.div
+          aria-hidden="true"
+          style={reduce ? undefined : { scaleY: spine }}
+          className="absolute top-0 bottom-0 left-5 md:left-[calc(11rem+1.5rem+1.5rem)] w-[2px] -translate-x-1/2 bg-gradient-to-b from-accent via-accent to-ink origin-top"
+        />
+        <ul className="relative list-none p-0 m-0">
+          {items.map((event, index) => (
+            <TimelineItem
+              key={`${event.company}-${event.jobTitle}-${index}`}
+              event={event}
+              index={index}
+              open={open.includes(index)}
+              onToggle={() => toggle(index)}
+              idPrefix={idPrefix}
+            />
+          ))}
+        </ul>
+      </div>
+
+      {timeline.length > initialCount && (
+        <div className="mt-12 flex justify-center">
+          <button
+            type="button"
+            onClick={() => setShowAll((v) => !v)}
+            className="inline-flex items-center gap-3 rounded-full border border-ink/20 px-6 py-3 font-medium !text-ink hover:bg-ink hover:!text-paper transition-colors duration-300 group"
+          >
+            {showAll ? 'Show fewer chapters' : `Show ${timeline.length - initialCount} earlier chapters`}
+            <PlusIcon className={`w-4 h-4 no-fill fill-current transition-transform duration-500 ${showAll ? 'rotate-45' : ''}`} />
+          </button>
+        </div>
+      )}
+    </div>
+  )
+}
+
+export default Resume

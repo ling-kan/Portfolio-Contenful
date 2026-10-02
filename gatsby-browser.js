@@ -1,4 +1,3 @@
-
 import "./src/styles/variables.scss";
 import "./src/styles/tailwind.css";
 import "./src/styles/global.scss";
@@ -8,34 +7,33 @@ import "./src/styles/reveal-preloader.scss";
 
 
 import React from "react"
-import { AnimatePresence } from "framer-motion"
+import { AnimatePresence } from "motion/react"
 
 export const wrapPageElement = ({ element }) => (
-    <AnimatePresence exitBeforeEnter>{element}</AnimatePresence>
+    <AnimatePresence mode="wait">{element}</AnimatePresence>
 )
 
 export const shouldUpdateScroll = ({
     routerProps: { location },
     getSavedScrollPosition
 }) => {
-    // transition duration from `layout.js` * 1000 to get time in ms
-    const TRANSITION_DELAY = 0.1 * 1000 * 2
+    // Give the incoming page a moment to render before scrolling
+    // Must outlast the page exit transition in motion/header-list.js (0.7s)
+    const TRANSITION_DELAY = 750
 
     if (location.hash) {
-        const element = location.pathname === "/" ? document.querySelector(location.hash)?.offsetTop - 75 : document.querySelector(location.hash);
-        if (element) {
-            window.scrollTo({ top: element, behavior: "smooth" });
-        }
-    }
-    if (location.action === "PUSH") {
-        window.setTimeout(() => window.scrollTo(0, 0), TRANSITION_DELAY)
+        window.setTimeout(() => {
+            // scroll-padding-top in global.scss keeps the target clear of the fixed nav
+            document.querySelector(location.hash)?.scrollIntoView({ behavior: "smooth" })
+        }, TRANSITION_DELAY)
+        return false
     }
 
-    else {
-        if (location.pathname !== "/") {
-            const savedPosition = getSavedScrollPosition(location) || [-20, 0]
-            window.setTimeout(() => window.scrollTo(...savedPosition), TRANSITION_DELAY)
-        }
+    if (location.action === "PUSH") {
+        window.setTimeout(() => window.scrollTo({ top: 0, behavior: "instant" }), TRANSITION_DELAY)
+    } else {
+        const savedPosition = getSavedScrollPosition(location) || [0, 0]
+        window.setTimeout(() => window.scrollTo({ left: savedPosition[0], top: savedPosition[1], behavior: "instant" }), TRANSITION_DELAY)
     }
     return false
 }

@@ -1,20 +1,16 @@
 import React from 'react'
 import Container from './container'
 import Header from './header'
-import FadeIn from './motion/fade-in'
+import { Reveal } from './motion/reveal'
 
-const TitleContainer = ({ title, subtitle, children, id, className }) => {
+const TitleContainer = ({ title, subtitle, children, id, className = '' }) => {
   return (
-    <Container pageId="home" subtitle={!!subtitle} className={`grid grid-cols-1 lg:grid-cols-3 gap-8 ${className}`} id={id}>
+    <Container className={`grid grid-cols-1 lg:grid-cols-3 gap-8 py-16 md:py-24 ${className}`} id={id}>
       <div className="col-span-1">
-        <FadeIn>
-          <Header title={title} subtitle={subtitle} className="text-left" />
-        </FadeIn >
+        <Header title={title} subtitle={subtitle} className="text-left" />
       </div>
-      <div className="col-span-2">
-        <FadeIn>
-          {children}
-        </FadeIn >
+      <div className="lg:col-span-2">
+        <Reveal>{children}</Reveal>
       </div>
     </Container>
   )

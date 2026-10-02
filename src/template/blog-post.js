@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, graphql } from 'gatsby'
 import get from 'lodash/get'
+import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/react/24/solid'
 import Seo from '../components/seo'
 import Layout from '../components/layout'
 import BlogHeader from '../components/blog-header'
@@ -9,7 +10,7 @@ import { navigate } from "gatsby"
 import { isLoggedIn } from "../services/auth"
 import Container from '../components/container'
 import Loader from '../components/loader'
-// import TableOfContents from '../components/table-contents';
+import { Reveal } from '../components/motion/reveal'
 
 const BlogPostTemplate = (props) => {
   const post = get(props, 'data.contentfulBlogPost')
@@ -46,66 +47,88 @@ const BlogPostTemplate = (props) => {
               image={`http:${post.heroImage.resize.src}`}
             />
             <BlogHeader
+              eyebrow="Case study"
               image={post.heroImage?.gatsbyImageData}
               title={post.title}
               content={post.description?.childMarkdownRemark?.excerpt}
               rawDate={post.rawDate}
               endDate={post.endDate}
-              timeToRead={post.body?.childMarkdownRemark?.timeToRead}
+              timeToRead={post.body?.childMarkdownRemark?.timeToRead || post.content?.childMarkdownRemark?.timeToRead}
               tags={post.tags}
             />
-            <div className="relative">
-              {/* <TableOfContents list={post.content?.childMarkdownRemark?.tableOfContents} /> */}
-              <Container>
-                <div className={styles.article}>
-                  <h2 className={styles.articleTitle}>Executive Summary </h2>
-                  {post.summary && <div
-                    dangerouslySetInnerHTML={{
-                      __html: post.summary?.childMarkdownRemark?.html,
-                    }}
-                  />}
-
-                  {post.role && post.endDate && <div className="grid grid-cols-2 gap-2">
-                    <div>
-                      <h2 className={styles.articleTitle}>Role</h2>
-                      {post.role && <p>{post.role}</p>}
-                    </div>
-                    <div>
-                      <h2 className={styles.articleTitle}>Duration</h2>
-                      {post.endDate && <p>{post.startDate} - {post.endDate}</p>}
-                    </div>
+            <Container className="py-16 md:py-24">
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+                <aside className="lg:col-span-3">
+                  <div className="lg:sticky lg:top-28 space-y-6">
+                    <Link to="/#portfolio" className="group inline-flex items-center gap-2 text-sm font-medium !text-ink">
+                      <ArrowLeftIcon className="w-4 h-4 no-fill fill-ink group-hover:-translate-x-1 transition-transform" />
+                      All work
+                    </Link>
+                    {post.role && (
+                      <div className="pt-6 border-t border-line">
+                        <p className="eyebrow !text-[0.65rem] text-ink/50">Role</p>
+                        <p className="mt-1 font-medium text-ink">{post.role}</p>
+                      </div>
+                    )}
+                    {post.endDate && (
+                      <div className="pt-6 border-t border-line">
+                        <p className="eyebrow !text-[0.65rem] text-ink/50">Duration</p>
+                        <p className="mt-1 font-medium text-ink">{post.startDate ? `${post.startDate} – ${post.endDate}` : post.endDate}</p>
+                      </div>
+                    )}
                   </div>
-                  }
+                </aside>
+
+                <div className="lg:col-span-9">
+                  {post.summary?.childMarkdownRemark?.html && (
+                    <Reveal className="relative rounded-[1.75rem] bg-ink text-paper p-8 md:p-12 mb-16 overflow-hidden">
+                      <div aria-hidden="true" className="absolute -top-24 -right-24 w-72 h-72 rounded-full bg-accent/25 blur-3xl" />
+                      <p className="relative eyebrow text-accent">Executive summary</p>
+                      <div
+                        className="relative rich-text lead mt-6 text-paper/85 [&_strong]:!text-paper"
+                        dangerouslySetInnerHTML={{ __html: post.summary.childMarkdownRemark.html }}
+                      />
+                    </Reveal>
+                  )}
 
                   <div
+                    className={styles.article}
                     dangerouslySetInnerHTML={{
                       __html: post.content?.childMarkdownRemark?.html,
                     }}
                   />
-
-                  {(previous || next) && (
-                    <nav>
-                      <ul className={styles.articleNavigation}>
-                        {previous && (
-                          <li>
-                            <Link to={`/portfolio/${previous.slug}`} rel="prev">
-                              ← {previous.title}
-                            </Link>
-                          </li>
-                        )}
-                        {next && (
-                          <li>
-                            <Link to={`/portfolio/${next.slug}`} rel="next">
-                              {next.title} →
-                            </Link>
-                          </li>
-                        )}
-                      </ul>
-                    </nav>
-                  )}
                 </div>
-              </Container>
-            </div>
+              </div>
+            </Container>
+
+            {(previous || next) && (
+              <nav aria-label="More case studies" className="border-t border-line">
+                <Container>
+                  <ul className="grid grid-cols-1 md:grid-cols-2 p-0 m-0">
+                    {previous && (
+                      <li className="list-none md:border-r border-line">
+                        <Link to={`/portfolio/${previous.slug}`} rel="prev" className="group block py-10 md:py-14 md:pr-10 !text-ink">
+                          <span className="eyebrow text-ink/50 inline-flex items-center gap-2">
+                            <ArrowLeftIcon className="w-3.5 h-3.5 no-fill fill-accent group-hover:-translate-x-1 transition-transform" /> Previous
+                          </span>
+                          <span className="block mt-3 display-md !text-[clamp(1.4rem,2.4vw,2rem)] group-hover:text-accent transition-colors">{previous.title}</span>
+                        </Link>
+                      </li>
+                    )}
+                    {next && (
+                      <li className={`list-none ${previous ? '' : 'md:col-start-2'} border-t md:border-t-0 border-line`}>
+                        <Link to={`/portfolio/${next.slug}`} rel="next" className="group block py-10 md:py-14 md:pl-10 text-right !text-ink">
+                          <span className="eyebrow text-ink/50 inline-flex items-center gap-2">
+                            Next <ArrowRightIcon className="w-3.5 h-3.5 no-fill fill-accent group-hover:translate-x-1 transition-transform" />
+                          </span>
+                          <span className="block mt-3 display-md !text-[clamp(1.4rem,2.4vw,2rem)] group-hover:text-accent transition-colors">{next.title}</span>
+                        </Link>
+                      </li>
+                    )}
+                  </ul>
+                </Container>
+              </nav>
+            )}
           </Layout>
       }
     </>
