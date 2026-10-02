@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "gatsby-dev",
+      "runtimeExecutable": "cmd",
+      "runtimeArgs": ["/c", "set NODE_EXTRA_CA_CERTS=C:\\Users\\lxk132\\netskope-ca.pem&& npx gatsby develop"],
+      "port": 8000
+    }
+  ]
+}
