@@ -97,7 +97,7 @@ const Navigation = ({ navList }) => {
         </Container>
       </motion.header>
 
-      <AnimatePresence>
+      <AnimatePresence initial={false}>
         {mobileNav && (
           <motion.div
             id="mobile-menu"

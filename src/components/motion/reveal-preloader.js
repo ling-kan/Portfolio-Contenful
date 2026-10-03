@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
-import { motion, AnimatePresence, animate } from 'motion/react'
+import { motion, animate } from 'motion/react'
 import { EASE } from './reveal'
 
 const SESSION_KEY = 'lk-intro-played'
@@ -58,43 +58,43 @@ const RevealPreloader = ({ brandName = 'LING KAN', label = 'Digital experience &
       <noscript>
         <style>{'.lk-preloader{display:none!important}'}</style>
       </noscript>
-      <AnimatePresence>
-        {visible && (
-          <motion.div
-            key="preloader"
-            className="lk-preloader fixed inset-0 z-[9999] bg-ink text-paper flex flex-col justify-between p-6 md:p-10 overflow-hidden"
-            exit={instant ? { opacity: 0 } : { clipPath: 'inset(0 0 100% 0)' }}
-            transition={{ duration: instant ? 0 : 0.9, ease: EASE }}
-            aria-hidden="true"
-          >
-            <div className="relative flex justify-between eyebrow text-paper/65">
-              <span>Portfolio</span>
-              <span>{label}</span>
-            </div>
+      {visible && (
+        <motion.div
+          key="preloader"
+          className="lk-preloader fixed inset-0 z-[9999] bg-ink text-paper flex flex-col justify-between p-6 md:p-10 overflow-hidden"
+          initial={instant ? false : { opacity: 1, clipPath: 'inset(0 0 0 0)' }}
+          animate={instant ? { opacity: 0 } : { opacity: 1, clipPath: 'inset(0 0 0 0)' }}
+          exit={instant ? { opacity: 0 } : { clipPath: 'inset(0 0 100% 0)' }}
+          transition={{ duration: instant ? 0 : 0.9, ease: EASE }}
+          aria-hidden="true"
+        >
+          <div className="relative flex justify-between eyebrow text-paper/65">
+            <span>Portfolio</span>
+            <span>{label}</span>
+          </div>
 
-            <div className="relative overflow-hidden">
-              <motion.p
-                className="display-xl uppercase"
-                initial={{ y: '100%' }}
-                animate={{ y: '0%' }}
-                transition={{ duration: 0.9, ease: EASE }}
-              >
-                {brandName}
-                <span className="text-accent">.</span>
-              </motion.p>
-            </div>
+          <div className="relative overflow-hidden">
+            <motion.p
+              className="display-xl uppercase"
+              initial={{ y: '100%' }}
+              animate={{ y: '0%' }}
+              transition={{ duration: 0.9, ease: EASE }}
+            >
+              {brandName}
+              <span className="text-accent">.</span>
+            </motion.p>
+          </div>
 
-            <div className="relative flex items-end justify-between gap-6">
-              <div className="flex-1 h-px bg-paper/15 overflow-hidden mb-4">
-                <div className="h-full bg-accent origin-left" style={{ transform: `scaleX(${count / 100})` }} />
-              </div>
-              <span className="font-display font-semibold tabular-nums text-6xl md:text-[8rem] leading-none">
-                {String(count).padStart(3, '0')}
-              </span>
+          <div className="relative flex items-end justify-between gap-6">
+            <div className="flex-1 h-px bg-paper/15 overflow-hidden mb-4">
+              <div className="h-full bg-accent origin-left" style={{ transform: `scaleX(${count / 100})` }} />
             </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+            <span className="font-display font-semibold tabular-nums text-6xl md:text-[8rem] leading-none">
+              {String(count).padStart(3, '0')}
+            </span>
+          </div>
+        </motion.div>
+      )}
       <IntroContext.Provider value={!visible}>{children}</IntroContext.Provider>
     </>
   )

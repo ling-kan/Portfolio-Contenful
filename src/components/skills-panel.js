@@ -46,7 +46,7 @@ const SkillsPanel = ({ list = [], image }) => {
         </div>
 
         {/* Skill chips */}
-        <AnimatePresence mode="wait">
+        <AnimatePresence mode="wait" initial={false}>
           <motion.ul
             key={section.category}
             className="flex flex-wrap gap-3"
@@ -103,7 +103,7 @@ const SkillsPanel = ({ list = [], image }) => {
             <ImageSlot slot="craft" image={image} dark />
           </div>
           <p className="eyebrow text-paper/65 relative">{section.category}</p>
-          <AnimatePresence mode="wait">
+          <AnimatePresence mode="wait" initial={false}>
             <motion.div
               key={detail?.name || 'empty'}
               initial={reduce ? false : { opacity: 0, y: 16 }}
