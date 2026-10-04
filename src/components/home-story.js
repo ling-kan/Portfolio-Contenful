@@ -61,7 +61,7 @@ const SECTION_DEFAULTS = {
  */
 const HomeStory = (props) => {
   const posts = get(props, 'data.allContentfulBlogPost.nodes', [])
-  const [author = {}] = get(props, 'data.allContentfulLanding.nodes', [])
+  const author = get(props, 'data.allContentfulSiteSettings.nodes[0]', {})
   const timeline = get(props, 'data.allContentfulTimeline.nodes', [])
   const education = get(props, 'data.allContentfulEducation.nodes', [])
   const headers = get(props, 'data.allContentfulSectionHeader.nodes', [])
@@ -91,7 +91,8 @@ const HomeStory = (props) => {
 
   const visiblePosts = posts.filter((p) => !p.hiddenPage)
   const skillNames = (author.skills || []).flatMap((s) => (s.skills || []).map((k) => k.name))
-  const achievements = author.keyAchievements?.childMarkdownRemark?.html
+  const achievements = author.keyAchievements?.childMarkdownRemark?.html || author.keyAchievements
+  const bioHtml = author.bio?.childMarkdownRemark?.html || author.bio
 
   // Number sections by what is actually present so the sequence never skips.
   let n = 0
@@ -121,10 +122,10 @@ const HomeStory = (props) => {
         cvUrl={settings.cvFile?.url}
       />
 
-      {author.bio?.childMarkdownRemark?.html && (
+      {bioHtml && (
         <Chapter id="about" number={next()} eyebrow={about.eyebrow} title={about.title} highlight={about.highlight} intro={about.intro}>
           <StoryAbout
-            html={author.bio.childMarkdownRemark.html}
+            html={bioHtml}
             image={settings.aboutImage?.gatsbyImageData}
             imageAlt={settings.aboutImage?.description}
             caption={settings.aboutImageCaption}

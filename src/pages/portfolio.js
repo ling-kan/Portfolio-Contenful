@@ -38,11 +38,11 @@ export const pageQuery = graphql`
       seoDescription
       headerImage { gatsbyImageData(layout: FULL_WIDTH, placeholder: BLURRED) }
     }
-    allContentfulBlogPost(sort: { fields: [endDate], order: DESC }) {
+    allContentfulBlogPost(sort: { endDate: DESC }) {
        nodes {
         title
         slug
-        endDate(formatString: "MMMM YYYY")
+        endDate
         tags
         hiddenPage
         protectPage
@@ -53,11 +53,7 @@ export const pageQuery = graphql`
             placeholder: BLURRED
           )
         }
-        description {
-          childMarkdownRemark {
-            html
-          }
-        }
+        description
       }
     }
   }

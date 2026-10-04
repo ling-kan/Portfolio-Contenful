@@ -18,35 +18,47 @@ export const SITE_DEFAULTS = {
 };
 
 const useSiteSettings = () => {
-  const { contentfulSiteSettings: s } = useStaticQuery(graphql`
+  const { allContentfulSiteSettings } = useStaticQuery(graphql`
     query SiteSettingsQuery {
-      contentfulSiteSettings {
-        siteTitle
-        siteDescription
-        socialShareImage { url }
-        introLabel
-        heroPrimaryCtaLabel
-        heroSecondaryCtaLabel
-        availability
-        cvFile { url }
-        valuePillarsLabel
-        achievementsLabel
-        logoStripLabel
-        featuredProjectCount
-        aboutImage { gatsbyImageData(layout: FULL_WIDTH, placeholder: BLURRED) description }
-        aboutImageCaption
-        expertiseImage { gatsbyImageData(layout: FULL_WIDTH, placeholder: BLURRED) }
-        contactImage { gatsbyImageData(layout: FULL_WIDTH, placeholder: BLURRED) description }
-        footerCopyright
-        notFoundTitle
-        notFoundButtonLabel
+      allContentfulSiteSettings {
+        nodes {
+          name
+          animatedList
+          image { gatsbyImageData(layout: FULL_WIDTH, placeholder: BLURRED) }
+          tagline
+          bio
+          keyMetrics { label value }
+          skills { category skills { name description } }
+          keyAchievements
+          siteTitle
+          siteDescription
+          socialShareImage { url }
+          introLabel
+          heroPrimaryCtaLabel
+          heroSecondaryCtaLabel
+          availability
+          cvFile { url }
+          valuePillarsLabel
+          achievementsLabel
+          logoStripLabel
+          featuredProjectCount
+          aboutImage { gatsbyImageData(layout: FULL_WIDTH, placeholder: BLURRED) description }
+          aboutImageCaption
+          expertiseImage { gatsbyImageData(layout: FULL_WIDTH, placeholder: BLURRED) }
+          contactImage { gatsbyImageData(layout: FULL_WIDTH, placeholder: BLURRED) description }
+          footerCopyright
+          notFoundTitle
+          notFoundButtonLabel
+        }
       }
     }
   `);
 
+  const s = allContentfulSiteSettings?.nodes?.[0] || {};
+
   // Empty Contentful fields fall back to the defaults above
   const merged = { ...SITE_DEFAULTS };
-  Object.entries(s || {}).forEach(([key, value]) => {
+  Object.entries(s).forEach(([key, value]) => {
     if (value !== null && value !== undefined && value !== '') merged[key] = value;
   });
   return merged;

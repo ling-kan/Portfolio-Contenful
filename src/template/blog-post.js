@@ -43,17 +43,16 @@ const BlogPostTemplate = (props) => {
           <Layout location={props.location} navigation={navigation} socials={socials} >
             <Seo
               title={post.title}
-              description={post.description.childMarkdownRemark.excerpt}
+              description={post.description}
               image={`http:${post.heroImage.resize.src}`}
             />
             <BlogHeader
               eyebrow="Case study"
               image={post.heroImage?.gatsbyImageData}
               title={post.title}
-              content={post.description?.childMarkdownRemark?.excerpt}
+              content={post.description}
               rawDate={post.rawDate}
               endDate={post.endDate}
-              timeToRead={post.body?.childMarkdownRemark?.timeToRead || post.content?.childMarkdownRemark?.timeToRead}
               tags={post.tags}
             />
             <Container className="py-16 md:py-24">
@@ -80,23 +79,19 @@ const BlogPostTemplate = (props) => {
                 </aside>
 
                 <div className="lg:col-span-9">
-                  {post.summary?.childMarkdownRemark?.html && (
+                  {post.summary && (
                     <Reveal className="relative rounded-[1.5rem] bg-ink text-paper p-8 md:p-12 mb-16 overflow-hidden">
                       <div aria-hidden="true" className="absolute -top-24 -right-24 w-72 h-72 rounded-full bg-accent/25 blur-3xl" />
                       <p className="relative eyebrow text-accent">Executive summary</p>
-                      <div
-                        className="relative rich-text lead mt-6 text-paper/85 [&_strong]:!text-paper"
-                        dangerouslySetInnerHTML={{ __html: post.summary.childMarkdownRemark.html }}
-                      />
+                      <div className="relative rich-text lead mt-6 text-paper/85 [&_strong]:!text-paper whitespace-pre-line">
+                        {post.summary}
+                      </div>
                     </Reveal>
                   )}
 
-                  <div
-                    className={styles.article}
-                    dangerouslySetInnerHTML={{
-                      __html: post.content?.childMarkdownRemark?.html,
-                    }}
-                  />
+                  <div className={`${styles.article} whitespace-pre-line`}>
+                    {post.content}
+                  </div>
                 </div>
               </div>
             </Container>
@@ -147,11 +142,8 @@ export const pageQuery = graphql`
       slug
       protectPage
       title
-      author {
-        name
-      }
-      startDate(formatString: "MMMM YYYY")
-      endDate(formatString: "MMMM YYYY")
+      startDate
+      endDate
       rawDate: endDate
       heroImage {
         gatsbyImageData(layout: FULL_WIDTH, placeholder: BLURRED, width: 1280)
@@ -159,24 +151,10 @@ export const pageQuery = graphql`
           src
         }
       }
-      content {
-        childMarkdownRemark {
-          html
-          tableOfContents(heading: "")
-          timeToRead
-        }
-      }
+      content
       tags
-      description {
-        childMarkdownRemark {
-          excerpt
-        }
-      }
-      summary {
-        childMarkdownRemark {
-          html
-        }
-      }
+      description
+      summary
       role
     }
     previous: contentfulBlogPost(slug: { eq: $previousPostSlug }) {
@@ -193,7 +171,7 @@ export const pageQuery = graphql`
         type
       }
     }
-    allContentfulNavigation(sort: { fields: [order], order: ASC }) {
+    allContentfulNavigation(sort: { order: ASC }) {
       nodes {
         title
         url

@@ -14,18 +14,18 @@ export const pageQuery = graphql`
         type
       }
     }
-    allContentfulNavigation(sort: { fields: [order], order: ASC }) {
+    allContentfulNavigation(sort: { order: ASC }) {
       nodes {
         title
         url
         order
       }
     }
-    allContentfulBlogPost(sort: { fields: [endDate], order: DESC }) {
+    allContentfulBlogPost(sort: { endDate: DESC }) {
       nodes {
         title
         slug
-        endDate(formatString: "MMMM YYYY")
+        endDate
         tags
         hiddenPage
         protectPage
@@ -34,59 +34,6 @@ export const pageQuery = graphql`
           gatsbyImageData(
             layout: FULL_WIDTH
             placeholder: BLURRED
-          )
-        }
-        description {
-          childMarkdownRemark {
-            html
-          }
-        }
-      }
-    }
-    allContentfulTimeline(sort: { fields: [endDate], order: DESC }) {
-      nodes {
-        jobTitle
-        startDate(formatString: "MMMM YYYY")
-        endDate(formatString: "MMMM YYYY")
-        currentRole
-        company
-        description {
-        childMarkdownRemark {
-          html
-        }
-        }
-        bio {
-        childMarkdownRemark {
-          html
-        }
-        }
-        icon {
-          gatsbyImageData(
-            layout: FULL_WIDTH
-            placeholder: BLURRED
-            width: 40
-            height: 20
-          )
-        }
-      }
-    }
-     allContentfulEducation(sort: { fields: [endDate], order: DESC }) {
-      nodes {
-        jobTitle
-        startDate(formatString: "MMMM YYYY")
-        endDate(formatString: "MMMM YYYY")
-        company
-        bio {
-        childMarkdownRemark {
-          html
-        }
-        }
-        icon {
-          gatsbyImageData(
-            layout: FULL_WIDTH
-            placeholder: BLURRED
-            width: 40
-            height: 20
           )
         }
       }
@@ -106,9 +53,7 @@ export const pageQuery = graphql`
         photo { gatsbyImageData(width: 96, height: 96, placeholder: BLURRED) }
       }
     }
-    allContentfulLanding(
-      filter: { contentful_id: { eq: "5gcA2XyhjtzTDF0oz2Mz2" } }
-    ) {
+    allContentfulSiteSettings {
       nodes {
         name
         animatedList
@@ -123,24 +68,10 @@ export const pageQuery = graphql`
             description
           }
         }
-        tagline {
-        childMarkdownRemark {
-          html
-        } 
-        }
-        bio {
-        childMarkdownRemark {
-          html
-        } 
-        }
-        keyAchievements {
-          childMarkdownRemark {
-            html
-          }
-        }
-        
-
-        image{ 
+        tagline
+        bio
+        keyAchievements
+        image {
           gatsbyImageData(
             layout: FULL_WIDTH
             placeholder: BLURRED

@@ -12,11 +12,29 @@ exports.onCreateWebpackConfig = ({ actions, plugins }) => {
   })
 }
 
-// Declare the content model from scripts/contentful-model.js so queries keep working before those
-// content types exist in Contentful (they just return empty and components fall back to defaults).
+// Keep the generated schema aligned to the merged content model the site actually queries.
 exports.createSchemaCustomization = ({ actions }) => {
   const asset = (field) => `ContentfulAsset @link(by: "id", from: "${field}___NODE")`
+
   actions.createTypes(`
+    type ContentfulKeyMetric implements ContentfulReference & ContentfulEntry & Node {
+      contentful_id: String!
+      node_locale: String!
+      label: String
+      value: String
+    }
+    type ContentfulSkill implements ContentfulReference & ContentfulEntry & Node {
+      contentful_id: String!
+      node_locale: String!
+      name: String
+      description: String
+    }
+    type ContentfulSkillGroup implements ContentfulReference & ContentfulEntry & Node {
+      contentful_id: String!
+      node_locale: String!
+      category: String
+      skills: [ContentfulSkill]
+    }
     type ContentfulSectionHeader implements ContentfulReference & ContentfulEntry & Node {
       contentful_id: String!
       node_locale: String!
@@ -58,6 +76,15 @@ exports.createSchemaCustomization = ({ actions }) => {
     type ContentfulSiteSettings implements ContentfulReference & ContentfulEntry & Node {
       contentful_id: String!
       node_locale: String!
+      internalName: String
+      name: String
+      animatedList: [String]
+      image: ${asset('image')}
+      tagline: String
+      bio: String
+      keyMetrics: [ContentfulKeyMetric]
+      skills: [ContentfulSkillGroup]
+      keyAchievements: String
       siteTitle: String
       siteDescription: String
       socialShareImage: ${asset('socialShareImage')}
@@ -79,7 +106,21 @@ exports.createSchemaCustomization = ({ actions }) => {
       notFoundButtonLabel: String
     }
     type ContentfulBlogPost implements ContentfulReference & ContentfulEntry & Node {
+      contentful_id: String!
+      node_locale: String!
+      title: String
+      slug: String
+      protectPage: Boolean
+      hiddenPage: Boolean
       headlineResult: String
+      startDate: String
+      endDate: String
+      heroImage: ${asset('heroImage')}
+      tags: [String]
+      description: String
+      content: String
+      summary: String
+      role: String
     }
   `)
 }

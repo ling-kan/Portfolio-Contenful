@@ -1,0 +1,8 @@
+{
+    "chat.tools.terminal.autoApprove": {
+        "/^node - <<'NODE'\nconst token = process\\.env\\.CONTENTFUL_MANAGEMENT_TOKEN \\|\\| require\\('dotenv'\\)\\.config\\(\\{ path: '\\.env\\.development' \\}\\)\\.parsed\\.CONTENTFUL_MANAGEMENT_TOKEN;\nconst space = process\\.env\\.GATSBY_CONTENTFUL_SPACE_ID \\|\\| require\\('dotenv'\\)\\.config\\(\\{ path: '\\.env\\.development' \\}\\)\\.parsed\\.GATSBY_CONTENTFUL_SPACE_ID;\nconst env = process\\.env\\.CONTENTFUL_ENVIRONMENT \\|\\| require\\('dotenv'\\)\\.config\\(\\{ path: '\\.env\\.development' \\}\\)\\.parsed\\.CONTENTFUL_ENVIRONMENT;\nfetch\\(`https://api\\.contentful\\.com/spaces/\\$\\{space\\}/environments/\\$\\{env\\}/entries\\?content_type=siteSettings&limit=100`, \\{ headers: \\{ Authorization: `Bearer \\$\\{token\\}`, 'Content-Type': 'application/vnd\\.contentful\\.management\\.v1\\+json' \\}\\}\\)\n\\.then\\(r => r\\.text\\(\\)\\.then\\(t => \\(\\{ status:r\\.status, body:t \\}\\)\\)\\)\n\\.then\\(\\(\\{status, body\\}\\) => \\{ console\\.log\\('STATUS',status\\); const json = JSON\\.parse\\(body\\); console\\.log\\('TOTAL', json\\.total\\); console\\.log\\(JSON\\.stringify\\(json\\.items, null, 2\\)\\); \\}\\)\n\\.catch\\(err => \\{ console\\.error\\(err\\); process\\.exit\\(1\\) \\}\\);\nNODE$/": {
+            "approve": true,
+            "matchCommandLine": true
+        }
+    }
+}

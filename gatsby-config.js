@@ -1,5 +1,7 @@
-require("dotenv").config({
-  path: `.env.${process.env.NODE_ENV}`,
+const path = require('path');
+
+require('dotenv').config({
+  path: path.resolve(__dirname, process.env.NODE_ENV ? `.env.${process.env.NODE_ENV}` : '.env'),
 });
 
 function checkEnv(envName) {
@@ -20,6 +22,7 @@ try {
 const contentfulConfig = {
   spaceId: process.env.GATSBY_CONTENTFUL_SPACE_ID,
   accessToken: process.env.GATSBY_CONTENTFUL_ACCESS_TOKEN,
+  environment: process.env.CONTENTFUL_ENVIRONMENT || 'master',
 };
 
 if (process.env.CONTENTFUL_HOST) {

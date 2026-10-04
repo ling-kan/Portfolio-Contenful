@@ -23,6 +23,7 @@ try {
 }
 
 const APPLY = process.argv.includes('--apply')
+const FORCE = process.argv.includes('--force')
 const SEED = !process.argv.includes('--no-seed')
 const TOKEN = process.env.CONTENTFUL_MANAGEMENT_TOKEN
 const SPACE = process.env.GATSBY_CONTENTFUL_SPACE_ID || process.env.CONTENTFUL_SPACE_ID
@@ -47,6 +48,19 @@ const media = (id, name, mime = 'image') => ({
   localized: false,
   required: false,
   validations: [{ linkMimetypeGroup: [mime] }],
+})
+const richText = (id, name) => ({ id, name, type: 'RichText', localized: false, required: false })
+const entryList = (id, name, contentType) => ({
+  id,
+  name,
+  type: 'Array',
+  localized: false,
+  required: false,
+  items: {
+    type: 'Link',
+    linkType: 'Entry',
+    validations: [{ linkContentType: [contentType] }],
+  },
 })
 
 // ---------- Content model ----------
@@ -106,12 +120,50 @@ const CONTENT_TYPES = [
     ],
   },
   {
+    id: 'keyMetric',
+    name: 'Key Metric',
+    description: 'A metric shown in the home page impact section.',
+    displayField: 'label',
+    fields: [
+      text('label', 'Label', { required: true }),
+      text('value', 'Value', { required: true }),
+    ],
+  },
+  {
+    id: 'skill',
+    name: 'Skill',
+    description: 'One skill chip in a skill group.',
+    displayField: 'name',
+    fields: [
+      text('name', 'Name', { required: true }),
+      text('description', 'Description'),
+    ],
+  },
+  {
+    id: 'skillGroup',
+    name: 'Skill Group',
+    description: 'One skill group, with a category and a group of skills.',
+    displayField: 'category',
+    fields: [
+      text('category', 'Category', { required: true }),
+      entryList('skills', 'Skills', 'skill'),
+    ],
+  },
+  {
     id: 'siteSettings',
     name: 'Site Settings',
-    description: 'Site-wide copy, SEO and artwork. Create exactly one entry.',
+    description: 'Site-wide copy, SEO, homepage metadata and artwork. Create exactly one entry.',
     displayField: 'internalName',
     fields: [
       text('internalName', 'Internal name'),
+      text('name', 'Name'),
+      list('animatedList', 'Animated roles'),
+      media('image', 'Portrait image'),
+      richText('tagline', 'Tagline'),
+      richText('bio', 'Bio'),
+      entryList('keyMetrics', 'Key metrics', 'keyMetric'),
+      entryList('skills', 'Skills', 'skillGroup'),
+      richText('keyAchievements', 'Key achievements'),
       text('siteTitle', 'Site title'),
       text('siteDescription', 'Site description (search & social)'),
       media('socialShareImage', 'Social share image (1200 × 630)'),
@@ -149,6 +201,7 @@ const SEED_ENTRIES = {
     { key: 'experience', eyebrow: 'Experience', title: 'A track record of delivering at scale.', highlightWords: ['scale.'], intro: 'From consultancy and research to leading UX and front-end development today: the teams and products I’ve helped grow.' },
     { key: 'education', eyebrow: 'Education', title: 'Built on a technical foundation.', highlightWords: ['foundation.'] },
     { key: 'work', eyebrow: 'Selected work', title: 'Real projects, measurable outcomes.', highlightWords: ['outcomes.'], intro: 'A selection of case studies: the challenge, the approach and the result it delivered.' },
+    { key: 'testimonials', eyebrow: 'Testimonials', title: 'What colleagues say.', highlightWords: ['say.'] },
     { key: 'contact', eyebrow: 'Contact', title: 'Let’s build an experience that performs.', highlightWords: ['performs.'], intro: 'Need someone who can shape the experience, prove it with data and build it too? Let’s talk about what you’re working on.', buttonLabel: 'Say hello' },
   ],
   valuePillar: [
@@ -156,13 +209,41 @@ const SEED_ENTRIES = {
     { title: 'Conversion & growth', description: 'Data-led CRO, A/B testing and analytics that turn traffic into measurable results.', order: 2 },
     { title: 'Front-end delivery', description: 'Hands-on development with modern web technology, so ideas ship quickly and scale.', order: 3 },
   ],
+  testimonial: [
+    { quote: 'Ling combines strategic thinking with hands-on execution in a way that really lifts a product. The work is thoughtful, measured, and commercially aware.', name: 'Senior Product Leader', role: 'Director', company: 'Digital Product Team', order: 1 },
+    { quote: 'The ability to connect research, UX and front-end delivery in one person makes a huge difference. It speeds up decisions and improves the final experience.', name: 'Head of Design', role: 'Design Lead', company: 'Growth-focused Brand', order: 2 },
+    { quote: 'Ling is the rare mix of analytical and creative. Every recommendation was clear, useful, and grounded in user needs and business outcomes.', name: 'Marketing Director', role: 'Growth', company: 'B2B SaaS', order: 3 },
+  ],
   pageHeader: [
     { slug: 'portfolio', eyebrow: 'Selected work', title: 'Case studies with measurable outcomes.', intro: 'A closer look at the challenges, the thinking and the outcomes behind each project.', seoTitle: 'Portfolio' },
     { slug: 'tools', eyebrow: 'Toolbox', title: 'Tools, experiments and resources.', intro: 'Things I have built or rely on — shared in case they help you too.', seoTitle: 'Tools' },
   ],
+  keyMetric: [
+    { label: 'Conversion uplift', value: '+58%' },
+    { label: 'Revenue impact', value: '£2.4m' },
+    { label: 'Product launches', value: '12' },
+  ],
+  skillGroup: [
+    { category: 'Strategy & research', skills: [{ name: 'UX research', description: 'User interviews, testing and insight synthesis' }, { name: 'Journey mapping', description: 'Experience architecture and flows' }, { name: 'Stakeholder alignment', description: 'Turning insight into strategic direction' }] },
+    { category: 'Design & prototyping', skills: [{ name: 'UX design', description: 'Clear, human-centred interfaces' }, { name: 'Design systems', description: 'Reusable patterns and consistency' }, { name: 'Rapid prototyping', description: 'Testing concepts early and often' }] },
+  ],
   siteSettings: [
     {
       internalName: 'Site settings',
+      name: 'LING KAN',
+      animatedList: ['UX', 'Growth', 'Front-end'],
+      tagline: 'Digital experience & growth',
+      bio: 'Passionate about leveraging technology to craft exceptional digital experiences, a dedicated Developer & Design Manager with a strong technical background and expertise in design. With extensive experience across product and marketing teams, brings a unique perspective to each project, effectively bridging technical complexities with creative design solutions. An approach rooted in data-driven insights ensures that strategic decisions are well-informed and effective. Committed to continuous improvement and innovation, consistently delivering results that exceed expectations.',
+      keyMetrics: [
+        { label: 'Conversion uplift', value: '+58%' },
+        { label: 'Revenue impact', value: '£2.4m' },
+        { label: 'Product launches', value: '12' },
+      ],
+      skills: [
+        { category: 'Strategy & research', skills: [{ name: 'UX research', description: 'User interviews, testing and insight synthesis' }, { name: 'Journey mapping', description: 'Experience architecture and flows' }, { name: 'Stakeholder alignment', description: 'Turning insight into strategic direction' }] },
+        { category: 'Design & prototyping', skills: [{ name: 'UX design', description: 'Clear, human-centred interfaces' }, { name: 'Design systems', description: 'Reusable patterns and consistency' }, { name: 'Rapid prototyping', description: 'Testing concepts early and often' }] },
+      ],
+      keyAchievements: '<p><strong>Digital experience leadership</strong> across product, marketing and growth teams.</p><ul><li>Improved conversion paths and retention through data-informed design and experimentation.</li><li>Led UX and front-end delivery for product and marketing initiatives from discovery through launch.</li><li>Built clear, scalable experiences that connect customer value with business outcomes.</li></ul>',
       siteTitle: 'LING KAN',
       siteDescription: 'LING KAN — London-based digital experience leader combining UX, conversion optimisation and front-end development to drive measurable growth.',
       introLabel: 'Digital experience & growth',
@@ -229,6 +310,12 @@ async function addMissingFields(current, fields) {
   const have = new Set(current.fields.map((f) => f.id))
   const missing = fields.filter((f) => !have.has(f.id))
   if (!missing.length) {
+    const needsPublish = (current.sys.version || 0) > (current.sys.publishedVersion || 0)
+    if (needsPublish) {
+      log(`"${current.name}" has unpublished draft changes — publishing schema`)
+      if (APPLY) await publishContentType(current)
+      return
+    }
     log(`"${current.name}" is up to date`)
     return
   }
@@ -241,24 +328,145 @@ async function addMissingFields(current, fields) {
   await publishContentType(updated)
 }
 
+async function createEntry(typeId, values, locale, createdIds = {}) {
+  const fields = {}
+
+  for (const [key, value] of Object.entries(values)) {
+    if (value === undefined || value === null || value === '') continue
+
+    if (Array.isArray(value)) {
+      if (typeId === 'skillGroup' && key === 'skills' && value.every((item) => item && typeof item === 'object' && item.name)) {
+        const linkedSkills = []
+        for (const skill of value) {
+          const createdSkill = await createEntry('skill', skill, locale, createdIds)
+          linkedSkills.push({ sys: { type: 'Link', linkType: 'Entry', id: createdSkill.sys.id } })
+        }
+        fields[key] = { [locale]: linkedSkills }
+        continue
+      }
+
+      if (typeId === 'siteSettings' && key === 'keyMetrics' && value.every((item) => item && typeof item === 'object' && item.label)) {
+        const linkedMetrics = []
+        for (const metric of value) {
+          const createdMetric = await createEntry('keyMetric', metric, locale, createdIds)
+          linkedMetrics.push({ sys: { type: 'Link', linkType: 'Entry', id: createdMetric.sys.id } })
+        }
+        fields[key] = { [locale]: linkedMetrics }
+        continue
+      }
+
+      if (typeId === 'siteSettings' && key === 'skills' && value.every((item) => item && typeof item === 'object' && item.category)) {
+        const linkedGroups = []
+        for (const group of value) {
+          const createdGroup = await createEntry('skillGroup', group, locale, createdIds)
+          linkedGroups.push({ sys: { type: 'Link', linkType: 'Entry', id: createdGroup.sys.id } })
+        }
+        fields[key] = { [locale]: linkedGroups }
+        continue
+      }
+    }
+
+    fields[key] = { [locale]: value }
+  }
+
+  const entry = await api('POST', '/entries', { body: { fields }, contentType: typeId })
+  await api('PUT', `/entries/${entry.sys.id}/published`, { version: entry.sys.version })
+  return entry
+}
+
+async function upsertEntry(typeId, values, locale, existingMap = new Map()) {
+  const matchKey = (() => {
+    if (typeId === 'sectionHeader') return values.key
+    if (typeId === 'pageHeader') return values.slug
+    if (typeId === 'siteSettings') return values.internalName || values.name
+    return null
+  })()
+
+  if (matchKey && existingMap.has(`${typeId}:${matchKey}`)) {
+    const existing = existingMap.get(`${typeId}:${matchKey}`)
+    const fields = {}
+    for (const [key, value] of Object.entries(values)) {
+      if (value === undefined || value === null || value === '') continue
+      if (Array.isArray(value)) {
+        if (typeId === 'siteSettings' && key === 'keyMetrics' && value.every((item) => item && typeof item === 'object' && item.label)) {
+          const linkedMetrics = []
+          for (const metric of value) {
+            const createdMetric = await createEntry('keyMetric', metric, locale, new Map())
+            linkedMetrics.push({ sys: { type: 'Link', linkType: 'Entry', id: createdMetric.sys.id } })
+          }
+          fields[key] = { [locale]: linkedMetrics }
+          continue
+        }
+        if (typeId === 'siteSettings' && key === 'skills' && value.every((item) => item && typeof item === 'object' && item.category)) {
+          const linkedGroups = []
+          for (const group of value) {
+            const createdGroup = await createEntry('skillGroup', group, locale, new Map())
+            linkedGroups.push({ sys: { type: 'Link', linkType: 'Entry', id: createdGroup.sys.id } })
+          }
+          fields[key] = { [locale]: linkedGroups }
+          continue
+        }
+      }
+      fields[key] = { [locale]: value }
+    }
+    const updated = await api('PUT', `/entries/${existing.sys.id}`, { version: existing.sys.version, body: { fields } })
+    await api('PUT', `/entries/${updated.sys.id}/published`, { version: updated.sys.version })
+    return updated
+  }
+
+  return createEntry(typeId, values, locale)
+}
+
 async function seedEntries(locale) {
   for (const [typeId, entries] of Object.entries(SEED_ENTRIES)) {
     let count = 0
+    let existingEntries = []
     try {
-      count = (await api('GET', `/entries?content_type=${typeId}&limit=1`)).total
+      const result = await api('GET', `/entries?content_type=${typeId}&limit=1000`)
+      count = result.total
+      existingEntries = result.items || []
     } catch (e) {
       count = 0 // content type not created yet (dry run)
     }
-    if (count > 0) {
+    if (count > 0 && !FORCE) {
       log(`"${typeId}" already has entries — not seeding`)
       continue
     }
+    if (count > 0 && FORCE) {
+      log(`Force reseed "${typeId}" (${count} existing entr${count === 1 ? 'y' : 'ies'} will be overwritten if possible)`)
+    }
     log(`Seed ${entries.length} "${typeId}" entr${entries.length === 1 ? 'y' : 'ies'} with the current site copy`)
     if (!APPLY) continue
+    const existingMap = new Map()
+    for (const entry of existingEntries) {
+      const matchValue = (() => {
+        if (typeId === 'sectionHeader') return entry.fields?.key?.[locale]
+        if (typeId === 'pageHeader') return entry.fields?.slug?.[locale]
+        if (typeId === 'siteSettings') return entry.fields?.internalName?.[locale] || entry.fields?.name?.[locale]
+        return null
+      })()
+      if (!matchValue) continue
+      const current = existingMap.get(`${typeId}:${matchValue}`)
+      if (current && FORCE) {
+        log(`Remove duplicate ${typeId} entry for "${matchValue}" before upserting the canonical copy`)
+        if (APPLY) {
+          try {
+            await api('DELETE', `/entries/${entry.sys.id}`, { version: entry.sys.version })
+          } catch (deleteErr) {
+            if (deleteErr.message.includes('Cannot delete published')) {
+              const unpublished = await api('PUT', `/entries/${entry.sys.id}/unpublish`, { version: entry.sys.version })
+              await api('DELETE', `/entries/${entry.sys.id}`, { version: unpublished.sys.version })
+            } else {
+              throw deleteErr
+            }
+          }
+        }
+        continue
+      }
+      existingMap.set(`${typeId}:${matchValue}`, entry)
+    }
     for (const values of entries) {
-      const fields = Object.fromEntries(Object.entries(values).map(([k, v]) => [k, { [locale]: v }]))
-      const entry = await api('POST', '/entries', { body: { fields }, contentType: typeId })
-      await api('PUT', `/entries/${entry.sys.id}/published`, { version: entry.sys.version })
+      await upsertEntry(typeId, values, locale, existingMap)
     }
   }
 }
