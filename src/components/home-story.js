@@ -14,7 +14,7 @@ import LogoStrip from './logo-strip'
 import ValuePillars from './value-pillars'
 import Testimonials from './testimonials'
 import { Reveal } from './motion/reveal'
-import useSiteSettings from '../services/useSiteSettings'
+import { withDefaults } from '../services/useSiteSettings'
 
 // Used for any section without a "Section Header" entry in Contentful (matched by key)
 const SECTION_DEFAULTS = {
@@ -67,7 +67,8 @@ const HomeStory = (props) => {
   const headers = get(props, 'data.allContentfulSectionHeader.nodes', [])
   const pillars = get(props, 'data.allContentfulValuePillar.nodes', [])
   const testimonials = get(props, 'data.allContentfulTestimonial.nodes', [])
-  const settings = useSiteSettings()
+  // Site-wide settings are fields on the same Landing entry; empty ones use the defaults
+  const settings = withDefaults(author)
   const hash = props.location?.hash
 
   useEffect(() => {

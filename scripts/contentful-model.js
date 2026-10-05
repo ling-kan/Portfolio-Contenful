@@ -105,38 +105,32 @@ const CONTENT_TYPES = [
       text('seoDescription', 'SEO description'),
     ],
   },
-  {
-    id: 'siteSettings',
-    name: 'Site Settings',
-    description: 'Site-wide copy, SEO and artwork. Create exactly one entry.',
-    displayField: 'internalName',
-    fields: [
-      text('internalName', 'Internal name'),
-      text('siteTitle', 'Site title'),
-      text('siteDescription', 'Site description (search & social)'),
-      media('socialShareImage', 'Social share image (1200 × 630)'),
-      text('introLabel', 'Intro screen label'),
-      text('heroPrimaryCtaLabel', 'Hero primary button'),
-      text('heroSecondaryCtaLabel', 'Hero secondary button'),
-      text('availability', 'Availability line (optional)'),
-      media('cvFile', 'CV (PDF)', 'pdfdocument'),
-      text('valuePillarsLabel', '"What I bring" label'),
-      text('achievementsLabel', 'Key achievements label'),
-      text('logoStripLabel', 'Logo strip label'),
-      int('featuredProjectCount', 'Projects shown on home page'),
-      media('aboutImage', 'About image'),
-      text('aboutImageCaption', 'About image caption'),
-      media('expertiseImage', 'Expertise card image'),
-      media('contactImage', 'Contact image'),
-      text('footerCopyright', 'Footer copyright'),
-      text('notFoundTitle', '404 title'),
-      text('notFoundButtonLabel', '404 button label'),
-    ],
-  },
 ]
 
-// Extra fields on content types that already exist, matched by NAME
+// Extra fields on content types that already exist, matched by NAME.
+// Site-wide settings live on the existing Landing entry rather than a separate content type.
 const EXTRA_FIELDS = {
+  Landing: [
+    text('siteTitle', 'Site title'),
+    text('siteDescription', 'Site description (search & social)'),
+    media('socialShareImage', 'Social share image (1200 × 630)'),
+    text('introLabel', 'Intro screen label'),
+    text('heroPrimaryCtaLabel', 'Hero primary button'),
+    text('heroSecondaryCtaLabel', 'Hero secondary button'),
+    text('availability', 'Availability line (optional)'),
+    media('cvFile', 'CV (PDF)', 'pdfdocument'),
+    text('valuePillarsLabel', '"What I bring" label'),
+    text('achievementsLabel', 'Key achievements label'),
+    text('logoStripLabel', 'Logo strip label'),
+    int('featuredProjectCount', 'Projects shown on home page'),
+    media('aboutImage', 'About image'),
+    text('aboutImageCaption', 'About image caption'),
+    media('expertiseImage', 'Expertise card image'),
+    media('contactImage', 'Contact image'),
+    text('footerCopyright', 'Footer copyright'),
+    text('notFoundTitle', '404 title'),
+    text('notFoundButtonLabel', '404 button label'),
+  ],
   'Blog Post': [text('headlineResult', 'Headline result (e.g. +58% conversion)')],
 }
 
@@ -160,24 +154,8 @@ const SEED_ENTRIES = {
     { slug: 'portfolio', eyebrow: 'Selected work', title: 'Case studies with measurable outcomes.', intro: 'A closer look at the challenges, the thinking and the outcomes behind each project.', seoTitle: 'Portfolio' },
     { slug: 'tools', eyebrow: 'Toolbox', title: 'Tools, experiments and resources.', intro: 'Things I have built or rely on — shared in case they help you too.', seoTitle: 'Tools' },
   ],
-  siteSettings: [
-    {
-      internalName: 'Site settings',
-      siteTitle: 'LING KAN',
-      siteDescription: 'LING KAN — London-based digital experience leader combining UX, conversion optimisation and front-end development to drive measurable growth.',
-      introLabel: 'Digital experience & growth',
-      heroPrimaryCtaLabel: 'View selected work',
-      heroSecondaryCtaLabel: 'Get in touch',
-      valuePillarsLabel: 'What I bring',
-      achievementsLabel: 'Key achievements',
-      logoStripLabel: 'Organisations I’ve worked with',
-      featuredProjectCount: 6,
-      aboutImageCaption: 'Seeing the bigger picture',
-      footerCopyright: 'LING KAN Portfolio. All rights reserved.',
-      notFoundTitle: 'Sorry, this page can’t be found.',
-      notFoundButtonLabel: 'Back to home',
-    },
-  ],
+  // The new Landing fields are not seeded: the existing entry is never edited, and the site
+  // uses the same copy as built-in defaults until you fill the fields in.
 }
 
 // ---------- Contentful Management API ----------

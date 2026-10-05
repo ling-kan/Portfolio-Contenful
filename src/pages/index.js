@@ -111,6 +111,18 @@ export const pageQuery = graphql`
     ) {
       nodes {
         name
+        heroPrimaryCtaLabel
+        heroSecondaryCtaLabel
+        availability
+        cvFile { url }
+        valuePillarsLabel
+        achievementsLabel
+        logoStripLabel
+        featuredProjectCount
+        aboutImage { gatsbyImageData(layout: FULL_WIDTH, placeholder: BLURRED) description }
+        aboutImageCaption
+        expertiseImage { gatsbyImageData(layout: FULL_WIDTH, placeholder: BLURRED) }
+        contactImage { gatsbyImageData(layout: FULL_WIDTH, placeholder: BLURRED) description }
         animatedList
         keyMetrics {
           label

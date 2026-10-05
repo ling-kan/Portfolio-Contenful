@@ -25,7 +25,7 @@ const Seo = ({ title, description = '', lang = 'en', meta = [], image = '' }) =>
   );
 
   const settings = useSiteSettings();
-  // Contentful Site Settings first, then gatsby-config siteMetadata
+  // Landing entry settings first, then gatsby-config siteMetadata
   const metaDescription = description || settings.siteDescription || site.siteMetadata.description;
   const defaultTitle = settings.siteTitle || site.siteMetadata?.title;
   // Share image: page-specific, then Contentful, then static/images/og-image.jpg

@@ -55,7 +55,7 @@ exports.createSchemaCustomization = ({ actions }) => {
       seoTitle: String
       seoDescription: String
     }
-    type ContentfulSiteSettings implements ContentfulReference & ContentfulEntry & Node {
+    type ContentfulLanding implements ContentfulReference & ContentfulEntry & Node {
       contentful_id: String!
       node_locale: String!
       siteTitle: String

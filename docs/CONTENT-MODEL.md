@@ -11,8 +11,8 @@ All copy, images and SEO for the site are editable in Contentful. This guide cov
 
 ## 1. Run the migration
 
-`scripts/contentful-model.js` creates the new content types and fields, then seeds them with the site's current
-copy so nothing changes visually. It is **safe to re-run**: it only adds what is missing, never deletes or renames
+`scripts/contentful-model.js` creates the new content types, adds new fields to Landing and Blog Post, then seeds the
+new types with the site’s current copy so nothing changes visually. It is **safe to re-run**: it only adds what is missing, never deletes or renames
 anything, never edits existing entries, and only seeds a content type that has no entries yet.
 
 ### a) Create a management token
@@ -60,7 +60,7 @@ Gatsby reads the new content on start-up. After this, edit everything in Content
 
 | Content type | Controls |
 |---|---|
-| **Landing** | Name, roles (rotating line), tagline, bio, portrait, key metrics, skills, key achievements |
+| **Landing** | Name, roles (rotating line), tagline, bio, portrait, key metrics, skills, key achievements (+ new site-wide fields, below) |
 | **Timeline** / **Education** | Experience and education entries, company logos |
 | **Blog Post** | Case studies (+ new field `headlineResult`, below) |
 | **Tools**, **Navigation**, **Socials** | Tools page cards, menu links, social links |
@@ -102,7 +102,11 @@ Gatsby reads the new content on start-up. After this, edit everything in Content
 | `headerImage` | Wide banner (2400 × 1000) shown under the header |
 | `seoTitle`, `seoDescription` | Browser tab title and search snippet for that page |
 
-### Site Settings — create exactly one entry
+### Landing — new site-wide fields
+
+These are added to your existing **Landing** entry, so all site-wide copy, SEO and artwork lives in one place.
+The migration adds the fields but leaves them empty (it never edits existing entries); until you fill one in, the
+site shows the current copy as a default.
 
 | Field | Controls |
 |---|---|

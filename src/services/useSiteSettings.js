@@ -1,6 +1,6 @@
 import { graphql, useStaticQuery } from "gatsby";
 
-// Copy used when a Site Settings field is empty or the entry doesn't exist yet
+// Copy used when a Landing settings field is empty
 export const SITE_DEFAULTS = {
   siteTitle: 'LING KAN',
   siteDescription: 'LING KAN — London-based digital experience leader combining UX, conversion optimisation and front-end development to drive measurable growth.',
@@ -17,39 +17,34 @@ export const SITE_DEFAULTS = {
   notFoundButtonLabel: 'Back to home',
 };
 
+/** Landing fields with empty values filled from SITE_DEFAULTS. */
+export const withDefaults = (landing) => {
+  const merged = { ...SITE_DEFAULTS };
+  Object.entries(landing || {}).forEach(([key, value]) => {
+    if (value !== null && value !== undefined && value !== '') merged[key] = value;
+  });
+  return merged;
+};
+
+/**
+ * Site-wide settings for components outside page queries (layout, SEO, footer, 404).
+ * They live on the same Landing entry the home page reads via allContentfulLanding.
+ */
 const useSiteSettings = () => {
-  const { contentfulSiteSettings: s } = useStaticQuery(graphql`
+  const { contentfulLanding } = useStaticQuery(graphql`
     query SiteSettingsQuery {
-      contentfulSiteSettings {
+      contentfulLanding(contentful_id: { eq: "5gcA2XyhjtzTDF0oz2Mz2" }) {
         siteTitle
         siteDescription
         socialShareImage { url }
         introLabel
-        heroPrimaryCtaLabel
-        heroSecondaryCtaLabel
-        availability
-        cvFile { url }
-        valuePillarsLabel
-        achievementsLabel
-        logoStripLabel
-        featuredProjectCount
-        aboutImage { gatsbyImageData(layout: FULL_WIDTH, placeholder: BLURRED) description }
-        aboutImageCaption
-        expertiseImage { gatsbyImageData(layout: FULL_WIDTH, placeholder: BLURRED) }
-        contactImage { gatsbyImageData(layout: FULL_WIDTH, placeholder: BLURRED) description }
         footerCopyright
         notFoundTitle
         notFoundButtonLabel
       }
     }
   `);
-
-  // Empty Contentful fields fall back to the defaults above
-  const merged = { ...SITE_DEFAULTS };
-  Object.entries(s || {}).forEach(([key, value]) => {
-    if (value !== null && value !== undefined && value !== '') merged[key] = value;
-  });
-  return merged;
+  return withDefaults(contentfulLanding);
 };
 
 export default useSiteSettings;
