@@ -13,7 +13,15 @@ All copy, images and SEO for the site are editable in Contentful. This guide cov
 
 `scripts/contentful-model.js` creates the new content types, adds new fields to Landing and Blog Post, then seeds the
 new types with the site’s current copy so nothing changes visually. It is **safe to re-run**: it only adds what is missing, never deletes or renames
-anything, never edits existing entries, and only seeds a content type that has no entries yet.
+anything, and only seeds a content type that has no entries yet.
+
+What it writes:
+
+| | |
+|---|---|
+| **Section Header, Value Pillar, Page Header** | Starter entries with today's copy, **published** |
+| **Landing** (your existing entry) | Today's copy into the new settings fields that are **still empty** — anything you've already written is kept. It republishes Landing only if it had no unpublished edits; otherwise it saves a draft for you to review |
+| **Testimonial** | 3 placeholder quotes marked "Sample", saved as **unpublished drafts** so they never appear on the live site. Replace the text with real quotes, then publish |
 
 ### a) Create a management token
 
@@ -38,7 +46,7 @@ node scripts/contentful-model.js            # dry run — lists every change, wr
 node scripts/contentful-model.js --apply    # create content types, add fields, seed starter entries
 ```
 
-Use `--apply --no-seed` to create the model without starter entries.
+Use `--apply --no-seed` to create the model only (no starter entries, Landing settings or sample testimonials).
 
 ### d) Restart the dev server
 
@@ -105,8 +113,8 @@ Gatsby reads the new content on start-up. After this, edit everything in Content
 ### Landing — new site-wide fields
 
 These are added to your existing **Landing** entry, so all site-wide copy, SEO and artwork lives in one place.
-The migration adds the fields but leaves them empty (it never edits existing entries); until you fill one in, the
-site shows the current copy as a default.
+The migration adds the fields and fills the empty ones with today's copy (never overwriting what's there). Any
+field left empty shows the current copy as a default. Images and the CV PDF aren't seeded — upload those yourself.
 
 | Field | Controls |
 |---|---|

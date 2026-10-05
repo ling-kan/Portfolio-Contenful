@@ -27,7 +27,7 @@ const InkBlock = ({ html }) => {
   )
 }
 
-const StoryAbout = ({ html, image, imageAlt, caption = 'Seeing the bigger picture' }) => {
+const AboutSection = ({ html, image, imageAlt, caption = 'Seeing the bigger picture' }) => {
   const ref = useRef(null)
   const reduce = useSafeReducedMotion()
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] })
@@ -76,4 +76,4 @@ const StoryAbout = ({ html, image, imageAlt, caption = 'Seeing the bigger pictur
   )
 }
 
-export default StoryAbout
+export default AboutSection

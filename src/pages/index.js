@@ -1,8 +1,8 @@
 import React from 'react'
 import { graphql } from "gatsby";
-import HomeStory from '../components/home-story';
+import HomePage from '../components/home-page';
 
-const RootIndex = (props) => <HomeStory {...props} />
+const RootIndex = (props) => <HomePage {...props} />
 
 export default RootIndex;
 

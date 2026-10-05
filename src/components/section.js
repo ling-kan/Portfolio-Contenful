@@ -11,9 +11,9 @@ const TONES = {
 }
 
 /**
- * A numbered "chapter" of the story: eyebrow, kinetic heading, optional intro, then content.
+ * A numbered home page section: eyebrow, kinetic heading, optional intro, then content.
  */
-const Chapter = ({
+const Section = ({
   id,
   number,
   eyebrow,
@@ -64,4 +64,4 @@ const Chapter = ({
   )
 }
 
-export default Chapter
+export default Section

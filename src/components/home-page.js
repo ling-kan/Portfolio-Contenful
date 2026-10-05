@@ -2,8 +2,8 @@ import React, { useEffect } from 'react'
 import get from 'lodash/get'
 import Layout from './layout'
 import HomeHero from './home-hero'
-import Chapter from './chapter'
-import StoryAbout from './story-about'
+import Section from './section'
+import AboutSection from './about-section'
 import KeyMetrics from './key-metrics'
 import SkillsPanel from './skills-panel'
 import Resume from './resume'
@@ -59,7 +59,7 @@ const SECTION_DEFAULTS = {
  * intro → about + what I bring → impact → expertise → experience → education → selected work → testimonials → contact.
  * All copy comes from Contentful; see docs/CONTENT-MODEL.md.
  */
-const HomeStory = (props) => {
+const HomePage = (props) => {
   const posts = get(props, 'data.allContentfulBlogPost.nodes', [])
   const [author = {}] = get(props, 'data.allContentfulLanding.nodes', [])
   const timeline = get(props, 'data.allContentfulTimeline.nodes', [])
@@ -123,21 +123,21 @@ const HomeStory = (props) => {
       />
 
       {author.bio?.childMarkdownRemark?.html && (
-        <Chapter id="about" number={next()} eyebrow={about.eyebrow} title={about.title} highlight={about.highlight} intro={about.intro}>
-          <StoryAbout
+        <Section id="about" number={next()} eyebrow={about.eyebrow} title={about.title} highlight={about.highlight} intro={about.intro}>
+          <AboutSection
             html={author.bio.childMarkdownRemark.html}
             image={settings.aboutImage?.gatsbyImageData}
             imageAlt={settings.aboutImage?.description}
             caption={settings.aboutImageCaption}
           />
           <ValuePillars items={pillars} label={settings.valuePillarsLabel} />
-        </Chapter>
+        </Section>
       )}
 
       <ImageReel posts={visiblePosts} />
 
       {author.keyMetrics?.length > 0 && (
-        <Chapter
+        <Section
           id="impact"
           tone="dark"
           number={next()}
@@ -160,11 +160,11 @@ const HomeStory = (props) => {
               />
             </Reveal>
           )}
-        </Chapter>
+        </Section>
       )}
 
       {author.skills?.length > 0 && (
-        <Chapter
+        <Section
           id="skills"
           number={next()}
           eyebrow={expertise.eyebrow}
@@ -173,12 +173,12 @@ const HomeStory = (props) => {
           intro={expertise.intro}
         >
           <SkillsPanel list={author.skills} image={settings.expertiseImage?.gatsbyImageData} />
-        </Chapter>
+        </Section>
       )}
 
       <div id="resume" />
       {timeline.length > 0 && (
-        <Chapter
+        <Section
           id="experience"
           tone="sand"
           number={next()}
@@ -189,11 +189,11 @@ const HomeStory = (props) => {
         >
           <LogoStrip items={timeline} label={settings.logoStripLabel} />
           <Resume timeline={timeline} idPrefix="experience" />
-        </Chapter>
+        </Section>
       )}
 
       {education.length > 0 && (
-        <Chapter
+        <Section
           id="education"
           tone="sand"
           number={next()}
@@ -204,17 +204,17 @@ const HomeStory = (props) => {
           className="!pt-0"
         >
           <Resume timeline={education} idPrefix="education" />
-        </Chapter>
+        </Section>
       )}
 
       {visiblePosts.length > 0 && (
-        <Chapter id="portfolio" number={next()} eyebrow={work.eyebrow} title={work.title} highlight={work.highlight} intro={work.intro}>
+        <Section id="portfolio" number={next()} eyebrow={work.eyebrow} title={work.title} highlight={work.highlight} intro={work.intro}>
           <ArticlePreview posts={posts} limit={settings.featuredProjectCount} />
-        </Chapter>
+        </Section>
       )}
 
       {testimonials.length > 0 && (
-        <Chapter
+        <Section
           id="testimonials"
           tone="sand"
           number={next()}
@@ -224,7 +224,7 @@ const HomeStory = (props) => {
           intro={quotes.intro}
         >
           <Testimonials items={testimonials} />
-        </Chapter>
+        </Section>
       )}
 
       <ContactCta
@@ -242,4 +242,4 @@ const HomeStory = (props) => {
   )
 }
 
-export default HomeStory
+export default HomePage

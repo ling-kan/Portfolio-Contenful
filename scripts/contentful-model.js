@@ -5,13 +5,15 @@
  *
  *   node scripts/contentful-model.js            # dry run: prints what would change
  *   node scripts/contentful-model.js --apply    # makes the changes
- *   node scripts/contentful-model.js --apply --no-seed   # model only, no starter entries
+ *   node scripts/contentful-model.js --apply --no-seed   # model only: no starter entries, Landing settings or samples
  *
  * Needs CONTENTFUL_MANAGEMENT_TOKEN (Contentful → Settings → CMA tokens) plus the
  * GATSBY_CONTENTFUL_SPACE_ID already in .env. Optional: CONTENTFUL_ENVIRONMENT (default "master").
  *
  * Safe to re-run: it only adds missing content types/fields, never deletes or renames, and only
- * seeds a content type that has no entries yet. Existing entries (e.g. Landing) are never edited.
+ * seeds a content type that has no entries yet. On the existing Landing entry it only fills fields
+ * that are still empty, and only republishes it if it had no unpublished edits of its own.
+ * Sample testimonials are created as unpublished drafts so placeholder quotes never go live.
  * See docs/CONTENT-MODEL.md for what each field controls.
  */
 const path = require('path')
@@ -154,8 +156,34 @@ const SEED_ENTRIES = {
     { slug: 'portfolio', eyebrow: 'Selected work', title: 'Case studies with measurable outcomes.', intro: 'A closer look at the challenges, the thinking and the outcomes behind each project.', seoTitle: 'Portfolio' },
     { slug: 'tools', eyebrow: 'Toolbox', title: 'Tools, experiments and resources.', intro: 'Things I have built or rely on — shared in case they help you too.', seoTitle: 'Tools' },
   ],
-  // The new Landing fields are not seeded: the existing entry is never edited, and the site
-  // uses the same copy as built-in defaults until you fill the fields in.
+}
+
+// Placeholder testimonials: created as UNPUBLISHED drafts so they never appear on the live site.
+// Replace the text with real quotes in Contentful, then publish.
+const SAMPLE_DRAFTS = {
+  testimonial: [
+    { quote: 'Sample — replace with a real quote from a manager about the impact of your work.', name: 'Sample name', role: 'Head of Digital', company: 'Company', order: 1 },
+    { quote: 'Sample — replace with a quote from a stakeholder about working with you.', name: 'Sample name', role: 'Product Director', company: 'Company', order: 2 },
+    { quote: 'Sample — replace with a quote from an engineering or design peer.', name: 'Sample name', role: 'Engineering Lead', company: 'Company', order: 3 },
+  ],
+}
+
+// Site-wide settings written to the existing Landing entry — only into fields that are still empty
+const LANDING_ID = '5gcA2XyhjtzTDF0oz2Mz2'
+const LANDING_SEED = {
+  siteTitle: 'LING KAN',
+  siteDescription: 'LING KAN — London-based digital experience leader combining UX, conversion optimisation and front-end development to drive measurable growth.',
+  introLabel: 'Digital experience & growth',
+  heroPrimaryCtaLabel: 'View selected work',
+  heroSecondaryCtaLabel: 'Get in touch',
+  valuePillarsLabel: 'What I bring',
+  achievementsLabel: 'Key achievements',
+  logoStripLabel: 'Organisations I’ve worked with',
+  featuredProjectCount: 6,
+  aboutImageCaption: 'Seeing the bigger picture',
+  footerCopyright: 'LING KAN Portfolio. All rights reserved.',
+  notFoundTitle: 'Sorry, this page can’t be found.',
+  notFoundButtonLabel: 'Back to home',
 }
 
 // ---------- Contentful Management API ----------
@@ -219,8 +247,8 @@ async function addMissingFields(current, fields) {
   await publishContentType(updated)
 }
 
-async function seedEntries(locale) {
-  for (const [typeId, entries] of Object.entries(SEED_ENTRIES)) {
+async function seedEntries(locale, seeds, { publish }) {
+  for (const [typeId, entries] of Object.entries(seeds)) {
     let count = 0
     try {
       count = (await api('GET', `/entries?content_type=${typeId}&limit=1`)).total
@@ -231,14 +259,42 @@ async function seedEntries(locale) {
       log(`"${typeId}" already has entries — not seeding`)
       continue
     }
-    log(`Seed ${entries.length} "${typeId}" entr${entries.length === 1 ? 'y' : 'ies'} with the current site copy`)
+    const what = publish ? 'published, with the current site copy' : 'as unpublished SAMPLE drafts'
+    log(`Seed ${entries.length} "${typeId}" entr${entries.length === 1 ? 'y' : 'ies'} (${what})`)
     if (!APPLY) continue
     for (const values of entries) {
       const fields = Object.fromEntries(Object.entries(values).map(([k, v]) => [k, { [locale]: v }]))
       const entry = await api('POST', '/entries', { body: { fields }, contentType: typeId })
-      await api('PUT', `/entries/${entry.sys.id}/published`, { version: entry.sys.version })
+      if (publish) await api('PUT', `/entries/${entry.sys.id}/published`, { version: entry.sys.version })
     }
   }
+}
+
+// Fill the new Landing settings fields that are still empty; never overwrites what you've written
+async function seedLanding(locale) {
+  let entry
+  try {
+    entry = await api('GET', `/entries/${LANDING_ID}`)
+  } catch (e) {
+    console.warn(`! Landing entry ${LANDING_ID} not found — skipped Landing settings`)
+    return
+  }
+  const empty = Object.keys(LANDING_SEED).filter((key) => entry.fields[key]?.[locale] === undefined)
+  if (!empty.length) {
+    log('Landing settings already filled in — not changing')
+    return
+  }
+  // Only republish if the entry had no unpublished edits, so we never publish someone's draft work
+  const cleanlyPublished = !!entry.sys.publishedVersion && entry.sys.version === entry.sys.publishedVersion + 1
+  log(`Fill ${empty.length} empty Landing field(s): ${empty.join(', ')}${cleanlyPublished ? ' and republish' : ' (left as draft — it has unpublished changes)'}`)
+  if (!APPLY) return
+  const fields = { ...entry.fields }
+  empty.forEach((key) => {
+    fields[key] = { ...(fields[key] || {}), [locale]: LANDING_SEED[key] }
+  })
+  const updated = await api('PUT', `/entries/${LANDING_ID}`, { version: entry.sys.version, body: { fields, metadata: entry.metadata } })
+  if (cleanlyPublished) await api('PUT', `/entries/${LANDING_ID}/published`, { version: updated.sys.version })
+  else console.warn('! Landing was saved as a draft. Review and publish it in Contentful when ready.')
 }
 
 async function main() {
@@ -250,7 +306,11 @@ async function main() {
   const locale = (locales.find((l) => l.default) || locales[0]).code
 
   await syncContentTypes(contentTypes)
-  if (SEED) await seedEntries(locale)
+  if (SEED) {
+    await seedEntries(locale, SEED_ENTRIES, { publish: true })
+    await seedLanding(locale)
+    await seedEntries(locale, SAMPLE_DRAFTS, { publish: false })
+  }
 
   console.log(APPLY ? '\nDone. Restart `npm run dev` to load the new content.' : '\nNothing was changed. Re-run with --apply to make these changes.')
 }
