@@ -5,6 +5,7 @@
  *
  *   node scripts/contentful-model.js            # dry run: prints what would change
  *   node scripts/contentful-model.js --apply    # makes the changes
+ *   node scripts/contentful-model.js --apply --force # overwrites existing seeded entries
  *   node scripts/contentful-model.js --apply --no-seed   # model only, no starter entries
  *
  * Needs CONTENTFUL_MANAGEMENT_TOKEN (Contentful → Settings → CMA tokens) plus the
@@ -23,6 +24,7 @@ try {
 }
 
 const APPLY = process.argv.includes('--apply')
+const FORCE = process.argv.includes('--force')
 const SEED = !process.argv.includes('--no-seed')
 const TOKEN = process.env.CONTENTFUL_MANAGEMENT_TOKEN
 const SPACE = process.env.GATSBY_CONTENTFUL_SPACE_ID || process.env.CONTENTFUL_SPACE_ID
@@ -39,6 +41,20 @@ if (!TOKEN || !SPACE) {
 const text = (id, name, opts = {}) => ({ id, name, type: 'Symbol', localized: false, required: false, ...opts })
 const int = (id, name, opts = {}) => ({ id, name, type: 'Integer', localized: false, required: false, ...opts })
 const list = (id, name) => ({ id, name, type: 'Array', localized: false, required: false, items: { type: 'Symbol' } })
+const richText = (id, name, opts = {}) => ({ id, name, type: 'RichText', localized: false, required: false, ...opts })
+const entryRefs = (id, name, linkContentType = [], opts = {}) => ({
+  id,
+  name,
+  type: 'Array',
+  localized: false,
+  required: false,
+  items: {
+    type: 'Link',
+    linkType: 'Entry',
+    validations: linkContentType.length ? [{ linkContentType }] : [],
+  },
+  ...opts,
+})
 const media = (id, name, mime = 'image') => ({
   id,
   name,
@@ -106,12 +122,41 @@ const CONTENT_TYPES = [
     ],
   },
   {
+    id: 'keyMetric',
+    name: 'Key Metric',
+    description: 'Single metric card used in the home hero and impact section.',
+    displayField: 'label',
+    fields: [text('label', 'Label', { required: true }), text('value', 'Value', { required: true }), int('order', 'Order')],
+  },
+  {
+    id: 'skill',
+    name: 'Skill',
+    description: 'One skill entry inside a skill group.',
+    displayField: 'name',
+    fields: [text('name', 'Name', { required: true }), text('description', 'Description'), int('order', 'Order')],
+  },
+  {
+    id: 'skillGroup',
+    name: 'Skill Group',
+    description: 'A grouped set of skills shown on the home page.',
+    displayField: 'category',
+    fields: [text('category', 'Category', { required: true }), entryRefs('skills', 'Skills', ['skill']), int('order', 'Order')],
+  },
+  {
     id: 'siteSettings',
     name: 'Site Settings',
-    description: 'Site-wide copy, SEO and artwork. Create exactly one entry.',
+    description: 'Site-wide copy, SEO, shared home-page content and artwork. Create exactly one entry.',
     displayField: 'internalName',
     fields: [
       text('internalName', 'Internal name'),
+      text('name', 'Name'),
+      list('animatedList', 'Animated role list'),
+      entryRefs('keyMetrics', 'Key metrics', ['keyMetric']),
+      entryRefs('skills', 'Skill groups', ['skillGroup']),
+      richText('tagline', 'Tagline'),
+      richText('bio', 'Bio'),
+      richText('keyAchievements', 'Key achievements'),
+      media('image', 'Portrait image'),
       text('siteTitle', 'Site title'),
       text('siteDescription', 'Site description (search & social)'),
       media('socialShareImage', 'Social share image (1200 × 630)'),
@@ -160,9 +205,30 @@ const SEED_ENTRIES = {
     { slug: 'portfolio', eyebrow: 'Selected work', title: 'Case studies with measurable outcomes.', intro: 'A closer look at the challenges, the thinking and the outcomes behind each project.', seoTitle: 'Portfolio' },
     { slug: 'tools', eyebrow: 'Toolbox', title: 'Tools, experiments and resources.', intro: 'Things I have built or rely on — shared in case they help you too.', seoTitle: 'Tools' },
   ],
+  keyMetric: [
+    { label: '9+', value: 'Years shaping digital experiences' },
+    { label: '40%', value: 'Average conversion uplift' },
+    { label: '10+', value: 'Teams and products supported' },
+  ],
+  skill: [
+    { name: 'UX strategy', description: 'Research, journeys, service design and framing the problem before the build.' },
+    { name: 'Conversion optimisation', description: 'A/B testing, analytics and insight-led growth experiments.' },
+    { name: 'Front-end development', description: 'Modern interfaces, prototypes and production-ready implementation.' },
+  ],
+  skillGroup: [
+    { category: 'Design' },
+    { category: 'Development' },
+  ],
   siteSettings: [
     {
       internalName: 'Site settings',
+      name: 'LING KAN',
+      animatedList: ['UX strategy', 'Growth design', 'Front-end development'],
+      keyMetrics: [],
+      skills: [],
+      tagline: 'Digital experience & growth',
+      bio: 'I design and build digital experiences that help teams grow.',
+      keyAchievements: 'I turn research, UX and front-end delivery into measurable commercial gains.',
       siteTitle: 'LING KAN',
       siteDescription: 'LING KAN — London-based digital experience leader combining UX, conversion optimisation and front-end development to drive measurable growth.',
       introLabel: 'Digital experience & growth',
@@ -241,24 +307,142 @@ async function addMissingFields(current, fields) {
   await publishContentType(updated)
 }
 
+function buildFields(typeId, values, locale) {
+  const fields = {}
+
+  for (const [key, value] of Object.entries(values)) {
+    if (value === undefined || value === null || value === '') continue
+
+    if (typeId === 'siteSettings' && ['tagline', 'bio', 'keyAchievements'].includes(key) && typeof value === 'string') {
+      fields[key] = {
+        [locale]: {
+          nodeType: 'document',
+          data: {},
+          content: [
+            {
+              nodeType: 'paragraph',
+              data: {},
+              content: [{ nodeType: 'text', value, marks: [], data: {} }],
+            },
+          ],
+        },
+      }
+      continue
+    }
+
+    if (Array.isArray(value)) {
+      if (typeId === 'siteSettings' && key === 'keyMetrics' && value.every((item) => item && typeof item === 'object' && item.label)) {
+        const links = value.map((metric) => (metric && metric.id ? { sys: { type: 'Link', linkType: 'Entry', id: metric.id } } : null)).filter(Boolean)
+        if (links.length) fields[key] = { [locale]: links }
+        continue
+      }
+      if (typeId === 'siteSettings' && key === 'skills' && value.every((item) => item && typeof item === 'object' && item.category)) {
+        const links = value.map((group) => (group && group.id ? { sys: { type: 'Link', linkType: 'Entry', id: group.id } } : null)).filter(Boolean)
+        if (links.length) fields[key] = { [locale]: links }
+        continue
+      }
+      fields[key] = { [locale]: value }
+      continue
+    }
+
+    fields[key] = { [locale]: value }
+  }
+
+  return fields
+}
+
+function findMatchingEntries(typeId, match, locale, currentEntries = []) {
+  const matchKey = matchKeyForType(typeId)
+  if (!matchKey) return []
+
+  return currentEntries.filter((entry) => {
+    const fieldValue = entry.fields?.[matchKey]
+    if (!fieldValue) return false
+
+    if (typeof fieldValue === 'string') return fieldValue === match
+    const localized = fieldValue[locale]
+    const variants = fieldValue && typeof fieldValue === 'object' ? Object.values(fieldValue) : []
+    return localized === match || variants.includes(match)
+  })
+}
+
+async function upsertSeedEntry(typeId, values, locale, currentEntries = []) {
+  const match = (() => {
+    if (typeId === 'sectionHeader') return values.key
+    if (typeId === 'valuePillar') return values.title
+    if (typeId === 'pageHeader') return values.slug
+    if (typeId === 'siteSettings') return values.internalName || values.name
+    return null
+  })()
+
+  if (!match) {
+    const fields = buildFields(typeId, values, locale)
+    const entry = await api('POST', '/entries', { body: { fields }, contentType: typeId })
+    await api('PUT', `/entries/${entry.sys.id}/published`, { version: entry.sys.version })
+    return entry
+  }
+
+  const matches = findMatchingEntries(typeId, match, locale, currentEntries)
+  const existing = matches[0]
+
+  if (FORCE && matches.length > 1) {
+    for (const duplicate of matches.slice(1)) {
+      console.log(`Delete duplicate ${typeId} entry ${duplicate.sys.id} with key "${match}" to keep the unique field valid`)
+      if (duplicate.sys.publishedVersion) {
+        await api('DELETE', `/entries/${duplicate.sys.id}/published`, { version: duplicate.sys.version })
+      }
+      await api('DELETE', `/entries/${duplicate.sys.id}`, { version: duplicate.sys.version })
+    }
+  }
+
+  if (existing) {
+    const fields = buildFields(typeId, values, locale)
+    const updated = await api('PUT', `/entries/${existing.sys.id}`, {
+      version: existing.sys.version,
+      body: { fields },
+    })
+    await api('PUT', `/entries/${updated.sys.id}/published`, { version: updated.sys.version })
+    return updated
+  }
+
+  const fields = buildFields(typeId, values, locale)
+  const entry = await api('POST', '/entries', { body: { fields }, contentType: typeId })
+  await api('PUT', `/entries/${entry.sys.id}/published`, { version: entry.sys.version })
+  return entry
+}
+
+function matchKeyForType(typeId) {
+  if (typeId === 'sectionHeader') return 'key'
+  if (typeId === 'valuePillar') return 'title'
+  if (typeId === 'pageHeader') return 'slug'
+  if (typeId === 'siteSettings') return 'internalName'
+  return null
+}
+
 async function seedEntries(locale) {
   for (const [typeId, entries] of Object.entries(SEED_ENTRIES)) {
-    let count = 0
+    let currentEntries = []
     try {
-      count = (await api('GET', `/entries?content_type=${typeId}&limit=1`)).total
+      currentEntries = (await api('GET', `/entries?content_type=${typeId}&limit=1000`)).items || []
     } catch (e) {
-      count = 0 // content type not created yet (dry run)
+      currentEntries = []
     }
-    if (count > 0) {
+
+    if (currentEntries.length > 0 && !FORCE) {
       log(`"${typeId}" already has entries — not seeding`)
       continue
     }
-    log(`Seed ${entries.length} "${typeId}" entr${entries.length === 1 ? 'y' : 'ies'} with the current site copy`)
+
+    if (currentEntries.length > 0 && FORCE) {
+      log(`Force reseeding "${typeId}" with the current site copy`)
+    } else {
+      log(`Seed ${entries.length} "${typeId}" entr${entries.length === 1 ? 'y' : 'ies'} with the current site copy`)
+    }
+
     if (!APPLY) continue
+
     for (const values of entries) {
-      const fields = Object.fromEntries(Object.entries(values).map(([k, v]) => [k, { [locale]: v }]))
-      const entry = await api('POST', '/entries', { body: { fields }, contentType: typeId })
-      await api('PUT', `/entries/${entry.sys.id}/published`, { version: entry.sys.version })
+      await upsertSeedEntry(typeId, values, locale, currentEntries)
     }
   }
 }

@@ -58,6 +58,14 @@ exports.createSchemaCustomization = ({ actions }) => {
     type ContentfulSiteSettings implements ContentfulReference & ContentfulEntry & Node {
       contentful_id: String!
       node_locale: String!
+      name: String
+      animatedList: [String]
+      keyMetrics: [ContentfulKeyMetric]
+      skills: [ContentfulSkillGroup]
+      tagline: String
+      bio: String
+      keyAchievements: String
+      image: ${asset('image')}
       siteTitle: String
       siteDescription: String
       socialShareImage: ${asset('socialShareImage')}
@@ -77,6 +85,27 @@ exports.createSchemaCustomization = ({ actions }) => {
       footerCopyright: String
       notFoundTitle: String
       notFoundButtonLabel: String
+    }
+    type ContentfulKeyMetric implements ContentfulReference & ContentfulEntry & Node {
+      contentful_id: String!
+      node_locale: String!
+      label: String
+      value: String
+      order: Int
+    }
+    type ContentfulSkill implements ContentfulReference & ContentfulEntry & Node {
+      contentful_id: String!
+      node_locale: String!
+      name: String
+      description: String
+      order: Int
+    }
+    type ContentfulSkillGroup implements ContentfulReference & ContentfulEntry & Node {
+      contentful_id: String!
+      node_locale: String!
+      category: String
+      skills: [ContentfulSkill]
+      order: Int
     }
     type ContentfulBlogPost implements ContentfulReference & ContentfulEntry & Node {
       headlineResult: String

@@ -1,8 +1,8 @@
 import React from 'react'
 import { graphql } from "gatsby";
-import HomeStory from '../components/home-story';
+import Homepage from '../components/homepage';
 
-const RootIndex = (props) => <HomeStory {...props} />
+const RootIndex = (props) => <Homepage {...props} />
 
 export default RootIndex;
 
@@ -104,48 +104,6 @@ export const pageQuery = graphql`
         role
         company
         photo { gatsbyImageData(width: 96, height: 96, placeholder: BLURRED) }
-      }
-    }
-    allContentfulLanding(
-      filter: { contentful_id: { eq: "5gcA2XyhjtzTDF0oz2Mz2" } }
-    ) {
-      nodes {
-        name
-        animatedList
-        keyMetrics {
-          label
-          value
-        }
-        skills {
-          category
-          skills {
-            name
-            description
-          }
-        }
-        tagline {
-        childMarkdownRemark {
-          html
-        } 
-        }
-        bio {
-        childMarkdownRemark {
-          html
-        } 
-        }
-        keyAchievements {
-          childMarkdownRemark {
-            html
-          }
-        }
-        
-
-        image{ 
-          gatsbyImageData(
-            layout: FULL_WIDTH
-            placeholder: BLURRED
-          )
-        }
       }
     }
   }

@@ -1,26 +1,28 @@
 import { graphql, useStaticQuery } from "gatsby";
 
-// Copy used when a Site Settings field is empty or the entry doesn't exist yet
-export const SITE_DEFAULTS = {
-  siteTitle: 'LING KAN',
-  siteDescription: 'LING KAN — London-based digital experience leader combining UX, conversion optimisation and front-end development to drive measurable growth.',
-  introLabel: 'Digital experience & growth',
-  heroPrimaryCtaLabel: 'View selected work',
-  heroSecondaryCtaLabel: 'Get in touch',
-  valuePillarsLabel: 'What I bring',
-  achievementsLabel: 'Key achievements',
-  logoStripLabel: 'Organisations I’ve worked with',
-  featuredProjectCount: 6,
-  aboutImageCaption: 'Seeing the bigger picture',
-  footerCopyright: 'LING KAN Portfolio. All rights reserved.',
-  notFoundTitle: 'Sorry, this page can’t be found.',
-  notFoundButtonLabel: 'Back to home',
-};
-
 const useSiteSettings = () => {
   const { contentfulSiteSettings: s } = useStaticQuery(graphql`
     query SiteSettingsQuery {
       contentfulSiteSettings {
+        name
+        animatedList
+        keyMetrics {
+          label
+          value
+        }
+        skills {
+          category
+          skills {
+            name
+            description
+          }
+        }
+        tagline
+        bio
+        keyAchievements
+        image {
+          gatsbyImageData(layout: FULL_WIDTH, placeholder: BLURRED)
+        }
         siteTitle
         siteDescription
         socialShareImage { url }
@@ -45,7 +47,7 @@ const useSiteSettings = () => {
   `);
 
   // Empty Contentful fields fall back to the defaults above
-  const merged = { ...SITE_DEFAULTS };
+  const merged = {   };
   Object.entries(s || {}).forEach(([key, value]) => {
     if (value !== null && value !== undefined && value !== '') merged[key] = value;
   });

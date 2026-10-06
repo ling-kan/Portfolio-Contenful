@@ -59,9 +59,8 @@ const SECTION_DEFAULTS = {
  * intro → about + what I bring → impact → expertise → experience → education → selected work → testimonials → contact.
  * All copy comes from Contentful; see docs/CONTENT-MODEL.md.
  */
-const HomeStory = (props) => {
+const Homepage = (props) => {
   const posts = get(props, 'data.allContentfulBlogPost.nodes', [])
-  const [author = {}] = get(props, 'data.allContentfulLanding.nodes', [])
   const timeline = get(props, 'data.allContentfulTimeline.nodes', [])
   const education = get(props, 'data.allContentfulEducation.nodes', [])
   const headers = get(props, 'data.allContentfulSectionHeader.nodes', [])
@@ -90,8 +89,8 @@ const HomeStory = (props) => {
   }
 
   const visiblePosts = posts.filter((p) => !p.hiddenPage)
-  const skillNames = (author.skills || []).flatMap((s) => (s.skills || []).map((k) => k.name))
-  const achievements = author.keyAchievements?.childMarkdownRemark?.html
+  const skillNames = (settings.skills || []).flatMap((s) => (s.skills || []).map((k) => k.name))
+  const achievements = settings.keyAchievements
 
   // Number sections by what is actually present so the sequence never skips.
   let n = 0
@@ -107,24 +106,24 @@ const HomeStory = (props) => {
   const contact = section('contact')
 
   return (
-    <Layout location={props.location} fullHeaderHeight={true} author={author}>
+    <Layout location={props.location} fullHeaderHeight={true} settings={settings}>
       <div id="bio" />
       <HomeHero
-        name={author.name}
-        animatedList={author.animatedList}
-        image={author.image}
-        tagline={author.tagline}
-        marqueeItems={skillNames.length ? skillNames : author.animatedList}
+        name={settings.name}
+        animatedList={settings.animatedList}
+        image={settings.image}
+        tagline={settings.tagline}
+        marqueeItems={skillNames.length ? skillNames : settings.animatedList}
         primaryCta={settings.heroPrimaryCtaLabel}
         secondaryCta={settings.heroSecondaryCtaLabel}
         availability={settings.availability}
         cvUrl={settings.cvFile?.url}
       />
 
-      {author.bio?.childMarkdownRemark?.html && (
+      {settings.bio && (
         <Chapter id="about" number={next()} eyebrow={about.eyebrow} title={about.title} highlight={about.highlight} intro={about.intro}>
           <StoryAbout
-            html={author.bio.childMarkdownRemark.html}
+            html={settings.bio}
             image={settings.aboutImage?.gatsbyImageData}
             imageAlt={settings.aboutImage?.description}
             caption={settings.aboutImageCaption}
@@ -134,8 +133,8 @@ const HomeStory = (props) => {
       )}
 
       <ImageReel posts={visiblePosts} />
-
-      {author.keyMetrics?.length > 0 && (
+{console.log(settings)}
+      {settings.keyMetrics?.length > 0 && (
         <Chapter
           id="impact"
           tone="dark"
@@ -149,7 +148,7 @@ const HomeStory = (props) => {
             <div aria-hidden="true" className="absolute -top-40 -right-40 w-[36rem] h-[36rem] rounded-full bg-mint/10 blur-[120px] pointer-events-none" />
           }
         >
-          <KeyMetrics list={author.keyMetrics} />
+          <KeyMetrics list={settings.keyMetrics} />
           {achievements && (
             <Reveal className="mt-16 max-w-4xl">
               <p className="eyebrow text-paper/65 mb-6">{settings.achievementsLabel}</p>
@@ -162,8 +161,8 @@ const HomeStory = (props) => {
         </Chapter>
       )}
 
-      {author.skills?.length > 0 && (
-        <Chapter
+      {settings.skills?.length > 0 && (
+      <Chapter
           id="skills"
           number={next()}
           eyebrow={expertise.eyebrow}
@@ -171,7 +170,7 @@ const HomeStory = (props) => {
           highlight={expertise.highlight}
           intro={expertise.intro}
         >
-          <SkillsPanel list={author.skills} image={settings.expertiseImage?.gatsbyImageData} />
+          <SkillsPanel list={settings.skills} image={settings.expertiseImage?.gatsbyImageData} />
         </Chapter>
       )}
 
@@ -241,4 +240,4 @@ const HomeStory = (props) => {
   )
 }
 
-export default HomeStory
+export default Homepage
