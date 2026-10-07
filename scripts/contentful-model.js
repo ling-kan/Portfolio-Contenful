@@ -4,7 +4,9 @@
  * the site's current copy so nothing changes visually after you run it.
  *
  *   node scripts/contentful-model.js            # dry run: prints what would change
+ *   node scripts/contentful-model.js --force    # dry run that still seeds existing entries when forced
  *   node scripts/contentful-model.js --apply    # makes the changes
+ *   node scripts/contentful-model.js --apply --force # creates/updates seeded entries even when they already exist
  *   node scripts/contentful-model.js --apply --no-seed   # model only: no starter entries, Landing settings or samples
  *
  * Needs CONTENTFUL_MANAGEMENT_TOKEN (Contentful → Settings → CMA tokens) plus the
@@ -25,6 +27,7 @@ try {
 }
 
 const APPLY = process.argv.includes('--apply')
+const FORCE = process.argv.includes('--force')
 const SEED = !process.argv.includes('--no-seed')
 const TOKEN = process.env.CONTENTFUL_MANAGEMENT_TOKEN
 const SPACE = process.env.GATSBY_CONTENTFUL_SPACE_ID || process.env.CONTENTFUL_SPACE_ID
@@ -247,23 +250,52 @@ async function addMissingFields(current, fields) {
   await publishContentType(updated)
 }
 
+function getLocalizedValue(value) {
+  if (value === null || value === undefined) return undefined
+  if (typeof value === 'object' && !Array.isArray(value) && Object.keys(value).length) {
+    return value[Object.keys(value)[0]]
+  }
+  return value
+}
+
 async function seedEntries(locale, seeds, { publish }) {
   for (const [typeId, entries] of Object.entries(seeds)) {
-    let count = 0
+    let existing = { items: [] }
     try {
-      count = (await api('GET', `/entries?content_type=${typeId}&limit=1`)).total
+      existing = await api('GET', `/entries?content_type=${typeId}&limit=100`)
     } catch (e) {
-      count = 0 // content type not created yet (dry run)
+      existing = { items: [] } // content type not created yet (dry run)
     }
-    if (count > 0) {
+    if (existing.items.length > 0 && !FORCE) {
       log(`"${typeId}" already has entries — not seeding`)
       continue
     }
+
     const what = publish ? 'published, with the current site copy' : 'as unpublished SAMPLE drafts'
-    log(`Seed ${entries.length} "${typeId}" entr${entries.length === 1 ? 'y' : 'ies'} (${what})`)
+    const forceLabel = FORCE ? ' (forced)' : ''
+    log(`Seed ${entries.length} "${typeId}" entr${entries.length === 1 ? 'y' : 'ies'} (${what}${forceLabel})`)
     if (!APPLY) continue
+
     for (const values of entries) {
       const fields = Object.fromEntries(Object.entries(values).map(([k, v]) => [k, { [locale]: v }]))
+      const uniqueField = typeId === 'sectionHeader' ? 'key' : typeId === 'pageHeader' ? 'slug' : null
+      const match = uniqueField
+        ? existing.items.find((entry) => {
+            const currentValue = getLocalizedValue(entry.fields?.[uniqueField])
+            const desiredValue = getLocalizedValue(values[uniqueField])
+            return currentValue === desiredValue || entry.fields?.[uniqueField]?.[locale] === values[uniqueField]
+          })
+        : null
+
+      if (match) {
+        const updated = await api('PUT', `/entries/${match.sys.id}`, {
+          version: match.sys.version,
+          body: { fields, metadata: match.metadata },
+        })
+        if (publish) await api('PUT', `/entries/${match.sys.id}/published`, { version: updated.sys.version })
+        continue
+      }
+
       const entry = await api('POST', '/entries', { body: { fields }, contentType: typeId })
       if (publish) await api('PUT', `/entries/${entry.sys.id}/published`, { version: entry.sys.version })
     }
@@ -279,13 +311,19 @@ async function seedLanding(locale) {
     console.warn(`! Landing entry ${LANDING_ID} not found — skipped Landing settings`)
     return
   }
+
+  if (!entry || !entry.fields) {
+    console.warn(`! Landing entry ${LANDING_ID} is missing or not readable — skipped Landing settings`)
+    return
+  }
+
   const empty = Object.keys(LANDING_SEED).filter((key) => entry.fields[key]?.[locale] === undefined)
   if (!empty.length) {
     log('Landing settings already filled in — not changing')
     return
   }
   // Only republish if the entry had no unpublished edits, so we never publish someone's draft work
-  const cleanlyPublished = !!entry.sys.publishedVersion && entry.sys.version === entry.sys.publishedVersion + 1
+  const cleanlyPublished = !!entry.sys?.publishedVersion && entry.sys.version === entry.sys.publishedVersion + 1
   log(`Fill ${empty.length} empty Landing field(s): ${empty.join(', ')}${cleanlyPublished ? ' and republish' : ' (left as draft — it has unpublished changes)'}`)
   if (!APPLY) return
   const fields = { ...entry.fields }
@@ -298,7 +336,8 @@ async function seedLanding(locale) {
 }
 
 async function main() {
-  console.log(`${APPLY ? 'Applying' : 'Dry run (no changes)'}: space ${SPACE}, environment "${ENV}"\n`)
+  const modeLabel = APPLY ? 'Applying' : FORCE ? 'Force seed (dry run)' : 'Dry run (no changes)'
+  console.log(`${modeLabel}: space ${SPACE}, environment "${ENV}"\n`)
   const [{ items: contentTypes }, { items: locales }] = await Promise.all([
     api('GET', '/content_types?limit=1000'),
     api('GET', '/locales'),

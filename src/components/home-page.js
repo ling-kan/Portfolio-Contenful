@@ -14,44 +14,6 @@ import LogoStrip from './logo-strip'
 import ValuePillars from './value-pillars'
 import Testimonials from './testimonials'
 import { Reveal } from './motion/reveal'
-import { withDefaults } from '../services/useSiteSettings'
-
-// Used for any section without a "Section Header" entry in Contentful (matched by key)
-const SECTION_DEFAULTS = {
-  about: { eyebrow: 'About', title: 'Where user experience meets measurable growth.', highlightWords: ['growth.'] },
-  impact: {
-    eyebrow: 'Impact',
-    title: 'Proven results, not just pretty pixels.',
-    highlightWords: ['results,'],
-    intro: 'Every project is measured by what it changes, for users and for the business.',
-  },
-  expertise: {
-    eyebrow: 'Expertise',
-    title: 'A rare blend of design, data and code.',
-    highlightWords: ['code.'],
-    intro: 'Strategy, optimisation and hands-on build skills in one person. Choose a discipline, then a skill, to see how it’s applied.',
-  },
-  experience: {
-    eyebrow: 'Experience',
-    title: 'A track record of delivering at scale.',
-    highlightWords: ['scale.'],
-    intro: 'From consultancy and research to leading UX and front-end development today: the teams and products I’ve helped grow.',
-  },
-  education: { eyebrow: 'Education', title: 'Built on a technical foundation.', highlightWords: ['foundation.'] },
-  work: {
-    eyebrow: 'Selected work',
-    title: 'Real projects, measurable outcomes.',
-    highlightWords: ['outcomes.'],
-    intro: 'A selection of case studies: the challenge, the approach and the result it delivered.',
-  },
-  testimonials: { eyebrow: 'Testimonials', title: 'What colleagues say.', highlightWords: ['say.'] },
-  contact: {
-    eyebrow: 'Contact',
-    title: 'Let’s build an experience that performs.',
-    highlightWords: ['performs.'],
-    intro: 'Need someone who can shape the experience, prove it with data and build it too? Let’s talk about what you’re working on.',
-    buttonLabel: 'Say hello',
-  },
 }
 
 /**
@@ -67,8 +29,7 @@ const HomePage = (props) => {
   const headers = get(props, 'data.allContentfulSectionHeader.nodes', [])
   const pillars = get(props, 'data.allContentfulValuePillar.nodes', [])
   const testimonials = get(props, 'data.allContentfulTestimonial.nodes', [])
-  // Site-wide settings are fields on the same Landing entry; empty ones use the defaults
-  const settings = withDefaults(author)
+  const settings = author || {}
   const hash = props.location?.hash
 
   useEffect(() => {
@@ -77,16 +38,14 @@ const HomePage = (props) => {
     return () => clearTimeout(id)
   }, [hash])
 
-  // Contentful entry for a section, with empty fields filled from the defaults
-  const section = (key) => {
+  const getSection = (key) => {
     const entry = headers.find((h) => h.key === key) || {}
-    const base = SECTION_DEFAULTS[key]
     return {
-      eyebrow: entry.eyebrow || base.eyebrow,
-      title: entry.title || base.title,
-      highlight: entry.highlightWords?.length ? entry.highlightWords : base.highlightWords,
-      intro: entry.intro || base.intro,
-      buttonLabel: entry.buttonLabel || base.buttonLabel,
+      eyebrow: entry.eyebrow,
+      title: entry.title,
+      highlight: entry.highlightWords?.length ? entry.highlightWords : undefined,
+      intro: entry.intro,
+      buttonLabel: entry.buttonLabel,
     }
   }
 
@@ -98,14 +57,14 @@ const HomePage = (props) => {
   let n = 0
   const next = () => String(++n).padStart(2, '0')
 
-  const about = section('about')
-  const impact = section('impact')
-  const expertise = section('expertise')
-  const experience = section('experience')
-  const learning = section('education')
-  const work = section('work')
-  const quotes = section('testimonials')
-  const contact = section('contact')
+  const about = getSection('about')
+  const impact = getSection('impact')
+  const expertise = getSection('expertise')
+  const experience = getSection('experience')
+  const learning = getSection('education')
+  const work = getSection('work')
+  const quotes = getSection('testimonials')
+  const contact = getSection('contact')
 
   return (
     <Layout location={props.location} fullHeaderHeight={true} author={author}>

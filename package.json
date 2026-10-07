@@ -7,11 +7,12 @@
     "serve": "gatsby serve",
     "prebuild": "rm -rf .cache/adapters/node_modules/.bin",
     "clean": "gatsby clean && rm -rf node_modules package-lock.json",
-    "dev": "npm install && gatsby develop",
+    "dev": "gatsby develop",
     "build": "gatsby build",
     "heroku-postbuild": "gatsby build",
     "postinstall": "node ./bin/hello.js",
     "setup": "node ./bin/setup.js",
+    "contentful-removal": "rm -rf .cache public",
     "netlify:login": "netlify login",
     "netlify:deploy": "netlify deploy -d public -p"
   },

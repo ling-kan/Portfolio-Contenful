@@ -50,15 +50,10 @@ export const pageQuery = graphql`
         endDate(formatString: "MMMM YYYY")
         currentRole
         company
-        description {
-        childMarkdownRemark {
-          html
-        }
-        }
         bio {
-        childMarkdownRemark {
-          html
-        }
+          childMarkdownRemark {
+            html
+          }
         }
         icon {
           gatsbyImageData(
@@ -124,35 +119,13 @@ export const pageQuery = graphql`
         expertiseImage { gatsbyImageData(layout: FULL_WIDTH, placeholder: BLURRED) }
         contactImage { gatsbyImageData(layout: FULL_WIDTH, placeholder: BLURRED) description }
         animatedList
-        keyMetrics {
-          label
-          value
-        }
-        skills {
-          category
-          skills {
-            name
-            description
-          }
-        }
-        tagline {
-        childMarkdownRemark {
-          html
-        } 
-        }
         bio {
-        childMarkdownRemark {
-          html
-        } 
-        }
-        keyAchievements {
           childMarkdownRemark {
             html
           }
         }
-        
 
-        image{ 
+        image {
           gatsbyImageData(
             layout: FULL_WIDTH
             placeholder: BLURRED

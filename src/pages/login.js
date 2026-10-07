@@ -54,7 +54,7 @@ const Login = (props) => {
                             </span>
                             <p className="eyebrow text-ink/75">Private case study</p>
                             <Header title="Protected page" className="mt-3" />
-                            <p className="text-ink/75 mb-8">This work is under NDA. Enter the access password to continue.</p>
+                            <p className="text-ink/75 mb-8">Enter the access password to continue.</p>
                             <div className="mb-6">
                                 <label htmlFor="password" className="block text-sm font-semibold text-ink">
                                     Password
