@@ -14,7 +14,6 @@ import LogoStrip from './logo-strip'
 import ValuePillars from './value-pillars'
 import Testimonials from './testimonials'
 import { Reveal } from './motion/reveal'
-}
 
 /**
  * The home page, structured as a positioning pitch:

@@ -1,6 +1,5 @@
 import { graphql, useStaticQuery } from "gatsby";
 
-
 /**
  * Site-wide settings for components outside page queries (layout, SEO, footer, 404).
  * They live on the same Landing entry the home page reads via allContentfulLanding.
