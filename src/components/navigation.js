@@ -40,7 +40,7 @@ const Navigation = ({ navList }) => {
         role="banner"
         className="fixed top-0 inset-x-0 z-50 pt-3 md:pt-4"
         animate={{ y: hidden ? '-120%' : '0%' }}
-        transition={{ duration: reduce ? 0 : 0.5, ease: EASE }}
+        transition={{ duration: reduce ? 0 : 0.25, ease: EASE }}
       >
         <Container as="nav" aria-label="Main">
           <div
@@ -83,12 +83,12 @@ const Navigation = ({ navList }) => {
                   <motion.span
                     className="absolute left-0 right-0 h-[2px] bg-paper rounded-full"
                     animate={mobileNav ? { top: '50%', rotate: 45, y: '-50%' } : { top: '0%', rotate: 0, y: '0%' }}
-                    transition={{ duration: 0.4, ease: EASE }}
+                    transition={{ duration: 0.25, ease: EASE }}
                   />
                   <motion.span
                     className="absolute left-0 right-0 h-[2px] bg-paper rounded-full"
                     animate={mobileNav ? { bottom: '50%', rotate: -45, y: '50%' } : { bottom: '0%', rotate: 0, y: '0%' }}
-                    transition={{ duration: 0.4, ease: EASE }}
+                    transition={{ duration: 0.25, ease: EASE }}
                   />
                 </span>
               </button>
@@ -103,10 +103,10 @@ const Navigation = ({ navList }) => {
             id="mobile-menu"
             key="mobile-menu"
             className="fixed inset-0 z-40 bg-ink text-paper md:hidden flex flex-col pt-28 pb-10 overflow-y-auto"
-            initial={{ clipPath: 'circle(0% at calc(100% - 3rem) 2.5rem)' }}
+            initial={reduce ? false : { clipPath: 'circle(0% at calc(100% - 3rem) 2.5rem)' }}
             animate={{ clipPath: 'circle(150% at calc(100% - 3rem) 2.5rem)' }}
             exit={{ clipPath: 'circle(0% at calc(100% - 3rem) 2.5rem)' }}
-            transition={{ duration: reduce ? 0 : 0.7, ease: EASE }}
+            transition={{ duration: reduce ? 0 : 0.25, ease: EASE }}
           >
             <Container className="relative flex-1 flex flex-col">
               <p className="eyebrow text-paper/65 mb-6">Menu</p>
@@ -115,9 +115,9 @@ const Navigation = ({ navList }) => {
                   <motion.li
                     key={item.url}
                     className="list-none border-b border-paper/10 overflow-hidden"
-                    initial={{ opacity: 0, y: 40 }}
+                    initial={reduce ? false : { opacity: 0, y: 16 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.15 + i * 0.07, ease: EASE }}
+                    transition={{ duration: reduce ? 0 : 0.25, delay: reduce ? 0 : 0.05 + i * 0.03, ease: EASE }}
                   >
                     <Link
                       to={item.url}

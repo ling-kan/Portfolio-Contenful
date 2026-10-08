@@ -2,14 +2,26 @@ import { useEffect, useState } from 'react'
 import { useReducedMotion } from 'motion/react'
 
 /**
- * Like motion's useReducedMotion, but returns false until after hydration so the
- * first client render matches the server HTML (which can't know the preference).
+ * Includes data-saver and slow-connection hints so animation never delays those users.
  */
 const useSafeReducedMotion = () => {
   const reduce = useReducedMotion()
   const [mounted, setMounted] = useState(false)
-  useEffect(() => setMounted(true), [])
-  return mounted && !!reduce
+  const [saveData, setSaveData] = useState(false)
+
+  useEffect(() => {
+    const connection = navigator.connection
+    const updateSaveData = () => {
+      setSaveData(Boolean(connection?.saveData || ['slow-2g', '2g'].includes(connection?.effectiveType)))
+    }
+
+    updateSaveData()
+    connection?.addEventListener?.('change', updateSaveData)
+    setMounted(true)
+    return () => connection?.removeEventListener?.('change', updateSaveData)
+  }, [])
+
+  return mounted && (!!reduce || saveData)
 }
 
 export default useSafeReducedMotion

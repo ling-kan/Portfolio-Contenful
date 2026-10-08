@@ -42,7 +42,7 @@ const ContactCta = ({
               highlight={highlight}
               className="display-lg block text-paper"
             />
-            <Reveal delay={0.25}>
+            <Reveal delay={0.08}>
               <p className="lead mt-8 max-w-xl text-paper/70">
                 {intro}
               </p>
@@ -59,7 +59,7 @@ const ContactCta = ({
             <div className={`lg:col-span-4 flex lg:justify-end ${withImage ? 'pl-6 sm:pl-10 lg:pl-0' : ''}`}>
               <div className={withImage ? 'relative w-full max-w-xs' : ''}>
                 {withImage && (
-                  <Reveal className="aspect-[4/5] rounded-[1.5rem] overflow-hidden bg-paper/5">
+                  <Reveal className="mobile-image-frame aspect-[4/5] rounded-[1.5rem] overflow-hidden bg-paper/5">
                     <ImageSlot slot="contact" image={image} alt={imageAlt} />
                   </Reveal>
                 )}

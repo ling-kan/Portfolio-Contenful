@@ -5,10 +5,12 @@ import Container from './container'
 import Logo from './logo'
 import Socials from './socials'
 import useSiteSettings from '../services/useSiteSettings'
+import useSafeReducedMotion from './motion/use-safe-reduced-motion'
 
 // Three equal columns keep the links truly centred regardless of the name/icon widths
 const Footer = ({ navList }) => {
   const { footerCopyright } = useSiteSettings()
+  const reduceMotion = useSafeReducedMotion()
   return (
     <footer className="bg-ink text-paper border-t border-paper/10">
       <Container className="py-12">
@@ -35,7 +37,7 @@ const Footer = ({ navList }) => {
           <span>© {new Date().getFullYear()} {footerCopyright}</span>
           <button
             type="button"
-            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            onClick={() => window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' })}
             className="group inline-flex items-center gap-2 !text-paper/70 hover:!text-paper"
           >
             Back to top

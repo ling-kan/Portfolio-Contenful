@@ -25,7 +25,7 @@ const AnimatedNumber = ({ value, start }) => {
       return undefined
     }
     const controls = animate(0, parsed.number, {
-      duration: 2.4,
+      duration: 1.2,
       ease: [0.16, 1, 0.3, 1],
       onUpdate: (v) => setDisplay(v),
     })
@@ -60,9 +60,9 @@ const KeyMetrics = ({ list = [] }) => {
         <motion.div
           key={stat.label}
           className="group relative bg-ink p-8 md:p-10 min-h-[14rem] flex flex-col justify-between overflow-hidden"
-          initial={reduce ? false : { opacity: 0, y: 40 }}
+          initial={reduce ? false : { opacity: 0, y: 16 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.9, delay: i * 0.12, ease: EASE }}
+          transition={{ duration: 0.35, delay: i * 0.04, ease: EASE }}
         >
           <div
             aria-hidden="true"
@@ -79,7 +79,7 @@ const KeyMetrics = ({ list = [] }) => {
               className="block mt-6 h-px bg-paper/30 origin-left"
               initial={reduce ? false : { scaleX: 0 }}
               animate={isInView ? { scaleX: 1 } : {}}
-              transition={{ duration: 1.4, delay: 0.3 + i * 0.12, ease: EASE }}
+              transition={{ duration: 0.35, delay: 0.1 + i * 0.04, ease: EASE }}
             />
           </div>
         </motion.div>

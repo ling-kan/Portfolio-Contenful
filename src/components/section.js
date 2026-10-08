@@ -43,7 +43,7 @@ const Section = ({
                 initial={reduce ? false : { scaleX: 0 }}
                 whileInView={{ scaleX: 1 }}
                 viewport={{ once: true }}
-                transition={{ duration: 1, ease: EASE }}
+                transition={{ duration: 0.35, ease: EASE }}
               />
               <span>{eyebrow}</span>
             </div>
@@ -51,7 +51,7 @@ const Section = ({
           <div>
             {title && <SplitText as="h2" text={title} highlight={highlight} className="display-lg block" />}
             {intro && (
-              <Reveal delay={0.2}>
+              <Reveal delay={0.08}>
                 <p className={`lead mt-6 max-w-2xl ${dark ? 'text-paper/70' : 'text-ink/75'}`}>{intro}</p>
               </Reveal>
             )}

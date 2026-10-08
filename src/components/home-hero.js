@@ -40,7 +40,7 @@ const RoleTicker = ({ roles = [] }) => {
           initial={{ y: '100%', opacity: 0 }}
           animate={{ y: '0%', opacity: 1 }}
           exit={{ y: '-100%', opacity: 0 }}
-          transition={{ duration: 0.45, ease: EASE }}
+          transition={{ duration: 0.3, ease: EASE }}
         >
           {roles[index]}
         </motion.span>
@@ -61,7 +61,7 @@ const Letters = ({ word, delay = 0, className = '', ready = true }) => {
           className="inline-block"
           initial={{ y: '105%' }}
           animate={ready ? { y: '0%' } : undefined}
-          transition={{ duration: 1.1, delay: delay + i * 0.045, ease: EASE }}
+          transition={{ duration: 0.35, delay: delay + i * 0.01, ease: EASE }}
         >
           {char === ' ' ? ' ' : char}
         </motion.span>
@@ -155,7 +155,7 @@ const HomeHero = ({
             {roles.length > 0 && (
               <motion.div
                 {...intro}
-                transition={{ duration: 0.8, delay: 0.75, ease: EASE }}
+                transition={{ duration: 0.35, delay: 0.2, ease: EASE }}
                 className="mt-8 flex items-center gap-4 text-xl md:text-2xl font-sans font-medium tracking-tight text-ink"
               >
                 <span aria-hidden="true" className="h-px w-10 bg-accent/60 shrink-0" />
@@ -168,7 +168,7 @@ const HomeHero = ({
             {tagline && (
               <motion.div
                 {...intro}
-                transition={{ duration: 0.8, delay: 0.9, ease: EASE }}
+                transition={{ duration: 0.35, delay: 0.3, ease: EASE }}
                 className="rich-text lead mt-5 max-w-lg text-ink/75"
                 dangerouslySetInnerHTML={{ __html: tagline }}
               />
@@ -176,7 +176,7 @@ const HomeHero = ({
 
             <motion.div
               {...intro}
-              transition={{ duration: 0.8, delay: 1.05, ease: EASE }}
+              transition={{ duration: 0.35, delay: 0.4, ease: EASE }}
               className="mt-10 flex flex-wrap items-center gap-3"
             >
               <Magnetic>
@@ -185,8 +185,8 @@ const HomeHero = ({
                   className="group inline-flex items-center gap-3 rounded-full bg-ink !text-paper pl-6 pr-1.5 py-1.5 text-sm font-medium hover:bg-ink-soft transition-colors duration-300"
                 >
                   {primaryCta}
-                  <span className="grid place-items-center w-9 h-9 rounded-full bg-paper/10 group-hover:bg-accent transition-colors duration-500">
-                    <ArrowRightIcon className="w-4 h-4 no-fill fill-paper group-hover:-rotate-45 transition-transform duration-500" />
+                  <span className="grid place-items-center w-9 h-9 rounded-full bg-paper/10 group-hover:bg-accent transition-colors duration-200">
+                    <ArrowRightIcon className="w-4 h-4 no-fill fill-paper group-hover:-rotate-45 transition-transform duration-200" />
                   </span>
                 </a>
               </Magnetic>
@@ -211,7 +211,7 @@ const HomeHero = ({
             {availability && (
               <motion.p
                 {...intro}
-                transition={{ duration: 0.8, delay: 1.2, ease: EASE }}
+                transition={{ duration: 0.35, delay: 0.45, ease: EASE }}
                 className="mt-6 inline-flex items-center gap-2 text-sm text-ink/75"
               >
                 <span aria-hidden="true" className="w-2 h-2 rounded-full bg-accent" />
@@ -228,8 +228,8 @@ const HomeHero = ({
                 <motion.div
                   initial={reduce ? false : { clipPath: 'inset(100% 0 0 0 round 1.5rem)' }}
                   animate={play({ clipPath: 'inset(0% 0 0 0 round 1.5rem)' })}
-                  transition={{ duration: 1.4, delay: 0.3, ease: EASE }}
-                  className="relative aspect-[4/5] rounded-[1.5rem] overflow-hidden bg-gradient-to-br from-ink to-ink-soft shadow-[0_30px_70px_-35px_rgba(23,51,43,0.45)]"
+                  transition={{ duration: 0.35, delay: 0.1, ease: EASE }}
+                  className="mobile-image-frame relative aspect-[4/5] rounded-[1.5rem] overflow-hidden bg-gradient-to-br from-ink to-ink-soft shadow-[0_30px_70px_-35px_rgba(23,51,43,0.45)]"
                 >
                   <GatsbyImage
                     image={image.gatsbyImageData}
@@ -247,7 +247,7 @@ const HomeHero = ({
                 <motion.div
                   initial={reduce ? false : { scale: 0.85, opacity: 0 }}
                   animate={play({ scale: 1, opacity: 1 })}
-                  transition={{ duration: 1.2, delay: 1.1, ease: EASE }}
+                  transition={{ duration: 0.3, delay: 0.2, ease: EASE }}
                   className="absolute -left-5 bottom-10 sm:-left-10 w-24 h-24 sm:w-28 sm:h-28"
                 >
                   <a

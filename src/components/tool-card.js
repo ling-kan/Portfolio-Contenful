@@ -17,7 +17,7 @@ const ToolCard = ({ cards }) => {
             className="group flex flex-col h-full rounded-[1.5rem] border border-line bg-white/60 hover:bg-white overflow-hidden !text-ink hover:-translate-y-1.5 hover:shadow-[0_30px_60px_-30px_rgba(23,51,43,0.4)] transition-all duration-500"
           >
             {card.image?.gatsbyImageData && (
-              <div className="relative aspect-[16/10] bg-sand overflow-hidden">
+              <div className="mobile-image-frame relative aspect-[16/10] bg-sand overflow-hidden">
                 <GatsbyImage
                   alt={card.title}
                   image={card.image.gatsbyImageData}

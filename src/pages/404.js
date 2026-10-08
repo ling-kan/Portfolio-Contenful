@@ -23,7 +23,7 @@ const PageNotFound = (props) => {
               <p className="eyebrow text-ink/75">Error 404 — Page not found</p>
               <h1 className="not-found-text font-display !font-bold !tracking-tighter !leading-[0.9] text-outline text-ink mt-4">404</h1>
               <SplitText as="p" animateOnMount text={notFoundTitle} highlight={['found.']} className="display-md block text-ink mt-4" />
-              <Reveal delay={0.3}>
+              <Reveal delay={0.08}>
                 <Link to="/" className="group mt-10 inline-flex items-center gap-3 rounded-full bg-ink !text-paper px-6 py-3 font-medium hover:bg-accent transition-colors">
                   <ArrowLeftIcon className="w-4 h-4 no-fill fill-paper group-hover:-translate-x-1 transition-transform" />
                   {notFoundButtonLabel}
@@ -31,13 +31,15 @@ const PageNotFound = (props) => {
               </Reveal>
             </div>
             {hasNotFoundImage && (
-              <Reveal delay={0.2}>
-                <GatsbyImage
-                image={notFoundImage.gatsbyImageData}
-                alt="404 illustration"
-                className="!absolute inset-0 w-full h-full"
-                imgClassName="object-cover"
-              />
+              <Reveal delay={0.08}>
+                <div className="mobile-image-frame relative aspect-[4/3]">
+                  <GatsbyImage
+                    image={notFoundImage.gatsbyImageData}
+                    alt="404 illustration"
+                    className="!absolute inset-0 w-full h-full"
+                    imgClassName="object-cover"
+                  />
+                </div>
               </Reveal>
             )}
           </div>

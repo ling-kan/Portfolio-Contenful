@@ -13,10 +13,10 @@ const TimelineItem = ({ event, index, open, onToggle, idPrefix }) => {
   return (
     <motion.li
       className="relative grid grid-cols-[2.5rem_1fr] md:grid-cols-[11rem_3rem_1fr] gap-x-4 md:gap-x-6 pb-14 last:pb-0"
-      initial={reduce ? false : { opacity: 0, y: 40 }}
+      initial={reduce ? false : { opacity: 0, y: 16 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.3 }}
-      transition={{ duration: 0.9, ease: EASE }}
+      viewport={{ once: true, amount: 0.1 }}
+      transition={{ duration: 0.35, ease: EASE }}
     >
       {/* Date (desktop) */}
       <div className="hidden md:block pt-2 text-right">
@@ -91,7 +91,7 @@ const TimelineItem = ({ event, index, open, onToggle, idPrefix }) => {
                   initial={{ height: 0, opacity: 0 }}
                   animate={{ height: 'auto', opacity: 1 }}
                   exit={{ height: 0, opacity: 0 }}
-                  transition={{ duration: 0.5, ease: EASE }}
+                  transition={{ duration: 0.3, ease: EASE }}
                   className="overflow-hidden"
                 >
                   <div

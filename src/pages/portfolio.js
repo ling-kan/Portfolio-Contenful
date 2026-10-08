@@ -36,7 +36,7 @@ export const pageQuery = graphql`
       intro
       seoTitle
       seoDescription
-      headerImage { gatsbyImageData(layout: FULL_WIDTH, placeholder: BLURRED) }
+      headerImage { gatsbyImageData(layout: CONSTRAINED, placeholder: BLURRED, width: 1600) }
     }
     allContentfulBlogPost(sort: { fields: [endDate], order: DESC }) {
        nodes {
@@ -49,8 +49,9 @@ export const pageQuery = graphql`
         headlineResult
         heroImage {
           gatsbyImageData(
-            layout: FULL_WIDTH
+            layout: CONSTRAINED
             placeholder: BLURRED
+            width: 900
           )
         }
         description {

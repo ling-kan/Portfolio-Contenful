@@ -30,13 +30,13 @@ const BlogHeader = ({ title, eyebrow = 'Portfolio', content, rawDate, endDate, t
         </Reveal>
         <SplitText as="h1" text={title} animateOnMount className="display-lg block mt-6 max-w-5xl text-ink" />
         {content && (
-          <Reveal delay={0.25}>
+          <Reveal delay={0.08}>
             <p className="lead mt-6 max-w-2xl text-ink/75">{content}</p>
           </Reveal>
         )}
 
         {(endDate || timeToRead || tags?.length > 0) && (
-          <Reveal delay={0.35} className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-4 pt-6 border-t border-line">
+          <Reveal delay={0.12} className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-4 pt-6 border-t border-line">
             {endDate && (
               <div>
                 <p className="eyebrow !text-[0.7rem] text-ink/75">Date</p>
@@ -60,8 +60,8 @@ const BlogHeader = ({ title, eyebrow = 'Portfolio', content, rawDate, endDate, t
           <motion.div
             initial={reduce ? false : { clipPath: 'inset(10% 10% 10% 10% round 1.5rem)', opacity: 0 }}
             animate={{ clipPath: 'inset(0% 0% 0% 0% round 1.5rem)', opacity: 1 }}
-            transition={{ duration: 1.4, delay: 0.3, ease: EASE }}
-            className="relative aspect-[16/9] rounded-[1.5rem] overflow-hidden bg-sand"
+            transition={{ duration: 0.35, delay: 0.1, ease: EASE }}
+            className="mobile-image-frame relative aspect-[16/9] rounded-[1.5rem] overflow-hidden bg-sand"
           >
             <motion.div style={reduce ? undefined : { scale: imageScale, y: imageY }} className="absolute inset-0">
               <GatsbyImage image={image} alt={title} className="w-full h-full" imgClassName="object-cover" />
@@ -76,8 +76,8 @@ const BlogHeader = ({ title, eyebrow = 'Portfolio', content, rawDate, endDate, t
           <motion.div
             initial={reduce ? false : { opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.1, delay: 0.3, ease: EASE }}
-            className="relative aspect-[16/9] sm:aspect-[12/5] rounded-[1.5rem] overflow-hidden bg-sand"
+            transition={{ duration: 0.35, delay: 0.1, ease: EASE }}
+            className="mobile-image-frame relative aspect-[16/9] sm:aspect-[12/5] rounded-[1.5rem] overflow-hidden bg-sand"
           >
             <motion.div style={reduce ? undefined : { y: imageY }} className="absolute -top-[12%] bottom-0 inset-x-0">
               <ImageSlot slot={slot} image={slotImage} />

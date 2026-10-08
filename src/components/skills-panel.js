@@ -66,7 +66,7 @@ const SkillsPanel = ({ list = [], image }) => {
                   key={skill.name}
                   variants={{
                     hidden: { opacity: 0, y: 20, scale: 0.9 },
-                    show: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.5, ease: EASE } },
+                    show: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.35, ease: EASE } },
                   }}
                 >
                   <button
@@ -94,7 +94,7 @@ const SkillsPanel = ({ list = [], image }) => {
       <aside className="lg:col-span-6">
         <div className="relative rounded-[1.5rem] bg-ink text-paper p-8 md:p-10 overflow-hidden min-h-[22rem] lg:sticky lg:top-28">
           {withImage && (
-            <div className="relative -mx-4 -mt-4 mb-7 aspect-[16/10] rounded-2xl overflow-hidden">
+            <div className="mobile-image-frame relative -mx-4 -mt-4 mb-7 aspect-[16/10] rounded-2xl overflow-hidden">
               <ImageSlot slot="craft" image={image} />
             </div>
           )}
@@ -105,7 +105,7 @@ const SkillsPanel = ({ list = [], image }) => {
               initial={reduce ? false : { opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -16 }}
-              transition={{ duration: 0.4, ease: EASE }}
+              transition={{ duration: 0.35, ease: EASE }}
               className="relative mt-8"
             >
               <h3 className="display-md text-paper">{detail?.name}</h3>

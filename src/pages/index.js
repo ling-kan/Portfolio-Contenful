@@ -32,8 +32,9 @@ export const pageQuery = graphql`
         headlineResult
         heroImage {
           gatsbyImageData(
-            layout: FULL_WIDTH
+            layout: CONSTRAINED
             placeholder: BLURRED
+            width: 900
           )
         }
         description {
@@ -57,10 +58,10 @@ export const pageQuery = graphql`
         }
         icon {
           gatsbyImageData(
-            layout: FULL_WIDTH
+            layout: CONSTRAINED
             placeholder: BLURRED
-            width: 40
-            height: 20
+            width: 80
+            height: 40
           )
         }
       }
@@ -78,10 +79,10 @@ export const pageQuery = graphql`
         }
         icon {
           gatsbyImageData(
-            layout: FULL_WIDTH
+            layout: CONSTRAINED
             placeholder: BLURRED
-            width: 40
-            height: 20
+            width: 80
+            height: 40
           )
         }
       }
@@ -114,10 +115,10 @@ export const pageQuery = graphql`
         achievementsLabel
         logoStripLabel
         featuredProjectCount
-        aboutImage { gatsbyImageData(layout: FULL_WIDTH, placeholder: BLURRED) description }
+        aboutImage { gatsbyImageData(layout: CONSTRAINED, placeholder: BLURRED, width: 1000) description }
         aboutImageCaption
-        skillImage { gatsbyImageData(layout: FULL_WIDTH, placeholder: BLURRED) }
-        contactImage { gatsbyImageData(layout: FULL_WIDTH, placeholder: BLURRED) description }
+        skillImage { gatsbyImageData(layout: CONSTRAINED, placeholder: BLURRED, width: 800) }
+        contactImage { gatsbyImageData(layout: CONSTRAINED, placeholder: BLURRED, width: 800) description }
         animatedList
         keyMetrics {
           label
@@ -140,8 +141,9 @@ export const pageQuery = graphql`
 
         image {
           gatsbyImageData(
-            layout: FULL_WIDTH
+            layout: CONSTRAINED
             placeholder: BLURRED
+            width: 900
           )
         }
       }

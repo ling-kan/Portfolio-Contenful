@@ -31,10 +31,10 @@ const ProjectCard = ({ post, index }) => {
     <motion.li
       ref={ref}
       className="list-none"
-      initial={reduce ? false : { opacity: 0, y: 60 }}
+      initial={reduce ? false : { opacity: 0, y: 16 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.2 }}
-      transition={{ duration: 1, ease: EASE }}
+      viewport={{ once: true, amount: 0.1 }}
+      transition={{ duration: 0.35, ease: EASE }}
     >
       <Link to={`/portfolio/${post.slug}`} className="group block !text-ink" aria-label={`Read case study: ${post.title}`}>
         {post.heroImage?.gatsbyImageData && (
@@ -42,11 +42,11 @@ const ProjectCard = ({ post, index }) => {
             onMouseMove={onMove}
             onMouseEnter={() => setHover(true)}
             onMouseLeave={() => setHover(false)}
-            initial={reduce ? false : { clipPath: 'inset(12% 12% 12% 12% round 1.5rem)' }}
+            initial={reduce ? false : { clipPath: 'inset(5% 5% 5% 5% round 1.5rem)' }}
             whileInView={{ clipPath: 'inset(0% 0% 0% 0% round 1.5rem)' }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 1.3, ease: EASE }}
-            className="relative aspect-[4/3] rounded-[1.5rem] overflow-hidden bg-sand md:cursor-none"
+            viewport={{ once: true, amount: 0.1 }}
+            transition={{ duration: 0.35, ease: EASE }}
+            className="mobile-image-frame relative aspect-[4/3] rounded-[1.5rem] overflow-hidden bg-sand md:cursor-none"
           >
             <motion.div style={reduce ? undefined : { y: imageY }} className="absolute -inset-y-[10%] inset-x-0">
               <GatsbyImage

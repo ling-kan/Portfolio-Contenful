@@ -39,7 +39,7 @@ const AboutSection = ({ html, image, imageAlt, caption = '' }) => {
         <div className="lg:col-span-5 lg:sticky lg:top-28">
           <motion.figure
             style={reduce ? undefined : { y: artY }}
-            className="relative rounded-[1.5rem] bg-sand overflow-hidden aspect-[16/10] lg:aspect-[4/3.4] max-w-2xl lg:max-w-none"
+            className="mobile-image-frame relative rounded-[1.5rem] bg-sand overflow-hidden aspect-[16/10] lg:aspect-[4/3.4] max-w-2xl lg:max-w-none"
           >
             <ImageSlot slot="about" image={image} alt={imageAlt} className="absolute inset-0" />
             {caption && (<figcaption className="absolute bottom-5 left-6 right-6 flex justify-between eyebrow text-paper drop-shadow">

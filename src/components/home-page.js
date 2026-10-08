@@ -14,6 +14,7 @@ import LogoStrip from './logo-strip'
 import ValuePillars from './value-pillars'
 import Testimonials from './testimonials'
 import { Reveal } from './motion/reveal'
+import useSafeReducedMotion from './motion/use-safe-reduced-motion'
 
 /**
  * The home page, structured as a positioning pitch:
@@ -30,12 +31,16 @@ const HomePage = (props) => {
   const testimonials = get(props, 'data.allContentfulTestimonial.nodes', [])
   const settings = author || {}
   const hash = props.location?.hash
+  const reduceMotion = useSafeReducedMotion()
 
   useEffect(() => {
     if (!hash) return undefined
-    const id = setTimeout(() => document.querySelector(hash)?.scrollIntoView({ behavior: 'smooth' }), 500)
+    const id = setTimeout(
+      () => document.querySelector(hash)?.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth' }),
+      500,
+    )
     return () => clearTimeout(id)
-  }, [hash])
+  }, [hash, reduceMotion])
 
   const getSection = (key) => {
     const entry = headers.find((h) => h.key === key) || {}

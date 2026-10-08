@@ -7,7 +7,7 @@ export const EASE = [0.16, 1, 0.3, 1]
 /**
  * Fades + lifts children into view once they enter the viewport.
  */
-export const Reveal = ({ children, delay = 0, y = 40, className = '', as = 'div', once = true, amount = 0.2 }) => {
+export const Reveal = ({ children, delay = 0, y = 12, className = '', as = 'div', once = true, amount = 0.1 }) => {
   const reduce = useSafeReducedMotion()
   const Tag = motion[as] || motion.div
 
@@ -22,7 +22,7 @@ export const Reveal = ({ children, delay = 0, y = 40, className = '', as = 'div'
       initial={{ opacity: 0, y }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once, amount }}
-      transition={{ duration: 0.9, delay, ease: EASE }}
+      transition={{ duration: 0.35, delay, ease: EASE }}
     >
       {children}
     </Tag>
@@ -33,7 +33,7 @@ export const Reveal = ({ children, delay = 0, y = 40, className = '', as = 'div'
  * Splits a string into words that slide up from behind a mask, one after another.
  * `highlight` words (case-insensitive) are rendered in the editorial serif accent.
  */
-export const SplitText = ({ text = '', className = '', delay = 0, stagger = 0.06, as = 'span', highlight = [], animateOnMount = false }) => {
+export const SplitText = ({ text = '', className = '', delay = 0, stagger = 0.02, as = 'span', highlight = [], animateOnMount = false }) => {
   const reduce = useSafeReducedMotion()
   const Tag = as
   const words = String(text).split(' ').filter(Boolean)
@@ -56,7 +56,7 @@ export const SplitText = ({ text = '', className = '', delay = 0, stagger = 0.06
 
   const trigger = animateOnMount
     ? { animate: 'show' }
-    : { whileInView: 'show', viewport: { once: true, amount: 0.5 } }
+    : { whileInView: 'show', viewport: { once: true, amount: 0.15 } }
 
   return (
     <Tag className={className} aria-label={text}>
@@ -76,7 +76,7 @@ export const SplitText = ({ text = '', className = '', delay = 0, stagger = 0.06
               className={`inline-block ${isHighlight(word) ? 'editorial text-accent pr-[0.06em]' : ''}`}
               variants={{
                 hidden: { y: '110%' },
-                show: { y: '0%', transition: { duration: 0.9, ease: EASE } },
+                show: { y: '0%', transition: { duration: 0.35, ease: EASE } },
               }}
             >
               {word}
@@ -92,7 +92,7 @@ export const SplitText = ({ text = '', className = '', delay = 0, stagger = 0.06
 /**
  * Staggers direct children into view. Wrap each child in <StaggerItem>.
  */
-export const Stagger = ({ children, className = '', stagger = 0.08, delay = 0, as = 'div', amount = 0.15 }) => {
+export const Stagger = ({ children, className = '', stagger = 0.03, delay = 0, as = 'div', amount = 0.1 }) => {
   const reduce = useSafeReducedMotion()
   const Tag = motion[as] || motion.div
   if (reduce) {
@@ -112,7 +112,7 @@ export const Stagger = ({ children, className = '', stagger = 0.08, delay = 0, a
   )
 }
 
-export const StaggerItem = ({ children, className = '', as = 'div', y = 30 }) => {
+export const StaggerItem = ({ children, className = '', as = 'div', y = 12 }) => {
   const reduce = useSafeReducedMotion()
   const Tag = motion[as] || motion.div
   if (reduce) {
@@ -124,7 +124,7 @@ export const StaggerItem = ({ children, className = '', as = 'div', y = 30 }) =>
       className={className}
       variants={{
         hidden: { opacity: 0, y },
-        show: { opacity: 1, y: 0, transition: { duration: 0.8, ease: EASE } },
+        show: { opacity: 1, y: 0, transition: { duration: 0.35, ease: EASE } },
       }}
     >
       {children}

@@ -36,7 +36,7 @@ export const pageQuery = graphql`
     intro
     seoTitle
     seoDescription
-    headerImage { gatsbyImageData(layout: FULL_WIDTH, placeholder: BLURRED) }
+    headerImage { gatsbyImageData(layout: CONSTRAINED, placeholder: BLURRED, width: 1600) }
   }
   allContentfulTools {
     nodes {
@@ -53,7 +53,7 @@ export const pageQuery = graphql`
           }
         }
       image {
-        gatsbyImageData(layout: FULL_WIDTH, placeholder: BLURRED)
+        gatsbyImageData(layout: CONSTRAINED, placeholder: BLURRED, width: 800)
       }
     }
   }

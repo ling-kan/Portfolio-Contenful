@@ -11,8 +11,11 @@ const IntroContext = createContext(true)
 /** True once the preloader curtain has lifted (or immediately if it never shows). */
 export const useIntroReady = () => useContext(IntroContext)
 
-const shouldPlay = () => {
+const shouldPlay = (skipAnimation = false) => {
   if (typeof window === 'undefined') return true
+  if (skipAnimation) return false
+  const connection = navigator.connection
+  if (connection?.saveData || ['slow-2g', '2g'].includes(connection?.effectiveType)) return false
   if (playedThisSession) return false
   try {
     if (window.sessionStorage.getItem(SESSION_KEY)) return false
@@ -22,16 +25,16 @@ const shouldPlay = () => {
   return !window.matchMedia('(prefers-reduced-motion: reduce)').matches
 }
 
-const RevealPreloader = ({ brandName = 'LING KAN', label = 'Digital experience & growth', children, duration = 1.6 }) => {
+const RevealPreloader = ({ brandName = 'LING KAN', label = 'Digital experience & growth', children, duration = 1.6, skipAnimation = false }) => {
   // The very first render must match the server HTML (which always includes the curtain).
-  const [visible, setVisible] = useState(() => (hasHydrated ? shouldPlay() : true))
+  const [visible, setVisible] = useState(() => (hasHydrated ? shouldPlay(skipAnimation) : true))
   const [count, setCount] = useState(0)
   // When the intro is skipped, remove the server-rendered curtain without animating it away
   const [instant, setInstant] = useState(false)
 
   useEffect(() => {
     hasHydrated = true
-    if (!shouldPlay()) {
+    if (!shouldPlay(skipAnimation)) {
       setInstant(true)
       setVisible(false)
       return undefined
@@ -51,7 +54,7 @@ const RevealPreloader = ({ brandName = 'LING KAN', label = 'Digital experience &
       },
     })
     return () => controls.stop()
-  }, [duration])
+  }, [duration, skipAnimation])
 
   return (
     <>
@@ -77,7 +80,7 @@ const RevealPreloader = ({ brandName = 'LING KAN', label = 'Digital experience &
                 className="display-xl uppercase"
                 initial={{ y: '100%' }}
                 animate={{ y: '0%' }}
-                transition={{ duration: 0.9, ease: EASE }}
+                transition={{ duration: 0.35, ease: EASE }}
               >
                 {brandName}
                 <span className="text-accent">.</span>

@@ -154,7 +154,7 @@ export const pageQuery = graphql`
       endDate(formatString: "MMMM YYYY")
       rawDate: endDate
       heroImage {
-        gatsbyImageData(layout: FULL_WIDTH, placeholder: BLURRED, width: 1280)
+        gatsbyImageData(layout: CONSTRAINED, placeholder: BLURRED, width: 1000)
         resize(height: 630, width: 1200) {
           src
         }

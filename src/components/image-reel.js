@@ -12,7 +12,7 @@ import useSafeReducedMotion from './motion/use-safe-reduced-motion'
 const Tile = ({ post }) => (
   <Link
     to={`/portfolio/${post.slug}`}
-    className="group relative block w-60 md:w-80 aspect-[16/10] shrink-0 rounded-2xl overflow-hidden bg-sand"
+    className="mobile-image-frame group relative block w-60 md:w-80 aspect-[16/10] shrink-0 rounded-2xl overflow-hidden bg-sand"
     aria-label={post.title}
   >
     <GatsbyImage
@@ -41,7 +41,7 @@ const ImageReel = ({ posts = [] }) => {
         initial={reduce ? false : { opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.2 }}
-        transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+        transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
         className="space-y-5"
       >
         {rows.map((row, i) => (
