@@ -116,7 +116,7 @@ export const pageQuery = graphql`
         featuredProjectCount
         aboutImage { gatsbyImageData(layout: FULL_WIDTH, placeholder: BLURRED) description }
         aboutImageCaption
-        expertiseImage { gatsbyImageData(layout: FULL_WIDTH, placeholder: BLURRED) }
+        skillImage { gatsbyImageData(layout: FULL_WIDTH, placeholder: BLURRED) }
         contactImage { gatsbyImageData(layout: FULL_WIDTH, placeholder: BLURRED) description }
         animatedList
         keyMetrics {

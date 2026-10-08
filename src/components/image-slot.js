@@ -4,21 +4,20 @@ import imagery from '../data/imagery'
 
 /* global __IMAGERY_FILES__ */
 const available = typeof __IMAGERY_FILES__ !== 'undefined' ? __IMAGERY_FILES__ : []
-const isDev = process.env.NODE_ENV === 'development'
 
 /** True when artwork exists for a slot: a Contentful asset (`image`) or a file in static/images. */
 export const hasImage = (slot, image) => !!image || available.includes(imagery[slot]?.file)
 
-/** True when the slot renders something: the artwork, or a placeholder during development. */
-export const slotVisible = (slot, image) => hasImage(slot, image) || isDev
+/** True when the slot has artwork to render. */
+export const slotVisible = hasImage
 
 /**
  * Renders a slot's artwork, preferring the Contentful asset (`image` = gatsbyImageData),
- * then static/images/<file>. Otherwise: a labelled placeholder in development, `fallback` in production.
+ * then static/images/<file>. Renders nothing when neither source exists.
  */
-const ImageSlot = ({ slot, image, alt, className = '', imgClassName = 'object-cover', fallback = null, dark = false }) => {
+const ImageSlot = ({ slot, image, alt, className = '', imgClassName = 'object-cover' }) => {
   const meta = imagery[slot]
-  if (!meta) return fallback
+  if (!meta) return null
 
   if (image) {
     // Wrapper carries positioning: .gatsby-image-wrapper forces position: relative
@@ -29,32 +28,16 @@ const ImageSlot = ({ slot, image, alt, className = '', imgClassName = 'object-co
     )
   }
 
-  if (hasImage(slot)) {
-    return (
-      <img
-        src={`/images/${meta.file}`}
-        alt={alt ?? meta.alt}
-        loading="lazy"
-        decoding="async"
-        className={`w-full h-full ${imgClassName} ${className}`}
-      />
-    )
-  }
-
-  if (!isDev) return fallback
+  if (!hasImage(slot)) return null
 
   return (
-    <div
-      className={`w-full h-full flex flex-col items-center justify-center gap-2 text-center p-6 border-2 border-dashed ${
-        dark ? 'border-paper/25 bg-paper/5 text-paper/70' : 'border-ink/20 bg-white/60 text-ink/75'
-      } ${className}`}
-      title={meta.prompt}
-    >
-      <span className="eyebrow">Image placeholder</span>
-      <span className="text-sm font-semibold">Upload in Contentful, or static/images/{meta.file}</span>
-      <span className="text-xs opacity-80">{meta.size}</span>
-      <span className="text-[0.7rem] opacity-60 max-w-xs">Prompt in src/data/imagery.js · dev only</span>
-    </div>
+    <img
+      src={`/images/${meta.file}`}
+      alt={alt ?? meta.alt}
+      loading="lazy"
+      decoding="async"
+      className={`w-full h-full ${imgClassName} ${className}`}
+    />
   )
 }
 

@@ -98,7 +98,7 @@ exports.createSchemaCustomization = ({ actions }) => {
       featuredProjectCount: Int
       aboutImage: ${asset('aboutImage')}
       aboutImageCaption: String
-      expertiseImage: ${asset('expertiseImage')}
+      skillImage: ${asset('skillImage')}
       contactImage: ${asset('contactImage')}
       footerCopyright: String
       notFoundTitle: String

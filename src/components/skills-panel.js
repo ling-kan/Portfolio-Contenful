@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import useSafeReducedMotion from './motion/use-safe-reduced-motion'
 import { motion, AnimatePresence } from 'motion/react'
-import SpaceIllustration from '../assets/illustration/space-discovery.svg'
 import ImageSlot, { hasImage } from './image-slot'
 import { EASE } from './motion/reveal'
 
@@ -12,6 +11,7 @@ const SkillsPanel = ({ list = [], image }) => {
   const section = list[active] || { skills: [] }
   const skills = section.skills || []
   const detail = skills.find((s) => s.name === focused) || skills[0]
+  const withImage = hasImage('craft', image)
 
   const selectCategory = (i) => {
     setActive(i)
@@ -93,15 +93,11 @@ const SkillsPanel = ({ list = [], image }) => {
       {/* Detail card */}
       <aside className="lg:col-span-6">
         <div className="relative rounded-[1.5rem] bg-ink text-paper p-8 md:p-10 overflow-hidden min-h-[22rem] lg:sticky lg:top-28">
-          {!hasImage('craft', image) && (
-            <SpaceIllustration
-              aria-hidden="true"
-              className="absolute -right-10 -bottom-6 w-[115%] opacity-[0.12] invert pointer-events-none"
-            />
+          {withImage && (
+            <div className="relative -mx-4 -mt-4 mb-7 aspect-[16/10] rounded-2xl overflow-hidden">
+              <ImageSlot slot="craft" image={image} />
+            </div>
           )}
-          <div className="relative -mx-4 -mt-4 mb-7 aspect-[16/10] rounded-2xl overflow-hidden empty:hidden">
-            <ImageSlot slot="craft" image={image} dark />
-          </div>
           <p className="eyebrow text-paper/65 relative">{section.category}</p>
           <AnimatePresence mode="wait">
             <motion.div

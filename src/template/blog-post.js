@@ -44,7 +44,7 @@ const BlogPostTemplate = (props) => {
             <Seo
               title={post.title}
               description={post.description.childMarkdownRemark.excerpt}
-              image={`http:${post.heroImage.resize.src}`}
+              image={post.heroImage?.resize?.src ? `http:${post.heroImage.resize.src}` : undefined}
             />
             <BlogHeader
               eyebrow="Case study"

@@ -60,7 +60,7 @@ const ContactCta = ({
               <div className={withImage ? 'relative w-full max-w-xs' : ''}>
                 {withImage && (
                   <Reveal className="aspect-[4/5] rounded-[1.5rem] overflow-hidden bg-paper/5">
-                    <ImageSlot slot="contact" image={image} alt={imageAlt} dark />
+                    <ImageSlot slot="contact" image={image} alt={imageAlt} />
                   </Reveal>
                 )}
                 {email && (

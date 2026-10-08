@@ -106,6 +106,7 @@ const HomeHero = ({
   const safeName = name || ''
   const [first, ...rest] = safeName.trim().split(' ')
   const last = rest.join(' ')
+  const hasPortrait = Boolean(image?.gatsbyImageData)
   const roles = animatedList || []
   const ready = useIntroReady()
   const play = (target) => (ready ? target : undefined)
@@ -132,7 +133,10 @@ const HomeHero = ({
 
       <Container className="flex-1 flex items-center">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-14 lg:gap-10 items-center w-full">
-          <motion.div style={reduce ? undefined : { y: textY, opacity: fade }} className="lg:col-span-7">
+          <motion.div
+            style={reduce ? undefined : { y: textY, opacity: fade }}
+            className={hasPortrait ? 'lg:col-span-7' : 'lg:col-span-12'}
+          >
             <h1 className="display-xl text-ink uppercase whitespace-nowrap !tracking-[-0.035em] !text-[clamp(3.25rem,9vw,8.5rem)]" aria-label={name}>
               <Letters word={first || ''} delay={0.15} ready={ready} className="inline-block align-top" />
               {last && (
@@ -216,52 +220,48 @@ const HomeHero = ({
             )}
           </motion.div>
 
-          {/* Portrait */}
-          <motion.div
-            style={reduce ? undefined : { y: portraitY }}
-            className="lg:col-span-5 relative mx-auto w-full max-w-[22rem] sm:max-w-sm lg:max-w-[28rem] lg:ml-auto lg:mr-0"
-          >
-
-            <motion.div
-              initial={reduce ? false : { clipPath: 'inset(100% 0 0 0 round 1.5rem)' }}
-              animate={play({ clipPath: 'inset(0% 0 0 0 round 1.5rem)' })}
-              transition={{ duration: 1.4, delay: 0.3, ease: EASE }}
-              className="relative aspect-[4/5] rounded-[1.5rem] overflow-hidden bg-gradient-to-br from-ink to-ink-soft shadow-[0_30px_70px_-35px_rgba(23,51,43,0.45)]"
-            >
-              {image?.gatsbyImageData ? (
-                <GatsbyImage
-                  image={image.gatsbyImageData}
-                  alt={`Portrait of ${name}`}
-                  className="!absolute inset-0 w-full h-full"
-                  imgClassName="object-cover"
-                />
-              ) : (
-                <div className="absolute inset-0 grid place-items-center display-xl text-paper/10">{first?.[0]}</div>
-              )}
-              <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-ink/80 via-ink/30 to-transparent" />
-              <div className="absolute bottom-4 left-5 right-5 flex items-end justify-between text-paper text-[0.75rem] font-medium">
-                <span className="uppercase tracking-wider">{name}</span>
-                <span>©{new Date().getFullYear()}</span>
-              </div>
-            </motion.div>
-
-            <motion.div
-              initial={reduce ? false : { scale: 0.85, opacity: 0 }}
-              animate={play({ scale: 1, opacity: 1 })}
-              transition={{ duration: 1.2, delay: 1.1, ease: EASE }}
-              className="absolute -left-5 bottom-10 sm:-left-10 w-24 h-24 sm:w-28 sm:h-28"
-            >
-              <a
-                href="#about"
-                aria-label="Scroll to About"
-                className="group block w-full h-full rounded-full bg-ink !text-paper/80 shadow-[0_20px_40px_-20px_rgba(23,51,43,0.6)] hover:!text-paper transition-colors duration-500"
+          {hasPortrait && (
+              <motion.div
+                style={reduce ? undefined : { y: portraitY }}
+                className="lg:col-span-5 relative mx-auto w-full max-w-[22rem] sm:max-w-sm lg:max-w-[28rem] lg:ml-auto lg:mr-0"
               >
-                <RotatingBadge text={`EXPLORE • ${safeName.toUpperCase()} • `} className="w-full h-full p-1">
-                  <ArrowDownRightIcon className="w-5 h-5 no-fill fill-accent group-hover:rotate-45 transition-transform duration-500" />
-                </RotatingBadge>
-              </a>
-            </motion.div>
-          </motion.div>
+                <motion.div
+                  initial={reduce ? false : { clipPath: 'inset(100% 0 0 0 round 1.5rem)' }}
+                  animate={play({ clipPath: 'inset(0% 0 0 0 round 1.5rem)' })}
+                  transition={{ duration: 1.4, delay: 0.3, ease: EASE }}
+                  className="relative aspect-[4/5] rounded-[1.5rem] overflow-hidden bg-gradient-to-br from-ink to-ink-soft shadow-[0_30px_70px_-35px_rgba(23,51,43,0.45)]"
+                >
+                  <GatsbyImage
+                    image={image.gatsbyImageData}
+                    alt={`Portrait of ${name}`}
+                    className="!absolute inset-0 w-full h-full"
+                    imgClassName="object-cover"
+                  />
+                  <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-ink/80 via-ink/30 to-transparent" />
+                  <div className="absolute bottom-4 left-5 right-5 flex items-end justify-between text-paper text-[0.75rem] font-medium">
+                    <span className="uppercase tracking-wider">{name}</span>
+                    <span>©{new Date().getFullYear()}</span>
+                  </div>
+                </motion.div>
+
+                <motion.div
+                  initial={reduce ? false : { scale: 0.85, opacity: 0 }}
+                  animate={play({ scale: 1, opacity: 1 })}
+                  transition={{ duration: 1.2, delay: 1.1, ease: EASE }}
+                  className="absolute -left-5 bottom-10 sm:-left-10 w-24 h-24 sm:w-28 sm:h-28"
+                >
+                  <a
+                    href="#about"
+                    aria-label="Scroll to About"
+                    className="group block w-full h-full rounded-full bg-ink !text-paper/80 shadow-[0_20px_40px_-20px_rgba(23,51,43,0.6)] hover:!text-paper transition-colors duration-500"
+                  >
+                    <RotatingBadge text={`EXPLORE • ${safeName.toUpperCase()} • `} className="w-full h-full p-1">
+                      <ArrowDownRightIcon className="w-5 h-5 no-fill fill-accent group-hover:rotate-45 transition-transform duration-500" />
+                    </RotatingBadge>
+                  </a>
+                </motion.div>
+              </motion.div>
+          )}
         </div>
       </Container>
 

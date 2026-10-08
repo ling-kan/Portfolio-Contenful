@@ -37,17 +37,17 @@ const ProjectCard = ({ post, index }) => {
       transition={{ duration: 1, ease: EASE }}
     >
       <Link to={`/portfolio/${post.slug}`} className="group block !text-ink" aria-label={`Read case study: ${post.title}`}>
-        <motion.div
-          onMouseMove={onMove}
-          onMouseEnter={() => setHover(true)}
-          onMouseLeave={() => setHover(false)}
-          initial={reduce ? false : { clipPath: 'inset(12% 12% 12% 12% round 1.5rem)' }}
-          whileInView={{ clipPath: 'inset(0% 0% 0% 0% round 1.5rem)' }}
-          viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 1.3, ease: EASE }}
-          className="relative aspect-[4/3] rounded-[1.5rem] overflow-hidden bg-sand md:cursor-none"
-        >
-          {post.heroImage?.gatsbyImageData ? (
+        {post.heroImage?.gatsbyImageData && (
+          <motion.div
+            onMouseMove={onMove}
+            onMouseEnter={() => setHover(true)}
+            onMouseLeave={() => setHover(false)}
+            initial={reduce ? false : { clipPath: 'inset(12% 12% 12% 12% round 1.5rem)' }}
+            whileInView={{ clipPath: 'inset(0% 0% 0% 0% round 1.5rem)' }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 1.3, ease: EASE }}
+            className="relative aspect-[4/3] rounded-[1.5rem] overflow-hidden bg-sand md:cursor-none"
+          >
             <motion.div style={reduce ? undefined : { y: imageY }} className="absolute -inset-y-[10%] inset-x-0">
               <GatsbyImage
                 image={post.heroImage.gatsbyImageData}
@@ -56,35 +56,32 @@ const ProjectCard = ({ post, index }) => {
                 imgClassName="object-cover"
               />
             </motion.div>
-          ) : (
-            <div className="absolute inset-0 bg-grid" />
-          )}
-          <div className="absolute inset-0 bg-ink/0 group-hover:bg-ink/20 transition-colors duration-500" />
+            <div className="absolute inset-0 bg-ink/0 group-hover:bg-ink/20 transition-colors duration-500" />
 
-          <div className="absolute top-5 left-5 right-5 flex items-center justify-between">
-            <span className="glass rounded-full px-3 py-1.5 eyebrow !text-[0.7rem] text-ink">
-              {String(index + 1).padStart(2, '0')}
-            </span>
-            {post.protectPage && (
-              <span className="glass rounded-full px-3 py-1.5 eyebrow !text-[0.7rem] text-ink inline-flex items-center gap-1.5">
-                <LockClosedIcon className="w-3 h-3 no-fill fill-ink" /> Private
+            <div className="absolute top-5 left-5 right-5 flex items-center justify-between">
+              <span className="glass rounded-full px-3 py-1.5 eyebrow !text-[0.7rem] text-ink">
+                {String(index + 1).padStart(2, '0')}
               </span>
-            )}
-          </div>
+              {post.protectPage && (
+                <span className="glass rounded-full px-3 py-1.5 eyebrow !text-[0.7rem] text-ink inline-flex items-center gap-1.5">
+                  <LockClosedIcon className="w-3 h-3 no-fill fill-ink" /> Private
+                </span>
+              )}
+            </div>
 
-          {/* Cursor-following call to action (pointer devices) */}
-          {!reduce && (
-            <motion.span
-              aria-hidden="true"
-              style={{ x: cursorX, y: cursorY }}
-              animate={{ scale: hover ? 1 : 0, opacity: hover ? 1 : 0 }}
-              transition={{ duration: 0.35, ease: EASE }}
-              className="hidden md:grid absolute top-0 left-0 -ml-12 -mt-12 w-24 h-24 place-items-center rounded-full bg-ink/90 backdrop-blur text-paper text-xs font-medium tracking-wide pointer-events-none"
-            >
-              View case
-            </motion.span>
-          )}
-        </motion.div>
+            {!reduce && (
+              <motion.span
+                aria-hidden="true"
+                style={{ x: cursorX, y: cursorY }}
+                animate={{ scale: hover ? 1 : 0, opacity: hover ? 1 : 0 }}
+                transition={{ duration: 0.35, ease: EASE }}
+                className="hidden md:grid absolute top-0 left-0 -ml-12 -mt-12 w-24 h-24 place-items-center rounded-full bg-ink/90 backdrop-blur text-paper text-xs font-medium tracking-wide pointer-events-none"
+              >
+                View case
+              </motion.span>
+            )}
+          </motion.div>
+        )}
 
         <div className="mt-6 flex items-start justify-between gap-6">
           <div className="min-w-0">

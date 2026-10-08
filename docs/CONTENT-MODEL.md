@@ -127,7 +127,7 @@ field left empty shows the current copy as a default. Images and the CV PDF aren
 | `valuePillarsLabel`, `achievementsLabel`, `logoStripLabel` | Small section labels |
 | `featuredProjectCount` | How many case studies the home page shows (default 6) |
 | `aboutImage`, `aboutImageCaption` | Image + caption beside your bio (replaces the illustration) |
-| `expertiseImage` | Banner at the top of the dark skill card |
+| `skillImage` | Banner at the top of the dark skill card |
 | `contactImage` | Image behind the "Say hello" button |
 | `footerCopyright` | Footer text after the © year |
 | `notFoundTitle`, `notFoundButtonLabel` | 404 page |
@@ -147,8 +147,8 @@ Image prompts for the AI artwork slots are in [`IMAGERY.md`](../IMAGERY.md).
 - `gatsby-node.js` declares every new type and field, so builds work **before** you run the migration — queries
   just come back empty.
 - Every component has the current copy as a default. Any empty field (or missing entry) shows that default.
-- Images: a Contentful upload wins; otherwise a file in `static/images/` (see `IMAGERY.md`); otherwise a dashed
-  placeholder in development and the existing design in production.
+- Images: a Contentful upload wins; otherwise a file in `static/images/` (see `IMAGERY.md`); if neither exists,
+  the image and its image-only container are hidden.
 
 Small interface labels ("Read more", "Back to top", "Previous / Next", "Role / Duration") stay in the code on
 purpose — they rarely change.

@@ -1,8 +1,7 @@
 // Image slots for AI-generated artwork.
 //
 // To fill a slot: save the image as static/images/<file> (exact name below), then restart
-// `npm run dev`. Until the file exists, development shows a labelled placeholder and the
-// production site falls back to the existing design, so nothing broken ever ships.
+// `npm run dev`. Image slots stay hidden until a Contentful asset or static image exists.
 //
 // Shared style for every prompt so the set feels consistent with the site's palette.
 const STYLE =

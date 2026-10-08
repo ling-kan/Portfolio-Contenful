@@ -172,7 +172,7 @@ const EXTRA_FIELDS = {
     int('featuredProjectCount', 'Projects shown on home page'),
     media('aboutImage', 'About image'),
     text('aboutImageCaption', 'About image caption'),
-    media('expertiseImage', 'Expertise card image'),
+    media('skillImage', 'Expertise card image'),
     media('contactImage', 'Contact image'),
     text('footerCopyright', 'Footer copyright'),
     text('notFoundTitle', '404 title'),

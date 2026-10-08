@@ -130,7 +130,7 @@ const HomePage = (props) => {
           highlight={expertise.highlight}
           intro={expertise.intro}
         >
-          <SkillsPanel list={author.skills} image={settings.expertiseImage?.gatsbyImageData} />
+          <SkillsPanel list={author.skills} image={settings.skillImage?.gatsbyImageData} />
         </Section>
       )}
 

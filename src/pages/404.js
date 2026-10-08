@@ -3,12 +3,13 @@ import { Link } from 'gatsby'
 import { ArrowLeftIcon } from '@heroicons/react/24/solid'
 import Layout from "../components/layout";
 import Container from '../components/container';
-import Illustration from "../assets/illustration/vision.svg";
 import { Reveal, SplitText } from '../components/motion/reveal'
 import useSiteSettings from '../services/useSiteSettings'
+import { GatsbyImage } from 'gatsby-plugin-image';
 
 const PageNotFound = (props) => {
-  const { notFoundTitle, notFoundButtonLabel } = useSiteSettings();
+  const { notFoundTitle, notFoundButtonLabel, notFoundImage } = useSiteSettings();
+  const hasNotFoundImage = Boolean(notFoundImage?.gatsbyImageData)
   return (
     <Layout location={props.location} fullHeaderHeight={true} >
       <section className="relative isolate overflow-hidden min-h-[100svh] flex items-center pt-28 pb-16">
@@ -17,7 +18,7 @@ const PageNotFound = (props) => {
           <div className="absolute bottom-0 -left-40 w-[28rem] h-[28rem] rounded-full bg-accent-soft/70 blur-[110px]" />
         </div>
         <Container>
-          <div className='grid grid-cols-1 lg:grid-cols-2 gap-12 items-center'>
+          <div className={`grid grid-cols-1 ${hasNotFoundImage ? 'lg:grid-cols-2' : ''} gap-12 items-center`}>
             <div>
               <p className="eyebrow text-ink/75">Error 404 — Page not found</p>
               <h1 className="not-found-text font-display !font-bold !tracking-tighter !leading-[0.9] text-outline text-ink mt-4">404</h1>
@@ -29,9 +30,16 @@ const PageNotFound = (props) => {
                 </Link>
               </Reveal>
             </div>
-            <Reveal delay={0.2}>
-              <Illustration className="w-full h-auto animate-float-slow" aria-hidden="true" />
-            </Reveal>
+            {hasNotFoundImage && (
+              <Reveal delay={0.2}>
+                <GatsbyImage
+                image={notFoundImage.gatsbyImageData}
+                alt="404 illustration"
+                className="!absolute inset-0 w-full h-full"
+                imgClassName="object-cover"
+              />
+              </Reveal>
+            )}
           </div>
         </Container>
       </section>

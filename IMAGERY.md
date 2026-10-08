@@ -3,8 +3,7 @@
 Six optional image slots are built into the site. Generate each one with your AI image tool, save it in
 `static/images/` with the **exact file name** below, then restart `npm run dev`.
 
-- **Before an image exists:** your local dev site shows a dashed, labelled placeholder in its place. The live site
-  shows the current design instead, so nothing unfinished ever goes public.
+- **Before an image exists:** its image area stays hidden in both development and production.
 - **After you add it:** it appears automatically on both. There's nothing to switch on.
 
 The master list (with alt text) lives in [`src/data/imagery.js`](src/data/imagery.js). Edit prompts or alt text there.
@@ -20,11 +19,11 @@ Add this to the end of every prompt so the set matches the site's palette:
 
 | File | Size | Where it appears |
 |---|---|---|
-| `about-workspace.jpg` | 1600 × 1200 (4:3) | Home → *Who I am*, replaces the illustration card |
-| `craft-abstract.jpg` | 1200 × 1500 (4:5) | Home → *Craft*, banner at the top of the dark skill card |
-| `contact-studio.jpg` | 1200 × 1500 (4:5) | Home → *Next chapter*, card behind the "Say hello" button |
-| `header-portfolio.jpg` | 2400 × 1000 (12:5) | Portfolio page header banner |
-| `header-tools.jpg` | 2400 × 1000 (12:5) | Tools page header banner |
+| `about-workspace.jpg` | 1600 × 1200 (4:3) | Home → *Who I am*, optional image alongside the copy |
+| `craft-abstract.jpg` | 1200 × 1500 (4:5) | Home → *Craft*, optional banner at the top of the dark skill card |
+| `contact-studio.jpg` | 1200 × 1500 (4:5) | Home → *Next chapter*, optional card beside the "Say hello" button |
+| `header-portfolio.jpg` | 2400 × 1000 (12:5) | Optional Portfolio page header banner |
+| `header-tools.jpg` | 2400 × 1000 (12:5) | Optional Tools page header banner |
 | `og-image.jpg` | 1200 × 630 | Preview image when your link is shared (LinkedIn, Slack…) |
 
 ### Prompts
