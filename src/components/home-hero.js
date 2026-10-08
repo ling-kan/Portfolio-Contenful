@@ -161,12 +161,12 @@ const HomeHero = ({
               </motion.div>
             )}
 
-            {tagline?.childMarkdownRemark?.html && (
+            {tagline && (
               <motion.div
                 {...intro}
                 transition={{ duration: 0.8, delay: 0.9, ease: EASE }}
                 className="rich-text lead mt-5 max-w-lg text-ink/75"
-                dangerouslySetInnerHTML={{ __html: tagline.childMarkdownRemark.html }}
+                dangerouslySetInnerHTML={{ __html: tagline }}
               />
             )}
 

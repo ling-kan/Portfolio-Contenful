@@ -44,6 +44,18 @@ if (!TOKEN || !SPACE) {
 const text = (id, name, opts = {}) => ({ id, name, type: 'Symbol', localized: false, required: false, ...opts })
 const int = (id, name, opts = {}) => ({ id, name, type: 'Integer', localized: false, required: false, ...opts })
 const list = (id, name) => ({ id, name, type: 'Array', localized: false, required: false, items: { type: 'Symbol' } })
+const entryList = (id, name, contentType) => ({
+  id,
+  name,
+  type: 'Array',
+  localized: false,
+  required: false,
+  items: {
+    type: 'Link',
+    linkType: 'Entry',
+    validations: [{ linkContentType: [contentType] }],
+  },
+})
 const media = (id, name, mime = 'image') => ({
   id,
   name,
@@ -96,6 +108,36 @@ const CONTENT_TYPES = [
     ],
   },
   {
+    id: 'skill',
+    name: 'Skill',
+    description: 'One skill item within a highlighted skill category.',
+    displayField: 'name',
+    fields: [
+      text('name', 'Name', { required: true }),
+      text('description', 'Description'),
+    ],
+  },
+  {
+    id: 'skillGroup',
+    name: 'Skill Group',
+    description: 'A category of related skills shown in the expertise section.',
+    displayField: 'category',
+    fields: [
+      text('category', 'Category', { required: true }),
+      entryList('skills', 'Skills', 'skill'),
+    ],
+  },
+  {
+    id: 'keyMetric',
+    name: 'Key Metric',
+    description: 'Stat shown in the impact section on the home page.',
+    displayField: 'label',
+    fields: [
+      text('label', 'Label', { required: true }),
+      text('value', 'Value', { required: true }),
+    ],
+  },
+  {
     id: 'pageHeader',
     name: 'Page Header',
     description: 'Header copy, banner image and SEO for the Portfolio and Tools pages.',
@@ -135,6 +177,11 @@ const EXTRA_FIELDS = {
     text('footerCopyright', 'Footer copyright'),
     text('notFoundTitle', '404 title'),
     text('notFoundButtonLabel', '404 button label'),
+    list('animatedList', 'Animated hero roles'),
+    text('tagline', 'Tagline'),
+    entryList('keyMetrics', 'Key metrics', 'keyMetric'),
+    entryList('skills', 'Skill groups', 'skillGroup'),
+    text('keyAchievementsText', 'Key achievements text'),
   ],
   'Blog Post': [text('headlineResult', 'Headline result (e.g. +58% conversion)')],
 }
@@ -154,6 +201,31 @@ const SEED_ENTRIES = {
     { title: 'Experience design', description: 'User-centred UX, from research and journey mapping to polished, accessible interfaces.', order: 1 },
     { title: 'Conversion & growth', description: 'Data-led CRO, A/B testing and analytics that turn traffic into measurable results.', order: 2 },
     { title: 'Front-end delivery', description: 'Hands-on development with modern web technology, so ideas ship quickly and scale.', order: 3 },
+  ],
+  skill: [
+    { name: 'UX Research', description: 'Understanding how people think, act and convert so the product experience is grounded in real behaviour.' },
+    { name: 'User Journeys', description: 'Mapping the end-to-end experience to remove friction and clarify decision points.' },
+    { name: 'Messaging', description: 'Shaping product language that helps users understand value quickly and act with confidence.' },
+    { name: 'Service Design', description: 'Designing the operational and service layer behind the product so the experience works in practice.' },
+    { name: 'Product Thinking', description: 'Balancing customer needs, business goals and technical feasibility to prioritise the right bets.' },
+    { name: 'Experiment Design', description: 'Running structured tests that answer meaningful questions and improve outcomes without guesswork.' },
+    { name: 'CRO', description: 'Analysing conversion funnels and removing friction to improve commercial performance.' },
+    { name: 'Analytics', description: 'Turning product data into decisions with clear measurement and qualitative context.' },
+    { name: 'Front-end Development', description: 'Building accessible, performant interfaces that translate design intent into production reality.' },
+    { name: 'Design Systems', description: 'Creating reusable patterns that keep products coherent, scalable and efficient to maintain.' },
+    { name: 'Prototyping', description: 'Turning concepts into testable prototypes to validate value before committing to build.' },
+    { name: 'Accessibility', description: 'Making digital experiences inclusive, robust and easy to use for more people.' },
+  ],
+  skillGroup: [
+    { category: 'Strategy', skills: ['UX Research', 'User Journeys', 'Messaging', 'Service Design'] },
+    { category: 'Product', skills: ['Product Thinking', 'Experiment Design', 'CRO', 'Analytics'] },
+    { category: 'Build', skills: ['Front-end Development', 'Design Systems', 'Prototyping', 'Accessibility'] },
+  ],
+  keyMetric: [
+    { label: 'Years in digital', value: '12+' },
+    { label: 'Products shipped', value: '23' },
+    { label: 'Conversion uplift', value: '+58%' },
+    { label: 'Teams supported', value: '40+' },
   ],
   pageHeader: [
     { slug: 'portfolio', eyebrow: 'Selected work', title: 'Case studies with measurable outcomes.', intro: 'A closer look at the challenges, the thinking and the outcomes behind each project.', seoTitle: 'Portfolio' },
@@ -179,6 +251,10 @@ const LANDING_SEED = {
   introLabel: 'Digital experience & growth',
   heroPrimaryCtaLabel: 'View selected work',
   heroSecondaryCtaLabel: 'Get in touch',
+  animatedList: ['UX strategist', 'Product designer', 'Conversion optimiser', 'Front-end developer'],
+  tagline: 'I design and build digital experiences that turn user behaviour into measurable growth.',
+  skills: ['Strategy', 'Product', 'Build'],
+  keyMetrics: ['Years in digital', 'Products shipped', 'Conversion uplift', 'Teams supported'],
   valuePillarsLabel: 'What I bring',
   achievementsLabel: 'Key achievements',
   logoStripLabel: 'Organisations I’ve worked with',
@@ -187,14 +263,28 @@ const LANDING_SEED = {
   footerCopyright: 'LING KAN Portfolio. All rights reserved.',
   notFoundTitle: 'Sorry, this page can’t be found.',
   notFoundButtonLabel: 'Back to home',
+  keyAchievementsText: '<strong>+58% conversion uplift</strong> across a lead-gen journey<br /><strong>3x faster</strong> product iteration through clearer UX and front-end delivery<br /><strong>10+ years</strong> across strategy, design and implementation',
 }
 
 // ---------- Contentful Management API ----------
-const api = async (method, url, { body, version, contentType } = {}) => {
+const api = async (method, url, { body, version, contentType } = {}, attempt = 0) => {
   const headers = { Authorization: `Bearer ${TOKEN}`, 'Content-Type': 'application/vnd.contentful.management.v1+json' }
   if (version !== undefined) headers['X-Contentful-Version'] = String(version)
   if (contentType) headers['X-Contentful-Content-Type'] = contentType
+
   const res = await fetch(`${BASE}${url}`, { method, headers, body: body ? JSON.stringify(body) : undefined })
+  if (res.status === 429) {
+    const retryAfterHeader = Number(res.headers.get('Retry-After') || '0')
+    const retryMs = retryAfterHeader > 0 ? retryAfterHeader * 1000 : Math.min(1000 * 2 ** attempt, 30000)
+    if (attempt >= 5) {
+      const detail = await res.text()
+      throw new Error(`${method} ${url} → ${res.status} ${res.statusText}\n${detail}`)
+    }
+    console.warn(`! Rate limit hit for ${method} ${url}. Retrying in ${retryMs}ms (${attempt + 1}/5)...`)
+    await new Promise((resolve) => setTimeout(resolve, retryMs))
+    return api(method, url, { body, version, contentType }, attempt + 1)
+  }
+
   if (!res.ok) {
     const detail = await res.text()
     throw new Error(`${method} ${url} → ${res.status} ${res.statusText}\n${detail}`)
@@ -223,6 +313,7 @@ async function syncContentTypes(existing) {
       continue
     }
     await addMissingFields(current, def.fields)
+    await syncFieldTypes(current, def.fields)
   }
   for (const [name, fields] of Object.entries(EXTRA_FIELDS)) {
     const current = existing.find((ct) => ct.name === name)
@@ -231,6 +322,7 @@ async function syncContentTypes(existing) {
       continue
     }
     await addMissingFields(current, fields)
+    await syncFieldTypes(current, fields)
   }
 }
 
@@ -238,7 +330,6 @@ async function addMissingFields(current, fields) {
   const have = new Set(current.fields.map((f) => f.id))
   const missing = fields.filter((f) => !have.has(f.id))
   if (!missing.length) {
-    log(`"${current.name}" is up to date`)
     return
   }
   log(`Add to "${current.name}": ${missing.map((f) => f.id).join(', ')}`)
@@ -250,12 +341,50 @@ async function addMissingFields(current, fields) {
   await publishContentType(updated)
 }
 
+async function syncFieldTypes(current, expectedFields) {
+  const changed = []
+  const nextFields = current.fields.map((field) => {
+    const expected = expectedFields.find((item) => item.id === field.id)
+    if (!expected) return field
+    if (field.type === expected.type) return field
+    changed.push(`${current.name}.${field.id}: ${field.type} -> ${expected.type}`)
+    return {
+      ...field,
+      ...expected,
+      validations: expected.validations || field.validations || [],
+      items: expected.items || undefined,
+    }
+  })
+
+  if (!changed.length) {
+    log(`"${current.name}" is up to date`)
+    return
+  }
+
+  log(`Update "${current.name}" field types: ${changed.join(', ')}`)
+  if (!APPLY) return
+  const updated = await api('PUT', `/content_types/${current.sys.id}`, {
+    version: current.sys.version,
+    body: { name: current.name, description: current.description, displayField: current.displayField, fields: nextFields },
+  })
+  await publishContentType(updated)
+}
+
 function getLocalizedValue(value) {
   if (value === null || value === undefined) return undefined
   if (typeof value === 'object' && !Array.isArray(value) && Object.keys(value).length) {
     return value[Object.keys(value)[0]]
   }
   return value
+}
+
+async function getEntryRefsByField(typeId, fieldId, values, locale) {
+  const { items = [] } = await api('GET', `/entries?content_type=${typeId}&limit=100`)
+  return values.map((value) => {
+    const match = items.find((entry) => getLocalizedValue(entry.fields?.[fieldId]) === value || entry.fields?.[fieldId]?.[locale] === value)
+    if (!match) throw new Error(`Missing ${typeId} entry for ${fieldId}="${value}"`)
+    return { sys: { type: 'Link', linkType: 'Entry', id: match.sys.id } }
+  })
 }
 
 async function seedEntries(locale, seeds, { publish }) {
@@ -277,8 +406,15 @@ async function seedEntries(locale, seeds, { publish }) {
     if (!APPLY) continue
 
     for (const values of entries) {
-      const fields = Object.fromEntries(Object.entries(values).map(([k, v]) => [k, { [locale]: v }]))
-      const uniqueField = typeId === 'sectionHeader' ? 'key' : typeId === 'pageHeader' ? 'slug' : null
+      const fields = {}
+      for (const [k, v] of Object.entries(values)) {
+        if (typeId === 'skillGroup' && k === 'skills') {
+          fields[k] = { [locale]: await getEntryRefsByField('skill', 'name', Array.isArray(v) ? v : [v], locale) }
+          continue
+        }
+        fields[k] = { [locale]: v }
+      }
+      const uniqueField = typeId === 'sectionHeader' ? 'key' : typeId === 'pageHeader' ? 'slug' : typeId === 'skill' ? 'name' : typeId === 'skillGroup' ? 'category' : typeId === 'keyMetric' ? 'label' : null
       const match = uniqueField
         ? existing.items.find((entry) => {
             const currentValue = getLocalizedValue(entry.fields?.[uniqueField])
@@ -327,9 +463,21 @@ async function seedLanding(locale) {
   log(`Fill ${empty.length} empty Landing field(s): ${empty.join(', ')}${cleanlyPublished ? ' and republish' : ' (left as draft — it has unpublished changes)'}`)
   if (!APPLY) return
   const fields = { ...entry.fields }
-  empty.forEach((key) => {
+  const targetSkillGroups = ['Strategy', 'Product', 'Build']
+  const targetKeyMetrics = ['Years in digital', 'Products shipped', 'Conversion uplift', 'Teams supported']
+
+  for (const key of empty) {
+    if (key === 'skills') {
+      fields[key] = { [locale]: await getEntryRefsByField('skillGroup', 'category', targetSkillGroups, locale) }
+      continue
+    }
+    if (key === 'keyMetrics') {
+      fields[key] = { [locale]: await getEntryRefsByField('keyMetric', 'label', targetKeyMetrics, locale) }
+      continue
+    }
     fields[key] = { ...(fields[key] || {}), [locale]: LANDING_SEED[key] }
-  })
+  }
+
   const updated = await api('PUT', `/entries/${LANDING_ID}`, { version: entry.sys.version, body: { fields, metadata: entry.metadata } })
   if (cleanlyPublished) await api('PUT', `/entries/${LANDING_ID}/published`, { version: updated.sys.version })
   else console.warn('! Landing was saved as a draft. Review and publish it in Contentful when ready.')

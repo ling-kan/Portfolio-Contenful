@@ -50,7 +50,7 @@ const HomePage = (props) => {
 
   const visiblePosts = posts.filter((p) => !p.hiddenPage)
   const skillNames = (author.skills || []).flatMap((s) => (s.skills || []).map((k) => k.name))
-  const achievements = author.keyAchievements?.childMarkdownRemark?.html
+  const achievements = author.keyAchievementsText || author.keyAchievements || ''
 
   // Number sections by what is actually present so the sequence never skips.
   let n = 0

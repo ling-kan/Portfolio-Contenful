@@ -119,11 +119,24 @@ export const pageQuery = graphql`
         expertiseImage { gatsbyImageData(layout: FULL_WIDTH, placeholder: BLURRED) }
         contactImage { gatsbyImageData(layout: FULL_WIDTH, placeholder: BLURRED) description }
         animatedList
+        keyMetrics {
+          label
+          value
+        }
+        skills {
+          category
+          skills {
+            name
+            description
+          }
+        }
+        tagline
         bio {
           childMarkdownRemark {
             html
           }
         }
+        keyAchievementsText
 
         image {
           gatsbyImageData(

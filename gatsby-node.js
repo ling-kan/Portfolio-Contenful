@@ -16,6 +16,7 @@ exports.onCreateWebpackConfig = ({ actions, plugins }) => {
 // content types exist in Contentful (they just return empty and components fall back to defaults).
 exports.createSchemaCustomization = ({ actions }) => {
   const asset = (field) => `ContentfulAsset @link(by: "id", from: "${field}___NODE")`
+  const entries = (field, type) => `[${type}] @link(by: "id", from: "${field}___NODE")`
   actions.createTypes(`
     type ContentfulSectionHeader implements ContentfulReference & ContentfulEntry & Node {
       contentful_id: String!
@@ -55,9 +56,34 @@ exports.createSchemaCustomization = ({ actions }) => {
       seoTitle: String
       seoDescription: String
     }
+    type ContentfulSkill implements ContentfulReference & ContentfulEntry & Node {
+      contentful_id: String!
+      node_locale: String!
+      name: String
+      description: String
+    }
+    type ContentfulSkillGroup implements ContentfulReference & ContentfulEntry & Node {
+      contentful_id: String!
+      node_locale: String!
+      category: String
+      skills: ${entries('skills', 'ContentfulSkill')}
+    }
+    type ContentfulKeyMetric implements ContentfulReference & ContentfulEntry & Node {
+      contentful_id: String!
+      node_locale: String!
+      label: String
+      value: String
+    }
     type ContentfulLanding implements ContentfulReference & ContentfulEntry & Node {
       contentful_id: String!
       node_locale: String!
+      name: String
+      animatedList: [String]
+      tagline: String
+      image: ${asset('image')}
+      keyMetrics: ${entries('keyMetrics', 'ContentfulKeyMetric')}
+      skills: ${entries('skills', 'ContentfulSkillGroup')}
+      keyAchievementsText: String
       siteTitle: String
       siteDescription: String
       socialShareImage: ${asset('socialShareImage')}
@@ -135,4 +161,3 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
     })
   }
 }
-
