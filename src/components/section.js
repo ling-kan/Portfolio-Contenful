@@ -2,7 +2,7 @@ import React from 'react'
 import useSafeReducedMotion from './motion/use-safe-reduced-motion'
 import { motion } from 'motion/react'
 import Container from './container'
-import { Reveal, SplitText, EASE } from './motion/reveal'
+import { Reveal, SplitText, EASE, useDownwardReveal } from './motion/reveal'
 
 const TONES = {
   light: 'bg-paper text-ink',
@@ -27,6 +27,7 @@ const Section = ({
   children,
 }) => {
   const reduce = useSafeReducedMotion()
+  const { ref: ruleRef, controls: ruleControls } = useDownwardReveal()
   const dark = tone === 'dark'
 
   return (
@@ -38,12 +39,13 @@ const Section = ({
             <div className={`eyebrow inline-flex items-center gap-4 ${dark ? 'text-paper/60' : 'text-ink/75'}`}>
               {number && <span className="text-accent">{number}</span>}
               <motion.span
+                ref={ruleRef}
                 aria-hidden="true"
                 className={`h-px w-12 origin-left ${dark ? 'bg-paper/30' : 'bg-ink/25'}`}
                 initial={reduce ? false : { scaleX: 0 }}
-                whileInView={{ scaleX: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.35, ease: EASE }}
+                animate={reduce ? { scaleX: 1 } : ruleControls}
+                variants={{ hidden: { scaleX: 0 }, show: { scaleX: 1 } }}
+                transition={{ duration: 0.45, ease: EASE }}
               />
               <span>{eyebrow}</span>
             </div>

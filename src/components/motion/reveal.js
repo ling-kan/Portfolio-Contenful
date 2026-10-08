@@ -1,14 +1,40 @@
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import useSafeReducedMotion from './use-safe-reduced-motion'
-import { motion } from 'motion/react'
+import { motion, useAnimationControls, useInView } from 'motion/react'
+import { useScrollingDown } from './scroll-direction'
 
 export const EASE = [0.16, 1, 0.3, 1]
 
-/**
- * Fades + lifts children into view once they enter the viewport.
- */
-export const Reveal = ({ children, delay = 0, y = 12, className = '', as = 'div', once = true, amount = 0.1 }) => {
+export const useDownwardReveal = (amount = 0.1) => {
+  const ref = useRef(null)
+  const inView = useInView(ref, { amount })
+  const scrollingDown = useScrollingDown()
   const reduce = useSafeReducedMotion()
+  const controls = useAnimationControls()
+  const revealed = useRef(false)
+  const [entered, setEntered] = useState(false)
+  const [animated, setAnimated] = useState(false)
+
+  useEffect(() => {
+    if (!inView || revealed.current) return
+    revealed.current = true
+    if (scrollingDown.current && !reduce) {
+      setAnimated(true)
+      controls.start('show')
+    } else {
+      controls.set('show')
+    }
+    setEntered(true)
+  }, [controls, inView, reduce, scrollingDown])
+
+  return { ref, controls, reduce, entered, animated }
+}
+
+/**
+ * Reveals content on downward scroll; content already in view is shown without motion.
+ */
+export const Reveal = ({ children, delay = 0, y = 12, className = '', as = 'div', amount = 0.1 }) => {
+  const { ref, controls, reduce } = useDownwardReveal(amount)
   const Tag = motion[as] || motion.div
 
   if (reduce) {
@@ -18,11 +44,15 @@ export const Reveal = ({ children, delay = 0, y = 12, className = '', as = 'div'
 
   return (
     <Tag
+      ref={ref}
       className={className}
-      initial={{ opacity: 0, y }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once, amount }}
-      transition={{ duration: 0.35, delay, ease: EASE }}
+      initial="hidden"
+      animate={controls}
+      transition={{ duration: 0.45, delay, ease: EASE }}
+      variants={{
+        hidden: { opacity: 0, y },
+        show: { opacity: 1, y: 0 },
+      }}
     >
       {children}
     </Tag>
@@ -34,7 +64,7 @@ export const Reveal = ({ children, delay = 0, y = 12, className = '', as = 'div'
  * `highlight` words (case-insensitive) are rendered in the editorial serif accent.
  */
 export const SplitText = ({ text = '', className = '', delay = 0, stagger = 0.02, as = 'span', highlight = [], animateOnMount = false }) => {
-  const reduce = useSafeReducedMotion()
+  const { ref, controls, reduce } = useDownwardReveal(0.15)
   const Tag = as
   const words = String(text).split(' ').filter(Boolean)
   const norm = (w) => w.replace(/[^\w'-]/g, '').toLowerCase()
@@ -54,18 +84,18 @@ export const SplitText = ({ text = '', className = '', delay = 0, stagger = 0.02
     )
   }
 
-  const trigger = animateOnMount
-    ? { animate: 'show' }
-    : { whileInView: 'show', viewport: { once: true, amount: 0.15 } }
-
   return (
-    <Tag className={className} aria-label={text}>
+    <Tag ref={animateOnMount ? undefined : ref} className={className} aria-label={text}>
       <motion.span
         aria-hidden="true"
         initial="hidden"
-        {...trigger}
+        animate={animateOnMount ? 'show' : controls}
         transition={{ staggerChildren: stagger, delayChildren: delay }}
         className="inline"
+        variants={{
+          hidden: {},
+          show: {},
+        }}
       >
         {words.map((word, i) => (
           <span
@@ -76,7 +106,7 @@ export const SplitText = ({ text = '', className = '', delay = 0, stagger = 0.02
               className={`inline-block ${isHighlight(word) ? 'editorial text-accent pr-[0.06em]' : ''}`}
               variants={{
                 hidden: { y: '110%' },
-                show: { y: '0%', transition: { duration: 0.35, ease: EASE } },
+                show: { y: '0%', transition: { duration: 0.45, ease: EASE } },
               }}
             >
               {word}
@@ -93,7 +123,7 @@ export const SplitText = ({ text = '', className = '', delay = 0, stagger = 0.02
  * Staggers direct children into view. Wrap each child in <StaggerItem>.
  */
 export const Stagger = ({ children, className = '', stagger = 0.03, delay = 0, as = 'div', amount = 0.1 }) => {
-  const reduce = useSafeReducedMotion()
+  const { ref, controls, reduce } = useDownwardReveal(amount)
   const Tag = motion[as] || motion.div
   if (reduce) {
     const Plain = as
@@ -101,18 +131,22 @@ export const Stagger = ({ children, className = '', stagger = 0.03, delay = 0, a
   }
   return (
     <Tag
+      ref={ref}
       className={className}
       initial="hidden"
-      whileInView="show"
-      viewport={{ once: true, amount }}
+      animate={controls}
       transition={{ staggerChildren: stagger, delayChildren: delay }}
+      variants={{
+        hidden: {},
+        show: {},
+      }}
     >
       {children}
     </Tag>
   )
 }
 
-export const StaggerItem = ({ children, className = '', as = 'div', y = 12 }) => {
+export const StaggerItem = ({ children, className = '', as = 'div', y = 12, duration = 0.45 }) => {
   const reduce = useSafeReducedMotion()
   const Tag = motion[as] || motion.div
   if (reduce) {
@@ -124,7 +158,7 @@ export const StaggerItem = ({ children, className = '', as = 'div', y = 12 }) =>
       className={className}
       variants={{
         hidden: { opacity: 0, y },
-        show: { opacity: 1, y: 0, transition: { duration: 0.35, ease: EASE } },
+        show: { opacity: 1, y: 0, transition: { duration, ease: EASE } },
       }}
     >
       {children}

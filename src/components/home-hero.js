@@ -1,12 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import useSafeReducedMotion from './motion/use-safe-reduced-motion'
 import { GatsbyImage } from 'gatsby-plugin-image'
 import {
   motion,
   AnimatePresence,
   useMotionValue,
-
-  useScroll,
   useSpring,
   useTransform,
 } from 'motion/react'
@@ -81,12 +79,7 @@ const HomeHero = ({
   availability,
   cvUrl,
 }) => {
-  const ref = useRef(null)
   const reduce = useSafeReducedMotion()
-  const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] })
-  const textY = useTransform(scrollYProgress, [0, 1], [0, -140])
-  const portraitY = useTransform(scrollYProgress, [0, 1], [0, 90])
-  const fade = useTransform(scrollYProgress, [0, 0.75], [1, 0])
 
   // Soft cursor-follow for the background orbs
   const mx = useMotionValue(0)
@@ -115,8 +108,7 @@ const HomeHero = ({
   return (
     <section
       id="home"
-      ref={ref}
-      onMouseMove={handleMouseMove}
+      onPointerMove={handleMouseMove}
       className="relative isolate overflow-hidden min-h-[100svh] flex flex-col pt-28 md:pt-32"
     >
       {/* Soft colour washes that drift with the cursor */}
@@ -133,8 +125,7 @@ const HomeHero = ({
 
       <Container className="flex-1 flex items-center">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-14 lg:gap-10 items-center w-full">
-          <motion.div
-            style={reduce ? undefined : { y: textY, opacity: fade }}
+          <div
             className={hasPortrait ? 'lg:col-span-7' : 'lg:col-span-12'}
           >
             <h1 className="display-xl text-ink uppercase whitespace-nowrap !tracking-[-0.035em] !text-[clamp(3.25rem,9vw,8.5rem)]" aria-label={name}>
@@ -218,11 +209,10 @@ const HomeHero = ({
                 {availability}
               </motion.p>
             )}
-          </motion.div>
+          </div>
 
           {hasPortrait && (
-              <motion.div
-                style={reduce ? undefined : { y: portraitY }}
+              <div
                 className="lg:col-span-5 relative mx-auto w-full max-w-[22rem] sm:max-w-sm lg:max-w-[28rem] lg:ml-auto lg:mr-0"
               >
                 <motion.div
@@ -260,7 +250,7 @@ const HomeHero = ({
                     </RotatingBadge>
                   </a>
                 </motion.div>
-              </motion.div>
+              </div>
           )}
         </div>
       </Container>

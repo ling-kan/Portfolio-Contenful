@@ -12,7 +12,12 @@ const useSafeReducedMotion = () => {
   useEffect(() => {
     const connection = navigator.connection
     const updateSaveData = () => {
-      setSaveData(Boolean(connection?.saveData || ['slow-2g', '2g'].includes(connection?.effectiveType)))
+      setSaveData(Boolean(
+        connection?.saveData ||
+        ['slow-2g', '2g'].includes(connection?.effectiveType) ||
+        navigator.hardwareConcurrency <= 2 ||
+        navigator.deviceMemory <= 2
+      ))
     }
 
     updateSaveData()

@@ -1,7 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import useSafeReducedMotion from './motion/use-safe-reduced-motion'
-import { motion, animate, useInView } from 'motion/react'
-import { EASE } from './motion/reveal'
+import { motion, animate } from 'motion/react'
+import { EASE, useDownwardReveal } from './motion/reveal'
 
 // "£2.5M" -> { prefix: "£", number: 2.5, suffix: "M", decimals: 1 }
 const parseValue = (value = '') => {
@@ -13,9 +13,8 @@ const parseValue = (value = '') => {
   return Number.isNaN(number) ? null : { prefix, number, suffix, decimals }
 }
 
-const AnimatedNumber = ({ value, start }) => {
+const AnimatedNumber = ({ value, start, reduce }) => {
   const parsed = parseValue(value)
-  const reduce = useSafeReducedMotion()
   const [display, setDisplay] = useState(0)
 
   useEffect(() => {
@@ -50,19 +49,26 @@ const AnimatedNumber = ({ value, start }) => {
 }
 
 const KeyMetrics = ({ list = [] }) => {
-  const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: '-80px' })
+  const { ref, controls, entered, animated } = useDownwardReveal(0.1)
   const reduce = useSafeReducedMotion()
 
   return (
-    <div ref={ref} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-paper/10 rounded-[1.5rem] overflow-hidden border border-paper/10">
+    <motion.div
+      ref={ref}
+      initial={reduce ? false : 'hidden'}
+      animate={reduce ? 'show' : controls}
+      variants={{ hidden: {}, show: {} }}
+      transition={{ staggerChildren: 0.06 }}
+      className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-paper/10 rounded-[1.5rem] overflow-hidden border border-paper/10"
+    >
       {list.map((stat, i) => (
         <motion.div
           key={stat.label}
           className="group relative bg-ink p-8 md:p-10 min-h-[14rem] flex flex-col justify-between overflow-hidden"
-          initial={reduce ? false : { opacity: 0, y: 16 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.35, delay: i * 0.04, ease: EASE }}
+          variants={{
+            hidden: { opacity: 0, y: 16 },
+            show: { opacity: 1, y: 0, transition: { duration: 0.45, delay: i * 0.04, ease: EASE } },
+          }}
         >
           <div
             aria-hidden="true"
@@ -71,20 +77,21 @@ const KeyMetrics = ({ list = [] }) => {
           <span className="eyebrow text-paper/65">{String(i + 1).padStart(2, '0')}</span>
           <div className="relative">
             <p className="display-lg !text-[clamp(2.75rem,5vw,4.5rem)] text-paper">
-              <AnimatedNumber value={stat.value} start={isInView} />
+              <AnimatedNumber value={stat.value} start={entered} reduce={reduce || !animated} />
             </p>
             <p className="mt-3 text-paper/70 text-base max-w-[16rem]">{stat.label}</p>
             <motion.span
               aria-hidden="true"
               className="block mt-6 h-px bg-paper/30 origin-left"
-              initial={reduce ? false : { scaleX: 0 }}
-              animate={isInView ? { scaleX: 1 } : {}}
-              transition={{ duration: 0.35, delay: 0.1 + i * 0.04, ease: EASE }}
+              variants={{
+                hidden: { scaleX: 0 },
+                show: { scaleX: 1, transition: { duration: 0.45, delay: 0.1 + i * 0.04, ease: EASE } },
+              }}
             />
           </div>
         </motion.div>
       ))}
-    </div>
+    </motion.div>
   )
 }
 

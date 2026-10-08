@@ -4,11 +4,13 @@ import { Link } from 'gatsby'
 import { GatsbyImage } from 'gatsby-plugin-image'
 import { motion, useMotionValue, useScroll, useSpring, useTransform } from 'motion/react'
 import { ArrowUpRightIcon, LockClosedIcon } from '@heroicons/react/24/solid'
-import { EASE } from './motion/reveal'
+import { EASE, useDownwardReveal } from './motion/reveal'
 
 const ProjectCard = ({ post, index }) => {
   const ref = useRef(null)
+  const imageFrameRef = useRef(null)
   const reduce = useSafeReducedMotion()
+  const { ref: revealRef, controls: revealControls } = useDownwardReveal(0.1)
   const [hover, setHover] = useState(false)
 
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] })
@@ -20,7 +22,16 @@ const ProjectCard = ({ post, index }) => {
   const cursorY = useSpring(cy, { stiffness: 300, damping: 28 })
 
   const onMove = (e) => {
-    const rect = e.currentTarget.getBoundingClientRect()
+    const rect = imageFrameRef.current?.getBoundingClientRect()
+    if (!rect) return
+
+    const withinImage =
+      e.clientX >= rect.left &&
+      e.clientX <= rect.right &&
+      e.clientY >= rect.top &&
+      e.clientY <= rect.bottom
+
+    setHover((current) => (current === withinImage ? current : withinImage))
     cx.set(e.clientX - rect.left)
     cy.set(e.clientY - rect.top)
   }
@@ -29,23 +40,26 @@ const ProjectCard = ({ post, index }) => {
 
   return (
     <motion.li
-      ref={ref}
+      ref={(node) => {
+        ref.current = node
+        revealRef.current = node
+      }}
       className="list-none"
-      initial={reduce ? false : { opacity: 0, y: 16 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.1 }}
-      transition={{ duration: 0.35, ease: EASE }}
+      initial={reduce ? false : 'hidden'}
+      animate={reduce ? 'show' : revealControls}
+      transition={{ duration: 0.45, ease: EASE }}
+      variants={{ hidden: { opacity: 0, y: 16 }, show: { opacity: 1, y: 0 } }}
     >
-      <Link to={`/portfolio/${post.slug}`} className="group block !text-ink" aria-label={`Read case study: ${post.title}`}>
+      <Link
+        to={`/portfolio/${post.slug}`}
+        className="group block !text-ink"
+        aria-label={`Read case study: ${post.title}`}
+        onMouseMove={onMove}
+        onMouseLeave={() => setHover(false)}
+      >
         {post.heroImage?.gatsbyImageData && (
-          <motion.div
-            onMouseMove={onMove}
-            onMouseEnter={() => setHover(true)}
-            onMouseLeave={() => setHover(false)}
-            initial={reduce ? false : { clipPath: 'inset(5% 5% 5% 5% round 1.5rem)' }}
-            whileInView={{ clipPath: 'inset(0% 0% 0% 0% round 1.5rem)' }}
-            viewport={{ once: true, amount: 0.1 }}
-            transition={{ duration: 0.35, ease: EASE }}
+          <div
+            ref={imageFrameRef}
             className="mobile-image-frame relative aspect-[4/3] rounded-[1.5rem] overflow-hidden bg-sand md:cursor-none"
           >
             <motion.div style={reduce ? undefined : { y: imageY }} className="absolute -inset-y-[10%] inset-x-0">
@@ -80,7 +94,7 @@ const ProjectCard = ({ post, index }) => {
                 View case
               </motion.span>
             )}
-          </motion.div>
+          </div>
         )}
 
         <div className="mt-6 flex items-start justify-between gap-6">
