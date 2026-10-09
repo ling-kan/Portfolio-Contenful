@@ -42,11 +42,9 @@ const ContactCta = ({
               highlight={highlight}
               className="display-lg block text-paper"
             />
-            <Reveal delay={0.08}>
-              <p className="lead mt-8 max-w-xl text-paper/70">
-                {intro}
-              </p>
-            </Reveal>
+            <p className="lead mt-8 max-w-xl text-paper/70">
+              {intro}
+            </p>
             {availability && (
               <p className="mt-6 inline-flex items-center gap-2 text-sm text-paper/80">
                 <span aria-hidden="true" className="w-2 h-2 rounded-full bg-accent" />

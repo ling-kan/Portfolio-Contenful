@@ -1,32 +1,18 @@
 import { useEffect, useState } from 'react'
 import { useReducedMotion } from 'motion/react'
 
-/**
- * Includes data-saver and slow-connection hints so animation never delays those users.
- */
+/** Honors reduced-motion preferences and avoids motion on low-powered devices. */
 const useSafeReducedMotion = () => {
   const reduce = useReducedMotion()
   const [mounted, setMounted] = useState(false)
-  const [saveData, setSaveData] = useState(false)
+  const [lowPower, setLowPower] = useState(false)
 
   useEffect(() => {
-    const connection = navigator.connection
-    const updateSaveData = () => {
-      setSaveData(Boolean(
-        connection?.saveData ||
-        ['slow-2g', '2g'].includes(connection?.effectiveType) ||
-        navigator.hardwareConcurrency <= 2 ||
-        navigator.deviceMemory <= 2
-      ))
-    }
-
-    updateSaveData()
-    connection?.addEventListener?.('change', updateSaveData)
+    setLowPower(navigator.hardwareConcurrency <= 2 || navigator.deviceMemory <= 2)
     setMounted(true)
-    return () => connection?.removeEventListener?.('change', updateSaveData)
   }, [])
 
-  return mounted && (!!reduce || saveData)
+  return mounted && (!!reduce || lowPower)
 }
 
 export default useSafeReducedMotion

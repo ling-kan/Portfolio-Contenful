@@ -1,7 +1,6 @@
 import React from 'react'
 import Container from './container'
 import Header from './header'
-import { Reveal } from './motion/reveal'
 
 const TitleContainer = ({ title, subtitle, children, id, className = '' }) => {
   return (
@@ -10,7 +9,7 @@ const TitleContainer = ({ title, subtitle, children, id, className = '' }) => {
         <Header title={title} subtitle={subtitle} className="text-left" />
       </div>
       <div className="lg:col-span-2">
-        <Reveal>{children}</Reveal>
+        {children}
       </div>
     </Container>
   )

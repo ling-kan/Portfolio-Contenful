@@ -4,7 +4,7 @@ import { GatsbyImage } from 'gatsby-plugin-image'
 import { motion } from 'motion/react'
 import Marquee from './motion/marquee'
 import useSafeReducedMotion from './motion/use-safe-reduced-motion'
-import { useDownwardReveal } from './motion/reveal'
+import { useRevealInView } from './motion/reveal'
 
 /**
  * Two counter-scrolling rows of project imagery.
@@ -30,7 +30,7 @@ const Tile = ({ post }) => (
 
 const ImageReel = ({ posts = [] }) => {
   const reduce = useSafeReducedMotion()
-  const { ref, controls } = useDownwardReveal(0.1)
+  const { ref, controls } = useRevealInView(0.1)
 
   const items = posts.filter((p) => !p.hiddenPage && p.heroImage?.gatsbyImageData)
   if (items.length < 3) return null
@@ -41,7 +41,7 @@ const ImageReel = ({ posts = [] }) => {
     <section aria-label="Project gallery" className="relative py-16 md:py-20 overflow-hidden">
       <motion.div
         ref={ref}
-        initial={reduce ? false : 'hidden'}
+        initial={false}
         animate={reduce ? 'show' : controls}
         variants={{ hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0 } }}
         transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}

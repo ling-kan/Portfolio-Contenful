@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import useSafeReducedMotion from './motion/use-safe-reduced-motion'
 import { motion, animate } from 'motion/react'
-import { EASE, useDownwardReveal } from './motion/reveal'
+import { EASE, useRevealInView } from './motion/reveal'
 
 // "£2.5M" -> { prefix: "£", number: 2.5, suffix: "M", decimals: 1 }
 const parseValue = (value = '') => {
@@ -49,13 +49,13 @@ const AnimatedNumber = ({ value, start, reduce }) => {
 }
 
 const KeyMetrics = ({ list = [] }) => {
-  const { ref, controls, entered, animated } = useDownwardReveal(0.1)
+  const { ref, controls, entered, animated } = useRevealInView(0.1)
   const reduce = useSafeReducedMotion()
 
   return (
     <motion.div
       ref={ref}
-      initial={reduce ? false : 'hidden'}
+      initial={false}
       animate={reduce ? 'show' : controls}
       variants={{ hidden: {}, show: {} }}
       transition={{ staggerChildren: 0.06 }}

@@ -2,19 +2,15 @@ import React, { useRef, useState } from 'react'
 import useSafeReducedMotion from './motion/use-safe-reduced-motion'
 import { Link } from 'gatsby'
 import { GatsbyImage } from 'gatsby-plugin-image'
-import { motion, useMotionValue, useScroll, useSpring, useTransform } from 'motion/react'
+import { motion, useMotionValue, useSpring } from 'motion/react'
 import { ArrowUpRightIcon, LockClosedIcon } from '@heroicons/react/24/solid'
-import { EASE, useDownwardReveal } from './motion/reveal'
+import { EASE, useRevealInView } from './motion/reveal'
 
 const ProjectCard = ({ post, index }) => {
-  const ref = useRef(null)
   const imageFrameRef = useRef(null)
   const reduce = useSafeReducedMotion()
-  const { ref: revealRef, controls: revealControls } = useDownwardReveal(0.1)
+  const { ref: revealRef, controls: revealControls } = useRevealInView(0.1)
   const [hover, setHover] = useState(false)
-
-  const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] })
-  const imageY = useTransform(scrollYProgress, [0, 1], ['-8%', '8%'])
 
   const cx = useMotionValue(0)
   const cy = useMotionValue(0)
@@ -40,12 +36,9 @@ const ProjectCard = ({ post, index }) => {
 
   return (
     <motion.li
-      ref={(node) => {
-        ref.current = node
-        revealRef.current = node
-      }}
+      ref={revealRef}
       className="list-none"
-      initial={reduce ? false : 'hidden'}
+      initial={false}
       animate={reduce ? 'show' : revealControls}
       transition={{ duration: 0.45, ease: EASE }}
       variants={{ hidden: { opacity: 0, y: 16 }, show: { opacity: 1, y: 0 } }}
@@ -62,14 +55,14 @@ const ProjectCard = ({ post, index }) => {
             ref={imageFrameRef}
             className="mobile-image-frame relative aspect-[4/3] rounded-[1.5rem] overflow-hidden bg-sand md:cursor-none"
           >
-            <motion.div style={reduce ? undefined : { y: imageY }} className="absolute -inset-y-[10%] inset-x-0">
+            <div className="absolute inset-0">
               <GatsbyImage
                 image={post.heroImage.gatsbyImageData}
                 alt={post.title}
                 className="w-full h-full transition-transform duration-[1.2s] ease-out group-hover:scale-105"
                 imgClassName="object-cover"
               />
-            </motion.div>
+            </div>
             <div className="absolute inset-0 bg-ink/0 group-hover:bg-ink/20 transition-colors duration-500" />
 
             <div className="absolute top-5 left-5 right-5 flex items-center justify-between">

@@ -2,7 +2,7 @@ import React from 'react'
 import useSafeReducedMotion from './motion/use-safe-reduced-motion'
 import { motion } from 'motion/react'
 import Container from './container'
-import { Reveal, SplitText, EASE, useDownwardReveal } from './motion/reveal'
+import { SplitText, EASE, useRevealInView } from './motion/reveal'
 
 const TONES = {
   light: 'bg-paper text-ink',
@@ -27,7 +27,7 @@ const Section = ({
   children,
 }) => {
   const reduce = useSafeReducedMotion()
-  const { ref: ruleRef, controls: ruleControls } = useDownwardReveal()
+  const { ref: ruleRef, controls: ruleControls } = useRevealInView()
   const dark = tone === 'dark'
 
   return (
@@ -42,7 +42,7 @@ const Section = ({
                 ref={ruleRef}
                 aria-hidden="true"
                 className={`h-px w-12 origin-left ${dark ? 'bg-paper/30' : 'bg-ink/25'}`}
-                initial={reduce ? false : { scaleX: 0 }}
+                initial={false}
                 animate={reduce ? { scaleX: 1 } : ruleControls}
                 variants={{ hidden: { scaleX: 0 }, show: { scaleX: 1 } }}
                 transition={{ duration: 0.45, ease: EASE }}
@@ -53,9 +53,7 @@ const Section = ({
           <div>
             {title && <SplitText as="h2" text={title} highlight={highlight} className="display-lg block" />}
             {intro && (
-              <Reveal delay={0.08}>
-                <p className={`lead mt-6 max-w-2xl ${dark ? 'text-paper/70' : 'text-ink/75'}`}>{intro}</p>
-              </Reveal>
+              <p className={`lead mt-6 max-w-2xl ${dark ? 'text-paper/70' : 'text-ink/75'}`}>{intro}</p>
             )}
             {aside}
           </div>

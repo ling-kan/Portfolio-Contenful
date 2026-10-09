@@ -30,7 +30,7 @@ const Footer = ({ navList }) => {
             </ul>
           </nav>
           <div className="flex justify-center md:justify-end">
-            <Socials width="w-6" iconClassName="fill-grey text-paper/70 hover:text-accent transition-colors" />
+            <Socials width="w-6 h-6" iconClassName="fill-grey text-paper/70 hover:text-accent transition-colors" />
           </div>
         </div>
         <div className="mt-10 pt-6 border-t border-paper/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-paper/65">

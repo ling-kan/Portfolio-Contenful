@@ -1,21 +1,13 @@
-import React, { useRef } from 'react'
-import useSafeReducedMotion from './motion/use-safe-reduced-motion'
+import React from 'react'
 import { GatsbyImage } from 'gatsby-plugin-image'
-import { motion, useScroll, useTransform } from 'motion/react'
 import Container from './container'
 import Tags from './tags'
 import ImageSlot, { slotVisible } from './image-slot'
-import { Reveal, SplitText, EASE } from './motion/reveal'
+import { Reveal, SplitText } from './motion/reveal'
 
 const BlogHeader = ({ title, eyebrow = 'Portfolio', content, rawDate, endDate, timeToRead, tags, image, slot, slotImage, children }) => {
-  const ref = useRef(null)
-  const reduce = useSafeReducedMotion()
-  const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] })
-  const imageScale = useTransform(scrollYProgress, [0, 1], [1, 1.12])
-  const imageY = useTransform(scrollYProgress, [0, 1], ['0%', '12%'])
-
   return (
-    <header ref={ref} className="relative isolate overflow-hidden -mt-28 md:-mt-32 pt-36 md:pt-44 pb-12 md:pb-16">
+    <header className="relative isolate overflow-hidden -mt-28 md:-mt-32 pt-36 md:pt-44 pb-12 md:pb-16">
       <div aria-hidden="true" className="absolute inset-0 -z-10">
         <div className="absolute -top-40 right-0 w-[34rem] h-[34rem] rounded-full bg-mint/50 blur-[110px]" />
         <div className="absolute top-20 -left-40 w-[26rem] h-[26rem] rounded-full bg-accent-soft/70 blur-[110px]" />
@@ -30,9 +22,7 @@ const BlogHeader = ({ title, eyebrow = 'Portfolio', content, rawDate, endDate, t
         </Reveal>
         <SplitText as="h1" text={title} animateOnMount className="display-lg block mt-6 max-w-5xl text-ink" />
         {content && (
-          <Reveal delay={0.08}>
-            <p className="lead mt-6 max-w-2xl text-ink/75">{content}</p>
-          </Reveal>
+          <p className="lead mt-6 max-w-2xl text-ink/75">{content}</p>
         )}
 
         {(endDate || timeToRead || tags?.length > 0) && (
@@ -57,32 +47,18 @@ const BlogHeader = ({ title, eyebrow = 'Portfolio', content, rawDate, endDate, t
 
       {image && (
         <Container className="mt-12 md:mt-16">
-          <motion.div
-            initial={reduce ? false : { clipPath: 'inset(10% 10% 10% 10% round 1.5rem)', opacity: 0 }}
-            animate={{ clipPath: 'inset(0% 0% 0% 0% round 1.5rem)', opacity: 1 }}
-            transition={{ duration: 0.35, delay: 0.1, ease: EASE }}
-            className="mobile-image-frame relative aspect-[16/9] rounded-[1.5rem] overflow-hidden bg-sand"
-          >
-            <motion.div style={reduce ? undefined : { scale: imageScale, y: imageY }} className="absolute inset-0">
-              <GatsbyImage image={image} alt={title} className="w-full h-full" imgClassName="object-cover" />
-            </motion.div>
-          </motion.div>
+          <Reveal className="mobile-image-frame relative aspect-[16/9] rounded-[1.5rem] overflow-hidden bg-sand">
+            <GatsbyImage image={image} alt={title} className="w-full h-full" imgClassName="object-cover" />
+          </Reveal>
         </Container>
       )}
 
       {/* Optional AI artwork banner for index pages (see src/data/imagery.js) */}
       {!image && slot && slotVisible(slot, slotImage) && (
         <Container className="mt-12 md:mt-16">
-          <motion.div
-            initial={reduce ? false : { opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.35, delay: 0.1, ease: EASE }}
-            className="mobile-image-frame relative aspect-[16/9] sm:aspect-[12/5] rounded-[1.5rem] overflow-hidden bg-sand"
-          >
-            <motion.div style={reduce ? undefined : { y: imageY }} className="absolute -top-[12%] bottom-0 inset-x-0">
-              <ImageSlot slot={slot} image={slotImage} />
-            </motion.div>
-          </motion.div>
+          <Reveal className="mobile-image-frame relative aspect-[16/9] sm:aspect-[12/5] rounded-[1.5rem] overflow-hidden bg-sand">
+            <ImageSlot slot={slot} image={slotImage} />
+          </Reveal>
         </Container>
       )}
     </header>

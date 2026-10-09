@@ -3,11 +3,11 @@ import useSafeReducedMotion from './motion/use-safe-reduced-motion'
 import { motion, AnimatePresence, useScroll, useSpring } from 'motion/react'
 import { GatsbyImage } from 'gatsby-plugin-image'
 import { PlusIcon, MinusIcon } from '@heroicons/react/24/solid'
-import { EASE, useDownwardReveal } from './motion/reveal'
+import { EASE, useRevealInView } from './motion/reveal'
 
 const TimelineItem = ({ event, index, open, onToggle, idPrefix }) => {
   const reduce = useSafeReducedMotion()
-  const { ref, controls } = useDownwardReveal(0.1)
+  const { ref, controls } = useRevealInView(0.1)
   const hasBio = !!event?.bio?.childMarkdownRemark?.html
   const bioId = `${idPrefix}-bio-${index}`
 
@@ -15,7 +15,7 @@ const TimelineItem = ({ event, index, open, onToggle, idPrefix }) => {
     <motion.li
       ref={ref}
       className="relative grid grid-cols-[2.5rem_1fr] md:grid-cols-[11rem_3rem_1fr] gap-x-4 md:gap-x-6 pb-14 last:pb-0"
-      initial={reduce ? false : 'hidden'}
+      initial={false}
       animate={reduce ? 'show' : controls}
       transition={{ duration: 0.45, ease: EASE }}
       variants={{ hidden: { opacity: 0, y: 16 }, show: { opacity: 1, y: 0 } }}

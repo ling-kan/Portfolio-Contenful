@@ -13,7 +13,6 @@ import ImageReel from './image-reel'
 import LogoStrip from './logo-strip'
 import ValuePillars from './value-pillars'
 import Testimonials from './testimonials'
-import { Reveal } from './motion/reveal'
 import useSafeReducedMotion from './motion/use-safe-reduced-motion'
 
 /**
@@ -55,7 +54,6 @@ const HomePage = (props) => {
 
   const visiblePosts = posts.filter((p) => !p.hiddenPage)
   const skillNames = (author.skills || []).flatMap((s) => (s.skills || []).map((k) => k.name))
-  const achievements = author.keyAchievementsText || ''
 
   // Number sections by what is actually present so the sequence never skips.
   let n = 0
@@ -114,14 +112,14 @@ const HomePage = (props) => {
           }
         >
           <KeyMetrics list={author.keyMetrics} />
-          {achievements && (
-            <Reveal className="mt-16 max-w-4xl">
+          {author.keyAchievementsText && (
+            <div className="mt-16 max-w-4xl">
               <p className="eyebrow text-paper/65 mb-6">{settings.achievementsLabel}</p>
               <div
                 className="rich-text lead text-paper/80 [&_strong]:!text-paper [&_li]:mb-3"
-                dangerouslySetInnerHTML={{ __html: achievements }}
+                dangerouslySetInnerHTML={{ __html: author.keyAchievementsText }}
               />
-            </Reveal>
+            </div>
           )}
         </Section>
       )}

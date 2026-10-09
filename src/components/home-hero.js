@@ -1,12 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import useSafeReducedMotion from './motion/use-safe-reduced-motion'
 import { GatsbyImage } from 'gatsby-plugin-image'
 import {
   motion,
   AnimatePresence,
-  useMotionValue,
-  useSpring,
-  useTransform,
+  useInView,
 } from 'motion/react'
 import { ArrowDownRightIcon, ArrowRightIcon } from '@heroicons/react/24/solid'
 import Container from './container'
@@ -14,20 +12,21 @@ import Marquee from './motion/marquee'
 import Magnetic from './motion/magnetic'
 import RotatingBadge from './motion/rotating-badge'
 import { EASE } from './motion/reveal'
-import { useIntroReady } from './motion/reveal-preloader'
+import Socials from './socials'
 
-const RoleTicker = ({ roles = [] }) => {
+const RoleTicker = ({ roles = [], ready = true }) => {
   const reduce = useSafeReducedMotion()
   const [index, setIndex] = useState(0)
 
   useEffect(() => {
-    if (reduce || roles.length < 2) return undefined
+    if (!ready || reduce || roles.length < 2) return undefined
     const id = setInterval(() => setIndex((i) => (i + 1) % roles.length), 2800)
     return () => clearInterval(id)
-  }, [reduce, roles.length])
+  }, [ready, reduce, roles.length])
 
   if (!roles.length) return null
   if (reduce) return <span>{roles.join(' · ')}</span>
+  if (!ready) return <span>{roles[0]}</span>
 
   return (
     <span className="relative block overflow-hidden h-[1.2em]">
@@ -80,45 +79,28 @@ const HomeHero = ({
   cvUrl,
 }) => {
   const reduce = useSafeReducedMotion()
-
-  // Soft cursor-follow for the background orbs
-  const mx = useMotionValue(0)
-  const my = useMotionValue(0)
-  const orbX = useSpring(mx, { stiffness: 40, damping: 20 })
-  const orbY = useSpring(my, { stiffness: 40, damping: 20 })
-  const orbXInverse = useTransform(orbX, (v) => -v)
-  const orbYInverse = useTransform(orbY, (v) => -v)
-
-  const handleMouseMove = (e) => {
-    if (reduce) return
-    const rect = e.currentTarget.getBoundingClientRect()
-    mx.set(((e.clientX - rect.left) / rect.width - 0.5) * 60)
-    my.set(((e.clientY - rect.top) / rect.height - 0.5) * 60)
-  }
+  const sectionRef = useRef(null)
+  const ready = useInView(sectionRef, { once: true })
 
   const safeName = name || ''
   const [first, ...rest] = safeName.trim().split(' ')
   const last = rest.join(' ')
   const hasPortrait = Boolean(image?.gatsbyImageData)
   const roles = animatedList || []
-  const ready = useIntroReady()
-  const play = (target) => (ready ? target : undefined)
-  const intro = { initial: reduce ? false : { opacity: 0, y: 20 }, animate: play({ opacity: 1, y: 0 }) }
+  const intro = { initial: reduce ? false : { opacity: 0, y: 12 }, animate: ready ? { opacity: 1, y: 0 } : undefined }
 
   return (
     <section
+      ref={sectionRef}
       id="home"
-      onPointerMove={handleMouseMove}
       className="relative isolate overflow-hidden min-h-[100svh] flex flex-col pt-28 md:pt-32"
     >
-      {/* Soft colour washes that drift with the cursor */}
+      {/* Soft colour washes behind the hero content */}
       <div aria-hidden="true" className="absolute inset-0 -z-10">
-        <motion.div
-          style={{ x: orbX, y: orbY }}
+        <div
           className="absolute -top-40 -right-32 w-[44rem] h-[44rem] rounded-full bg-mint/35 blur-[140px]"
         />
-        <motion.div
-          style={{ x: orbXInverse, y: orbYInverse }}
+        <div
           className="absolute -bottom-40 -left-40 w-[36rem] h-[36rem] rounded-full bg-accent-soft/40 blur-[140px]"
         />
       </div>
@@ -149,17 +131,15 @@ const HomeHero = ({
                 transition={{ duration: 0.35, delay: 0.2, ease: EASE }}
                 className="mt-8 flex items-center gap-4 text-xl md:text-2xl font-sans font-medium tracking-tight text-ink"
               >
-                <span aria-hidden="true" className="h-px w-10 bg-accent/60 shrink-0" />
+                <span aria-hidden="true" className="h-px w-5 bg-accent/60 shrink-0" />
                 <span className="min-w-0 flex-1">
-                  <RoleTicker roles={roles} />
+                  <RoleTicker roles={roles} ready={ready} />
                 </span>
               </motion.div>
             )}
 
             {tagline && (
-              <motion.div
-                {...intro}
-                transition={{ duration: 0.35, delay: 0.3, ease: EASE }}
+              <div
                 className="rich-text lead mt-5 max-w-lg text-ink/75"
                 dangerouslySetInnerHTML={{ __html: tagline }}
               />
@@ -209,48 +189,56 @@ const HomeHero = ({
                 {availability}
               </motion.p>
             )}
+
+            <motion.div
+              {...intro}
+              transition={{ duration: 0.35, delay: 0.5, ease: EASE }}
+              className="mt-10"
+            >
+              <Socials width="w-6 h-6" iconClassName="fill-ink text-paper/70 hover:text-accent transition-colors" />
+            </motion.div>
           </div>
 
           {hasPortrait && (
-              <div
-                className="lg:col-span-5 relative mx-auto w-full max-w-[22rem] sm:max-w-sm lg:max-w-[28rem] lg:ml-auto lg:mr-0"
+            <div
+              className="lg:col-span-5 relative mx-auto w-full max-w-[22rem] sm:max-w-sm lg:max-w-[28rem] lg:ml-auto lg:mr-0"
+            >
+              <motion.div
+                initial={reduce ? false : { opacity: 0, y: 12 }}
+                animate={ready ? { opacity: 1, y: 0 } : undefined}
+                transition={{ duration: 0.45, delay: 0.1, ease: EASE }}
+                className="mobile-image-frame relative aspect-[4/5] rounded-[1.5rem] overflow-hidden bg-gradient-to-br from-ink to-ink-soft shadow-[0_30px_70px_-35px_rgba(23,51,43,0.45)]"
               >
-                <motion.div
-                  initial={reduce ? false : { clipPath: 'inset(100% 0 0 0 round 1.5rem)' }}
-                  animate={play({ clipPath: 'inset(0% 0 0 0 round 1.5rem)' })}
-                  transition={{ duration: 0.35, delay: 0.1, ease: EASE }}
-                  className="mobile-image-frame relative aspect-[4/5] rounded-[1.5rem] overflow-hidden bg-gradient-to-br from-ink to-ink-soft shadow-[0_30px_70px_-35px_rgba(23,51,43,0.45)]"
-                >
-                  <GatsbyImage
-                    image={image.gatsbyImageData}
-                    alt={`Portrait of ${name}`}
-                    className="!absolute inset-0 w-full h-full"
-                    imgClassName="object-cover"
-                  />
-                  <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-ink/80 via-ink/30 to-transparent" />
-                  <div className="absolute bottom-4 left-5 right-5 flex items-end justify-between text-paper text-[0.75rem] font-medium">
-                    <span className="uppercase tracking-wider">{name}</span>
-                    <span>©{new Date().getFullYear()}</span>
-                  </div>
-                </motion.div>
+                <GatsbyImage
+                  image={image.gatsbyImageData}
+                  alt={`Portrait of ${name}`}
+                  className="!absolute inset-0 w-full h-full"
+                  imgClassName="object-cover"
+                />
+                <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-ink/80 via-ink/30 to-transparent" />
+                <div className="absolute bottom-4 left-5 right-5 flex items-end justify-between text-paper text-[0.75rem] font-medium">
+                  <span className="uppercase tracking-wider">{name}</span>
+                  <span>©{new Date().getFullYear()}</span>
+                </div>
+              </motion.div>
 
-                <motion.div
-                  initial={reduce ? false : { scale: 0.85, opacity: 0 }}
-                  animate={play({ scale: 1, opacity: 1 })}
-                  transition={{ duration: 0.3, delay: 0.2, ease: EASE }}
-                  className="absolute -left-5 bottom-10 sm:-left-10 w-24 h-24 sm:w-28 sm:h-28"
+              <motion.div
+                initial={reduce ? false : { scale: 0.85, opacity: 0 }}
+                animate={ready ? { scale: 1, opacity: 1 } : undefined}
+                transition={{ duration: 0.3, delay: 0.2, ease: EASE }}
+                className="absolute -left-5 bottom-10 sm:-left-10 w-24 h-24 sm:w-28 sm:h-28"
+              >
+                <a
+                  href="#about"
+                  aria-label="Scroll to About"
+                  className="group block w-full h-full rounded-full bg-ink !text-paper/80 shadow-[0_20px_40px_-20px_rgba(23,51,43,0.6)] hover:!text-paper transition-colors duration-500"
                 >
-                  <a
-                    href="#about"
-                    aria-label="Scroll to About"
-                    className="group block w-full h-full rounded-full bg-ink !text-paper/80 shadow-[0_20px_40px_-20px_rgba(23,51,43,0.6)] hover:!text-paper transition-colors duration-500"
-                  >
-                    <RotatingBadge text={`EXPLORE • ${safeName.toUpperCase()} • `} className="w-full h-full p-1">
-                      <ArrowDownRightIcon className="w-5 h-5 no-fill fill-accent group-hover:rotate-45 transition-transform duration-500" />
-                    </RotatingBadge>
-                  </a>
-                </motion.div>
-              </div>
+                  <RotatingBadge text={`EXPLORE • ${safeName.toUpperCase()} • `} className="w-full h-full p-1">
+                    <ArrowDownRightIcon className="w-5 h-5 no-fill fill-accent group-hover:rotate-45 transition-transform duration-500" />
+                  </RotatingBadge>
+                </a>
+              </motion.div>
+            </div>
           )}
         </div>
       </Container>

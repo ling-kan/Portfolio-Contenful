@@ -220,10 +220,15 @@ button {
   gap: var(--marquee-gap, 3rem);
   padding-right: var(--marquee-gap, 3rem);
   animation: marquee var(--marquee-duration, 40s) linear infinite;
+  animation-play-state: paused;
 }
 
 .marquee--reverse .marquee__track {
   animation-direction: reverse;
+}
+
+.marquee--active .marquee__track {
+  animation-play-state: running;
 }
 
 .marquee:hover .marquee__track,

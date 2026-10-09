@@ -10,7 +10,6 @@ import { navigate } from "gatsby"
 import { isLoggedIn } from "../services/auth"
 import Container from '../components/container'
 import Loader from '../components/loader'
-import { Reveal } from '../components/motion/reveal'
 
 const BlogPostTemplate = (props) => {
   const post = get(props, 'data.contentfulBlogPost')
@@ -81,14 +80,14 @@ const BlogPostTemplate = (props) => {
 
                 <div className="lg:col-span-9">
                   {post.summary?.childMarkdownRemark?.html && (
-                    <Reveal className="relative rounded-[1.5rem] bg-ink text-paper p-8 md:p-12 mb-16 overflow-hidden">
+                    <section className="relative rounded-[1.5rem] bg-ink text-paper p-8 md:p-12 mb-16 overflow-hidden">
                       <div aria-hidden="true" className="absolute -top-24 -right-24 w-72 h-72 rounded-full bg-accent/25 blur-3xl" />
                       <p className="relative eyebrow text-accent">Executive summary</p>
                       <div
                         className="relative rich-text lead mt-6 text-paper/85 [&_strong]:!text-paper"
                         dangerouslySetInnerHTML={{ __html: post.summary.childMarkdownRemark.html }}
                       />
-                    </Reveal>
+                    </section>
                   )}
 
                   <div

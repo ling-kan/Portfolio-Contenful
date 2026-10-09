@@ -2,10 +2,11 @@ import React, { useState } from 'react'
 import useSafeReducedMotion from './motion/use-safe-reduced-motion'
 import { motion, AnimatePresence } from 'motion/react'
 import ImageSlot, { hasImage } from './image-slot'
-import { EASE } from './motion/reveal'
+import { EASE, useRevealInView } from './motion/reveal'
 
 const SkillsPanel = ({ list = [], image }) => {
   const reduce = useSafeReducedMotion()
+  const { ref, controls, entered } = useRevealInView(0.1)
   const [active, setActive] = useState(0)
   const [focused, setFocused] = useState(null)
   const section = list[active] || { skills: [] }
@@ -19,7 +20,16 @@ const SkillsPanel = ({ list = [], image }) => {
   }
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12">
+    <motion.div
+      ref={ref}
+      initial={false}
+      animate={reduce ? 'show' : controls}
+      variants={{
+        hidden: { opacity: 0, y: 12 },
+        show: { opacity: 1, y: 0, transition: { duration: 0.45, ease: EASE } },
+      }}
+      className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12"
+    >
       <div className="lg:col-span-6">
         {/* Category tabs */}
         <div role="tablist" aria-label="Skill categories" className="flex flex-wrap gap-2 mb-10">
@@ -50,8 +60,8 @@ const SkillsPanel = ({ list = [], image }) => {
           <motion.ul
             key={section.category}
             className="flex flex-wrap gap-3"
-            initial="hidden"
-            animate="show"
+            initial={false}
+            animate={reduce ? 'show' : controls}
             exit="exit"
             variants={{
               hidden: {},
@@ -102,8 +112,8 @@ const SkillsPanel = ({ list = [], image }) => {
           <AnimatePresence mode="wait">
             <motion.div
               key={detail?.name || 'empty'}
-              initial={reduce ? false : { opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
+              initial={reduce || entered ? false : { opacity: 0, y: 16 }}
+              animate={entered || reduce ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
               exit={{ opacity: 0, y: -16 }}
               transition={{ duration: 0.35, ease: EASE }}
               className="relative mt-8"
@@ -117,7 +127,7 @@ const SkillsPanel = ({ list = [], image }) => {
           </p>
         </div>
       </aside>
-    </div>
+    </motion.div>
   )
 }
 

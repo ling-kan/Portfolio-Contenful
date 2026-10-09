@@ -1,10 +1,15 @@
 [build]
   command = "npm run build"
   publish = "public"
+   command = "chmod +x ./scripts/deploy.sh && ./scripts/deploy.sh"
 
 [build.environment]
   NODE_VERSION = "20.18.0"
   NPM_VERSION = "9.0.0"
-
+  NODE_NO_WARNINGS = "1"
+  
 [[plugins]]
   package = "@netlify/plugin-gatsby"
+
+
+
