@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, graphql } from 'gatsby'
 import get from 'lodash/get'
+import { GatsbyImage } from 'gatsby-plugin-image'
 import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/react/24/solid'
 import Seo from '../components/seo'
 import Layout from '../components/layout'
@@ -10,6 +11,8 @@ import { navigate } from "gatsby"
 import { isLoggedIn } from "../services/auth"
 import Container from '../components/container'
 import Loader from '../components/loader'
+import ImageZoom, { ImageZoomContent } from '../components/image-zoom'
+import { Reveal } from '../components/motion/reveal'
 
 const BlogPostTemplate = (props) => {
   const post = get(props, 'data.contentfulBlogPost')
@@ -47,7 +50,6 @@ const BlogPostTemplate = (props) => {
             />
             <BlogHeader
               eyebrow="Case study"
-              image={post.heroImage?.gatsbyImageData}
               title={post.title}
               content={post.description?.childMarkdownRemark?.excerpt}
               rawDate={post.rawDate}
@@ -83,19 +85,29 @@ const BlogPostTemplate = (props) => {
                     <section className="relative rounded-[1.5rem] bg-ink text-paper p-8 md:p-12 mb-16 overflow-hidden">
                       <div aria-hidden="true" className="absolute -top-24 -right-24 w-72 h-72 rounded-full bg-accent/25 blur-3xl" />
                       <p className="relative eyebrow text-accent">Executive summary</p>
-                      <div
+                      <ImageZoomContent
                         className="relative rich-text lead mt-6 text-paper/85 [&_strong]:!text-paper"
-                        dangerouslySetInnerHTML={{ __html: post.summary.childMarkdownRemark.html }}
+                        html={post.summary.childMarkdownRemark.html}
                       />
                     </section>
                   )}
 
-                  <div
+                  <ImageZoomContent
                     className={styles.article}
-                    dangerouslySetInnerHTML={{
-                      __html: post.content?.childMarkdownRemark?.html,
-                    }}
+                    html={post.content?.childMarkdownRemark?.html}
                   />
+                  {post.heroImage?.gatsbyImageData && (
+                    <Reveal className={`${styles.featuredImage} mt-16`}>
+                      <ImageZoom image={post.heroImage.gatsbyImageData} alt={post.title}>
+                        <GatsbyImage
+                          image={post.heroImage.gatsbyImageData}
+                          alt={post.title}
+                          className="w-full h-full"
+                          imgClassName="object-cover"
+                        />
+                      </ImageZoom>
+                    </Reveal>
+                  )}
                 </div>
               </div>
             </Container>

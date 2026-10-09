@@ -8,6 +8,20 @@
   max-width: 46rem;
 }
 
+.featuredImage {
+  width: 100%;
+  max-width: 45rem;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: 1.25rem;
+}
+
+@media (max-width: 767px) {
+  .featuredImage {
+    max-width: 100%;
+  }
+}
+
 .article a {
   color: var(--ink);
   border-bottom: 1.5px solid var(--accent);
@@ -75,8 +89,17 @@
 
 .article img {
   max-width: 100%;
+  max-height: 80vh;
+  max-height: 80svh;
   margin: 2.5em auto;
   border-radius: 1.25rem;
+  object-fit: contain;
+  cursor: zoom-in;
+}
+
+.article img:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 4px;
 }
 
 .article iframe {
