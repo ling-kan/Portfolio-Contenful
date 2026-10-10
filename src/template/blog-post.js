@@ -14,6 +14,15 @@ import Loader from '../components/loader'
 import ImageZoom, { ImageZoomContent } from '../components/image-zoom'
 import { Reveal } from '../components/motion/reveal'
 
+// Tags that should never be shown to visitors. Kept in Contentful for the
+// automation scripts, hidden from the UI.
+const HIDDEN_TAGS = new Set(['ai-improved']);
+
+const visibleTags = (tags) => {
+  if (!Array.isArray(tags)) return [];
+  return tags.filter((tag) => !HIDDEN_TAGS.has(tag));
+};
+
 const BlogPostTemplate = (props) => {
   const post = get(props, 'data.contentfulBlogPost')
   const previous = get(props, 'data.previous')
@@ -55,7 +64,7 @@ const BlogPostTemplate = (props) => {
               rawDate={post.rawDate}
               endDate={post.endDate}
               timeToRead={post.body?.childMarkdownRemark?.timeToRead || post.content?.childMarkdownRemark?.timeToRead}
-              tags={post.tags}
+              tags={visibleTags(post.tags)}
             />
             <Container className="py-16 md:py-24">
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
@@ -198,7 +207,7 @@ export const pageQuery = graphql`
       slug
       title
     }
-      allContentfulSocials {
+    allContentfulSocials {
       nodes {
         url
         type
