@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import useSafeReducedMotion from './motion/use-safe-reduced-motion'
 import { Link } from 'gatsby'
 import { motion, AnimatePresence, useMotionValueEvent, useScroll } from 'motion/react'
@@ -12,12 +12,27 @@ const Navigation = ({ navList }) => {
   const [mobileNav, setMobileNav] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [hidden, setHidden] = useState(false)
+  const lastScrollY = useRef(0)
+  const scrolledRef = useRef(false)
+  // const hiddenRef = useRef(false)
   const { scrollY } = useScroll()
 
   useMotionValueEvent(scrollY, 'change', (y) => {
-    const prev = scrollY.getPrevious() ?? 0
-    setScrolled(y > 20)
-    setHidden(y > 240 && y > prev && !mobileNav)
+    const previousY = lastScrollY.current
+    if (Math.abs(y - previousY) < 4) return
+
+    lastScrollY.current = y
+    const nextScrolled = y > 20
+    // const nextHidden = y > 240 && y > previousY && !mobileNav
+
+    if (scrolledRef.current !== nextScrolled) {
+      scrolledRef.current = nextScrolled
+      setScrolled(nextScrolled)
+    }
+    // if (hiddenRef.current !== nextHidden) {
+    //   hiddenRef.current = nextHidden
+    //   setHidden(nextHidden)
+    // }
   })
 
   // Lock page scroll while the mobile menu is open
@@ -44,8 +59,8 @@ const Navigation = ({ navList }) => {
       >
         <Container as="nav" aria-label="Main">
           <div
-            className={`flex items-center justify-between rounded-full pl-5 pr-2 py-2 transition-all duration-500 ${
-              scrolled || mobileNav ? 'glass shadow-[0_10px_40px_-15px_rgba(23,51,43,0.35)] border border-white/60' : 'border border-transparent'
+            className={`flex items-center justify-between rounded-full pl-5 pr-2 py-2 transition-[background-color,border-color,box-shadow] duration-300 ${
+              scrolled || mobileNav ? 'bg-paper/95 shadow-[0_10px_40px_-15px_rgba(23,51,43,0.35)] border border-white/70' : 'border border-transparent'
             }`}
           >
             <Logo onClick={() => setMobileNav(false)} />

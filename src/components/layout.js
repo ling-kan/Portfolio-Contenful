@@ -5,6 +5,7 @@ import Seo from './seo'
 import Navigation from './navigation'
 import Footer from './footer'
 import ScrollProgress from './motion/scroll-progress'
+import CookieConsent from './cookie'
 import useNavigationData from '../services/useNavigationData'
 
 const Template = ({ children, fullHeaderHeight = false }) => {
@@ -28,8 +29,9 @@ const Template = ({ children, fullHeaderHeight = false }) => {
       >
         Skip to content
       </a>
-      <ScrollProgress />
+     
       <Navigation navList={navigation} />
+      <CookieConsent />
       <main id="main" className={headerSpacing}>{children}</main>
       <Footer navList={navigation} />
     </MotionConfig>

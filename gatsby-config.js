@@ -84,15 +84,6 @@ module.exports = {
         display: `standalone`,
       },
     },
-    {
-      resolve: 'gatsby-plugin-google-gtag',
-      options: {
-        trackingIds: [process.env.GATSBY_GOOGLE_ANALYTICS_TRACKING_ID],
-        gtagConfig: { anonymize_ip: true, cookie_expires: 365 },
-        pluginConfig: { head: true },
-      }
-    },
-
   ],
   flags: {
     DEV_SSR: true,

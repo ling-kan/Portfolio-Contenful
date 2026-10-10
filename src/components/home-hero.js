@@ -106,9 +106,9 @@ const HomeHero = ({
       </div>
 
       <Container className="flex-1 flex items-center">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-14 lg:gap-10 items-center w-full">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-14 lg:gap-10 items-center w-full">
           <div
-            className={hasPortrait ? 'lg:col-span-7' : 'lg:col-span-12'}
+            className={hasPortrait ? 'md:col-span-7' : 'lg:col-span-12'}
           >
             <h1 className="display-xl text-ink uppercase whitespace-nowrap !tracking-[-0.035em] !text-[clamp(3.25rem,9vw,8.5rem)]" aria-label={name}>
               <Letters word={first || ''} delay={0.15} ready={ready} className="inline-block align-top" />
@@ -140,7 +140,7 @@ const HomeHero = ({
 
             {tagline && (
               <div
-                className="rich-text lead mt-5 max-w-lg text-ink/75"
+                className="rich-text lead mt-5 md:max-w-lg text-ink/75"
                 dangerouslySetInnerHTML={{ __html: tagline }}
               />
             )}
@@ -201,7 +201,7 @@ const HomeHero = ({
 
           {hasPortrait && (
             <div
-              className="lg:col-span-5 relative mx-auto w-full max-w-[22rem] sm:max-w-sm lg:max-w-[28rem] lg:ml-auto lg:mr-0"
+              className="md:col-span-5 relative mx-auto w-full max-w-[22rem] sm:max-w-sm lg:max-w-[28rem] lg:ml-auto lg:mr-0"
             >
               <motion.div
                 initial={reduce ? false : { opacity: 0, y: 12 }}
@@ -244,7 +244,7 @@ const HomeHero = ({
       </Container>
 
       {/* Discipline ticker */}
-      <div className="relative mt-20 py-6">
+      <div className="relative md:mt-20 py-6">
         <Marquee duration={50} gap="2.5rem">
           {(marqueeItems?.length ? marqueeItems : roles).map((item, i) => (
             <span key={`${item}-${i}`} className="flex items-center gap-10 font-sans text-base md:text-lg font-medium text-ink/70 whitespace-nowrap">

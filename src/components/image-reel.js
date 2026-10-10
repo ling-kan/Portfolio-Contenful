@@ -38,7 +38,7 @@ const ImageReel = ({ posts = [] }) => {
   const rows = [items.slice(0, half), items.slice(half).concat(items.slice(0, Math.max(0, half - (items.length - half))))]
 
   return (
-    <section aria-label="Project gallery" className="relative py-16 md:py-20 overflow-hidden">
+    <section aria-label="Project gallery" className="relative pb-12 md:pb-24 overflow-hidden">
       <motion.div
         ref={ref}
         initial={false}

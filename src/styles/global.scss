@@ -206,6 +206,11 @@ button {
 
 /* ---------- Marquee ---------- */
 
+.page-section {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 900px;
+}
+
 .marquee {
   display: flex;
   overflow: hidden;

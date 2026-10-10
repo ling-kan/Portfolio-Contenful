@@ -1,14 +1,7 @@
 import React, { useEffect } from 'react';
-import { useLocation } from '@reach/router';
 
 function isBrowser() {
     return typeof window !== 'undefined';
-}
-
-function getValue(key, defaultValue) {
-    return isBrowser() && window?.localStorage.getItem(key)
-        ? JSON.parse(window?.localStorage.getItem(key))
-        : defaultValue;
 }
 
 function setValue(key, value) {
@@ -16,15 +9,20 @@ function setValue(key, value) {
 }
 
 function useStickyState(defaultValue, key) {
-    const [value, setter] = React.useState(() => {
-        return getValue(key, defaultValue);
-    });
+    const [value, setter] = React.useState(defaultValue);
+    const [loaded, setLoaded] = React.useState(false);
 
     useEffect(() => {
-        setValue(key, value);
-    }, [key, value]);
+        const storedValue = isBrowser() ? window.localStorage.getItem(key) : null;
+        if (storedValue !== null) setter(JSON.parse(storedValue));
+        setLoaded(true);
+    }, [key]);
 
-    return [value, setter];
+    useEffect(() => {
+        if (loaded) setValue(key, value);
+    }, [key, value, loaded]);
+
+    return [value, setter, loaded];
 }
 
 // Dynamically inject Google Analytics
@@ -43,15 +41,13 @@ function loadGoogleAnalytics(trackingId) {
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
-        gtag('config', '${trackingId}');
+        gtag('config', '${trackingId}', { anonymize_ip: true, cookie_expires: 365 });
     `;
     document.head.appendChild(script2);
 }
 
 const CookieConsent = () => {
-    const location = useLocation();
-
-    const [bannerHidden, setBannerHidden] = useStickyState(false, 'consentCookieHidden');
+    const [bannerHidden, setBannerHidden, bannerLoaded] = useStickyState(false, 'consentCookieHidden');
     const [consentGiven, setConsentGiven] = useStickyState(false, 'consentCookieAccepted');
 
     useEffect(() => {
@@ -67,7 +63,7 @@ const CookieConsent = () => {
 
     return (
         <>
-            {!bannerHidden && (
+            {bannerLoaded && !bannerHidden && (
                 <div className="fixed max-w-sm w-screen bottom-0 z-50">
                     <div className="m-3 p-3 py-4 bg-primary rounded-md">
                         <div className="flex items-center justify-between flex-wrap">

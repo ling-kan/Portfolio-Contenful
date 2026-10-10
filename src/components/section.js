@@ -31,7 +31,7 @@ const Section = ({
   const dark = tone === 'dark'
 
   return (
-    <section id={id} className={`relative py-24 md:py-36 ${TONES[tone]} ${className}`}>
+    <section id={id} className={`page-section relative py-12 md:py-24 ${TONES[tone]} ${className}`}>
       {backdrop}
       <Container className="relative">
         <header className="mb-14 md:mb-20 max-w-4xl">

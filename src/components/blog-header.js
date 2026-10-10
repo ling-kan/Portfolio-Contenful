@@ -7,7 +7,7 @@ import { Reveal, SplitText } from './motion/reveal'
 
 const BlogHeader = ({ title, eyebrow = 'Portfolio', content, rawDate, endDate, timeToRead, tags, image, slot, slotImage, children }) => {
   return (
-    <header className="relative isolate overflow-hidden -mt-28 md:-mt-32 pt-36 md:pt-44 pb-12 md:pb-16">
+    <header className="relative isolate overflow-hidden -mt-20 md:-mt-20 pt-24 md:pt-26 pb-12 md:pb-16">
       <div aria-hidden="true" className="absolute inset-0 -z-10">
         <div className="absolute -top-40 right-0 w-[34rem] h-[34rem] rounded-full bg-mint/50 blur-[110px]" />
         <div className="absolute top-20 -left-40 w-[26rem] h-[26rem] rounded-full bg-accent-soft/70 blur-[110px]" />
