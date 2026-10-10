@@ -37,7 +37,7 @@ $env:NODE_EXTRA_CA_CERTS = "C:\Users\lxk132\netskope-ca.pem"
 ```
 
 The space ID is read from `GATSBY_CONTENTFUL_SPACE_ID` in `.env`. To target a different environment than `master`,
-also set `$env:CONTENTFUL_ENVIRONMENT = "your-env"`.
+also set `$env:CONTENTFUL_ENVIRONMENT_ID = "your-env"`.
 
 ### c) Preview, then apply
 

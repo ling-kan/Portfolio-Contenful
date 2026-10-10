@@ -1,7 +1,7 @@
 # 1. Generate Schema Diff
 npx contentful space environment diff \
   --space-id "$GATSBY_CONTENTFUL_SPACE_ID" \
-  --source-environment-id "$CONTENTFUL_ENVIRONMENT" \
+  --source-environment-id "$CONTENTFUL_ENVIRONMENT_ID" \
   --target-environment-id "$CONTENTFUL_PROD_ENV" \
   --cma-token "$CONTENTFUL_MANAGEMENT_TOKEN" \
   --export-file migration.js || true
@@ -18,7 +18,7 @@ fi
 # 3. Create Entry Changeset (Excluding contentfulBlogPost)
 npx contentful-merge create \
   --space "$GATSBY_CONTENTFUL_SPACE_ID" \
-  --source "$CONTENTFUL_ENVIRONMENT" \
+  --source "$CONTENTFUL_ENVIRONMENT_ID" \
   --target "$CONTENTFUL_PROD_ENV" \
   --cda-token "$GATSBY_CONTENTFUL_DELIVERY_TOKEN" \
   --exclude "contentTypes:contentfulBlogPost" \

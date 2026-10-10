@@ -20,7 +20,7 @@ try {
 const contentfulConfig = {
   spaceId: process.env.GATSBY_CONTENTFUL_SPACE_ID,
   accessToken: process.env.GATSBY_CONTENTFUL_ACCESS_TOKEN,
-  environment: process.env.CONTENTFUL_ENVIRONMENT || 'master',
+  environment: process.env.CONTENTFUL_ENVIRONMENT_ID || 'master',
 };
 
 if (process.env.CONTENTFUL_HOST) {
