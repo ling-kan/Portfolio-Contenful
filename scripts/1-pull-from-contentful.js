@@ -1,29 +1,31 @@
 const path = require('path');
 require('dotenv').config({
-  path: path.resolve(__dirname, '../../.env'),
+  path: path.resolve(__dirname, '../.env'),
 });
 
 const contentful = require('contentful');
 const fs = require('fs');
 
-// Sanity check — remove once confirmed working
-console.log('Looking for .env at:', path.resolve(__dirname, '../../.env'));
-console.log('Space loaded?', !!process.env.GATSBY_CONTENTFUL_SPACE_ID);
-console.log('Access token loaded?', !!process.env.GATSBY_CONTENTFUL_DELIVERY_TOKEN);
+const SPACE_ID = process.env.GATSBY_CONTENTFUL_SPACE_ID;
+const DELIVERY_TOKEN = process.env.GATSBY_CONTENTFUL_DELIVERY_TOKEN;
+const ENVIRONMENT_ID = process.env.CONTENTFUL_ENVIRONMENT_ID || 'master';
+
+if (!SPACE_ID || !DELIVERY_TOKEN) {
+  console.error('❌ Missing GATSBY_CONTENTFUL_SPACE_ID or GATSBY_CONTENTFUL_DELIVERY_TOKEN in .env');
+  process.exit(1);
+}
 
 const client = contentful.createClient({
-  space: process.env.GATSBY_CONTENTFUL_SPACE_ID,
-  accessToken: process.env.GATSBY_CONTENTFUL_DELIVERY_TOKEN,
+  space: SPACE_ID,
+  accessToken: DELIVERY_TOKEN,
+  environment: ENVIRONMENT_ID,
 });
 
 async function pullAllDataToJSON() {
   try {
-    console.log('Fetching all entries and assets from Contentful...');
+    console.log(`Pulling from space ${SPACE_ID} (env: ${ENVIRONMENT_ID})...`);
 
-    // Fetch all entries (paginated if you have more than 1000 items)
     const entriesResponse = await client.getEntries({ limit: 1000 });
-
-    // Fetch all assets (images, documents)
     const assetsResponse = await client.getAssets({ limit: 1000 });
 
     const exportData = {
@@ -34,13 +36,12 @@ async function pullAllDataToJSON() {
       assets: assetsResponse.items,
     };
 
-    // Write data to a local JSON file
-    const fileName = 'contentful-export.json';
+    const fileName = 'bin/contentful-export.json';
     fs.writeFileSync(fileName, JSON.stringify(exportData, null, 2), 'utf8');
 
-    console.log(`Success! All data pulled and saved locally to "${fileName}".`);
+    console.log(`✅ Saved ${entriesResponse.total} entries and ${assetsResponse.total} assets to "${fileName}".`);
   } catch (error) {
-    console.error('Error pulling data from Contentful:', error);
+    console.error('Error pulling data from Contentful:', error.message || error);
   }
 }
 

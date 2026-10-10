@@ -10,7 +10,7 @@ function checkEnv(envName) {
 
 try {
   checkEnv('GATSBY_CONTENTFUL_SPACE_ID');
-  checkEnv('GATSBY_CONTENTFUL_ACCESS_TOKEN');
+  checkEnv('GATSBY_CONTENTFUL_DELIVERY_TOKEN');
   checkEnv('GATSBY_PORTFOLIO_ACCESS_PASS');
   checkEnv('GATSBY_GOOGLE_ANALYTICS_TRACKING_ID');
 } catch (e) {
@@ -19,13 +19,13 @@ try {
 
 const contentfulConfig = {
   spaceId: process.env.GATSBY_CONTENTFUL_SPACE_ID,
-  accessToken: process.env.GATSBY_CONTENTFUL_ACCESS_TOKEN,
+  accessToken: process.env.GATSBY_CONTENTFUL_DELIVERY_TOKEN,
   environment: process.env.CONTENTFUL_ENVIRONMENT_ID || 'master',
 };
 
 if (process.env.CONTENTFUL_HOST) {
   contentfulConfig.host = process.env.CONTENTFUL_HOST;
-  contentfulConfig.accessToken = process.env.CONTENTFUL_PREVIEW_ACCESS_TOKEN;
+  contentfulConfig.accessToken = process.env.GATSBY_CONTENTFUL_PREVIEW_TOKEN;
 }
 
 const { spaceId, accessToken } = contentfulConfig;

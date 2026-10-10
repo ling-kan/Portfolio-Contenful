@@ -49,7 +49,7 @@ const questions = [
     name: "accessToken",
     when:
       !argv.accessToken &&
-      !process.env.GATSBY_CONTENTFUL_ACCESS_TOKEN &&
+      !process.env.GATSBY_CONTENTFUL_DELIVERY_TOKEN &&
       !argv.deliveryToken &&
       !process.env.GATSBY_CONTENTFUL_DELIVERY_TOKEN,
     message: "Your Content Delivery API access token",
@@ -61,7 +61,7 @@ inquirer
   .then(({ spaceId, managementToken, accessToken }) => {
     const {
       GATSBY_CONTENTFUL_SPACE_ID,
-      GATSBY_CONTENTFUL_ACCESS_TOKEN,
+      GATSBY_CONTENTFUL_DELIVERY_TOKEN,
       GATSBY_CONTENTFUL_DELIVERY_TOKEN,
     } = process.env;
 
@@ -71,11 +71,11 @@ inquirer
     managementToken = argv.managementToken || managementToken;
     // Some scripts that set up this repo use `deliveryToken` and
     // `GATSBY_CONTENTFUL_DELIVERY_TOKEN`, instead of `accessToken` and
-    // `GATSBY_CONTENTFUL_ACCESS_TOKEN`. Until all scripts are updated to
-    // use `accessToken` and `GATSBY_CONTENTFUL_ACCESS_TOKEN` both variations
+    // `GATSBY_CONTENTFUL_DELIVERY_TOKEN`. Until all scripts are updated to
+    // use `accessToken` and `GATSBY_CONTENTFUL_DELIVERY_TOKEN` both variations
     // will work.
     accessToken =
-      GATSBY_CONTENTFUL_ACCESS_TOKEN ||
+      GATSBY_CONTENTFUL_DELIVERY_TOKEN ||
       GATSBY_CONTENTFUL_DELIVERY_TOKEN ||
       argv.accessToken ||
       argv.deliveryToken ||
@@ -92,7 +92,7 @@ inquirer
         `# and made available to gatsby-config.js, gatsby-node.js, etc.`,
         `# Do NOT commit this file to source control`,
         `GATSBY_CONTENTFUL_SPACE_ID='${spaceId}'`,
-        `GATSBY_CONTENTFUL_ACCESS_TOKEN='${accessToken}'`,
+        `GATSBY_CONTENTFUL_DELIVERY_TOKEN='${accessToken}'`,
       ].join("\n") + "\n";
 
     configFiles.forEach((file) => {

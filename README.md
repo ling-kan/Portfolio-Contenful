@@ -86,14 +86,11 @@ Portfolio-Contenful/
 │   │   ├── generate-alt-text.js      ← Workflow A
 │   │   └── package.json
 │   │
-│   ├── contentful-blog-improver/
-│   │   ├── improve-blogposts.js      ← Workflow D
-│   │   └── package.json
-│   │
 │   ├── 1-pull-from-contentful.js     ← Workflow B, step 1
-│   ├── 2-apply-improvements.js       ← Workflow B, step 2
-│   ├── 3-push-to-contentful.js       ← Workflow B, step 3
-│   ├── 4-deploy-to-production.sh     ← Workflow C
+│   ├── 2-improve-blogposts.js        ← Workflow D
+│   ├── 3-apply-improvements.js       ← Workflow B, step 2
+│   ├── 4-push-to-contentful.js       ← Workflow B, step 3
+│   ├── 5-deploy-to-production.sh     ← Workflow C
 │   └── README.md                     ← pipeline-specific docs
 │
 ├── contentful-export.json            ← output of pull (gitignored)
@@ -134,15 +131,14 @@ The `test` environment is your safety net — nothing you do in it touches produ
 From the project root:
 
 ```bash
-# Root dependencies
+# Root dependencies — used by every script
 npm install
 
-# Pipeline scripts are self-contained; install each one
+# Alt-text generator is self-contained; install its deps
 cd scripts/contentful-alt-generator && npm install && cd ../..
-cd scripts/contentful-blog-improver && npm install && cd ../..
 ```
 
-`4-deploy-to-production.sh` uses `npx` for all its commands, so no global installs are required — but the first run will download the CLI tools.
+`5-deploy-to-production.sh` uses `npx` for all its commands, so no global installs are required — but the first run will download the CLI tools.
 
 ---
 
@@ -159,22 +155,22 @@ NODE_NO_WARNINGS=1
 NODE_VERSION=20
 
 # ─── Read (Delivery API) ────────────────────────
-GATSBY_CONTENTFUL_ACCESS_TOKEN=xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 GATSBY_CONTENTFUL_DELIVERY_TOKEN=xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+GATSBY_CONTENTFUL_PREVIEW_TOKEN=xxxxxxxxxxx
 
-# ─── Write (Management API) - Personal access token (Settings) ─────────────────────
-CONTENTFUL_MANAGEMENT_TOKEN=xxxxxxxxxxxxxxxxxxxxx
-
+# ─── Write (Management API) — Personal access token ────
+CONTENTFUL_MANAGEMENT_TOKEN=CFPAT-xxxxxxxxxxxxxxxxxxxxx
 
 # ─── Push target file ───────────────────────────
 PUSH_INPUT_FILE=./scripts/updated.json
 
-# ─── AI (Workflows A and D) ─────────────────────
+# ─── Site ───────────────────────────────────────
 GATSBY_GOOGLE_ANALYTICS_TRACKING_ID=xxxxxxxxxxxxxxxxx
 GATSBY_GOOGLE_TAG_MANAGER_ID=xxxxxxxxxxxxxxxxxxxxx
 GATSBY_PORTFOLIO_ACCESS_PASS=xxxxxxxxxxxxxxxxxxxxx
-GEMINI_API_KEY=AIzaSyXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
+# ─── AI (Workflows A and D) ─────────────────────
+GEMINI_API_KEY=AIzaSyXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 ```
 
 > ⚠️ **Never commit `.env` to git.** It's already in `.gitignore`.
@@ -214,11 +210,11 @@ GATSBY_CONTENTFUL_DELIVERY_TOKEN: ✅ set
 | Script | Change origin | Direction | Purpose |
 |--------|--------------|-----------|---------|
 | `contentful-alt-generator/generate-alt-text.js` | AI-generated | Gemini + Contentful → Contentful | Bulk alt text for every image |
-| `contentful-blog-improver/improve-blogposts.js` | AI-generated | Gemini + Contentful → Contentful | Rewrite every blog post as a portfolio case study |
+| `2-improve-blogposts.js` | AI-generated | Gemini + Contentful → Contentful | Rewrite every blog post as a portfolio case study |
 | `1-pull-from-contentful.js` | — | Contentful → local JSON | Export every published entry + asset |
-| `2-apply-improvements.js` | Local file | local JSON → local JSON | Merge hand-authored field changes |
-| `3-push-to-contentful.js` | Local file | local JSON → Contentful | Upsert + publish entries and assets |
-| `4-deploy-to-production.sh` | Contentful `test` | Contentful → Contentful | Diff + promote `test` → `master` |
+| `3-apply-improvements.js` | Local file | local JSON → local JSON | Merge hand-authored field changes |
+| `4-push-to-contentful.js` | Local file | local JSON → Contentful | Upsert + publish entries and assets |
+| `5-deploy-to-production.sh` | Contentful `test` | Contentful → Contentful | Diff + promote `test` → `master` |
 
 ---
 
@@ -349,6 +345,7 @@ Safe to re-run — the script skips assets where both fields are already populat
 
 ```bash
 npm run alt:generate
+# runs: node scripts/contentful-alt-generator/generate-alt-text.js
 ```
 
 ### Example output
@@ -426,6 +423,7 @@ On a paid tier you can lower `MIN_GAP_MS` (e.g. to `500`).
 
 ```bash
 npm run pull
+# runs: node scripts/1-pull-from-contentful.js
 ```
 
 **Output:** `contentful-export.json` at the project root.
@@ -468,6 +466,7 @@ Create `improvements.json` at the project root:
 
 ```bash
 npm run apply
+# runs: node scripts/3-apply-improvements.js contentful-export.json improvements.json updated.json
 ```
 
 **Output:** `updated.json` — the export with your changes merged in.
@@ -483,6 +482,7 @@ This step is pure file I/O — no Contentful calls.
 
 ```bash
 npm run push:test
+# runs: node scripts/4-push-to-contentful.js
 ```
 
 Upserts and publishes every asset and entry from `updated.json` into the `test` environment. Nothing touches `master`.
@@ -522,340 +522,5 @@ Every input comes from Contentful. Every output (except temp files) goes to Cont
 
 ```bash
 npm run deploy:prod
+# runs: bash scripts/5-deploy-to-production.sh
 ```
-
-### What gets promoted
-
-- **Schema** — content types, fields, validators, editor settings
-- **Entries** — all content types **except `contentfulBlogPost`**
-- **Assets** — all image and document assets
-
-### What gets skipped
-
-- **Blog posts** — excluded via `--exclude "contentTypes:contentfulBlogPost"` in Step 3. Remove that line if you want them promoted.
-
-### Important notes
-
-- **Writes directly to production.** No dry-run.
-- **Schema migrations are the risky part.** Adding a required field can break entries before Step 4 fills them in. Safe order: add optional → push content → make required.
-- **`contentful-merge` is a community tool.** Reliable, but handling of rich text and references sometimes differs from expectations.
-- **Version history is your rollback** for individual entries.
-
----
-
-## Workflow D — AI Blog Post Improver
-
-Reads every `blogPost` entry, analyses its images with Gemini, and rewrites `title`, `summary` and `content` as full portfolio case studies. Tags each processed post with `ai-improved` so re-runs skip it.
-
-**Script:** `contentful-blog-improver/improve-blogposts.js`
-**Change origin:** AI-generated on the fly
-**Direction:** Gemini + Contentful → Contentful
-
-### What it does
-
-1. Fetches every entry of content type `blogPost`
-2. Extracts existing copy: title, summary, description, role, tags, dates, content
-3. Finds every image referenced — hero image plus all `![alt](url)` markdown images in `content`
-4. Sends each image to Gemini for structured analysis (type, summary, portfolio purpose)
-5. Sends existing copy + image analyses to Gemini with a detailed portfolio-writing brief
-6. Writes back improved `title`, `summary` and `content`
-7. Adds the `ai-improved` tag
-
-The generated content follows a fixed structure: **Project overview → What this proves → The challenge → My process → What I did → Why I made these decisions → Images in context → Impact → Tools and skills applied → Roles performed**.
-
-### Usage
-
-```bash
-npm run improve
-```
-
-### Example output
-
-```
-Fetching all entries of type "blogPost"...
-Found 15 blog posts.
-
-──────────────────────────────────────────────
-📝 Processing: MyEquifax Registration Flow Optimisation
-   id: 26zZqUDJzOXHsyrIBGEuiK
-   Found 4 image reference(s).
-   ✔ Analysed Registration equifax device image
-   ✔ Analysed myEquifax - Registration Analysis
-   ✔ Analysed Registration Flow - Improvements
-   ✔ Analysed myEquifax - Registration Before & After
-✅ Updated 26zZqUDJzOXHsyrIBGEuiK
-   title: MyEquifax Registration Flow Optimisation
-```
-
-### Configuration
-
-| Constant | Default | Purpose |
-|----------|---------|---------|
-| `LOCALE` | `'en-US'` | Which locale the fields are written to |
-| `CONTENT_TYPE` | `'blogPost'` | Which content type to process |
-| `MAX_RETRIES` | `10` | Max attempts per Gemini call |
-| `DEFAULT_WAIT_MS` | `35000` | Fallback wait if Google doesn't send a hint |
-| `MIN_GAP_BETWEEN_CALLS_MS` | `13000` | Minimum gap between calls |
-| `SKIP_IF_IMPROVED` | `true` | Skip posts already tagged `ai-improved` |
-| `IMPROVED_TAG` | `'ai-improved'` | Marker tag added to processed posts |
-| `GEMINI_MODEL` | `'gemini-3.8-flash'` | Which Gemini model to use |
-
-### Expected runtime
-
-A full 15-post run makes roughly 90 Gemini calls. At the enforced 13-second gap this takes **~20–25 minutes**. Re-runs are near-instant because completed posts are skipped.
-
-### Important notes
-
-- **Overwrites existing title, summary and content.** There is no per-field merge.
-- **Idempotent.** Posts tagged `ai-improved` are skipped on re-runs.
-- **Publishes immediately.**
-- **To regenerate one post:** remove the `ai-improved` tag in Contentful and re-run.
-- **To regenerate everything:** set `SKIP_IF_IMPROVED = false` for one run, then set it back.
-
----
-
-## Which Workflow Should I Use?
-
-| If your changes live... | Use |
-|------------------------|-----|
-| In the Contentful web UI (on `test`) | **Workflow C** |
-| In a local `improvements.json` file | **Workflow B** |
-| Nowhere yet — you want AI to generate alt text | **Workflow A** |
-| Nowhere yet — you want AI to rewrite blog posts | **Workflow D** |
-| You need to add or change content types (schema) | **Workflow C** |
-| You want to review an exact diff before pushing | **Workflow B** |
-| You just want every image to have alt text | **Workflow A** |
-| You just want every blog post rewritten | **Workflow D** |
-
-### Combining workflows
-
-A typical full cycle:
-
-1. `npm run alt:generate` — bulk alt text
-2. `npm run improve` — AI rewrite all blog posts
-3. `npm run pull` → edit `improvements.json` → `npm run apply` — surgical fixes
-4. `npm run push:test` — stage in `test`
-5. Verify in Contentful UI
-6. `npm run deploy:prod` — promote to production
-
----
-
-## Quick Reference Card
-
-```bash
-# ── One-time setup ─────────────────────────────
-npm install
-cd scripts/contentful-alt-generator && npm install && cd ../..
-cd scripts/contentful-blog-improver && npm install && cd ../..
-npm run doctor
-
-# ── Workflow A — bulk AI alt text ──────────────
-npm run alt:generate
-
-# ── Workflow D — AI blog post rewrite ──────────
-npm run improve
-
-# ── Workflow B — local edits ───────────────────
-npm run pull                       # → contentful-export.json
-# (hand-edit improvements.json)
-npm run apply                      # → updated.json
-npm run push:test                  # → Contentful test
-# (verify in Contentful UI)
-npm run push:prod                  # → Contentful master
-
-# ── Workflow C — Contentful-to-Contentful ──────
-npm run deploy:prod
-
-# ── Composite ──────────────────────────────────
-npm run pipeline:full-local        # pull → apply → push:test
-npm run pipeline:promote           # push:test → deploy:prod
-
-# ── Housekeeping ───────────────────────────────
-npm run doctor                     # verify .env
-npm run clean:dry                  # preview pipeline cleanup
-npm run clean:pipeline             # delete generated JSON files
-```
-
----
-
-## File Reference
-
-### `contentful-alt-generator/generate-alt-text.js`
-Bulk-generates `title` and `description` for every image asset using Gemini.
-
-| Env var | Required | Purpose |
-|---------|----------|---------|
-| `GATSBY_CONTENTFUL_SPACE_ID` | ✅ | Which space to scan |
-| `CONTENTFUL_ENVIRONMENT_ID` | ❌ | Defaults to `master` |
-| `CONTENTFUL_MANAGEMENT_TOKEN` | ✅ | Read + write access |
-| `GEMINI_API_KEY` | ✅ | Google AI Studio key |
-
-### `contentful-blog-improver/improve-blogposts.js`
-Rewrites `title`, `summary` and `content` of every `blogPost` entry, with image analysis.
-
-| Env var | Required | Purpose |
-|---------|----------|---------|
-| `GATSBY_CONTENTFUL_SPACE_ID` | ✅ | Which space to scan |
-| `CONTENTFUL_ENVIRONMENT_ID` | ❌ | Defaults to `master` |
-| `CONTENTFUL_MANAGEMENT_TOKEN` | ✅ | Read + write access |
-| `GEMINI_API_KEY` | ✅ | Google AI Studio key |
-
-### `1-pull-from-contentful.js`
-Exports every published entry and asset to `contentful-export.json`.
-
-| Env var | Required | Purpose |
-|---------|----------|---------|
-| `GATSBY_CONTENTFUL_SPACE_ID` | ✅ | Which space to pull from |
-| `GATSBY_CONTENTFUL_DELIVERY_TOKEN` | ✅ | Read access |
-
-### `2-apply-improvements.js`
-Merges field values from `improvements.json` into the export. Pure file I/O — no API calls.
-
-```bash
-node scripts/2-apply-improvements.js <export.json> <improvements.json> <output.json>
-```
-
-Locale is hardcoded to `en-US`. Change the string if your space uses a different default.
-
-### `3-push-to-contentful.js`
-Upserts and publishes every asset and entry from a JSON file into a target environment.
-
-| Env var | Required | Default | Purpose |
-|---------|----------|---------|---------|
-| `GATSBY_CONTENTFUL_SPACE_ID` | ✅ | — | Target space |
-| `CONTENTFUL_MANAGEMENT_TOKEN` | ✅ | — | Write access |
-| `CONTENTFUL_ENVIRONMENT_ID` | ❌ | `test` | Target environment |
-| `PUSH_INPUT_FILE` | ❌ | `./scripts/new-contentful.json` | JSON to push |
-
-### `4-deploy-to-production.sh`
-Promotes content and schema from `$CONTENTFUL_ENVIRONMENT_ID` to `$CONTENTFUL_PROD_ENV` using Contentful's CLI tooling. Excludes blog posts.
-
-| Env var | Required | Purpose |
-|---------|----------|---------|
-| `GATSBY_CONTENTFUL_SPACE_ID` | ✅ | Space to operate on |
-| `GATSBY_CONTENTFUL_DELIVERY_TOKEN` | ✅ | Read access for diffing |
-| `CONTENTFUL_MANAGEMENT_TOKEN` | ✅ | Write access |
-| `CONTENTFUL_ENVIRONMENT_ID` | ✅ | Source env |
-| `CONTENTFUL_PROD_ENV` | ✅ | Target env |
-
----
-
-## Token Types Cheat Sheet
-
-| Script | Token(s) | Env var | Prefix |
-|--------|----------|---------|--------|
-| `generate-alt-text.js` | Management + Gemini | `CONTENTFUL_MANAGEMENT_TOKEN`, `GEMINI_API_KEY` | `CFPAT-`, `AIza...` |
-| `improve-blogposts.js` | Management + Gemini | `CONTENTFUL_MANAGEMENT_TOKEN`, `GEMINI_API_KEY` | `CFPAT-`, `AIza...` |
-| `1-pull-from-contentful.js` | Delivery | `GATSBY_CONTENTFUL_DELIVERY_TOKEN` | *(none)* |
-| `2-apply-improvements.js` | *(none — file I/O)* | — | — |
-| `3-push-to-contentful.js` | Management | `CONTENTFUL_MANAGEMENT_TOKEN` | `CFPAT-` |
-| `4-deploy-to-production.sh` | Both | `GATSBY_CONTENTFUL_DELIVERY_TOKEN` + `CONTENTFUL_MANAGEMENT_TOKEN` | both |
-
----
-
-## Site Scripts (Gatsby & Netlify)
-
-| Command | Does |
-|---------|------|
-| `npm run dev` | Development server with hot reload |
-| `npm run build` | Production build to `public/` |
-| `npm run serve` | Serve the built site |
-| `npm run clean` | Remove Gatsby cache and `node_modules` |
-| `npm run setup` | Run project setup |
-| `npm run contentful-removal` | Delete `.cache` and `public` |
-| `npm run netlify:login` | Authenticate with Netlify |
-| `npm run netlify:deploy` | Deploy to Netlify (draft) |
-
-> ⚠️ **`npm run clean` also deletes `node_modules`.** That triggers a full reinstall on the next `npm install`. If you only want to clear the Gatsby cache, run `npx gatsby clean` instead.
-
----
-
-## Important Notes
-
-- **Workflow B edits files locally; Workflow C edits Contentful directly.** Know which one you're running.
-- **The AI scripts overwrite existing content.** Default behaviour is to skip completed items; force flags override that.
-- **Export only includes published content.** Drafts are invisible to the Delivery API.
-- **No pagination in the export script.** Contentful caps at 1000 items per request. If you exceed that, add pagination to `1-pull-from-contentful.js`.
-- **`2-apply-improvements.js` overwrites unconditionally.** Listed fields are replaced, no merge.
-- **`3-push-to-contentful.js` publishes on every run.** No dry-run mode.
-- **`4-deploy-to-production.sh` writes directly to production.** No dry-run. Schema changes are applied before content.
-- **The `test` environment is your safety net.** Never push straight to `master` on the first run of a new improvement set.
-- **Content types must already exist in the target environment** before pushing entries of that type.
-
----
-
-## Troubleshooting
-
-### `Cannot find module 'dotenv' / 'contentful' / 'contentful-management'`
-Run `npm install` at the project root, and inside each of the two script subfolders (`contentful-alt-generator`, `contentful-blog-improver`).
-
-### `ENOENT: no such file or directory, open '.../.env'`
-The script couldn't find `.env` two levels up from its own location. Check:
-
-```bash
-node -e "console.log(require('path').resolve('scripts/../../.env'))"
-```
-
-The path should resolve to your project root `.env`.
-
-### `npm run doctor` reports a variable as missing
-`.env` isn't at the project root, or the variable name is misspelled. Compare against `.env.example`.
-
-### `403 Forbidden` from Contentful
-- Wrong token type (Delivery vs Management)
-- Token belongs to a different space
-- Typo in `GATSBY_CONTENTFUL_SPACE_ID`
-- Token was revoked in Contentful
-
-### `Gemini error: model not available`
-Google periodically retires model names. Check <https://ai.google.dev/gemini-api/docs/get-started> for the current list and update `GEMINI_MODEL`.
-
-### `Too many requests` loops forever
-Your Free Tier limit may be lower than expected, or another process is using the same API key. Wait a few minutes, or upgrade your Gemini tier.
-
-### Export has fewer items than expected
-You have more than 1000 entries or assets. Add pagination to `1-pull-from-contentful.js`.
-
-### `3-push-to-contentful.js` fails with `createEntryWithId` error
-The content type doesn't exist in the target environment. Create it there first.
-
-### `2-apply-improvements.js` says `Updated 0 entries`
-The IDs in `improvements.json` don't match any `entry.sys.id` in the export.
-
-### `4-deploy-to-production.sh` fails at Step 1
-Check `GATSBY_CONTENTFUL_SPACE_ID` is correct and both environments exist.
-
-### `4-deploy-to-production.sh` Step 3 fails with `contentful-merge: command not found`
-`npx` should download it automatically. If not:
-
-```bash
-npm install -g contentful-merge
-```
-
-### `4-deploy-to-production.sh` migration breaks entries
-Adding a required field before content has been pushed is the classic failure mode. Safe order:
-
-1. Add the field as optional
-2. Push content that populates it
-3. Change it to required in a follow-up migration
-
-### `npm run clean` wiped `node_modules`
-That's the current behaviour. Run `npm install` to reinstall. If you don't want this, edit `package.json` and change the `clean` script to just `gatsby clean`.
-
----
-
-## Security
-
-- **Never hardcode tokens** in scripts. Always read from `.env`.
-- **`.env` is in `.gitignore`** — keep it that way.
-- **If a token is ever committed**, treat it as compromised and revoke it immediately in Contentful → Settings → API keys.
-- **Management tokens have full write access** to your space. Treat them like passwords.
-- **Delivery tokens are technically public** (used in the browser build), but keep them out of version control anyway.
-- **Gemini keys are account-scoped.** Anyone with the key can burn through your quota.
-- **The `test` environment is not a security boundary.** It's a staging area, not a sandbox with different credentials.
-
----
-
-## License
-
-Internal use. Not published.

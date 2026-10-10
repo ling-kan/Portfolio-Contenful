@@ -171,7 +171,7 @@ npm run build        # production build into ./public
 ```
 
 `.env.development` (and `.env.production` for builds) must contain `GATSBY_CONTENTFUL_SPACE_ID`,
-`GATSBY_CONTENTFUL_ACCESS_TOKEN`, `GATSBY_PORTFOLIO_ACCESS_PASS` and `GATSBY_GOOGLE_ANALYTICS_TRACKING_ID`.
+`GATSBY_CONTENTFUL_DELIVERY_TOKEN`, `GATSBY_PORTFOLIO_ACCESS_PASS` and `GATSBY_GOOGLE_ANALYTICS_TRACKING_ID`.
 Netlify builds use the same variables from the Netlify dashboard — the management token is **not** needed there.
 
 After publishing changes in Contentful, the live site updates on the next Netlify build (trigger one manually or
