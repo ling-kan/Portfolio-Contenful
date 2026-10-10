@@ -1,0 +1,37 @@
+name: Auto-Improve Blog Posts
+
+on:
+  schedule:
+    # Runs at 08:00 UTC every day.
+    # This is 1:00 AM PDT / 12:00 AM PST (midnight PT), just after the Gemini quota resets.
+    - cron: '0 8 * * *'
+  
+  # Allows you to run it manually from the Actions tab too.
+  workflow_dispatch:
+
+jobs:
+  improve-posts:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install
+        working-directory: ./scripts
+
+      - name: Run Blog Post Improvement Script
+        env:
+          # These map your GitHub Secrets to the environment variables your script expects
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GATSBY_CONTENTFUL_SPACE_ID: ${{ secrets.GATSBY_CONTENTFUL_SPACE_ID }}
+          CONTENTFUL_MANAGEMENT_TOKEN: ${{ secrets.CONTENTFUL_MANAGEMENT_TOKEN }}
+          CONTENTFUL_ENVIRONMENT_ID: ${{ secrets.CONTENTFUL_ENVIRONMENT_ID }}
+        run: node 2-improve-blogposts.js
+        working-directory: ./scripts

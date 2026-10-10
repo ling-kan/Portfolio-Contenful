@@ -4,7 +4,6 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "// ── GATSBY SITE ─────────────────────────────────": "",
     "dev": "gatsby develop",
     "build": "gatsby build",
     "serve": "gatsby serve",
@@ -28,21 +27,21 @@
     "alt:generate:dry": "DRY_RUN=1 node scripts/contentful-alt-generator/generate-alt-text.js",
     "alt:force": "FORCE_REGENERATE=1 node scripts/contentful-alt-generator/generate-alt-text.js",
 
-    "// ── WORKFLOW B — JSON PIPELINE ──────────────────": "",
+    "// ── WORKFLOW B — BLOG POST IMPROVER ─────────────": "",
+    "improve-blogposts": "node scripts/2-improve-blogposts.js",
+    "blog:improve": "node scripts/2-improve-blogposts.js",
+    "blog:improve:dry": "DRY_RUN=1 node scripts/2-improve-blogposts.js",
+    "blog:improve:force": "FORCE_REGENERATE=1 node scripts/2-improve-blogposts.js",
+
+    "// ── WORKFLOW C — JSON PIPELINE ──────────────────": "",
     "pull": "node scripts/1-pull-from-contentful.js",
-    "apply": "node scripts/2-apply-improvements.js contentful-export.json improvements.json updated.json",
-    "push": "node scripts/3-push-to-contentful.js",
-    "push:test": "CONTENTFUL_ENVIRONMENT_ID=test node scripts/3-push-to-contentful.js",
-    "push:prod": "CONTENTFUL_ENVIRONMENT_ID=master node scripts/3-push-to-contentful.js",
+    "apply": "node scripts/3-apply-improvements.js contentful-export.json improvements.json updated.json",
+    "push": "node scripts/4-push-to-contentful.js",
+    "push:test": "CONTENTFUL_ENVIRONMENT_ID=test node scripts/4-push-to-contentful.js",
+    "push:prod": "CONTENTFUL_ENVIRONMENT_ID=master node scripts/4-push-to-contentful.js",
 
-    "// ── WORKFLOW C — ENVIRONMENT PROMOTION ──────────": "",
-    "deploy:prod": "bash scripts/4-deploy-to-production.sh",
-
-    "// ── BLOG POST IMPROVER ──────────────────────────": "",
-    "improve-blogposts": "node scripts/contentful-blog-improver/improve-blogposts.js",
-    "blog:improve": "node scripts/contentful-blog-improver/improve-blogposts.js",
-    "blog:improve:dry": "DRY_RUN=1 node scripts/contentful-blog-improver/improve-blogposts.js",
-    "blog:improve:force": "FORCE_REGENERATE=1 node scripts/contentful-blog-improver/improve-blogposts.js",
+    "// ── WORKFLOW D — ENVIRONMENT PROMOTION ──────────": "",
+    "deploy:prod": "bash scripts/5-deploy-to-production.sh",
 
     "// ── COMPOSITE PIPELINES ─────────────────────────": "",
     "pipeline:pull-apply": "npm run pull && npm run apply",
@@ -55,7 +54,7 @@
     "clean:log": "rm -rf logs/*.log",
     "doctor": "node -e \"require('dotenv').config(); ['GATSBY_CONTENTFUL_SPACE_ID','CONTENTFUL_MANAGEMENT_TOKEN','GATSBY_CONTENTFUL_DELIVERY_TOKEN'].forEach(k => console.log(k + ':', process.env[k] ? '✅ set' : '❌ missing'));\"",
     "audit": "npm audit --omit=dev"
-   },
+  },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
     "@tippyjs/react": "^4.2.6",

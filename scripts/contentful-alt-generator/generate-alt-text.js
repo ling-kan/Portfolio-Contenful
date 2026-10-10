@@ -150,7 +150,7 @@ async function generateWithRetry(fileUrl, mimeType, label) {
             'x-goog-api-key': process.env.GEMINI_API_KEY,
           },
           body: JSON.stringify({
-            model: 'gemini-3.8-flash',
+            model: 'gemini-3.8-flash-lite',
             input: [
               { type: 'text', text: aiPrompt },
               { type: 'image', data: imageB64, mime_type: mimeType },
