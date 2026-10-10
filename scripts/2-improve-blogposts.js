@@ -55,6 +55,16 @@ const MIN_GAP_BETWEEN_CALLS_MS = 20000;
 const GEMINI_MODEL = 'gemini-3.8-flash';
 
 /* ------------------------------------------------------------------ */
+/*  GLOBAL ABORT FLAG                                                  */
+/*  ----------------------------------------------------------------- */
+/*  When Gemini's DAILY quota is exhausted, retrying won't help —     */
+/*  we'd hang for hours. Instead we set this flag and let the main    */
+/*  loop exit cleanly. Remaining posts are picked up tomorrow.        */
+/* ------------------------------------------------------------------ */
+
+let DAILY_QUOTA_EXHAUSTED = false;
+
+/* ------------------------------------------------------------------ */
 /*  MAIN                                                               */
 /* ------------------------------------------------------------------ */
 
@@ -136,13 +146,20 @@ async function main() {
           }
           lastCallAt = Date.now();
 
-          const { analysis, wasRateLimited } = await analyseImage(
+          const { analysis, wasRateLimited, dailyExhausted } = await analyseImage(
             ref.url,
             ref.mimeType,
             ref.alt
           );
 
           if (wasRateLimited) rateLimited++;
+
+          if (dailyExhausted || DAILY_QUOTA_EXHAUSTED) {
+            console.log(
+              `   🛑 Daily quota exhausted during image analysis — aborting this post.`
+            );
+            break;
+          }
 
           if (analysis) {
             imagesAnalysed++;
@@ -169,11 +186,33 @@ async function main() {
           }
         }
 
+        /* ---------- Bail out if quota ran out during images ---------- */
+        if (DAILY_QUOTA_EXHAUSTED) {
+          console.log('');
+          console.log('🛑 Daily Gemini quota exhausted — stopping run.');
+          console.log(
+            "   Remaining posts will be picked up by tomorrow's run."
+          );
+          break;
+        }
+
         /* ---------- Generate improved copy ---------- */
-        const { result: improved, wasRateLimited: rewriteLimited } =
-          await improveBlogPost({ existing, imageAnalyses });
+        const {
+          result: improved,
+          wasRateLimited: rewriteLimited,
+          dailyExhausted: rewriteExhausted,
+        } = await improveBlogPost({ existing, imageAnalyses });
 
         if (rewriteLimited) rateLimited++;
+
+        if (rewriteExhausted || DAILY_QUOTA_EXHAUSTED) {
+          console.log('');
+          console.log('🛑 Daily Gemini quota exhausted on rewrite — stopping run.');
+          console.log(
+            "   Remaining posts will be picked up by tomorrow's run."
+          );
+          break;
+        }
 
         if (!improved) {
           console.error(
@@ -201,8 +240,14 @@ async function main() {
           console.log('  description:', improved.description);
           console.log('  role:       ', improved.role);
           console.log('  tags:       ', (improved.tags || []).join(', '));
-          console.log('  summary:    ', (improved.summary || '').slice(0, 160) + '...');
-          console.log('  content:    ', (improved.content || '').slice(0, 160) + '...');
+          console.log(
+            '  summary:    ',
+            (improved.summary || '').slice(0, 160) + '...'
+          );
+          console.log(
+            '  content:    ',
+            (improved.content || '').slice(0, 160) + '...'
+          );
           processed++;
           continue;
         }
@@ -249,12 +294,21 @@ async function main() {
     console.log(`Rate limited:      ${rateLimited} (recovered after waits)`);
     console.log('─── Images ───────────────────────────────────');
     console.log(`Images analysed:   ${imagesAnalysed}`);
-    console.log(`Images skipped:    ${imagesSkipped} (existing description was fine)`);
-    console.log(`Images restored:   ${imagesRestored} (AI dropped them, script re-added)`);
+    console.log(
+      `Images skipped:    ${imagesSkipped} (existing description was fine)`
+    );
+    console.log(
+      `Images restored:   ${imagesRestored} (AI dropped them, script re-added)`
+    );
     console.log('─── Assets ───────────────────────────────────');
     console.log(`Assets updated:    ${assetsUpdated}`);
     console.log(`  └─ titles:       ${assetTitlesUpdated}`);
     console.log(`Total posts:       ${entries.items.length}`);
+    if (DAILY_QUOTA_EXHAUSTED) {
+      console.log('─── Status ───────────────────────────────────');
+      console.log('🛑 Run stopped early — daily Gemini quota exhausted.');
+      console.log('   Tomorrow\'s run will continue from where this left off.');
+    }
     console.log('══════════════════════════════════════════════');
   } catch (err) {
     console.error('Fatal error:', err.message);
@@ -324,7 +378,6 @@ function extractImageRefs(entry) {
   const refs = [];
   const f = entry.fields;
 
-  /* ------------------- Hero image ------------------- */
   const hero = f.heroImage?.[LOCALE];
   if (hero?.sys?.id) {
     refs.push({
@@ -342,7 +395,6 @@ function extractImageRefs(entry) {
     });
   }
 
-  /* ---------------- Inline images -------------------- */
   const content = f.content?.[LOCALE] || '';
   const mdImageRegex = /!\[([^\]]*)\]\(([^)]+)\)/g;
   let match;
@@ -514,7 +566,6 @@ async function updateAsset(environment, ref, analysis) {
       return { ok: false, titleUpdated: false };
     }
 
-    /* -------------------- Save + publish ---------------- */
     const updated = await asset.update();
     await updated.publish();
 
@@ -575,7 +626,6 @@ function truncate(str, max) {
 function ensureImagesPresent(content, imageAnalyses) {
   let restored = 0;
 
-  // Any image whose URL doesn't appear in the rewritten content?
   const missing = imageAnalyses.filter(
     (ia) => ia.ref.url && !content.includes(ia.ref.url)
   );
@@ -598,7 +648,6 @@ function ensureImagesPresent(content, imageAnalyses) {
     })
     .join('');
 
-  // Try to insert before "## Impact". Fall back to appending at end.
   if (/^##\s+Impact/m.test(content)) {
     content = content.replace(/(^##\s+Impact)/m, `${appendix}\n\n$1`);
   } else {
@@ -637,18 +686,48 @@ function computeBackoffMs(attempt) {
 }
 
 /* ------------------------------------------------------------------ */
+/*  CLASSIFY RATE LIMITS                                               */
+/*  ----------------------------------------------------------------- */
+/*  Distinguishes per-minute rate limits (worth waiting out) from     */
+/*  daily quota exhaustion (no point retrying today).                 */
+/* ------------------------------------------------------------------ */
+
+function classifyRateLimit(message) {
+  const msg = (message || '').toLowerCase();
+
+  // Daily quota exhausted — Google usually says "per day" or "quota",
+  // or returns RESOURCE_EXHAUSTED without a retry hint.
+  if (
+    msg.includes('per day') ||
+    msg.includes('daily') ||
+    msg.includes('quota exceeded') ||
+    msg.includes('resource_exhausted')
+  ) {
+    return { kind: 'daily', waitMs: 0 };
+  }
+
+  // Per-minute limit — Google tells us how long to wait.
+  const m = msg.match(/retry in (\d+(?:\.\d+)?)\s*s/i);
+  if (m) {
+    return { kind: 'per_minute', waitMs: (parseFloat(m[1]) + 2) * 1000 };
+  }
+
+  return { kind: 'unknown', waitMs: RATE_LIMIT_BASE_WAIT_MS };
+}
+
+/* ------------------------------------------------------------------ */
 /*  IMAGE ANALYSIS                                                     */
 /* ------------------------------------------------------------------ */
 
 async function analyseImage(url, mimeType, alt) {
-  if (!url) return { analysis: null, wasRateLimited: false };
+  if (!url) return { analysis: null, wasRateLimited: false, dailyExhausted: false };
 
   let imageB64;
   try {
     imageB64 = await fetchBase64(url);
   } catch (err) {
     console.warn(`Could not fetch image ${url}:`, err.message);
-    return { analysis: null, wasRateLimited: false };
+    return { analysis: null, wasRateLimited: false, dailyExhausted: false };
   }
 
   const prompt = [
@@ -708,14 +787,29 @@ async function analyseImage(url, mimeType, alt) {
         wasRateLimited = true;
         rateLimitAttempts++;
 
+        let parsed;
+        try {
+          parsed = JSON.parse(bodyText);
+        } catch {
+          parsed = null;
+        }
+        const { kind, waitMs } = classifyRateLimit(parsed?.error?.message);
+
+        if (kind === 'daily') {
+          console.warn(
+            `   🛑 Daily quota exhausted (image: ${alt}). Skipping.`
+          );
+          DAILY_QUOTA_EXHAUSTED = true;
+          return { analysis: null, wasRateLimited, dailyExhausted: true };
+        }
+
         if (
           IMAGE_RATE_LIMIT_BEHAVIOUR === 'fallback' ||
           rateLimitAttempts >= RATE_LIMIT_MAX_ATTEMPTS
         ) {
-          return { analysis: null, wasRateLimited };
+          return { analysis: null, wasRateLimited, dailyExhausted: false };
         }
 
-        const waitMs = computeBackoffMs(rateLimitAttempts);
         console.warn(
           `⏳ Rate limited (attempt ${rateLimitAttempts}/${RATE_LIMIT_MAX_ATTEMPTS}) on ${alt}. Waiting ${Math.round(waitMs / 1000)}s...`
         );
@@ -736,7 +830,7 @@ async function analyseImage(url, mimeType, alt) {
           bodyText.slice(0, 200)
         );
         if (otherErrorAttempts >= MAX_RETRIES_OTHER_ERRORS) {
-          return { analysis: null, wasRateLimited };
+          return { analysis: null, wasRateLimited, dailyExhausted: false };
         }
         await sleep(OTHER_ERROR_WAIT_MS);
         continue;
@@ -749,7 +843,7 @@ async function analyseImage(url, mimeType, alt) {
         otherErrorAttempts++;
         console.error(`Gemini returned non-JSON on ${alt}.`);
         if (otherErrorAttempts >= MAX_RETRIES_OTHER_ERRORS) {
-          return { analysis: null, wasRateLimited };
+          return { analysis: null, wasRateLimited, dailyExhausted: false };
         }
         await sleep(OTHER_ERROR_WAIT_MS);
         continue;
@@ -758,12 +852,14 @@ async function analyseImage(url, mimeType, alt) {
       const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
       if (text) {
         const parsed = parseJson(text);
-        if (parsed?.summary) return { analysis: parsed, wasRateLimited };
+        if (parsed?.summary) {
+          return { analysis: parsed, wasRateLimited, dailyExhausted: false };
+        }
       }
 
       otherErrorAttempts++;
       if (otherErrorAttempts >= MAX_RETRIES_OTHER_ERRORS) {
-        return { analysis: null, wasRateLimited };
+        return { analysis: null, wasRateLimited, dailyExhausted: false };
       }
       await sleep(OTHER_ERROR_WAIT_MS);
     } catch (err) {
@@ -773,7 +869,7 @@ async function analyseImage(url, mimeType, alt) {
         err.message
       );
       if (otherErrorAttempts >= MAX_RETRIES_OTHER_ERRORS) {
-        return { analysis: null, wasRateLimited };
+        return { analysis: null, wasRateLimited, dailyExhausted: false };
       }
       await sleep(OTHER_ERROR_WAIT_MS);
     }
@@ -988,14 +1084,27 @@ The \`content\` field must use escaped newlines (\\n) so it is valid JSON.`;
         wasRateLimited = true;
         rateLimitAttempts++;
 
+        let parsed;
+        try {
+          parsed = JSON.parse(bodyText);
+        } catch {
+          parsed = null;
+        }
+        const { kind, waitMs } = classifyRateLimit(parsed?.error?.message);
+
+        if (kind === 'daily') {
+          console.warn(`   🛑 Daily quota exhausted on rewrite.`);
+          DAILY_QUOTA_EXHAUSTED = true;
+          return { result: null, wasRateLimited, dailyExhausted: true };
+        }
+
         if (
           REWRITE_RATE_LIMIT_BEHAVIOUR === 'skip' ||
           rateLimitAttempts >= RATE_LIMIT_MAX_ATTEMPTS
         ) {
-          return { result: null, wasRateLimited };
+          return { result: null, wasRateLimited, dailyExhausted: false };
         }
 
-        const waitMs = computeBackoffMs(rateLimitAttempts);
         console.warn(
           `⏳ Rate limited on rewrite (attempt ${rateLimitAttempts}/${RATE_LIMIT_MAX_ATTEMPTS}). Waiting ${Math.round(waitMs / 1000)}s before retrying...`
         );
@@ -1016,7 +1125,7 @@ The \`content\` field must use escaped newlines (\\n) so it is valid JSON.`;
           bodyText.slice(0, 300)
         );
         if (otherErrorAttempts >= MAX_RETRIES_OTHER_ERRORS) {
-          return { result: null, wasRateLimited };
+          return { result: null, wasRateLimited, dailyExhausted: false };
         }
         await sleep(OTHER_ERROR_WAIT_MS);
         continue;
@@ -1029,7 +1138,7 @@ The \`content\` field must use escaped newlines (\\n) so it is valid JSON.`;
         otherErrorAttempts++;
         console.error(`Gemini returned non-JSON.`);
         if (otherErrorAttempts >= MAX_RETRIES_OTHER_ERRORS) {
-          return { result: null, wasRateLimited };
+          return { result: null, wasRateLimited, dailyExhausted: false };
         }
         await sleep(OTHER_ERROR_WAIT_MS);
         continue;
@@ -1047,13 +1156,13 @@ The \`content\` field must use escaped newlines (\\n) so it is valid JSON.`;
           typeof parsed.role === 'string' &&
           Array.isArray(parsed.tags)
         ) {
-          return { result: parsed, wasRateLimited };
+          return { result: parsed, wasRateLimited, dailyExhausted: false };
         }
       }
 
       otherErrorAttempts++;
       if (otherErrorAttempts >= MAX_RETRIES_OTHER_ERRORS) {
-        return { result: null, wasRateLimited };
+        return { result: null, wasRateLimited, dailyExhausted: false };
       }
       await sleep(OTHER_ERROR_WAIT_MS);
     } catch (err) {
@@ -1063,7 +1172,7 @@ The \`content\` field must use escaped newlines (\\n) so it is valid JSON.`;
         err.message
       );
       if (otherErrorAttempts >= MAX_RETRIES_OTHER_ERRORS) {
-        return { result: null, wasRateLimited };
+        return { result: null, wasRateLimited, dailyExhausted: false };
       }
       await sleep(OTHER_ERROR_WAIT_MS);
     }
