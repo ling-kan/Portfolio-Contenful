@@ -13,41 +13,34 @@
     "postinstall": "node ./bin/hello.js",
     "setup": "node ./bin/setup.js",
     "contentful-removal": "rm -rf .cache public",
-
+    "github:deploy": "gh-pages -d public",
     "// ── NETLIFY ─────────────────────────────────────": "",
     "netlify:login": "netlify login",
     "netlify:deploy": "netlify deploy -d public -p",
-
     "// ── ALIASES ─────────────────────────────────────": "",
     "alt": "npm run alt:generate",
     "improve": "npm run blog:improve",
-
     "// ── WORKFLOW A — AI ALT TEXT ────────────────────": "",
     "alt:generate": "node scripts/contentful-alt-generator/generate-alt-text.js",
     "alt:generate:dry": "DRY_RUN=1 node scripts/contentful-alt-generator/generate-alt-text.js",
     "alt:force": "FORCE_REGENERATE=1 node scripts/contentful-alt-generator/generate-alt-text.js",
-
     "// ── WORKFLOW B — BLOG POST IMPROVER ─────────────": "",
     "improve-blogposts": "node scripts/2-improve-blogposts.js",
     "blog:improve": "node scripts/2-improve-blogposts.js",
     "blog:improve:dry": "DRY_RUN=1 node scripts/2-improve-blogposts.js",
     "blog:improve:force": "FORCE_REGENERATE=1 node scripts/2-improve-blogposts.js",
-
     "// ── WORKFLOW C — JSON PIPELINE ──────────────────": "",
     "pull": "node scripts/1-pull-from-contentful.js",
     "apply": "node scripts/3-apply-improvements.js contentful-export.json improvements.json updated.json",
     "push": "node scripts/4-push-to-contentful.js",
     "push:test": "CONTENTFUL_ENVIRONMENT_ID=test node scripts/4-push-to-contentful.js",
     "push:prod": "CONTENTFUL_ENVIRONMENT_ID=master node scripts/4-push-to-contentful.js",
-
     "// ── WORKFLOW D — ENVIRONMENT PROMOTION ──────────": "",
     "deploy:prod": "bash scripts/5-deploy-to-production.sh",
-
     "// ── COMPOSITE PIPELINES ─────────────────────────": "",
     "pipeline:pull-apply": "npm run pull && npm run apply",
     "pipeline:full-local": "npm run pull && npm run apply && npm run push:test",
     "pipeline:promote": "npm run push:test && npm run deploy:prod",
-
     "// ── HOUSEKEEPING (pipeline only, does not touch Gatsby cache)": "",
     "clean:dry": "echo \"Will delete: contentful-export.json updated.json improvements.json changeset.json migration.js\"",
     "clean:pipeline": "rm -f contentful-export.json updated.json improvements.json changeset.json migration.js",
@@ -93,6 +86,7 @@
     "@tailwindcss/postcss": "^4.1.18",
     "autoprefixer": "^10.4.21",
     "gatsby-plugin-postcss": "^6.14.0",
+    "gh-pages": "^6.3.0",
     "postcss": "^8.5.6",
     "sass": "^1.90.0",
     "tailwindcss": "^4.1.18"
