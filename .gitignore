@@ -79,7 +79,7 @@ node_modules
 /node_modules
 
 # Local-only: lockfile resolves to the Equifax internal npm registry; preview config; git bundles
-package-lock.json
+# package-lock.json
 .claude/
 *.bundle
 /bin/*.json
