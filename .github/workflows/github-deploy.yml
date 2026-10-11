@@ -20,6 +20,7 @@ jobs:
         env:
           GATSBY_CONTENTFUL_SPACE_ID: ${{ secrets.GATSBY_CONTENTFUL_SPACE_ID }}
           GATSBY_CONTENTFUL_DELIVERY_TOKEN: ${{ secrets.GATSBY_CONTENTFUL_DELIVERY_TOKEN }}
+          GATSBY_PORTFOLIO_ACCESS_PASS: ${{ secrets.GATSBY_PORTFOLIO_ACCESS_PASS }}
         run: |
           npm ci
           npm run build
