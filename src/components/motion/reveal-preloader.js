@@ -80,7 +80,7 @@ const RevealPreloader = ({ brandName = 'LING KAN', label = 'Digital experience &
                 className="display-xl uppercase"
                 initial={{ y: '100%' }}
                 animate={{ y: '0%' }}
-                transition={{ duration: 0.35, ease: EASE }}
+                transition={{ duration: 0.8, ease: EASE }}
               >
                 {brandName}
                 <span className="text-accent">.</span>

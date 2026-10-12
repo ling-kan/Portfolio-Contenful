@@ -67,7 +67,7 @@ const KeyMetrics = ({ list = [] }) => {
           className="group relative bg-ink p-8 md:p-10 min-h-[14rem] flex flex-col justify-between overflow-hidden"
           variants={{
             hidden: { opacity: 0, y: 16 },
-            show: { opacity: 1, y: 0, transition: { duration: 0.45, delay: i * 0.04, ease: EASE } },
+            show: { opacity: 1, y: 0, transition: { duration: 0.8, delay: i * 0.04, ease: EASE } },
           }}
         >
           <div
@@ -85,7 +85,7 @@ const KeyMetrics = ({ list = [] }) => {
               className="block mt-6 h-px bg-paper/30 origin-left"
               variants={{
                 hidden: { scaleX: 0 },
-                show: { scaleX: 1, transition: { duration: 0.45, delay: 0.1 + i * 0.04, ease: EASE } },
+                show: { scaleX: 1, transition: { duration: 0.8, delay: 0.1 + i * 0.04, ease: EASE } },
               }}
             />
           </div>

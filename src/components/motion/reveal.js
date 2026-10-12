@@ -51,7 +51,7 @@ export const Reveal = ({ children, delay = 0, y = 12, className = '', as = 'div'
       className={className}
       initial={false}
       animate={controls}
-      transition={{ duration: 0.45, delay, ease: EASE }}
+      transition={{ duration: 0.8, delay, ease: EASE }}
       variants={{
         hidden: { opacity: 0, y },
         show: { opacity: 1, y: 0 },
@@ -109,7 +109,7 @@ export const SplitText = ({ text = '', className = '', delay = 0, stagger = 0.02
               className={`inline-block ${isHighlight(word) ? 'editorial text-accent pr-[0.06em]' : ''}`}
               variants={{
                 hidden: { y: '110%' },
-                show: { y: '0%', transition: { duration: 0.45, ease: EASE } },
+                show: { y: '0%', transition: { duration: 0.8, ease: EASE } },
               }}
             >
               {word}

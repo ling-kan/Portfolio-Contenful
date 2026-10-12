@@ -17,7 +17,7 @@ const TimelineItem = ({ event, index, open, onToggle, idPrefix }) => {
       className="relative grid grid-cols-[2.5rem_1fr] md:grid-cols-[11rem_3rem_1fr] gap-x-4 md:gap-x-6 pb-14 last:pb-0"
       initial={false}
       animate={reduce ? 'show' : controls}
-      transition={{ duration: 0.45, ease: EASE }}
+      transition={{ duration: 0.8, ease: EASE }}
       variants={{ hidden: { opacity: 0, y: 16 }, show: { opacity: 1, y: 0 } }}
     >
       {/* Date (desktop) */}
@@ -93,7 +93,7 @@ const TimelineItem = ({ event, index, open, onToggle, idPrefix }) => {
                   initial={{ height: 0, opacity: 0 }}
                   animate={{ height: 'auto', opacity: 1 }}
                   exit={{ height: 0, opacity: 0 }}
-                  transition={{ duration: 0.3, ease: EASE }}
+                  transition={{ duration: 0.8, ease: EASE }}
                   className="overflow-hidden"
                 >
                   <div

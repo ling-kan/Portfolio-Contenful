@@ -45,7 +45,7 @@ const Section = ({
                 initial={false}
                 animate={reduce ? { scaleX: 1 } : ruleControls}
                 variants={{ hidden: { scaleX: 0 }, show: { scaleX: 1 } }}
-                transition={{ duration: 0.45, ease: EASE }}
+                transition={{ duration: 0.8, ease: EASE }}
               />
               <span>{eyebrow}</span>
             </div>

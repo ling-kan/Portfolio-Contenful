@@ -40,7 +40,7 @@ const ProjectCard = ({ post, index }) => {
       className="list-none"
       initial={false}
       animate={reduce ? 'show' : revealControls}
-      transition={{ duration: 0.45, ease: EASE }}
+      transition={{ duration: 0.8, ease: EASE }}
       variants={{ hidden: { opacity: 0, y: 16 }, show: { opacity: 1, y: 0 } }}
     >
       <Link
@@ -81,7 +81,7 @@ const ProjectCard = ({ post, index }) => {
                 aria-hidden="true"
                 style={{ x: cursorX, y: cursorY }}
                 animate={{ scale: hover ? 1 : 0, opacity: hover ? 1 : 0 }}
-                transition={{ duration: 0.35, ease: EASE }}
+                transition={{ duration: 0.8, ease: EASE }}
                 className="hidden md:grid absolute top-0 left-0 -ml-12 -mt-12 w-24 h-24 place-items-center rounded-full bg-ink/90 backdrop-blur text-paper text-xs font-medium tracking-wide pointer-events-none"
               >
                 View case

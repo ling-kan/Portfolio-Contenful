@@ -26,7 +26,7 @@ const SkillsPanel = ({ list = [], image }) => {
       animate={reduce ? 'show' : controls}
       variants={{
         hidden: { opacity: 0, y: 12 },
-        show: { opacity: 1, y: 0, transition: { duration: 0.45, ease: EASE } },
+        show: { opacity: 1, y: 0, transition: { duration: 0.8, ease: EASE } },
       }}
       className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12"
     >
@@ -76,7 +76,7 @@ const SkillsPanel = ({ list = [], image }) => {
                   key={skill.name}
                   variants={{
                     hidden: { opacity: 0, y: 20, scale: 0.9 },
-                    show: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.35, ease: EASE } },
+                    show: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.8, ease: EASE } },
                   }}
                 >
                   <button
@@ -115,7 +115,7 @@ const SkillsPanel = ({ list = [], image }) => {
               initial={reduce || entered ? false : { opacity: 0, y: 16 }}
               animate={entered || reduce ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
               exit={{ opacity: 0, y: -16 }}
-              transition={{ duration: 0.35, ease: EASE }}
+              transition={{ duration: 0.8, ease: EASE }}
               className="relative mt-8"
             >
               <h3 className="display-md text-paper">{detail?.name}</h3>

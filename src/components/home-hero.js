@@ -37,7 +37,7 @@ const RoleTicker = ({ roles = [], ready = true }) => {
           initial={{ y: '100%', opacity: 0 }}
           animate={{ y: '0%', opacity: 1 }}
           exit={{ y: '-100%', opacity: 0 }}
-          transition={{ duration: 0.3, ease: EASE }}
+          transition={{ duration: 0.8, ease: EASE }}
         >
           {roles[index]}
         </motion.span>
@@ -58,7 +58,7 @@ const Letters = ({ word, delay = 0, className = '', ready = true }) => {
           className="inline-block"
           initial={{ y: '105%' }}
           animate={ready ? { y: '0%' } : undefined}
-          transition={{ duration: 0.35, delay: delay + i * 0.01, ease: EASE }}
+          transition={{ duration: 0.8, delay: delay + i * 0.01, ease: EASE }}
         >
           {char === ' ' ? ' ' : char}
         </motion.span>
@@ -128,7 +128,7 @@ const HomeHero = ({
             {roles.length > 0 && (
               <motion.div
                 {...intro}
-                transition={{ duration: 0.35, delay: 0.2, ease: EASE }}
+                transition={{ duration: 0.8, delay: 0.2, ease: EASE }}
                 className="mt-8 flex items-center gap-4 text-xl md:text-2xl font-sans font-medium tracking-tight text-ink"
               >
                 <span aria-hidden="true" className="h-px w-5 bg-accent/60 shrink-0" />
@@ -147,7 +147,7 @@ const HomeHero = ({
 
             <motion.div
               {...intro}
-              transition={{ duration: 0.35, delay: 0.4, ease: EASE }}
+              transition={{ duration: 0.8, delay: 0.4, ease: EASE }}
               className="mt-10 flex flex-wrap items-center gap-3"
             >
               <Magnetic>
@@ -182,7 +182,7 @@ const HomeHero = ({
             {availability && (
               <motion.p
                 {...intro}
-                transition={{ duration: 0.35, delay: 0.45, ease: EASE }}
+                transition={{ duration: 0.8, delay: 0.45, ease: EASE }}
                 className="mt-6 inline-flex items-center gap-2 text-sm text-ink/75"
               >
                 <span aria-hidden="true" className="w-2 h-2 rounded-full bg-accent" />
@@ -192,7 +192,7 @@ const HomeHero = ({
 
             <motion.div
               {...intro}
-              transition={{ duration: 0.35, delay: 0.5, ease: EASE }}
+              transition={{ duration: 0.8, delay: 0.5, ease: EASE }}
               className="mt-10"
             >
               <Socials width="w-6 h-6" iconClassName="fill-ink text-paper/70 hover:text-accent transition-colors" />
@@ -206,7 +206,7 @@ const HomeHero = ({
               <motion.div
                 initial={reduce ? false : { opacity: 0, y: 12 }}
                 animate={ready ? { opacity: 1, y: 0 } : undefined}
-                transition={{ duration: 0.45, delay: 0.1, ease: EASE }}
+                transition={{ duration: 0.8, delay: 0.1, ease: EASE }}
                 className="mobile-image-frame relative aspect-[4/5] rounded-[1.5rem] overflow-hidden bg-gradient-to-br from-ink to-ink-soft shadow-[0_30px_70px_-35px_rgba(23,51,43,0.45)]"
               >
                 <GatsbyImage
@@ -225,7 +225,7 @@ const HomeHero = ({
               <motion.div
                 initial={reduce ? false : { scale: 0.85, opacity: 0 }}
                 animate={ready ? { scale: 1, opacity: 1 } : undefined}
-                transition={{ duration: 0.3, delay: 0.2, ease: EASE }}
+                transition={{ duration: 0.8, delay: 0.2, ease: EASE }}
                 className="absolute -left-5 bottom-10 sm:-left-10 w-24 h-24 sm:w-28 sm:h-28"
               >
                 <a
