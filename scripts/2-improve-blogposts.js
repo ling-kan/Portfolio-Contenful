@@ -743,9 +743,9 @@ async function analyseImage(url, mimeType, alt) {
     '',
     'Rules:',
     '- UK English spelling.',
-    '- "type" max 6 words — short noun phrase, e.g. "Wireframe", "Analytics dashboard", "Before/after comparison".',
-    '- "summary" max 40 words — one sentence describing what the image shows.',
-    '- "portfolioPurpose" max 30 words — why it matters in a portfolio.',
+    '- "type" max 8 words — short noun phrase, e.g. "Wireframe", "Analytics dashboard", "Before/after comparison".',
+    '- "summary" max 80 words — one sentence describing what the image shows.',
+    '- "portfolioPurpose" max 60 words — why it matters in a portfolio.',
     '- No markdown, no code fences, no extra keys.',
   ].join('\n');
 
