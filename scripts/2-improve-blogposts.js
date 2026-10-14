@@ -29,7 +29,7 @@ const PRESERVE_STRONG_FIELDS = true;
 /*  IMAGE ANALYSIS POLICY                                              */
 /* ------------------------------------------------------------------ */
 
-const MIN_DESCRIPTION_WORDS = 15;
+const MIN_DESCRIPTION_WORDS = 30;
 const UPDATE_ASSET_DESCRIPTION = true;
 const UPDATE_ASSET_TITLE = true;
 const ASSET_TITLE_MAX_LENGTH = 80;
@@ -47,8 +47,8 @@ const RATE_LIMIT_BASE_WAIT_MS = 60000;
 const RATE_LIMIT_MAX_WAIT_MS = 900000;
 const RATE_LIMIT_MAX_ATTEMPTS = 20;
 
-const MAX_RETRIES_OTHER_ERRORS = 3;
-const OTHER_ERROR_WAIT_MS = 5000;
+const MAX_RETRIES_OTHER_ERRORS = 5;
+const OTHER_ERROR_WAIT_MS = 50000;
 
 const MIN_GAP_BETWEEN_CALLS_MS = 20000;
 
