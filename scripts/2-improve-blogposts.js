@@ -1098,7 +1098,7 @@ Return ALL of these fields:
 
 Use this exact section order in the \`content\` field, using \`##\` for top-level sections:
 
-1. **Project overview** — bullet list: Role(s), Duration, Team, Core skills demonstrated.
+1. **Project overview** — bullet list: Team, Core skills demonstrated.
 2. **A one-line "What this project proves about me:"** callout in a blockquote.
 3. **The challenge** — the business / user problem. Why it mattered. Real constraints.
 4. **My process** — numbered stages with clear names.
